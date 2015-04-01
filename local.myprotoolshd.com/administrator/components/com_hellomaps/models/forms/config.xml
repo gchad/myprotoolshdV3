@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="sidebar">
+		
+		<field name="sidebar_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_SIDEBAR_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_SIDEBAR_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="sidebar_load_open" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_SIDEBAR_LOAD_OPEN_LABEL"
+			description="COM_HELLOMAPS_CONFIG_SIDEBAR_LOAD_OPEN_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="sidebar_position" type="radio" default="left"
+			label="COM_HELLOMAPS_CONFIG_SIDEBAR_POSITION_LABEL"
+			description="COM_HELLOMAPS_CONFIG_SIDEBAR_POSITION_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</field>
+		
+		<field name="sidebar_width" type="text" default="20" 
+			label="COM_HELLOMAPS_CONFIG_SIDEBAR_WIDTH_LABEL" description="COM_HELLOMAPS_CONFIG_SIDEBAR_WIDTH_DESC" />
+
+	</fieldset>
+	
+	<fieldset name="notice">
+		
+		<field name="notice_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_NOTICE_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_NOTICE_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="notice_type" type="radio" default="global"
+			label="COM_HELLOMAPS_CONFIG_NOTICE_TYPE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_NOTICE_TYPE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="global">Global</option>
+			<option value="by_plugins">By Plugins</option>
+		</field>
+		
+		<field name="notice_position" type="radio" default="left"
+			label="COM_HELLOMAPS_CONFIG_NOTICE_POSITION_LABEL"
+			description="COM_HELLOMAPS_CONFIG_NOTICE_POSITION_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</field>
+		
+		<field name="notice_html" type="editor" class="inputbox" filter="raw" 
+			label="COM_HELLOMAPS_CONFIG_NOTICE_HTML_LABEL" description="COM_HELLOMAPS_CONFIG_NOTICE_HTML_DESC" />		
+
+	</fieldset>
+	
+	<fieldset name="search">
+		
+		<field name="search_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_SEARCH_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_SEARCH_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="search_enable_radius" type="radio" default="0"
+			label="COM_HELLOMAPS_CONFIG_SEARCH_ENABLE_RADIUS_LABEL"
+			description="COM_HELLOMAPS_CONFIG_SEARCH_ENABLE_RADIUS_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+	
+	<fieldset name="contents">
+		
+		<field name="contents_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_CONTENTS_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_CONTENTS_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	
+	<fieldset name="results">
+		
+		<field name="results_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_RESULTS_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_RESULTS_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="results_type" type="radio" default="global"
+			label="COM_HELLOMAPS_CONFIG_RESULTS_TYPE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_RESULTS_TYPE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="global">Global</option>
+			<option value="byzoom">By Plugins</option>
+		</field>
+		
+		<field name="results_position" type="radio" default="bottom"
+			label="COM_HELLOMAPS_CONFIG_RESULTS_POSITION_LABEL"
+			description="COM_HELLOMAPS_CONFIG_RESULTS_POSITION_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="bottom">Bottom</option>
+			<option value="top">Top</option>
+		</field>
+
+	</fieldset>
+	
+	<fieldset name="infolink">
+		
+		<field name="infolink_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_INFOLINK_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_INFOLINK_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="infolink_url" type="text" default="www.site.com" 
+			label="COM_HELLOMAPS_CONFIG_INFOLINK_URL_LABEL" description="COM_HELLOMAPS_CONFIG_INFOLINK_URL_DESC" />
+
+	</fieldset>
+	
+	<fieldset name="maptype">
+		
+		<field name="maptype_enable_satellite" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_SATELLITE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_SATELLITE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="maptype_enable_terrain" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_TERRAIN_LABEL"
+			description="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_TERRAIN_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="maptype_enable_street" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_STREET_LABEL"
+			description="COM_HELLOMAPS_CONFIG_MAPTYPE_ENABLE_STREET_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="maptype_default" type="list" default="street" 
+			label="COM_HELLOMAPS_CONFIG_MAPTYPE_DEFAULT_LABEL" description="COM_HELLOMAPS_CONFIG_MAPTYPE_DEFAULT_DESC">
+			<option value="street">Street</option>
+			<option value="terrain">Terrain</option>
+            <option value="satellite">Satellite</option>
+            <option value="hybrid">Hybrid</option>
+		</field>
+
+	</fieldset>
+	
+	<fieldset name="dimensions">
+		
+		<field name="dimensions_width" type="text" default="680" 
+			label="COM_HELLOMAPS_CONFIG_DIMENSIONS_WIDTH_LABEL" description="COM_HELLOMAPS_CONFIG_DIMENSIONS_WIDTH_DESC" />
+		
+		<field name="dimensions_height" type="text" default="350" 
+			label="COM_HELLOMAPS_CONFIG_DIMENSIONS_HEIGHT_LABEL" description="COM_HELLOMAPS_CONFIG_DIMENSIONS_HEIGHT_DESC" />
+
+	</fieldset>
+	<fieldset name="initialize">
+		
+		<field name="initialize_autocenter_markers" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_INITIALIZE_AUTOCENTER_MARKERS_LABEL"
+			description="COM_HELLOMAPS_CONFIG_INITIALIZE_AUTOCENTER_MARKERS_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="initialize_center_onuser_position" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_INITIALIZE_CENTER_USER_POSITION_LABEL"
+			description="COM_HELLOMAPS_CONFIG_INITIALIZE_CENTER_USER_POSITION_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="initialize_default_lat" type="text" default="-10.430530" 
+			label="COM_HELLOMAPS_CONFIG_INITIALIZE_DEFAULT_LAT_LABEL" description="COM_HELLOMAPS_CONFIG_INITIALIZE_DEFAULT_LAT_DESC" />
+		
+		<field name="initialize_default_lng" type="text" default="12.3020" 
+			label="COM_HELLOMAPS_CONFIG_INITIALIZE_DEFAULT_LNG_LABEL" description="COM_HELLOMAPS_CONFIG_INITIALIZE_DEFAULT_LNG_DESC" />
+
+	</fieldset>
+	
+	<fieldset name="clustering">
+		<field name="clustering_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_CLUSTERING_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_CLUSTERING_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="clustering_default_image" type="media" default="" 
+			label="COM_HELLOMAPS_CONFIG_CLUSTERING_DEFAULT_IMAGE_LABEL" description="COM_HELLOMAPS_CONFIG_CLUSTERING_DEFAULT_IMAGE_DESC" />
+
+	</fieldset>
+	
+	<fieldset name="infowindow">
+		
+		<field name="infowindow_enable" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_INFOWINDOW_ENABLE_LABEL"
+			description="COM_HELLOMAPS_CONFIG_INFOWINDOW_ENABLE_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="infowindow_width" type="text" default="150" 
+			label="COM_HELLOMAPS_CONFIG_INFOWINDOW_WIDTH_LABEL" description="COM_HELLOMAPS_CONFIG_INFOWINDOW_WIDTH_DESC" />
+		
+		<field name="infowindow_height" type="text" default="150" 
+			label="COM_HELLOMAPS_CONFIG_INFOWINDOW_HEIGHT_LABEL" description="COM_HELLOMAPS_CONFIG_INFOWINDOW_HEIGHT_DESC" />
+
+	</fieldset>
+	
+	<fieldset name="eventsenabled">
+		
+		<field name="eventsenabled_mousescroll_zoom" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_EVENTSENABLED_MOUSESCROLL_ZOOM_LABEL"
+			description="COM_HELLOMAPS_CONFIG_EVENTSENABLED_MOUSESCROLL_ZOOM_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="eventsenabled_marker_mouseover" type="radio" default="0"
+			label="COM_HELLOMAPS_CONFIG_EVENTSENABLED_MARKER_MOUSEOVER_LABEL"
+			description="COM_HELLOMAPS_CONFIG_EVENTSENABLED_MARKER_MOUSEOVER_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="eventsenabled_sidebar_mouseover" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_EVENTSENABLED_SIDEBAR_MOUSEOVER_LABEL"
+			description="COM_HELLOMAPS_CONFIG_EVENTSENABLED_SIDEBAR_MOUSEOVER_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+	
+	<fieldset name="buttonsenabled">
+		
+		<field name="buttonsenabled_zoom_inout" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_ZOOM_INOUT_LABEL"
+			description="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_ZOOM_INOUT_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="buttonsenabled_street_view" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_STREET_VIEW_LABEL"
+			description="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_STREET_VIEW_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="buttonsenabled_fullscreen" type="radio" default="0"
+			label="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_FULLSCREEN_LABEL"
+			description="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_FULLSCREEN_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="buttonsenabled_userposition" type="radio" default="0"
+			label="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_USER_POSITION_LABEL"
+			description="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_USER_POSITION_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="buttonsenabled_settings" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_SETTINGS_LABEL"
+			description="COM_HELLOMAPS_CONFIG_BUTTONSENABLED_SETTINGS_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+	
+	<fieldset name="mobilebuttons">
+		
+		<field name="mobilebuttons_listview" type="radio" default="1"
+			label="COM_HELLOMAPS_CONFIG_MOBILEBUTTONS_LISTVIEW_LABEL"
+			description="COM_HELLOMAPS_CONFIG_MOBILEBUTTONS_LISTVIEW_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+    <fieldset name="jquerysettings">		
+        <field name="load_jquery" type="radio" default="0"
+			label="COM_HELLOMAPS_CONFIG_LOAD_JQUERY_LABEL"
+			description="COM_HELLOMAPS_CONFIG_LOAD_JQUERY_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+</form>

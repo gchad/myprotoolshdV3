@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hellomaps" method="upgrade">
+	<name>PLG_HELLOMAP_MEMBERS</name>
+	<author>JoomlaForce</author>
+	<creationDate>June 2014</creationDate>
+	<copyright>Copyright (C) 2013. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<version>1.0.7g</version>
+	<isapplication>false</isapplication>
+	<isbrowsable>false</isbrowsable>
+	<description>PLG_HELLOMAP_MEMBERS_XML_DESCRIPTION</description>
+	<languages>
+	    <language tag="en-GB">en-GB.plg_hellomaps_members.ini</language>
+		<language tag="en-GB">en-GB.plg_hellomaps_members.sys.ini</language>
+	</languages>
+	<files>
+		<file plugin="members">members.php</file>
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+	</files>
+
+	<params>
+		<param name="show_in_sidebar" type="list" default="1"
+			label="PLG_HELLOMAP_MEMBERS_SHOW_IN_SIDEBAR_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_SHOW_IN_SIDEBAR_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="tab_title" type="text" default="Members" label="PLG_HELLOMAP_MEMBERS_TAB_TITLE_LABEL" description="PLG_HELLOMAP_MEMBERS_TAB_TITLE_DESC" />
+		<param name="tab_index_position" type="text" default="0" label="PLG_HELLOMAP_MEMBERS_TAB_INDEX_POSITION_LABEL" description="PLG_HELLOMAP_MEMBERS_TAB_INDEX_POSITION_DESC" />
+		<param name="show_search" type="list" default="1"
+					label="PLG_HELLOMAP_MEMBERS_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+
+
+		<param name="search_fields" type="jomsocialallfields" label="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_DESC" multiple="true"/>
+
+		<param name="show_filters" type="list" default="1"
+			label="PLG_HELLOMAP_MEMBERS_SHOW_FILTERS_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_SHOW_FILTERS_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+        <param name="profile_type_source" type="list" default="jomsocial"
+			label="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_SOURCE_FIELDS_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_SOURCE_FIELDS_DESC"
+			>
+			<option value="jomsocial">PLG_HELLOMAP_MEMBERS_JOMSOCIAL_LABEL</option>
+			<option value="xipt">PLG_HELLOMAP_MEMBERS_XIPT_LABEL</option>
+		</param>
+		<param name="fitler_profile_types" type="jomsocialprofiletype" label="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_LABEL_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>
+        <param name="fitler_xipt_profile_types" type="xiptprofiletype" label="PLG_HELLOMAP_MEMBERS_XIPT_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAP_MEMBERS_XIPT_PROFILE_TYPE_FIELD_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>
+		<!--<param name="filters_ids" type="jomsocialprofiletype" label="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_IDS_LABEL" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_IDS_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>-->
+
+		<param name="marker_icon" type="list" default="avatar"
+			label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_FIELDS_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_FIELDS_DESC"
+			>
+			<option value="avatar">PLG_HELLOMAP_MEMBERS_AVATAR_LABEL</option>
+			<option value="profile-type">PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_LABEL</option>
+			<option value="custom">PLG_HELLOMAP_MEMBERS_CUSTOM_LABEL</option>
+		</param>
+		<param name="markers_name" type="membersmarkers" label="PLG_HELLOMAP_MEMBERS_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/members/fields"/>
+				
+		<param name="custom_marker_image" type="media" 
+			hide_none="1" label="PLG_HELLOMAP_MEMBERS_CUSTOM_MARKER_IMAGE_LABEL"
+			size="40"
+			description="PLG_HELLOMAP_MEMBERS_CUSTOM_MARKER_IMAGE_DESC" />
+        <param name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_WIDTH_DESC" />
+        <param name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_HEIGHT_DESC" />
+                    
+		<param name="enable_member_detail_sidebar" type="list" default="1"
+					label="PLG_HELLOMAP_MEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+		<param name="details_extra_fields" type="jomsocialcustomfields" default="" label="PLG_HELLOMAP_MEMBERS_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAP_MEMBERS_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true" class="searchfield" />
+		<param name="show_notice_area" type="list" default="1"
+			label="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_FIELD_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="notice_area_text" type="editor" class="inputbox"
+			label="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+			filter="JComponentHelper::filterText" buttons="true" />
+		<param name="display_marker_infowindow" type="list" default="1"
+					label="PLG_HELLOMAP_MEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+		<param name="display_marker_result_count" type="list" default="1"
+			label="PLG_HELLOMAP_MEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="enable_zoom_counter" type="list" default="1"
+			label="PLG_HELLOMAP_MEMBERS_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+			description="PLG_HELLOMAP_MEMBERS_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+	</params>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="show_in_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_SHOW_IN_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_SHOW_IN_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="tab_title" type="text" default="Members" label="PLG_HELLOMAP_MEMBERS_TAB_TITLE_LABEL" description="PLG_HELLOMAP_MEMBERS_TAB_TITLE_DESC" />
+				
+				<field name="show_search" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="search_fields" type="jomsocialallfields" label="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_DESC" multiple="true"/>
+				<field name="show_filters" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_SHOW_FILTERS_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_SHOW_FILTERS_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                <field name="profile_type_source" type="list" default="jomsocial"
+					label="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_SOURCE_FIELDS_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_SOURCE_FIELDS_DESC"
+					>
+					<option value="jomsocial">PLG_HELLOMAP_MEMBERS_JOMSOCIAL_LABEL</option>
+					<option value="xipt">PLG_HELLOMAP_MEMBERS_XIPT_LABEL</option>
+				</field>
+				<field name="fitler_profile_types" type="jomsocialprofiletype" label="PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_LABEL_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>
+                <field name="fitler_xipt_profile_types" type="xiptprofiletype" label="PLG_HELLOMAP_MEMBERS_XIPT_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAP_MEMBERS_XIPT_PROFILE_TYPE_FIELD_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>
+				<!--<field name="filters_ids" type="jomsocialprofiletype" label="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_IDS_LABEL" description="PLG_HELLOMAP_MEMBERS_SEARCH_FIELDS_FILTERS_IDS_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true"/>-->
+
+				<field name="marker_icon" type="list" default="avatar"
+					label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_FIELDS_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_FIELDS_DESC"
+					>
+					<option value="avatar">PLG_HELLOMAP_MEMBERS_AVATAR_LABEL</option>
+					<option value="profile-type">PLG_HELLOMAP_MEMBERS_PROFILE_TYPE_LABEL</option>
+					<option value="custom">PLG_HELLOMAP_MEMBERS_CUSTOM_LABEL</option>
+				</field>
+				<field name="markers_name" type="membersmarkers" label="PLG_HELLOMAP_MEMBERS_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/members/fields"/>
+				
+				<field name="custom_marker_image" type="media" 
+					hide_none="1" label="PLG_HELLOMAP_MEMBERS_CUSTOM_MARKER_IMAGE_LABEL"
+					size="40"
+					description="PLG_HELLOMAP_MEMBERS_CUSTOM_MARKER_IMAGE_DESC" />
+                <field name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_WIDTH_DESC" />
+                <field name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAP_MEMBERS_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAP_MEMBERS_MARKER_ICON_HEIGHT_DESC" />
+				<field name="enable_member_detail_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="details_extra_fields" type="jomsocialcustomfields" default="" label="PLG_HELLOMAP_MEMBERS_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAP_MEMBERS_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/members/fields" multiple="true" />
+				<field name="show_notice_area" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="notice_area_text" type="editor" class="inputbox"
+				label="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAP_MEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+				filter="JComponentHelper::filterText" buttons="true" />
+
+				<field name="display_marker_infowindow" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="display_marker_result_count" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="enable_zoom_counter" type="radio" default="1"
+					label="PLG_HELLOMAP_MEMBERS_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="respect_privacy" type="radio" default="0"
+					label="PLG_HELLOMAP_MEMBERS_RESPECT_PRIVACY_FIELD_LABEL"
+					description="PLG_HELLOMAP_MEMBERS_RESPECT_PRIVACY_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

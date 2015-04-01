@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assets>
+	<scripts>
+		<file>js/jquery.placeholder.js</file>
+		<file>js/testimonial.js</file>
+		<file>js/script.js</file>
+	</scripts>
+	
+	<stylesheets>
+		<file>fonts/font-awesome/css/font-awesome.min.css</file>
+		<file>//fonts.googleapis.com/css?family=Playfair+Display:400,700</file>
+		<file>//fonts.googleapis.com/css?family=Roboto+Slab:400,700</file>
+	</stylesheets>
+	
+</assets>

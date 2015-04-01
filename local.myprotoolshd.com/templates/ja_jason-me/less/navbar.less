@@ -1,0 +1,632 @@
+/** 
+ *------------------------------------------------------------------------------
+ * @package       T3 Framework for Joomla!
+ *------------------------------------------------------------------------------
+ * @copyright     Copyright (C) 2004-2013 JoomlArt.com. All Rights Reserved.
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @authors       JoomlArt, JoomlaBamboo, (contribute to this project at github 
+ *                & Google group to become co-author)
+ * @Google group: https://groups.google.com/forum/#!forum/t3fw
+ * @Link:         http://t3-framework.org 
+ *------------------------------------------------------------------------------
+ */
+
+
+// -------------------------------------------------------
+//  DEFAULT BOOTSTRAP NAVBAR (navbars.less)
+// -------------------------------------------------------
+
+// Base Navbars
+// --------------------------------------------------
+.navbar {
+  @media (min-width: @grid-float-breakpoint) {
+  }
+}
+
+
+// Navbar heading
+// --------------
+.navbar-header {
+  @media (min-width: @grid-float-breakpoint) {
+  }
+}
+
+
+// Navbar collapse (body)
+// ----------------------
+.navbar-collapse {
+  @media (min-width: @grid-float-breakpoint) {
+  }
+}
+
+
+// Brand/project name
+// ------------------
+.navbar-brand {
+  // Link states
+  &:hover,
+  &:focus {
+  }
+  @media (min-width: @grid-float-breakpoint) {
+  }
+}
+
+
+// Navbar toggle
+// -------------
+.navbar-toggle {
+  border-radius: 0;
+  border-left: 1px solid rgba(0,0,0,0.05);
+  color: @navbar-default-link-color;
+  line-height: 25px;
+  height: @navbar-height * 2;
+  margin: 0;
+  width: @navbar-height * 2;
+
+  // Bars
+  .fa-bars {
+  }
+
+  //Active
+  &:hover,&:focus,&:active {
+    color: @brand-primary!important;
+  }
+
+  // Hide on breakpoint
+  @media (min-width: @grid-float-breakpoint) {
+    display: none;
+  }
+}
+
+// Navbar nav links
+// ----------------
+.navbar-nav {
+  margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
+
+  > li > a {
+  }
+
+  // T3 Note: Dropdown Menu styles when collapsed
+  // Dropdowns get custom display when collapsed
+  @media (max-width: @screen-xs-max) {
+    .open .dropdown-menu {
+      > li > a,
+      .dropdown-header {
+      }
+      > li > a {
+        // Link states
+        &:hover,
+        &:focus {
+        }
+      }
+    }
+  }
+
+  // T3 Note: Main Styles for breakpoint
+  // Uncollapse the nav
+  @media (min-width: @grid-float-breakpoint) {
+    margin: 0;
+    > li {
+      > a {
+      }
+    }
+  }
+
+  // End
+}
+
+
+// Navbar form
+// ------------
+.navbar-form {
+}
+
+
+// Dropdown in navbars
+// -------------------
+// Menu position and menu carets
+.navbar-nav > li > .dropdown-menu {
+}
+
+
+// Buttons in navbars
+// ------------------
+.navbar-btn {
+}
+
+
+// Text in navbars
+// ---------------
+.navbar-text {
+}
+
+
+// divider
+// ------------------
+.dropdown-menu {
+  .divider {
+    background-color: transparent;
+    height: auto;
+
+    .separator {
+      color: @white;
+      font-weight: bold;
+    }
+  }
+}
+
+
+// Default Navbars (Visual Style only)
+// --------------------------------------------------
+.navbar-default {
+  .navbar-nav > li {
+    position: relative;
+
+    > a {
+      color: @navbar-default-link-color;
+      font-size: @t3-font-size-small;
+      font-weight: bold;
+      padding: (@t3-global-padding / 2) 0;
+      margin-right: @t3-global-margin;
+
+      &:before {
+        background: @gray;
+        bottom: (@t3-global-padding / 2);
+        content: "";
+        height: 1px;
+        left: 0;
+        position: absolute;
+        width: 0;
+        .transition(width 600ms);
+      }
+    }
+
+    &:last-child {
+      > a {
+        margin-right: 0;
+      }
+    }
+
+
+    // Caret for dropdown menu
+    &.dropdown.open > a {
+      // Hide caption
+      .mega-caption {
+        display: none;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent transparent @navbar-default-dropdown-bg transparent;
+        left: 50%;
+        margin-left: -3.5px;
+      }
+    }
+
+    // Hover
+    &.open {
+      > a {
+        color: @navbar-default-link-hover-color;
+       
+
+        //  bottom main menu
+        &:before {
+          width: 100%;
+        }
+
+        // Caret main menu
+        .caret {
+          border-bottom-color: @navbar-default-link-hover-color;
+          border-top-color: @navbar-default-link-hover-color;
+        }
+      }
+    }
+
+    //Active
+    &.active {
+      > a {
+        color: @navbar-default-link-active-color;
+
+        //Border bottom main menu
+        &:before {
+          background-color: @brand-primary;
+          width: 100%;
+        }
+
+        .caret {
+          border-bottom-color: @navbar-default-link-active-color;
+          border-top-color: @navbar-default-link-active-color;
+        }
+      }
+
+      &.open > a {
+        color: @navbar-default-link-hover-color;
+
+        &:before{
+          bottom: (@t3-global-padding / 2);
+        }
+      }
+    }
+  }
+}
+
+// Ie8
+.ie8 .navbar-default .navbar-nav > li.open > a {
+  background: none!important;
+  color: @link-hover-color;
+
+  .caret {
+    border-bottom-color: @link-hover-color;
+    border-top-color: @link-hover-color;
+  }
+
+  &:before {
+    display: none;
+  }
+}
+
+.ie8 .navbar-default .navbar-nav > li.active {
+  > a {
+    border-bottom: 2px solid @link-hover-color;
+
+    .caret {
+      border-bottom-color: @navbar-default-link-active-color;
+      border-top-color: @navbar-default-link-active-color;
+    }
+
+    &:before {
+      display: none;
+    }
+  }
+
+  &.open > a {
+    border: 0;
+
+    .caret {
+      border-bottom-color: @link-hover-color;
+      border-top-color: @link-hover-color;
+    }
+  }
+}
+
+
+
+// Dropdown menu items and carets
+.navbar-nav {
+  .dropdown-menu {
+    border: 0;
+    background: @navbar-default-dropdown-bg;
+    box-shadow: none;
+    border-radius: (@border-radius-base / 2)!important;
+    font-size: @font-size-base - 1;
+    padding: (@grid-gutter-width / 2);
+
+    > li {
+      > a {
+        border-radius: (@border-radius-base / 2);
+        background: rgba(255,255,255,0.05);
+        color: @navbar-default-color;
+        padding: (@grid-gutter-width / 10) (@grid-gutter-width / 4);
+        margin-bottom: (@grid-gutter-width / 10);
+      }
+
+      &:last-child {
+        > a {
+          margin-bottom: 0;
+        }
+      }
+
+      &.open,
+      &.active {
+        > a {
+          background: @brand-primary;
+          color: @white;
+        }
+      }
+    }
+
+    //Submenu
+    .dropdown-submenu {
+      &.open,
+      &.active {
+        > a {
+          background-color: @brand-primary;
+          color: @white; 
+        }
+
+        //Carets
+        > a:after {
+          border-left-color: @white;
+        }
+      }
+
+      a:after {
+        border-left-color: @navbar-default-color;
+      }
+    }
+
+  }
+
+  > .dropdown > a .caret {
+    border-top-color: @navbar-default-link-color;
+    border-bottom-color: @navbar-default-link-color;
+  }
+
+  // Caret should match text color on hover
+  > .dropdown > a:hover .caret,
+  > .dropdown > a:focus .caret,
+  > .dropdown.active > a .caret {
+    border-top-color: @navbar-default-link-hover-color;
+    border-bottom-color: @navbar-default-link-hover-color;
+  }
+
+  // Remove background color from open dropdown
+  > .open > a {
+    &,
+    &:hover,
+    &:focus {
+      background-color: @navbar-default-link-active-bg;
+      color: @navbar-default-link-active-color;
+
+      .caret {
+        border-top-color: @navbar-default-link-active-color;
+        border-bottom-color: @navbar-default-link-active-color;
+      }
+    }
+  }
+
+
+  @media (max-width: @screen-xs-max) {
+    // Dropdowns get custom display when collapsed
+    .open .dropdown-menu {
+      > li > a {
+        color: @navbar-default-link-color;
+        &:hover,
+        &:focus {
+          color: @navbar-default-link-hover-color;
+          background-color: @navbar-default-link-hover-bg;
+        }
+      }
+
+      > .active > a {
+        &,
+        &:hover,
+        &:focus {
+          color: @navbar-default-link-active-color;
+          background-color: @navbar-default-link-active-bg;
+        }
+      }
+      > .disabled > a {
+        &,
+        &:hover,
+        &:focus {
+          color: @navbar-default-link-disabled-color;
+          background-color: @navbar-default-link-disabled-bg;
+        }
+      }
+    }
+  }
+}
+
+
+
+// -------------------------------------------------------
+//  T3 MAIN MENU
+// -------------------------------------------------------
+.t3-mainnav {
+  border: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  z-index: 5;
+
+  // Menu Collapse
+  @media (max-width: (@grid-float-breakpoint - 1)) {
+    left: 0;
+    position: absolute;
+    top: @navbar-height * 2;
+    z-index: 100;
+    width: 100%;
+  }
+
+  // Navbar
+  // -------
+  .t3-navbar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+
+  // Collapse Navbar
+  // ---------------
+  .t3-navbar-collapse {
+    background-color: @navbar-default-dropdown-bg;
+    border-bottom: 1px solid @gray-lighter;
+    border-top: 1px solid @gray-lighter;
+
+    // Hide the generated navbar on breakpoint
+    @media (min-width: @grid-float-breakpoint) {
+      display: none !important;
+    }
+
+    // Navbar nav links
+    // ----------------
+    .navbar-nav {
+      margin: 0 -@navbar-padding-horizontal;
+      border-bottom: 1px solid @gray-lighter;
+
+      > li {
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: (@t3-global-padding / 2);
+
+        &.open {
+          a {
+            padding-bottom: 0;
+          }
+        }
+
+        &:last-child > a {
+          margin-right: @t3-global-margin;
+        }
+      }
+
+      //font awesome
+      li > a .fa {
+        margin-right: 5px;
+      }
+
+      > li > a {
+        color: @navbar-default-color;
+        line-height: inherit;
+        text-transform: uppercase;
+
+        .caret {
+          border-bottom-color: @navbar-default-color;
+          border-top-color: @navbar-default-color;
+        }
+
+        &:before {
+          display: none;
+        }
+      }
+
+      > .open > a,
+      > .active > a {
+        color: @brand-primary!important;
+
+        .caret {
+          border-bottom-color: @brand-primary;
+          border-top-color: @brand-primary;
+        }
+      }
+
+      > li:first-child  > a {
+        border-top: 0;
+      }
+
+      // Dropdown Menu
+      > .open > .dropdown-menu {
+        border: 0;
+
+        > li > a,
+        .dropdown-header {
+        }
+
+        > li > a {
+          font-weight: bold;
+          // Link states
+          &:hover,
+          &:focus {
+          }
+        }
+
+        > li > .dropdown-menu {
+          padding-left: @t3-global-padding / 2;
+
+          > .dropdown-submenu > .dropdown-menu {
+            padding-left: @t3-global-padding / 2;
+          }
+        }
+      }
+
+      .dropdown-menu {
+          border: 0;
+          padding: 0;
+
+          .open a {
+            background-color: transparent;
+          }
+
+          > li {
+            > a {
+              background: transparent;
+              color: @navbar-default-color;
+            }
+
+            &.open,
+            &.active {
+              > a {
+                &,
+                &:hover,
+                &:active,
+                &:focus {
+                  color: @brand-primary;
+                }
+              }
+            }
+          }
+
+          // Drop submenu
+          .dropdown-submenu {
+            &.open,
+            &.active {
+              > a:after {
+                border-left-color: @brand-primary;
+              }
+            }
+          }
+        }
+
+      // Re-Align the caret on right
+      .dropdown > a {
+        .caret {
+          position: absolute;
+          top: 40%;
+          right: @padding-base-horizontal;
+        }
+      }
+    }
+
+    // End Collapse Navbar
+  }
+
+  // End
+}
+
+
+// -------------------------------------------------------
+//  NAVBAR FOR HOME STYLE
+// -------------------------------------------------------
+
+// Header has image or video 
+.com_content.view-category .t3-header-mask,
+.com_content.view-featured .t3-header-mask {
+  .nav-search a {
+    color: @white;
+  }
+
+  .navbar-default .navbar-nav > li {
+    &.active > a {
+      color: @white;
+
+      &:before {
+        background-color: @brand-primary;
+      }
+
+      .caret {
+        border-bottom-color: @gray-light;
+        border-top-color: @gray-light;
+      }
+    }
+
+    > a {
+      color: @white;
+
+      .caret {
+        border-bottom-color: @gray-light;
+        border-top-color: @gray-light;
+      }
+
+      &:hover, &:focus, &:active {
+        color: @white;
+      }
+
+      &:before {
+        background-color: @white;
+      }
+    } 
+  }
+}

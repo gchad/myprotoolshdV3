@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="k2" method="upgrade">
+	<name>K2 - JA K2 Filter</name>
+	<author>Joomla! Project</author>
+	<creationDate>Oct 2014</creationDate>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.1.8</version>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin is used to indexing data</description>
+	<files>
+		<filename plugin="jak2filter">jak2filter.php</filename>
+		<filename>index.html</filename>
+	</files>
+	
+	<languages>
+		<language tag="en-GB">en-GB.plg_k2_jak2filter.ini</language>
+		<language tag="en-GB">en-GB.plg_k2_jak2filter.sys.ini</language>
+	</languages>
+	
+	
+	<!-- Standard plugin parameters for Joomla! 1.5 -->
+	<!-- IMPORTANT: this section is required to fix bug display warning in edit k2 article form -->
+	<params>
+	</params>
+	
+	<!-- Standard plugin parameters for Joomla! 1.6+ -->
+	<config>
+		<fields name="params">
+		</fields>
+	</config>
+	
+</extension>

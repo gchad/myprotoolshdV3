@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="ItemCreate">
+	</layout>
+	<state>
+		<name>JEK2Story</name>
+		<description>JEK2StoryDescription</description>
+	</state>
+	<!--<fields name="params" addfieldpath="/administrator/components/com_jeformcr/helpers">
+		<fieldset name="basic">
+			<field name="id" type="jeformcrform" default="" label="Select Form" description="Select Form" required="true" />
+		</fieldset>
+	</fields>-->
+</metadata>

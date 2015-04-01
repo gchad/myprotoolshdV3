@@ -1,0 +1,60 @@
+/**
+ * $JA#COPYRIGHT$
+ */
+ 
+// VARIABLES & MIXINS
+// ------------------
+@import "vars.less"; // Include Variables and Mixins
+
+.ja-twitter-avatar {
+	border: 0;
+	padding: 0;
+}
+
+.ja-twitter-item a {
+	color: @gray-light;
+	border-bottom: 1px dotted;
+
+	&:hover,
+	&:focus {
+		color: @brand-primary;
+		text-decoration: none;
+	}
+}
+
+.ja-twitter-item {
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+div.ja-twitter div.ja-twitter-item {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	border-bottom: 0;
+
+	&:first-child{
+		padding-top: 0 !important;
+	}
+
+	&:last-child{
+		padding-bottom: 0 !important;
+	}
+}
+
+div.ja-twitter div.ja-twitter-source {
+	font-weight: normal;
+	color: @gray-light;
+
+	a {
+		border-bottom: 1px dotted;
+	}
+}
+
+div.ja-twitter {
+	center {
+		text-align: left;
+	}
+}
+
+

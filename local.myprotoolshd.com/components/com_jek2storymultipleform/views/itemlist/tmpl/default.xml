@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="K2itemlist">
+	</layout>
+	<state>
+		<name>JEK2StoryForm</name>
+		<description>JE K2Story Form Description</description>
+	</state>
+	<fields name="params" addfieldpath="/administrator/components/com_jek2storymultipleform/helpers">
+	     
+		
+		    
+	</fields>
+</metadata>

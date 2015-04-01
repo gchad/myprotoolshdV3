@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hellomaps" method="upgrade">
+	<name>PLG_HELLOMAP_ADSMANAGER</name>
+	<author>JoomlaForce</author>
+	<creationDate>June 2014</creationDate>
+	<copyright>Copyright (C) 2013. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<version>1.0.7g</version>
+	<isapplication>false</isapplication>
+	<isbrowsable>false</isbrowsable>
+	<description>PLG_HELLOMAP_ADSMANAGER_XML_DESCRIPTION</description>
+	<languages>
+	    <language tag="en-GB">en-GB.plg_hellomaps_adsmanager.ini</language>
+		<language tag="en-GB">en-GB.plg_hellomaps_adsmanager.sys.ini</language>
+	</languages>
+	<files>
+		<file plugin="adsmanager">adsmanager.php</file>
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+	</files>
+
+	<params>
+		
+		<param name="show_in_sidebar" type="list" default="1"
+			label="PLG_HELLOMAP_ADSMANAGER_SHOW_IN_SIDEBAR_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_SHOW_IN_SIDEBAR_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="tab_title" type="text" default="Ads" label="PLG_HELLOMAP_ADSMANAGER_TAB_TITLE_LABEL" description="PLG_HELLOMAP_ADSMANAGER_TAB_TITLE_DESC" />
+		<param name="tab_index_position" type="text" default="0" label="PLG_HELLOMAP_ADSMANAGER_TAB_INDEX_POSITION_LABEL" description="PLG_HELLOMAP_ADSMANAGER_TAB_INDEX_POSITION_DESC" />
+		<param name="show_search" type="list" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+		<param name="search_fields" type="adsmanagercustomfields" label="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_DESC" addfieldpath="/administrator/components/com_adsmanager/models/fields" multiple="true"/>		
+		<param name="show_filters" type="list" default="1"
+			label="PLG_HELLOMAP_ADSMANAGER_SHOW_FILTERS_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_SHOW_FILTERS_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="filters_categories" type="adscategory" label="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_CATEGORIES_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_CATEGORIES_DESC" addfieldpath="/administrator/components/com_adsmanager/models/fields" multiple="true"/>
+		
+
+		<param name="marker_icon" type="list" default="avatar"
+			label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_FIELDS_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_FIELDS_DESC"
+			>
+			<option value="ad_thumb">PLG_HELLOMAP_ADSMANAGER_THUMB_LABEL</option>
+			<option value="ad_category">PLG_HELLOMAP_ADSMANAGER_CATEGORY_LABEL</option>
+			<option value="custom">PLG_HELLOMAP_ADSMANAGER_CUSTOM_LABEL</option>
+		</param>
+		<param name="markers_name" type="adsmanagermarkers" label="PLG_HELLOMAP_ADSMANAGER_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/adsmanager/fields"/>
+				
+		<param name="custom_marker_image" type="media" 
+			hide_none="1" label="PLG_HELLOMAP_ADSMANAGER_CUSTOM_MARKER_IMAGE_LABEL"
+			size="40"
+			description="PLG_HELLOMAP_ADSMANAGER_CUSTOM_MARKER_IMAGE_DESC" />
+        <param name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_WIDTH_DESC" />
+        <param name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_HEIGHT_DESC" />
+		<param name="enable_adsmanager_detail_sidebar" type="list" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_ENABLE_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_ENABLE_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+		<param name="details_extra_fields" type="adsmanagercustomfields" default="" label="PLG_HELLOMAP_ADSMANAGER_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAP_ADSMANAGER_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/adsmanager/fields" multiple="true" />
+		<param name="show_notice_area" type="list" default="1"
+			label="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_FIELD_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="notice_area_text" type="editor" class="inputbox"
+			label="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+			filter="JComponentHelper::filterText" buttons="true" />
+		<param name="display_marker_infowindow" type="list" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+		</param>
+		<param name="display_marker_result_count" type="list" default="1"
+			label="PLG_HELLOMAP_ADSMANAGER_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+		<param name="enable_zoom_counter" type="list" default="1"
+			label="PLG_HELLOMAP_ADSMANAGER_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+			description="PLG_HELLOMAP_ADSMANAGER_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+			class="btn-group btn-group-yesno">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</param>
+	</params>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="show_in_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_SHOW_IN_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_SHOW_IN_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="tab_title" type="text" default="Ads" label="PLG_HELLOMAP_ADSMANAGER_TAB_TITLE_LABEL" description="PLG_HELLOMAP_ADSMANAGER_TAB_TITLE_DESC" />
+				
+				<field name="show_search" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+								
+				<field name="search_fields" type="adsmanagercustomfields" label="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_DESC" addfieldpath="/administrator/components/com_adsmanager/models/fields" multiple="true"/>		
+
+				<field name="show_filters" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_SHOW_FILTERS_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_SHOW_FILTERS_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="filters_categories" type="adscategory" label="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_CATEGORIES_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SEARCH_FIELDS_CATEGORIES_DESC" addfieldpath="/administrator/components/com_adsmanager/models/fields" multiple="true"/>				
+
+				<field name="marker_icon" type="list" default="ad_thumb"
+					label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_FIELDS_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_FIELDS_DESC"
+					>
+					<option value="ad_thumb">PLG_HELLOMAP_ADSMANAGER_THUMB_LABEL</option>
+					<option value="ad_category">PLG_HELLOMAP_ADSMANAGER_CATEGORY_LABEL</option>
+					<option value="custom">PLG_HELLOMAP_ADSMANAGER_CUSTOM_LABEL</option>
+				</field>
+				<field name="markers_name" type="adsmanagermarkers" label="PLG_HELLOMAP_ADSMANAGER_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/adsmanager/fields"/>
+				
+				<field name="custom_marker_image" type="media" 
+					hide_none="1" label="PLG_HELLOMAP_ADSMANAGER_CUSTOM_MARKER_IMAGE_LABEL"
+					size="40"
+					description="PLG_HELLOMAP_ADSMANAGER_CUSTOM_MARKER_IMAGE_DESC" />
+                
+                <field name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_WIDTH_DESC" />
+                <field name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAP_ADSMANAGER_MARKER_ICON_HEIGHT_DESC" />
+                
+				<field name="enable_adsmanager_detail_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_ENABLE_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_ENABLE_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="details_extra_fields" type="adsmanagercustomfields" default="" label="PLG_HELLOMAP_ADSMANAGER_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAP_ADSMANAGER_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/adsmanager/fields" multiple="true" />
+				<field name="show_notice_area" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="notice_area_text" type="editor" class="inputbox"
+				label="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAP_ADSMANAGER_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+				filter="JComponentHelper::filterText" buttons="true" />
+
+				<field name="display_marker_infowindow" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="display_marker_result_count" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="enable_zoom_counter" type="radio" default="1"
+					label="PLG_HELLOMAP_ADSMANAGER_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="respect_privacy" type="radio" default="0"
+					label="PLG_HELLOMAP_ADSMANAGER_RESPECT_PRIVACY_FIELD_LABEL"
+					description="PLG_HELLOMAP_ADSMANAGER_RESPECT_PRIVACY_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

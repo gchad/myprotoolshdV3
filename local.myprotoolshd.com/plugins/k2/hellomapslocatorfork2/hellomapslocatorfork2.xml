@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="k2" method="upgrade">
+	<name>HelloMaps Locator for K2</name>
+	<author>JoomlaForce</author>
+	<creationDate>October 2014</creationDate>
+	<copyright>JoomlaForce Team</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>www.joomlaforce.com</authorUrl>
+	<version>1.0.7g</version>
+	<description>K2_HELLOMAPSLOCATORFORK2_DESC</description>
+	<scriptfile>script.php</scriptfile>
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>	
+	<files>
+		<filename plugin="hellomapslocatorfork2">hellomapslocatorfork2.php</filename>
+		<filename plugin="hellomapslocatorfork2">index.html</filename>
+		<folder>sql</folder>
+		<folder>elements</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_k2_hellomapslocatorfork2.ini</language>
+		<language tag="en-GB">en-GB.plg_k2_hellomapslocatorfork2.sys.ini</language>
+	</languages>
+		<config>
+		<fields name="params">
+			<fieldset name="ADVANCED">
+				<field name="itemEvent" type="list" default="onK2AfterDisplay" label="K2_HELLOMAPSLOCATORFORK2_ITEM_EVENT" description="K2_HELLOMAPSLOCATORFORK2_ITEM_EVENT_DESC">
+					<option value="onK2AfterDisplay">ON_K2_AFTER_DISPLAY</option>
+					<option value="onK2BeforeDisplay">ON_K2_BEFORE_DISPLAY</option>
+					<option value="onK2AfterDisplayTitle">ON_K2_AFTER_DISPLAY_TITLE</option>
+					<option value="onK2BeforeDisplayContent">ON_K2_BEFORE_DISPLAY_CONTENT</option>
+					<option value="onK2AfterDisplayContent">ON_K2_AFTER_DISPLAY_CONTENT</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+	<fields name='params'>
+		<fieldset name="item-content">
+			<field name="plugins[address]" type="text" size="40" default="" label="K2_HELLOMAPSLOCATORFORK2_ADDRESS" description="K2_HELLOMAPSLOCATORFORK2_ADDRESS_DESC" />
+			<field name="plugins[latitude]" type="text" size="40" default="" label="K2_HELLOMAPSLOCATORFORK2_LATITUDE" description="K2_HELLOMAPSLOCATORFORK2_LATITUDE_DESC" readonly="true" />
+			<field name="plugins[longitude]" type="text" size="40" default="" label="K2_HELLOMAPSLOCATORFORK2_LONGITUDE" description="K2_HELLOMAPSLOCATORFORK2_LONGITUDE_DESC" readonly="true" />
+			<field name="plugins[privacy]" type="list" default="1" label="K2_HELLOMAPSLOCATORFORK2_RESPECT_PRIVACY" description="K2_HELLOMAPSLOCATORFORK2_RESPECT_PRIVACY_DESC" >
+				<option value="0">JYES</option>
+				<option value="1">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+</extension>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5" method="upgrade">
+	<name>Hellomaps Package</name>
+	<packagename>hellomaps</packagename><!--Always use lowercase character-->
+	<version>1.0.8</version>
+	<url>http://www.joomlaforce.com</url>
+	<creationDate>June 2014</creationDate>
+	<author>JoomlaForce</author>
+	<copyright>Copyright (C) 2014. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>www.joomlaforce.com</authorUrl>
+	<packager>JoomlaForce Team</packager>
+	<packagerurl>http://www.joomlaforce.com</packagerurl>
+	<description>Hellomaps - Geolocation Map Extension for Joomla!</description>
+	<update></update>
+	<scriptfile>install.php</scriptfile>
+	<files folder="packages">
+		 <file type="component" id="com_hellomaps" >com_hellomaps.zip</file>
+		 <file type="module" id="mod_hellomaps" client="site">mod_hellomaps.zip</file>
+		 <file type="plugin" id="members" group="hellomaps">plg_hellomaps_members.zip</file>
+		 <file type="plugin" id="jomsocialevents" group="hellomaps">plg_hellomaps_jomsocialevents.zip</file>
+		 <file type="plugin" id="adsmanager" group="hellomaps">plg_hellomaps_adsmanager.zip</file>
+		 <file type="plugin" id="articles" group="hellomaps">plg_hellomaps_articles.zip</file>
+		 <file type="plugin" id="easysocialmembers" group="hellomaps">plg_hellomaps_easysocialmembers.zip</file>
+		 <file type="plugin" id="easysocialevents" group="hellomaps">plg_hellomaps_easysocialevents.zip</file>
+		 <file type="plugin" id="hellomaps" group="content">plg_content_hellomaps.zip</file>
+		 <file type="plugin" id="users" group="hellomaps">plg_hellomaps_users.zip</file>
+		 <file type="plugin" id="hellomapsusers" group="user">plg_user_hellomapsusers.zip</file>
+		 <file type="plugin" id="cbusers" group="hellomaps">plg_hellomaps_cbusers.zip</file>
+		 <file type="plugin" id="k2articles" group="hellomaps">plg_hellomaps_k2articles.zip</file>
+		 <file type="plugin" id="jevents" group="hellomaps">plg_hellomaps_jevents.zip</file>
+	</files>
+</extension>

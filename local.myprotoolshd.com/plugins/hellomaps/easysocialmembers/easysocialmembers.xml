@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hellomaps" method="upgrade">
+	<name>PLG_HELLOMAPS_EASYSOCIALMEMBERS</name>
+	<author>JoomlaForce</author>
+	<creationDate>July 2014</creationDate>
+	<copyright>Copyright (C) 2014. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<version>1.1</version>
+	<isapplication>false</isapplication>
+	<isbrowsable>false</isbrowsable>
+	<description>PLG_HELLOMAPS_EASYSOCIALMEMBERS_XML_DESCRIPTION</description>
+	<languages>
+	    <language tag="en-GB">en-GB.plg_hellomaps_easysocialmembers.ini</language>
+		<language tag="en-GB">en-GB.plg_hellomaps_easysocialmembers.sys.ini</language>
+	</languages>
+	<files>
+		<file plugin="easysocialmembers">easysocialmembers.php</file>
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			
+				<field name="show_in_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_IN_SIDEBAR_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_IN_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="tab_title" type="text" default="EasySocial" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_TAB_TITLE_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_TAB_TITLE_DESC" />
+				
+				<field name="show_search" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+								
+				<field name="search_fields" type="easysocialallfields" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SEARCH_FIELDS_DESC" addfieldpath="/plugins/hellomaps/easysocialmembers/fields" multiple="true"/>		
+
+				<field name="show_filters" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_FILTERS_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_FILTERS_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="fitler_profile_types" type="easysocialprofiletype" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SEARCH_FIELDS_FILTERS_LABEL_DESC" addfieldpath="/plugins/hellomaps/easysocialmembers/fields" multiple="true"/>
+
+				<field name="marker_icon" type="list" default="avatar"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_FIELDS_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_FIELDS_DESC"
+					>
+					<option value="avatar">PLG_HELLOMAPS_EASYSOCIALMEMBERS_AVATAR_LABEL</option>
+					<option value="easysocialprofile-type">PLG_HELLOMAPS_EASYSOCIALMEMBERS_PROFILE_TYPE_LABEL</option>
+					<option value="custom">PLG_HELLOMAPS_EASYSOCIALMEMBERS_CUSTOM_LABEL</option>
+				</field>
+				<field name="markers_name" type="easysocialmembersmarkers" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/easysocialmembers/fields"/>
+				
+				<field name="custom_marker_image" type="media" 
+					hide_none="1" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_CUSTOM_MARKER_IMAGE_LABEL"
+					size="40"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_CUSTOM_MARKER_IMAGE_DESC" />
+                
+                <field name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_WIDTH_DESC" />
+                <field name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_MARKER_ICON_HEIGHT_DESC" />
+                
+				<field name="enable_easysocialmembers_detail_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_MEMBER_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="details_extra_fields" type="easysocialcustomfields" default="" label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/easysocialmembers/fields" multiple="true" />
+				<field name="show_notice_area" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_NOTICE_AREA_FIELD_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_NOTICE_AREA_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="notice_area_text" type="editor" class="inputbox"
+				label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+				filter="JComponentHelper::filterText" buttons="true" />
+
+				<field name="display_marker_infowindow" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="display_marker_result_count" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="enable_zoom_counter" type="radio" default="1"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="respect_privacy" type="radio" default="0"
+					label="PLG_HELLOMAPS_EASYSOCIALMEMBERS_RESPECT_PRIVACY_FIELD_LABEL"
+					description="PLG_HELLOMAPS_EASYSOCIALMEMBERS_RESPECT_PRIVACY_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

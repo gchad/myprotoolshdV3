@@ -1,0 +1,131 @@
+
+/**
+ * @version     1.0.7
+ * @package     com_hellomaps
+ * @copyright   Copyright (C) 2014. All rights reserved.
+ * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author      JoomlaForce Team <support@joomlaforce.com> - http://www.joomlaforce.com
+ */
+
+
+.hellomap_dashboard_icons_wrapper {
+	 background: #F8F8F8;
+}
+
+.hellomap_dashboard_icons_wrapper .dashboardPlugin {
+    display: inline-block;
+    width: 110px;
+    height: 70px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #dae2e4;
+  /*  background: #7f7f7f;*/
+    margin-right: 8px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.hellomap_dashboard_icons_wrapper .dashboardPlugin:hover {
+   /* background: #acacac;*/
+    cursor: pointer;
+}
+
+.hellomap_dashboard_icons_wrapper .membersIcon img,
+.hellomap_dashboard_icons_wrapper .adsmanagerIcon img {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.hellomap_dashboard_icons_wrapper .markerCount {
+    left: 63px;
+    position: absolute;
+    top: 18px;  
+    font-weight: bold;
+    font-size: 18px;
+    font-family: tahoma;   
+}
+
+.hellomap_dashboard_icons_wrapper .dashboard_title {
+    text-align: center;
+    color: #fff;
+    margin-top: 8px;
+}
+
+.hellomap_dashboard_icons_wrapper .totalValue {
+    font-weight: bold;
+    font-size: 24px;
+    font-family: tahoma;    
+    text-align: right;
+    border-bottom: 2px solid #d7d7d7;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.hellomap_dashboard_icons_wrapper .totalValue {
+    font-weight: bold;
+    font-size: 18px; 
+    text-align: right;
+    border-bottom: 2px solid #d7d7d7;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+	margin-right:10px;
+	color:#34495e;
+}
+
+#dashboard_table .hellomadp_dashboard_elements {
+    border: 1px solid #DAE2E4;
+  /*  border-radius: 4px;*/
+    display: inline-block;
+    height: 115px;
+    margin-bottom: 10px;
+    margin-right: 12px;
+    position: relative;
+    width: 120px;
+    text-align: center;
+    font-size: 14px;
+	background: #F8F8F8;
+	
+}
+
+#dashboard_table .hellomadp_dashboard_elements .icon img {
+    margin: 15px auto 5px auto;
+    display: block;
+}
+
+#dashboard_table .hellomadp_dashboard_elements a {
+    color: #262626;
+}
+
+#dashboard_table .hellomadp_dashboard_elements a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+#dashboard_table #sliders h3 {
+    border: 1px solid #DAE2E4;
+	background: #F8F8F8;
+   /* border-radius: 4px; */
+    padding: 10px;
+    margin-top:0;
+}
+
+#dashboard_table #sliders h3 a {
+   color: #34495E; 
+}
+
+#dashboard_table #sliders h3 a:hover {
+	text-decoration: none;
+}
+
+#j-sidebar-container ul#submenu li a {
+    border-bottom: 1px solid #DAE2E4;  
+   /* background: url(../images/sidebar_icon.png) no-repeat 5px 5px; */
+	padding:5px 0 5px 25px;
+}
+
+#j-sidebar-container ul#submenu li.active a,
+#j-sidebar-container ul#submenu li a:hover {
+	background: #527394 url(../images/sidebar_icon.png) no-repeat 5px 5px; 
+	color:#fff;
+}

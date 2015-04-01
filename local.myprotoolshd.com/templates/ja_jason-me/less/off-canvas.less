@@ -1,0 +1,343 @@
+/**
+ *------------------------------------------------------------------------------
+ * @package       T3 Framework for Joomla!
+ *------------------------------------------------------------------------------
+ * @copyright     Copyright (C) 2004-2013 JoomlArt.com. All Rights Reserved.
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @authors       JoomlArt, JoomlaBamboo, (contribute to this project at github
+ *                & Google group to become co-author)
+ * @Google group: https://groups.google.com/forum/#!forum/t3fw
+ * @Link:         http://t3-framework.org
+ * @credits       Mary Lou - http://tympanus.net/codrops/2013/08/28/transitions-for-off-canvas-navigations/
+ *------------------------------------------------------------------------------
+ */
+
+
+// VARIABLES & MIXINS
+// ------------------
+@import "vars.less"; // Include Variables and Mixins
+
+
+// EXTEND STYLE IN BASE
+// --------------------
+@import "../../../plugins/system/t3/base-bs3/less/off-canvas.less";
+
+
+
+//
+// OFF-CANVAS
+// -------------------------------------
+.t3-wrapper {
+  overflow: hidden;
+  position: static;
+}
+
+// Toggle Button
+// -------------------
+.t3-header-mask .off-canvas-toggle {
+  color: @white;
+
+  .ja-home-3 & {
+    color: @gray-darker;
+  }
+}
+
+.off-canvas-toggle {
+  background-color: transparent;
+  border-radius: 0;
+  border-left: 1px solid rgba(0,0,0,0.05);
+  color: @black;
+  height: @navbar-height * 2;
+  line-height: 43px;
+  padding: 0;
+  position: relative;
+  top: 0;
+  right: 0;
+  width: @navbar-height * 2;
+
+  //  Control screen desktop
+  @media screen and (min-width: @screen-sm-min) {
+    border: 0;
+    height: @grid-gutter-width;
+    width: @grid-gutter-width;
+  }
+
+  &:focus,&:hover,&:active {
+    background: none;
+    box-shadow: none;
+    outline: none!important;
+    color: @brand-primary!important;
+  }
+}
+
+
+//
+// OFF-CANVAS CONTENT STYLES
+// -------------------------------------
+.t3-off-canvas {
+  display: none;
+
+  &.off-canvas-current {
+    display: block;
+  }
+
+  // Generic
+  // -----------------------------------
+  background: @t3-off-canvas-background;
+  color: @t3-off-canvas-text-color;
+
+  // Text separator
+  // -------------------
+  .divider .separator {
+    color: @t3-off-canvas-link-color;
+  }
+
+
+  // Header
+  // -----------------------------------
+  .t3-off-canvas-header {
+    background: @t3-off-canvas-header-background;
+    color: @t3-off-canvas-header-text-color;
+    padding: 0 0 0 @padding-base-horizontal;
+    height: 35px;
+
+    // Title
+    h2 {
+      color: @white;
+      font-size: @font-size-base;
+      font-weight: bold;
+      line-height: 35px;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+  }
+
+  // Close Button
+  .close {
+    background: darken(@t3-off-canvas-header-background, 20%);
+    height: 35px;
+    line-height: 35px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+  }
+
+
+  // Body
+  // -----------------------------------
+  .t3-off-canvas-body {
+    padding: 0;
+
+    // Links
+    // ------------
+    a {
+      color: @t3-off-canvas-link-color;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: transparent;
+        color: @t3-off-canvas-link-hover-color;
+        text-decoration: none;
+        outline: none;
+      }
+    }
+
+    .dropdown-menu .active a {
+      background: transparent;
+    }
+
+
+    // Navigations
+    // ------------
+    .nav-pills > li > a {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid #333 \9; // Fix for Ie 8
+      border-radius: 0;
+      font-weight: bold;
+      font-size: @font-size-small;
+      padding: (@t3-global-padding / 4.5) 0 (@t3-global-padding / 4.5) @t3-global-padding;
+      text-transform: uppercase;
+
+      .caret {
+        border-bottom-color: @t3-off-canvas-link-color;
+        border-top-color: @t3-off-canvas-link-color;
+        margin-left: @t3-global-margin / 4;
+      }
+
+      + .dropdown-menu {
+        border-bottom: 1px solid #333 \9; // Fix for Ie 8
+      }
+    }
+
+    .nav-pills > li.active > a,
+    .nav-pills > li.open > a {
+      &,
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: transparent;
+        color: @t3-off-canvas-link-hover-color;
+      }
+
+      .caret {
+        border-bottom-color: @t3-off-canvas-link-hover-color;
+        border-top-color: @t3-off-canvas-link-hover-color;
+      }
+    }
+
+    //caret
+    .dropdown-submenu {
+      > a {
+        position: relative;
+
+        &:after {
+          border-width: 5px;
+          border-color: @t3-off-canvas-link-color transparent transparent;
+          position: absolute;
+          right: @t3-global-margin;
+          top: @t3-global-margin / 2.5;
+        }
+      }
+
+      &.open,&.active {
+        > a:after {
+          border-top-color: @t3-off-canvas-link-hover-color;
+        }
+      }
+
+      .dropdown-menu {
+        margin-top: 0;
+      }
+    }
+
+    // Dropdown Menu
+    .dropdown-menu {
+      background: @t3-off-canvas-background;
+      font-size: (@font-size-base - 1);
+      margin: 0;
+    }
+
+    .nav-pills > li {
+      border-bottom: 0;
+
+      + li {
+        margin-top: -1px;
+      }
+
+      > .dropdown-menu {
+        padding-left: (@t3-global-padding * 1.5);
+
+        > li > a {
+          font-weight: bold;
+          font-size: @font-size-small;
+          padding-left: 0;
+        }
+
+        li.open > a,
+        li.active > a {
+          &,
+          &:hover,
+          &:focus,
+          &:active {
+            background-color: transparent;
+            color: @t3-off-canvas-link-hover-color;
+          }
+
+          .caret {
+            border-bottom-color: @t3-off-canvas-link-hover-color;
+            border-top-color: @t3-off-canvas-link-hover-color;
+          }
+        }
+
+        //Dropdown submenu
+        > .dropdown-submenu {
+          //background-color: @blue;
+          > a {
+            font-weight: bold;
+          }
+
+          > .dropdown-menu {
+            font-weight: normal;
+            //background-color: @red;
+
+            > .dropdown-submenu > .dropdown-menu{
+              padding-left: (@t3-global-padding / 2);        
+            }
+          }
+        }
+      }
+    }
+
+    
+
+
+    // Modules
+    // ------------
+    .t3-module {
+      margin-bottom: @line-height-computed;
+    }
+
+    .module-title  {
+      color: @white;
+      line-height: 1;
+      margin: (@t3-global-margin / 2) 0 (@t3-global-margin / 2) (@t3-global-margin / 2);
+      padding-left: 15px;
+      text-align: left;
+    }
+
+  // End Off-Canvas Body
+  }
+
+  .old-ie & {
+    z-index: 1000!important;
+  }
+
+// End Off-Canvas Content Styles
+}
+
+
+// OFF CANVAS 2
+// ---------------------
+#t3-off-canvas-2 {
+  // Get in touch
+  .get-touch {
+    margin: @t3-global-margin @t3-global-margin 0;
+
+    .button {
+      border: 1px solid @white;
+      background: transparent;
+      color: @white;
+      display: block;
+      text-align: center;
+      text-transform: uppercase;
+
+      &:hover {
+        border-color: @brand-primary;
+        color: @brand-primary;
+      }
+    }
+  }
+
+  // Menu bottom
+  .menu-bottom {
+    .nav-pills > li > a {
+      border: 0;
+      text-transform: none;
+      font-weight: normal;
+    }
+  }
+
+  // Add This
+  .addthis_toolbox {
+    margin-left: @t3-global-margin;
+
+    .fa {
+      font-size: @t3-font-size-big;
+      margin-right: @t3-global-margin / 2;
+    }
+  }
+}

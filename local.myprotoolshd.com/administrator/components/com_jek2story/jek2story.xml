@@ -1,0 +1,81 @@
+<?xml version="1.2" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>Je k2 Story</name>
+	<creationDate>28/09/2010</creationDate>
+	<author>Hardik Mistry</author>
+	<authorEmail>emailtohardik@gmail.com</authorEmail>
+	<authorUrl>www.joomlaextensions.co.in</authorUrl>
+	<copyright>Copyright (C) 2009 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<version>1.9</version>
+	<description>Je k2 Story Description</description>
+	<!-- SQL queries -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<!-- Uninstall SQL queries -->
+	<uninstall>
+		<sql>
+		<file driver="mysql" charset="utf8">uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	
+	<files folder="site">
+		<filename>index.html</filename>	
+		<filename>jek2story.php</filename>
+		<folder>assets</folder>				
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+		<folder>images</folder>
+	</files>
+	<languages folder="site/languages">
+		<language tag="en-GB">en-GB.com_jek2story.ini</language>	
+		<language tag="fr-FR">fr-FR.com_jek2story.ini</language>	
+		<language tag="bg-BG">bg-BG.com_jek2story.ini</language>	
+		<language tag="ru-RU">ru-RU.com_jek2story.ini</language>	
+		<language tag="ro-RO">ro-RO.com_jek2story.ini</language>	
+			
+	</languages>
+
+
+	<administration>
+	
+	<menu  task="jesubmit">JE K2 Story</menu>
+	<submenu>
+		<menu  view="jesubmit" controller="jesubmit">Story setting</menu>
+		<menu  view="about">About</menu>
+	</submenu>
+	<!-- Core files admin -->
+	<files folder="admin">		 		
+		<filename>jek2story.php</filename>
+		<filename>index.html</filename>
+		<filename>install.mysql.utf8.sql</filename>
+		<filename>uninstall.mysql.utf8.sql</filename>
+		<filename>readme.html</filename>
+		<filename>controller.php</filename>
+			
+		<folder>assets</folder>
+		<folder>lib</folder>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>tables</folder>
+		<folder>views</folder>
+		
+	</files>
+	
+	<!-- Language files -->
+	<languages folder="admin/languages">
+		<language tag="en-GB">en-GB.com_jek2story.ini</language>	
+		<language tag="fr-FR">fr-FR.com_jek2story.ini</language>	
+		<language tag="bg-BG">bg-BG.com_jek2story.ini</language>	
+		<language tag="ru-RU">ru-RU.com_jek2story.ini</language>	
+		<language tag="ro-RO">ro-RO.com_jek2story.ini</language>	
+	</languages>
+
+
+	</administration>
+</extension>

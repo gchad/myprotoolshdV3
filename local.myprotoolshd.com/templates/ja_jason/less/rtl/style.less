@@ -1,0 +1,61 @@
+// RTL STYLES
+// ------------------------------------------------------
+// Header
+// -------------
+.t3-header {
+	background-size: 100% auto;
+}
+
+
+// Article Images
+// --------------
+article img[align=left],
+.img_caption.left,
+.pull-left.item-image {
+  @media (max-width: @screen-sm) {
+    margin: 0 @grid-gutter-width @t3-global-margin 0;
+  }
+}
+
+article img[align=right],
+.img_caption.right,
+.pull-right.item-image {
+  @media (max-width: @screen-sm) {
+    margin: 0 0 @t3-global-margin @grid-gutter-width;
+  }
+}
+
+.languageswitcherload {
+  ul {
+    float: left;
+  }
+}
+
+
+// Admin K2 Form
+// ------------
+
+.com_k2 {
+  #adminForm {
+	table.adminFormK2 tr td.adminK2LeftCol {
+		text-align: left;
+	}
+
+	table.adminFormK2 tr td label.radio {
+		display: inline-block;
+	}
+
+	table.adminFormK2 tr td .radio input[type="radio"] {
+		margin-right: 0;
+	}
+
+	table.adminFormK2 tr td .text_area {
+		width: 100%;
+	}
+  }
+
+  #k2FrontendEditToolbar h2.icon-48-k2 {
+  	padding-left: 0 !important;
+  	padding-right: 120px !important;
+  }
+ }

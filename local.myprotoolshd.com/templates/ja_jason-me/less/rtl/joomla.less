@@ -1,0 +1,82 @@
+// ---------------------------------------------------------
+// SMART SEARCH
+// ---------------------------------------------------------
+
+.off-canvas body > .autocompleter-choices {
+  width: 0px;
+  left: auto;
+}
+
+.article-intro,
+.article-content {
+
+  // Add proper margin
+  img[align=left],
+  .img_caption.left,
+  .pull-left.item-image {
+    margin: 0 @t3-global-margin*1.5 @t3-global-margin 0;
+  }  
+
+  img[align=right],
+  .img_caption.right,
+  .pull-right.item-image {
+    margin: 0 0 @t3-global-margin @t3-global-margin*1.5 ;
+  }
+
+}
+
+// Addthis Offcanvas
+.t3-off-canvas-body {
+  .addthis_default_style .addthis_separator,
+  .addthis_default_style .at300b,
+  .addthis_default_style .at300bo,
+  .addthis_default_style .at300m,
+  .addthis_default_style .at300bs {
+    float: right;
+  }
+}
+
+// K2 Featured
+.div.itemIsFeatured .catItemImageBlock:before,
+div.catItemIsFeatured .catItemImageBlock:before,
+div.userItemIsFeatured .catItemImageBlock:before {
+  transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+}
+
+// Intro home
+.ie11,.ie10,.ie9,.ie8 {
+  .ja-intro .intro-content .info #carousel-home {
+    padding-right: @t3-global-padding;
+  }
+}
+
+// Slideshowlite
+.ja-slideshow {
+  .ja-ss-btns .ja-ss-next {
+    background-position: 0 0;
+
+    &:hover {
+      background-position: 0 -40px;
+    }
+  }
+
+  .ja-ss-btns .ja-ss-prev {
+    background-position: -40px 0;
+
+    &:hover {
+      background-position: -40px -40px;
+    }
+  }
+}
+
+// Popup
+#fancybox-wrap table td#fancybox-title-float-right {
+  background-position: -40px -90px;
+}
+
+#fancybox-wrap table td#fancybox-title-float-left {
+  background-position: -55px -90px;
+}

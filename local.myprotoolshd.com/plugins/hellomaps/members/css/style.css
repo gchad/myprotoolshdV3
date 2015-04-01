@@ -1,0 +1,447 @@
+/**
+ * @version     1.0.7
+ * @package     com_hellomaps
+ * @copyright   Copyright (C) 2014. All rights reserved.
+ * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author      JoomlaForce Team <support@joomlaforce.com> - http://www.joomlaforce.com
+ */
+/*new in 1.07g*/
+.circlehmaps img{
+        border: 2px solid #3399CC !important;
+        width: 80% !important;
+        height: 80% !important;
+        border-radius: 50%;
+      } 
+/*end in 1.07g*/	  
+ 
+/****  tooltip  ****/
+.jomsocial_marker_info_window h1{
+	margin: 0px 0px 3px 0px;
+	line-height: normal;
+}
+.jomsocial_marker_info_window h1 a{
+	color: #696969;
+	font-size: 14px;
+	line-height: normal;
+	margin: 0px;
+}
+.jomsocialInfoWindowWrapper1{
+	margin-bottom: 3px;
+}
+.jomsocialInfoWindowWrapper1 .memberImgPart{
+	float: left;
+	width: 40%;
+	position: relative;
+	margin-right: 5%;
+}
+.jomsocialInfoWindowWrapper1 .memberImgPart img{
+	width: 100%;
+}
+.jomsocialInfoWindowWrapper1 .memberImgPart .offline_status,
+.jomsocialInfoWindowWrapper1 .memberImgPart .online_status{
+	width: auto;
+	position: absolute;
+	left: 3px;
+	bottom: 3px;
+	width: 10px;
+	height: 10px;
+}
+
+.jomsocialInfoWindowWrapper1 .memberConnectionPMSLinks {
+	float: left;
+	width: 55%;
+}
+
+.jomsocialInfoWindowWrapper1 .memberTextPart {
+	float: left;
+	padding: 5px 0px;
+	width: 55%;	
+}
+
+.jomsocialInfoWindowWrapper1 .memberConnectionPMSLinks .add_button{
+	background: url(../images/add_friend.png) no-repeat left center;
+	padding-left: 14px;
+	color: #8bb5cc;
+}
+.jomsocialInfoWindowWrapper1 .memberConnectionPMSLinks .send_pm_button{
+	background: url(../images/send_message.png) no-repeat left center;
+	padding-left: 14px;
+	color: #8bb5cc;
+}
+.jomsocialInfoWindowWrapper2{
+	background: #eeeeee;
+	padding: 2%;
+	position: relative;
+}
+.jomsocialInfoWindowWrapper2 .memberPartLeft{
+	float: left;
+	width: 48%;
+}
+.jomsocialInfoWindowWrapper2 .memberPartLeft .row{
+	margin-left: 0px;
+	font-size: 11px;
+	color: #696969;
+}
+.jomsocialInfoWindowWrapper2 .memberPartRight{
+	float: right;
+	width: 40%;
+	position: relative;
+}
+.jomsocialInfoWindowWrapper2 .memberPartRight .memberKarma{
+	text-align: center;
+}
+.jomsocialInfoWindowWrapper2 .memberPartRight .memberKarma a{
+	color: #8bb5cc;
+	font-size: 14px;
+}
+.jomsocialInfoWindowWrapper2 .memberPartRight .memberKarma .adsmanagerArrow{
+	position: absolute;
+	right: 3px;
+	bottom: 3px;
+}
+ 
+/****  tooltip end  ****/
+
+.jomsocial_member_result{
+	margin-bottom: 20px;
+}
+.jomsocial_member_result h1{
+	margin: 0px 0px 5px 0px;
+}
+.jomsocial_member_result h1 a{
+	font-size: 16px;
+	color: #1b1b1b;
+	line-height: 18px;
+}
+.jomsocialSearchResultWrapper1{
+	margin-bottom: 3px;
+}
+.jomsocialSearchResultWrapper1 .memberImgPart{
+	float: left;
+	/*width: 200px;*/
+	width: auto;
+	position: relative;
+	margin-right: 10px;
+}
+.jomsocialSearchResultWrapper1 .memberImgPart img{
+	width: auto;
+}
+
+.jomsocialSearchResultWrapper1 .memberConnectionPMSLinks {
+	float: left;
+	width: 70%;
+}
+
+.jomsocialSearchResultWrapper1 .memberTextPart {
+	float: left;
+	padding: 5px 0px;
+}
+
+.jomsocialSearchResultWrapper1 .memberImgPart .offline_status,
+.jomsocialSearchResultWrapper1 .memberImgPart .online_status{
+	width: auto;
+	position: absolute;
+	left: 3px;
+	bottom: 3px;
+}
+.jomsocialSearchResultWrapper1 .memberConnectionPMSLinks .add_button{
+	background: url(../images/add_friend.png) no-repeat left center;
+	padding-left: 14px;
+	color: #8bb5cc;
+}
+.jomsocialSearchResultWrapper1 .memberConnectionPMSLinks .send_pm_button{
+	background: url(../images/send_message.png) no-repeat left center;
+	padding-left: 14px;
+	color: #8bb5cc;
+}
+
+.jomsocialSearchResultWrapper2{
+	background: #eeeeee;
+	padding: 2%;
+	margin-bottom: 5px;
+}
+.jomsocialSearchResultWrapper2 .memberPartLeft{
+	float: left;
+	width: 55%;
+}
+.jomsocialSearchResultWrapper2 .memberPartLeft .row{
+	margin-left: 0px;
+	font-size: 11px;
+	color: #2a2a2a;
+}
+.jomsocialSearchResultWrapper2 .memberPartRight{
+	float: right;
+	width: 40%;
+	padding: 3px 0;
+}
+.jomsocialSearchResultWrapper2 .memberPartRight .memberKarma{
+	float: right;
+    text-align: center;
+}
+
+.jomsocialSearchResultWrapper2 .memberPartRight .memberKarma img {
+	background: #fff;	
+}
+.jomsocialSearchResultWrapper2 .memberPartRight .memberKarma a{
+	color: #8bb5cc;
+	display: block;
+	text-align: right;
+	float:left;
+}
+
+.jomsocialSearchResultWrapper2 .memberPartRight .memberKarma a.collapsed_member_data_show_more {
+
+}
+
+.jomsocialSearchResultWrapper2 .memberPartRight .memberKarma a.collapsed_member_data {
+	background: #fff;		
+	text-align: center;
+}
+
+.jomsocialSearchResultWrapper{
+	font-size: 11px;
+	color: #2a2a2a;
+	line-height: 16px;
+}
+.jomsocialSearchResultWrapper.diffrent_div{
+	background: #eeeeee;
+	margin-top: 5px;
+}
+.jomsocialSearchResultWrapper .qrCodeImage{
+	float: left;
+	width: 30%;
+	padding: 3%;
+}
+.jomsocialSearchResultWrapper .extraFieldContent.diffrent_content_div{
+	float: right;
+	width: 55%;
+	padding: 3%;
+	margin-top: 30px;
+}
+.jomsocialSearchResultWrapper.totalCounterItem{
+	border-bottom: 1px solid #d4d4d4;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 13px;
+	color: #51a9dc;
+	margin-bottom: 8px;
+}
+.membersTotalBlock{
+	float: left;
+	font-size: 12px;
+	color: #2a2a2a;
+	margin-right: 5px;
+	font-weight: bold;
+}
+.membersTotalBlock span.icon{
+	width: 12px;
+	height: 12px;
+	background: #3399cc;
+	float: left;
+	display: block;
+	margin-right: 2px;
+	margin-top: 2px;
+}
+.membersTotalBlock .color{
+	border: 1px solid #77badd;
+	background: #ebf4fa;
+	padding: 5px 0px;
+	width: auto;
+	text-align: center;
+	font-size: 20px;
+	color: #000;
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.jomsocial_member_result.selected_member{
+	border: 1px solid red;
+	background-color: Highlight;
+}
+
+.jomsocial_member_result .collapsed_member_data{
+	display:none;
+}
+.jomsocial_member_result .collapsed_member_data_show_less{
+	display:none;
+}
+#plugin_members_notice{
+	height: 150px;
+	padding-top: 10px; 
+}
+#members_plugin_results
+{
+	padding-top: 10px;
+}
+
+.locationWrap {
+	width: 100%;
+}
+
+.locationWrap .control-group {
+	width: 48%;
+	display: inline-block;
+}
+
+.locationWrap .control-group .controls input {
+	width: 90%;
+}
+
+/**
+plugin notice css start
+*/
+#notice_box_holder_members_plugin{
+	/*height: 120px;*/
+	z-index: 105;
+	background: #F5F5F5;	
+	border-radius: 3px;	
+	bottom: 25px;
+	position: absolute;
+}
+#notice_box_holder_members_plugin.noticePositionsleft {
+	left: 10px;
+}
+#notice_box_holder_members_plugin.noticePositionsright {
+	right: 10px;
+}
+#notice_box_holder_members_plugin.noticePositionsright.yes_info_link {
+	/*bottom: 40px;*/
+}
+#notice_box_holder_members_plugin .notice_plugin_header{
+   font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 20px;
+    margin-bottom: 5px;
+    padding-left: 0;
+    text-transform: uppercase;
+}
+#notice_box_holder_members_plugin .notice_box_container_plugin .plugin_notice_content {
+	height: 100px;
+	padding-bottom: 5px;
+}
+
+#notice_box_holder_members_plugin .noticeBlock {
+	padding-left: 12px;
+	padding-top: 5px;
+	background: #F5F5F5;
+}
+
+#notice_box_holder_members_plugin .notice_close {
+	background: url(../images/close.png) no-repeat left top;
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	width: 16px;
+	height: 16px;
+	display: block;
+	text-indent: -9999px;
+	cursor: pointer;
+	z-index: 500;
+}
+
+#notice_box_holder_members_plugin .notice_open {
+	background: url(../images/plus.png) no-repeat left top;
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	width: 16px;
+	height: 16px;
+	display: block;
+	text-indent: -9999px;
+	cursor: pointer;
+	z-index: 500;
+}
+
+#notice_box_holder_members_plugin .mCustomScrollBox > .mCSB_scrollTools {
+    height: 100%;
+    right: 10px;
+    top: 10px;
+    width: 16px;
+}
+/**
+plugin notice css end
+*/
+
+.members_filter_control {
+	text-align: right;
+}
+
+
+@media only screen and (max-width: 479px){
+	
+	
+
+	.jomsocial_marker_info_window{
+		width: 160px !important;
+		height: auto !important;
+	}
+	.jomsocialInfoWindowWrapper1{
+		margin-bottom: 3px;
+	}
+	.jomsocialInfoWindowWrapper1 .memberImgPart{
+		float: none;
+		width: 100%;
+		margin: 0px 0px 5px 0px;
+	}
+	.jomsocialInfoWindowWrapper1 .memberConnectionPMSLinks {
+		float: none;
+		width: 100%;
+		margin: 0px 0px 5px 0px;
+	}
+	.jomsocialInfoWindowWrapper1 .memberConnectionPMSLinks a{
+		display: block;
+	}
+	.jomsocialInfoWindowWrapper1 .memberTextPart {
+		float: none;
+		width: 100%;
+	}
+	.jomsocialInfoWindowWrapper2 .memberPartLeft{
+		float: none;
+		width: 96%;
+		padding: 2%;
+		margin: 0px 0px 5px 0px;
+	}
+	.jomsocialInfoWindowWrapper2 .memberPartRight{
+		float: none;
+		width: 96%;
+		padding: 2%;
+	}
+	.jomsocialSearchResultWrapper .qrCodeImage{
+		float: none;
+		width: 96%;
+		padding: 2%;
+		margin-bottom: 10px;
+	}
+	.jomsocialSearchResultWrapper .extraFieldContent.diffrent_content_div{
+		float: none;
+		width: 96%;
+		padding: 2%;
+		margin-top: 0px;
+	}
+	.jomsocialSearchResultWrapper1 .memberImgPart{
+	/*	float: none;
+		margin-right: 0px;
+		margin-bottom: 10px;
+		width: 100%;*/
+	}
+	.jomsocialSearchResultWrapper1 .memberConnectionPMSLinks a{
+		display: block;
+	}
+	.jomsocialSearchResultWrapper2 .memberPartLeft{
+		float: none;
+		width: 98%;
+	}
+	.jomsocialSearchResultWrapper2 .memberPartRight{
+		float: none;
+		width: 98%;
+	}
+	.jomsocialSearchResultWrapper .qrCodeImage{
+		text-align: center;
+	}
+	
+	.locationWrap .control-group {
+		width: 90%;
+		display: block;
+	}		
+}

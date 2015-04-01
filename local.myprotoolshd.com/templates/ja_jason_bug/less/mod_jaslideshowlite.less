@@ -1,0 +1,311 @@
+/**
+ * $JA#COPYRIGHT$
+ */
+ 
+// VARIABLES & MIXINS
+// ------------------
+@import "vars.less"; // Include Variables and Mixins
+
+.ja-slideshow {
+	margin-top: @grid-gutter-width;
+
+	+ .t3-mainbody {
+		padding-top: @grid-gutter-width * 2;
+	}
+}
+
+.ja-ss-slideshow {
+	position: relative;
+	height: 309px;
+}
+
+.ja-ss-loading {
+	background: none;
+}
+
+.ja-ss-loading:before {
+	content: "";
+	display: block;
+	background: url("@{t3-image-path}/slideloading.gif")  no-repeat center center @white;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 5;
+}
+ 
+.ja-ss-wrap {
+	background: url("@{t3-image-path}/background-slideshow.jpg") no-repeat;
+	overflow: hidden;
+ 	position: relative;
+	width: 100%;
+}
+
+.ja-ss-items {
+	width: 100%;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+}
+
+.ja-ss-item {
+	display: block;
+	float: left;
+	margin: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	left: 0;
+	width: 100%;
+	min-height: 260px;
+	z-index: 1;
+	backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+.ja-ss-item.prev {
+	display: block;
+}
+
+.ja-ss-item.next {
+	display: block;
+}
+
+.ja-ss-item.curr {
+	z-index: 2; /* IE7,8 */
+}
+
+.ja-ss-item img {
+	width: 100%;
+	max-width: 100%;
+}
+
+
+.ja-ss-mask.active {
+}
+
+.ja-ss-desc {
+	background: none;
+ 	position: absolute;
+	bottom: 140px;
+	color: @black;
+	text-align: left;
+	padding-left: 110px;
+	top: @grid-gutter-width;
+	z-index: 3;
+	width: 50%;
+
+	@media (min-width: @screen-lg-min) {
+		top: 180px;
+		width: 45%;
+	}
+
+	h3 {
+		background: @black;
+		color: @white;
+		display: inline;
+		margin: 0;
+		text-transform: uppercase;
+		font-size: @font-size-h3;
+		line-height: 1.1;
+		margin-bottom: @t3-global-margin;
+
+		@media (min-width: @screen-md-min) {
+			font-size: @font-size-h2;;
+		}
+
+		a {
+			color: inherit;
+			line-height: normal;
+			text-decoration: none;
+		}
+	}
+
+	p {
+		color: @gray;
+		margin-top: @t3-global-margin;
+	}
+
+	.btn {
+		margin-top: @t3-global-margin;
+	}
+}
+
+.ja-ss-btns {
+	opacity: 0;
+
+	//Control screen tablet
+	@media screen and (max-width: @screen-md-max) {
+		opacity: 1;
+	}
+}
+
+.ja-ss-btns span {
+	background: url("@{t3-image-path}/ctrl-btns.png") no-repeat top left;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 40px;
+	margin-top: -20px;
+	padding: 0;
+	width: 40px;
+	text-indent: -999em;
+	top: 50%;
+	position: absolute;
+	z-index: 100;
+
+	//Control screen tablet
+	@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+		margin-top: -30px;
+	}
+}
+
+.ja-ss-wrap:hover .ja-ss-btns {
+	opacity: 1;
+}
+
+.ja-ss-btns .ja-ss-prev {
+	background-position: 0 0;	
+	left: @grid-gutter-width;
+	opacity: 0.3;
+}
+
+.ja-ss-btns .ja-ss-prev:hover {
+  background-position: left bottom;
+  right: 760px;
+  opacity: 1;
+
+  	//Control screen mobile/tablet
+	@media screen and (max-width: @screen-sm-max) {
+		right: 620px;
+	}
+}
+
+.ja-ss-btns .ja-ss-next {
+	background-position: -40px 0;
+	right: @grid-gutter-width;
+	opacity: 0.3;
+}
+
+.ja-ss-btns .ja-ss-next:hover {
+  background-position: -40px bottom;
+  opacity: 1;
+}
+
+.ja-ss-btns .ja-ss-stop {
+	background-position: -80px 0;
+	display: none;
+}
+
+.ja-ss-btns .ja-ss-stop:hover {
+  background-position: -80px bottom;
+  right: 280%;
+}
+
+.ja-ss-btns .ja-ss-play {
+	background-position: -120px 0;
+	display: none;
+}
+.ja-ss-btns .ja-ss-play:hover {
+  background-position: -120px bottom;
+  display: none;
+}
+
+.ja-ss-btns .ja-ss-playback {
+	background-position: right 0;
+	display: none;
+}
+.ja-ss-btns .ja-ss-playback:hover {
+  background-position: right bottom;
+  display: none;
+}
+
+
+.ja-ss-thumbs-wrap {
+	clear: both;
+	position: absolute;
+	bottom: 50px;
+	overflow: hidden;
+	z-index: 9;
+	left: @t3-global-margin;
+	bottom: @t3-global-margin;
+
+}
+
+/* dynamic classes */
+.ja-ss-thumb-height {
+
+}
+
+.ja-ss-thumb-width {
+
+}
+
+.ja-ss-thumbs {
+	margin: 0;
+	padding-right: @t3-global-padding;
+	top: 0;
+	text-align: right;
+	width: auto!important; /* horizontal thumbnails */
+	white-space: nowrap;
+	transform: translateX(0) !important;
+	    -moz-transform: translateX(0) !important;
+	        -ms-transform: translateX(0) !important;
+	            -webkit-transform: translateX(0) !important;
+	/*font-size: 0; can be use to remove space between inline-block*/
+}
+
+.ja-ss-thumbs .ja-ss-thumb {
+	background: @gray-light;
+	display: inline-block;
+	overflow: hidden;
+	margin: 0 3px;
+	text-align: center;
+	vertical-align: bottom;
+	cursor: pointer;
+	background-clip: padding-box;
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	background: @white;
+}
+
+.ja-ss-thumbs .ja-ss-thumb img {
+	display: none;
+}
+
+.ja-ss-thumbs .ja-ss-thumb.active {
+	background: @brand-primary;
+}
+
+.ja-ss-thumbs .ja-ss-thumb.active img {
+	opacity: 1;
+}
+
+.ie9 .ja-ss-thumbs-wrap {
+	z-index: 200;
+	right: -485px;
+}
+
+.ie9 .ja-ss-thumbs-wrap .ja-ss-thumbie {
+	width: auto !important;
+}
+
+.ie9 .ja-ss-thumbs-wrap .ja-ss-thumbie .ja-ss-thumbs {
+	width: auto !important;
+	margin-right: 25px;
+	left: 0 !important;
+}
+
+.ie9 .ja-ss-btns {
+	display: inline !important;
+}
+.ie8 .ja-ss-thumbs-wrap .ja-ss-thumbie .ja-ss-thumbs {
+	width: auto !important;
+	margin-right: 25px;
+}
+
+

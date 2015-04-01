@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<extension version="2.5" type="module" client="site" method="upgrade">
+	<name>Hellomaps - Module</name>
+	<author>JoomlaForce</author>
+	<creationDate>June 2014</creationDate>
+	<copyright>Copyright (C) 2014. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<version>1.0.7g</version>
+	<description>MOD_HELLOMAPS_DESCRIPTION</description>
+	<files>
+		<filename module="mod_hellomaps">mod_hellomaps.php</filename>
+		<filename>mod_hellomaps.xml</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>        
+        <folder>fields</folder>
+	</files>
+    <languages>
+		<language tag="en-GB">en-GB.mod_hellomaps.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_hellomaps.ini</language>
+	</languages>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+        <!-- Joomla! 1.6 uses fieldset -->
+        <config>
+            <fields name="params">
+                <fieldset name="basic" label="Module Class Suffix">
+				
+				<field name="@block_main_a" type="hm_block" start="1" label="Main Settings" />
+				
+                        <field name="allowed_plugins" type="hellomapPlugins" default="" label="Choose plugins" required="false" multiple="true" addfieldpath="/modules/mod_hellomaps/fields" />
+						
+						<field name="modulesettings" type="radio" default="1"
+							label="Use Setting by"
+							description="By Component: take settings from HelloMaps Component. By Module: override settings from this module"
+							class="btn-group btn-group-yesno">
+							<option value="1">By Component</option>
+							<option value="2">By Module</option>
+						</field>
+						
+						<field name="hmod_maptype_default" type="list" default="street" 
+							label="Default MapType" description="">
+							<option value="street">Street</option>
+							<option value="terrain">Terrain</option>
+							<option value="satellite">Satellite</option>
+							<option value="hybrid">Hybrid</option>
+						</field>
+						
+						<field name="hmod_dimensions_width" type="text" default="100%" label="Width" />
+						<field name="hmod_dimensions_height" type="text" default="300" label="Height" />
+						
+					
+					<field name="@block_main_b" type="hm_block" end="1" />
+					
+						<field name="@block_style_a" type="hm_block" start="1" label="Module Class" />
+						<field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" />
+						<field name="@block_style_b" type="hm_block" end="1"/>
+                </fieldset>
+				<fieldset name="LAYOUT">
+		
+			<field name="@block_sidebar_a" type="hm_block" start="1" label="Sidebar" />
+			
+					<field name="hmod_sidebar_enable" type="radio" default="1"
+						label="Enable Sidebar"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_sidebar_load_open" type="radio" default="1"
+						label="Load Open"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_sidebar_position" type="radio" default="left"
+						label="Sidebar Position"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="left">Left</option>
+						<option value="right">Right</option>
+					</field>
+					
+					<field name="hmod_sidebar_width" type="text" default="320" 
+						label="Sidebar Width" 
+						description="" />
+					
+			<field name="@block_sidebar_b" type="hm_block" end="1" />
+			
+			<field name="@block_contents_a" type="hm_block" start="1" label="Contents" />
+						
+					<field name="hmod_contents_enable" type="radio" default="1"
+						label="Enable Contents"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+			
+			<field name="@block_contents_b" type="hm_block" end="1" />
+			<field name="@block_results_a" type="hm_block" start="1" label="Results" />
+						
+					<field name="hmod_results_enable" type="radio" default="1"
+						label="Enable Counter Result"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+			
+			<field name="@block_results_b" type="hm_block" end="1" />
+			
+			<field name="@block_searches_a" type="hm_block" start="1" label="Search" />
+					
+					<field name="hmod_search_enable" type="radio" default="1"
+						label="Enable Plugin Search"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+							
+			<field name="@block_search_b" type="hm_block" end="1" />
+			
+			</fieldset>
+			<fieldset name="MAP">
+			
+			<field name="@block_initialize_a" type="hm_block" start="1" label="Initialize Map" />
+						
+						<field name="hmod_initialize_autocenter_markers" type="radio" default="1"
+							label="Autocenter Markers"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+
+						<field name="hmod_initialize_default_lat" type="text" default="29.977296" 
+							label="Default Latitude" description="" />
+						
+						<field name="hmod_initialize_default_lng" type="text" default="31.132496" 
+							label="Default Longitude" description="" />
+							
+						<field name="hmod_initialize_center_onuser_position" type="radio" default="1"
+							label="Ask Current User Position"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+							
+					<field name="@block_initialize_b" type="hm_block" end="1" />
+					
+						<field name="@block_clustering_a" type="hm_block" start="1" label="Clustering" />
+						<field name="hmod_clustering_enable" type="radio" default="1"
+							label="Enable Clustering"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						
+						<field name="hmod_clustering_default_image" type="media" default="" 
+							label="Custom Cluster Image" description="" />
+							
+						<field name="@block_clustering_b" type="hm_block" end="1" />
+						
+						<field name="@block_infowindow_a" type="hm_block" start="1" label="Infowindow" />
+						
+							<field name="hmod_deny_module_infowindow" type="radio" default="0"
+								label="Disable Infowindow"
+								description=""
+								class="btn-group btn-group-yesno">
+								<option value="1">JYES</option>
+								<option value="0">JNO</option>
+							</field>
+						
+						<field name="@block_infowindow_b" type="hm_block" end="1" />
+						
+						<field name="@block_events_a" type="hm_block" start="1" label="Events" />
+			
+						<field name="hmod_eventsenabled_mousescroll_zoom" type="radio" default="0"
+							label="Mouse Scroll Zoom"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						
+						<field name="hmod_eventsenabled_marker_mouseover" type="radio" default="1"
+							label="Marker Mouse Over"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						
+						<field name="hmod_eventsenabled_sidebar_mouseover" type="radio" default="1"
+							label="Sidebar Mouse Over"
+							description=""
+							class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+				
+						<field name="@block_events_b" type="hm_block" end="1" />
+			
+			</fieldset>
+			<fieldset name="TBUTTONS">
+			
+			<field name="@block_buttons_a" type="hm_block" start="1" label="Buttons" />
+					
+					<field name="hmod_buttonsenabled_zoom_inout" type="radio" default="1"
+						label="Show Zoom in/out"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_buttonsenabled_street_view" type="radio" default="1"
+						label="Show StreetView"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_buttonsenabled_fullscreen" type="radio" default="0"
+						label="Enable Fullscreen"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_buttonsenabled_userposition" type="radio" default="0"
+						label="Show User Position"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_buttonsenabled_settings" type="radio" default="1"
+						label="Show Settings"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+					<field name="hmod_mobilebuttons_listview" type="radio" default="1"
+						label="Show List/View"
+						description=""
+						class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+					
+			<field name="@block_buttons_b" type="hm_block" end="1" />
+			
+			</fieldset>
+            </fields>
+        </config>
+</extension>

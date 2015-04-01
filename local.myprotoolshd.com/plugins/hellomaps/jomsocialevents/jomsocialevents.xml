@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hellomaps" method="upgrade">
+	<name>PLG_HELLOMAPS_JOMSOCIALEVENTS</name>
+	<author>JoomlaForce</author>
+	<creationDate>July 2014</creationDate>
+	<copyright>Copyright (C) 2014. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<version>1.0.7g</version>
+	<isapplication>false</isapplication>
+	<isbrowsable>false</isbrowsable>
+	<description>PLG_HELLOMAPS_JOMSOCIALEVENTS_XML_DESCRIPTION</description>
+	<languages>
+	    <language tag="en-GB">en-GB.plg_hellomaps_jomsocialevents.ini</language>
+		<language tag="en-GB">en-GB.plg_hellomaps_jomsocialevents.sys.ini</language>
+	</languages>
+	<files>
+		<file plugin="jomsocialevents">jomsocialevents.php</file>
+        <folder>css</folder>
+        <folder>fields</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>views</folder>
+        <filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="show_in_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_IN_SIDEBAR_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_IN_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="tab_title" type="text" default="JomSocial Events" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_TAB_TITLE_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_TAB_TITLE_DESC" />
+				
+				<field name="show_search" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_SEARCH_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_SEARCH_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+								
+				<field name="search_fields" type="jomsocialeventsallfields" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SEARCH_FIELDS_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SEARCH_FIELDS_DESC" addfieldpath="/plugins/hellomaps/jomsocialevents/fields" multiple="true"/>		
+
+				<field name="show_filters" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_FILTERS_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_FILTERS_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="fitler_profile_types" type="jomsocialeventsprofiletype" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_PROFILE_TYPE_FIELD_TEXT" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SEARCH_FIELDS_FILTERS_LABEL_DESC" addfieldpath="/plugins/hellomaps/jomsocialevents/fields" multiple="true"/>
+
+				<field name="marker_icon" type="list" default="avatar"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_FIELDS_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_FIELDS_DESC"
+					>
+					<option value="avatar">PLG_HELLOMAPS_JOMSOCIALEVENTS_AVATAR_LABEL</option>
+					<option value="jomsocialeventsprofile-type">PLG_HELLOMAPS_JOMSOCIALEVENTS_PROFILE_TYPE_LABEL</option>
+					<option value="custom">PLG_HELLOMAPS_JOMSOCIALEVENTS_CUSTOM_LABEL</option>
+				</field>
+				<field name="markers_name" type="jomsocialeventsmarkers" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKERS_NAME_FIELD_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKERS_NAME_FIELD_DESC" addfieldpath="/plugins/hellomaps/jomsocialevents/fields"/>
+				
+				<field name="custom_marker_image" type="media" 
+					hide_none="1" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_CUSTOM_MARKER_IMAGE_LABEL"
+					size="40"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_CUSTOM_MARKER_IMAGE_DESC" />
+                
+                <field name="marker_icon_width" type="text" default="45" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_WIDTH_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_WIDTH_DESC" />
+                <field name="marker_icon_height" type="text" default="45" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_HEIGHT_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_MARKER_ICON_HEIGHT_DESC" />
+                
+				<field name="enable_jomsocialevents_detail_sidebar" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_MEMBER_DETAILS_SIDEBAR_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_MEMBER_DETAILS_SIDEBAR_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="details_extra_fields" type="jomsocialeventscustomfields" default="" label="PLG_HELLOMAPS_JOMSOCIALEVENTS_DETAILS_EXTRA_FIELDS_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_DETAILS_EXTRA_FIELDS_DESC" addfieldpath="/plugins/hellomaps/jomsocialevents/fields" multiple="true" />
+				<field name="show_notice_area" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_NOTICE_AREA_FIELD_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_NOTICE_AREA_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="notice_area_text" type="editor" class="inputbox"
+				label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_NOTICE_AREA_TEXT_FIELD_LABEL" description="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_NOTICE_AREA_TEXT_FIELD_DESC"
+				filter="JComponentHelper::filterText" buttons="true" />
+
+				<field name="display_marker_infowindow" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_MARKER_INFOWINDOW_FIELD_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_MARKER_INFOWINDOW_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="display_marker_result_count" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_DISPLAY_MARKER_RESULT_COUNT_FIELD_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_DISPLAY_MARKER_RESULT_COUNT_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="enable_zoom_counter" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_ZOOM_COUNTER_FIELD_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_ENABLE_ZOOM_COUNTER_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_expired_event" type="radio" default="1"
+					label="PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOW_EXPIRED_EVENT_FIELD_LABEL"
+					description="PLG_HELLOMAPS_JOMSOCIALEVENTS_EXPIRED_EVENT_FIELD_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">PLG_HELLOMAPS_JOMSOCIALEVENTS_SHOWALL_EVENT_LABEL</option>
+					<option value="0">PLG_HELLOMAPS_JOMSOCIALEVENTS_EXCLUDE_EXPIRE_EVENT_LABEL</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

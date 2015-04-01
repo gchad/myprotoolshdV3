@@ -1,0 +1,874 @@
+/** 
+ *------------------------------------------------------------------------------
+ * @package       T3 Framework for Joomla!
+ *------------------------------------------------------------------------------
+ * @copyright     Copyright (C) 2004-2013 JoomlArt.com. All Rights Reserved.
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @authors       JoomlArt, JoomlaBamboo, (contribute to this project at github 
+ *                & Google group to become co-author)
+ * @Google group: https://groups.google.com/forum/#!forum/t3fw
+ * @Link:         http://t3-framework.org 
+ *------------------------------------------------------------------------------
+ */
+ 
+
+// --------------------------------------------------
+// CORE TYPOGRAPHY (type.less)
+// Headings
+// --------------------------------------------------
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: @headings-font-family;
+  font-weight: @headings-font-weight;
+  line-height: @headings-line-height;
+  color: @headings-color;
+
+  small,
+  .small {
+    font-weight: normal;
+    line-height: 1;
+    color: @headings-small-color;
+  }
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-top: @line-height-computed;
+  margin-bottom: (@line-height-computed / 2);
+
+  small,
+  .small {
+    font-size: 65%;
+  }
+}
+
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: (@line-height-computed / 2);
+  margin-bottom: (@line-height-computed / 2);
+
+  small,
+  .small {
+    font-size: 75%;
+  }
+}
+
+h1, .h1 { font-size: @font-size-h1; line-height: @line-height-computed * 4; }
+h2, .h2 { font-size: @font-size-h2; line-height: @line-height-computed * 2; }
+h3, .h3 { font-size: @font-size-h3; }
+h4, .h4 { font-size: @font-size-h4; }
+h5, .h5 { font-size: @font-size-h5; }
+h6, .h6 { font-size: @font-size-h6; }
+
+
+// Body text
+// -------------------------
+
+// Paragraphs
+// ----------
+p {
+  margin: 0 0 (@line-height-computed / 2);
+}
+
+.lead {
+  margin-bottom: @line-height-computed;
+  font-size: floor((@font-size-base * 1.15));
+  font-weight: 200;
+  line-height: 1.4;
+
+  @media (min-width: @screen-sm-min) {
+    font-size: (@font-size-base * 1.5);
+  }
+}
+
+
+// Emphasis & misc
+// ---------------
+
+// Ex: 14px base font * 85% = about 12px
+small, .small   { font-size: 85%; }
+
+// Undo browser default styling
+cite    { font-style: normal; }
+
+// Alignment
+.text-left           { text-align: left; }
+.text-right          { text-align: right; }
+.text-center         { text-align: center; }
+.text-justify        { text-align: justify; }
+
+// Contextual colors
+.text-muted {
+  color: @text-muted;
+}
+.text-primary {
+  .text-emphasis-variant(@brand-primary);
+}
+.text-success {
+  .text-emphasis-variant(@state-success-text);
+}
+.text-info {
+  .text-emphasis-variant(@state-info-text);
+}
+.text-warning {
+  .text-emphasis-variant(@state-warning-text);
+}
+.text-danger {
+  .text-emphasis-variant(@state-danger-text);
+}
+
+// Contextual backgrounds
+// For now we'll leave these alongside the text classes until v4 when we can
+// safely shift things around (per SemVer rules).
+.bg-primary {
+  // Given the contrast here, this is the only class to have its color inverted
+  // automatically.
+  color: #fff;
+  .bg-variant(@brand-primary);
+}
+.bg-success {
+  .bg-variant(@state-success-bg);
+}
+.bg-info {
+  .bg-variant(@state-info-bg);
+}
+.bg-warning {
+  .bg-variant(@state-warning-bg);
+}
+.bg-danger {
+  .bg-variant(@state-danger-bg);
+}
+
+// Highlight
+.highlight {
+  background-color: #FFC;
+  font-weight: bold;
+  padding: 1px 4px;
+}
+
+// Page header
+// -------------------------
+
+.page-header {
+}
+
+
+// Lists
+// --------------------------------------------------
+
+// Unordered and Ordered lists
+// ----------------------------
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: (@line-height-computed / 2);
+  ul,
+  ol{
+    margin-bottom: 0;
+  }
+}
+
+// List options
+// Unstyled keeps list items block level, just removes default browser padding and list-style
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+// Inline turns list items into inline-block
+.list-inline {
+  .list-unstyled();
+  margin-left: -5px;
+
+  > li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+// Description Lists
+dl {
+  margin-top: 0; // Remove browser default
+  margin-bottom: @line-height-computed;
+}
+
+dt,
+dd {
+  line-height: @line-height-base;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0; // Undo browser default
+}
+
+// Horizontal description lists
+//
+// Defaults to being stacked without any of the below styles applied, until the
+// grid breakpoint is reached (default of ~768px).
+
+@media (min-width: @grid-float-breakpoint) {
+  .dl-horizontal {
+    dt {
+      float: left;
+      width: (@component-offset-horizontal - 20);
+      clear: left;
+      text-align: right;
+      .text-overflow();
+    }
+    dd {
+      margin-left: @component-offset-horizontal;
+      &:extend(.clearfix all); // Clear the floated `dt` if an empty `dd` is present
+    }
+  }
+}
+
+
+
+//
+// MISC
+// --------------------------------------------------
+
+// Abbreviations and acronyms
+// --------------------------
+abbr[title],
+// Added data-* attribute to help out our tooltip plugin, per https://github.com/twbs/bootstrap/issues/5257
+abbr[data-original-title] {
+  cursor: help;
+  border-bottom: 1px dotted @abbr-border-color;
+}
+.initialism {
+  font-size: 90%;
+  text-transform: uppercase;
+}
+
+
+// Labels
+// -----------
+.label {
+  font-size: 82%;
+  border-radius: 0;
+}
+
+
+// Blockquotes
+// -----------
+blockquote {
+  padding: (@line-height-computed / 2) @line-height-computed;
+  margin: 0 0 @line-height-computed;
+  font-size: @blockquote-font-size;
+  border-left: 5px solid @blockquote-border-color;
+
+  p,
+  ul,
+  ol {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Note: Deprecated small and .small as of v3.1.0
+  // Context: https://github.com/twbs/bootstrap/issues/11660
+  footer,
+  small,
+  .small {
+    display: block;
+    font-size: 80%; // back to default font-size
+    line-height: @line-height-base;
+    color: @blockquote-small-color;
+
+    &:before {
+      content: '\2014 \00A0'; // em dash, nbsp
+    }
+  }
+}
+
+// Opposite alignment of blockquote
+//
+// Heads up: `blockquote.pull-right` has been deprecated as of v3.1.0.
+.blockquote-reverse,
+blockquote.pull-right {
+  padding-right: 15px;
+  padding-left: 0;
+  border-right: 5px solid @blockquote-border-color;
+  border-left: 0;
+  text-align: right;
+
+  // Account for citation
+  footer,
+  small,
+  .small {
+    &:before { content: ''; }
+    &:after {
+      content: '\00A0 \2014'; // nbsp, em dash
+    }
+  }
+}
+
+// Quotes
+blockquote:before,
+blockquote:after {
+  content: "";
+}
+
+// Addresses
+// ---------
+address {
+  margin-bottom: @line-height-computed;
+  font-style: normal;
+  line-height: @line-height-base;
+}
+
+
+
+//
+// CODE (inline and block) (code.less)
+// -----------------------------------
+// Inline and block code styles
+code,
+kbd,
+pre,
+samp {
+  font-family: @font-family-monospace;
+}
+
+// Inline code
+code {
+}
+
+// Blocks of code
+pre {
+}
+
+
+// WRAPPER IMAGE
+// --------------------------------------------------
+.description {
+  margin-bottom: @t3-global-margin;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .view-more {
+    min-height: 100px;
+    position: relative;
+    vertical-align: bottom;
+
+    a {
+      display: inline-block;
+      position: absolute;
+      bottom: 10px;
+      right: @t3-global-margin;
+    }
+  }
+}
+
+.article-content .box-grey {
+  background: @gray-lightest;
+  margin-bottom: @t3-global-margin * 2;
+  padding: @t3-global-padding * 2;
+
+  img {
+    display: inline;
+  }
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.text-gray {
+  color: @gray-light;
+}
+
+.img-shadow {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 3px 3px;
+}
+
+ul.social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    margin: 0 5px;
+
+    a {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      color: @gray-lightest;
+      display: block;
+      height: 42px;
+      font-size: 24px;
+      font-weight: normal;
+      text-shadow: none;
+      width: 42px;
+      .transition(all 0.35s);
+
+      &:hover, &:focus, &:active {
+        border-color: @white;
+        color: @white;
+      }
+    }
+  }
+}
+
+
+//
+// FEATURE LIST
+// --------------------------------------------------
+.btn-actions {
+  text-align: center;
+}
+
+.features-list {
+  margin-top: @t3-global-margin * 3;
+
+  .page-header {
+    border: 0;
+    text-align: center;
+
+    h1 {
+      font-size: @t3-font-size-bigger + 30;
+    }
+  }
+
+  /* Features Rows */
+  .feature-row {
+    overflow: hidden;
+    min-height: 200px;
+    color: #696f72;
+    border-top: 1px solid #e0e2e3;
+    padding: (@t3-global-padding * 3) 0 0;
+	text-align:center;
+
+    &:last-child {
+      border-bottom: 1px solid #e0e2e3;
+      margin-bottom: @t3-global-margin * 3;
+    }
+
+    h3 {
+      font-size: @font-size-base * 2;      
+    }
+
+    div:first-child {
+      padding-left: 0;
+    }
+
+    div:last-child {
+      padding-right: 0;
+    }
+
+    div:first-child.feature-img img {
+      float: left;
+    }
+
+    div:last-child.feature-img img {
+      float: right;
+    }
+  }
+}
+
+
+.jumbotron {
+  h2 {
+    font-size: @t3-font-size-bigger + 30;
+  }
+
+  iframe {
+    margin-top: @t3-global-margin;
+  }
+}
+
+//Footer Mod
+.footer-mod {
+  position: relative;
+  padding-top: @t3-global-padding;
+
+  //Control screen desktop
+  @media screen and (min-width: @screen-xs-min) {
+    padding-top: (@t3-global-padding * 2);
+  }
+
+  h3 {
+    font-size: (@font-size-h1 / 4);
+    line-height: 1.2;
+    margin-bottom: @t3-global-margin;
+    margin-top: 0;
+    color: @white;
+
+    //Control screen tablet
+    @media screen and (min-width: @screen-xs-min) {
+      font-size: @font-size-h1 / 2;
+      margin-bottom: @t3-global-margin * 1.5;
+    }
+
+    //Control screen desktop
+    @media screen and (min-width: @screen-md-min) {
+      font-size: @font-size-h1;
+    }
+  }
+
+  p {
+    color: darken(@gray-lighter, 25%);
+    font-size: @font-size-base;
+  }
+}
+
+// Portfolio default
+.porfolio {
+  .page-title {
+    display: inline-block;
+    background: @gray-darker;
+    color: #fff;
+    padding: (@t3-global-padding / 2) @t3-global-padding;
+    font-size: @font-size-h3;
+  }
+  .t3-mainbody {
+    padding-top: @t3-global-padding * 2;
+  }
+}
+
+.portfolio-default {
+  margin-bottom: @t3-global-margin * 2;
+
+  .item-info {
+    background: lighten(@gray-lighter, 2%);
+    min-height: 510px;
+    padding: @t3-global-padding * 1.5;
+    font-size: @font-size-base;
+    line-height: 1.7;
+  }
+
+  .quick-info {
+
+    ul {
+      list-style: none;
+      margin: 0 0 @t3-global-margin * 2;
+      padding: 0;
+    }
+
+    li,
+    .info {
+      span {
+        display: inline-block;
+        width: 120px;
+      }
+    }
+
+    ul,
+    .item-des,
+    .item-detail {
+      padding-right: @t3-global-padding * 2;
+    }
+
+    .item-des {
+      .lead();
+    }
+
+    .img-full {
+      margin-bottom: @t3-global-margin * 2;
+
+      .inner {
+        background: @gray-lighter;
+        padding: 0;
+        text-align: center;
+        vertical-align: middle;
+
+        .article-image {
+          margin: 0;
+        }
+
+        img {
+          display: inline;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .item-detail {
+    .feature-row {
+      margin-bottom: @t3-global-margin * 2;
+
+      .img .inner {
+        background: lighten(@gray-lighter, 4%);
+        padding: (@t3-global-padding * 2) 0;
+        overflow: hidden;
+        text-align: center;
+
+        img {
+          display: inline;
+          margin: 0;
+          padding: 0;
+        }
+      } 
+
+      h3 {
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: @t3-global-margin;
+      }
+
+    }
+  }
+
+  // Control screen mobile/tablet
+  .col-md-4 {
+    @media screen and (max-width: @screen-sm-max) {
+      margin-bottom: @t3-global-margin;
+    }
+  }
+
+  // Detail
+  .extrafield-list {
+    margin-bottom: @t3-global-margin/2;
+  }
+
+  .info {
+    border-bottom: 1px solid @gray-lighter;
+    color: @gray;
+    padding: 5px 0;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border: 0;
+      padding-bottom: 0;
+    }
+
+
+    span {
+      color: @gray-light;
+      display: inline-block;
+      font-weight: bold;
+      font-size: @font-size-base - 2;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      width: 100px;
+      white-space: nowrap;
+    }
+
+    a span {
+      color: @gray;
+      font-weight: normal;
+      font-size: @font-size-base;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+  }
+
+  // Product
+  .img-wrap {
+
+    .item-image.article-image {
+      padding: 0;
+      margin: 0 0 @t3-global-margin;
+      background: @well-bg;
+      text-align: center;
+      float: none !important;
+
+      img {
+        margin-bottom: 0;
+        display: inline-block;
+      }
+
+      // Color background
+      &.style-1 {
+        background-color: @brand-secondary;
+      }
+
+      &.style-2 {
+        background-color: @gray-lighter;
+      }
+    }
+
+
+    .carousel {
+      margin-bottom: @t3-global-margin;
+      
+      .carousel-control {
+        background: none;  
+      }
+
+      .item-image.article-image {
+        margin-bottom: 0;
+      }
+
+      .fa {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        left: 50%;
+        top: 50%;
+        margin-top: -10px;
+        margin-left: -10px;
+      }
+    }
+  }
+}
+
+// Portfolio wrap
+.com_content.view-article.portfolio-wrap {
+  .article-aside,
+  .article-header {
+    display: none;
+  }
+
+  // Effect
+  .effect {
+    transform: translateX(-50%);
+      -o-transform: translateX(-50%);
+       -moz-transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+    .transition(900ms);
+    .opacity(0);
+
+    &[effect-delay="200"] {
+      transition-delay: 400ms;
+    }
+
+    &[effect-delay="400"] {
+      transition-delay: 600ms;
+    }
+  }
+
+  #t3-mainbody {
+    margin-top: @navbar-height * 2;
+    padding: 0;
+  }
+
+  #t3-content {
+    padding: 0;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  #fullpage {
+    .transition(1200ms);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .section {
+      position: relative;
+
+      &.active {
+        .effect {
+          transform: translateX(0);
+            -o-transform: translateX(0);
+             -moz-transform: translateX(0);
+              -webkit-transform: translateX(0);
+          .opacity(1);
+        }
+      }
+
+      &:before {
+        content: "\f107";
+        font-family: FontAwesome;
+        position: absolute;
+        margin-left: -@t3-global-margin;
+        bottom: 0;
+        left: 50%;
+        font-size: @font-size-h1;
+        color: @white;
+        animation: 1.75s ease-in-out 0s normal none infinite down;
+        z-index: 2;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+        top: 0;
+        z-index: 1;
+      }
+
+      &:last-child {
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    // Text
+    .text {
+      position: absolute;
+      color: @white;
+      top: 25%;
+      left: 52px;
+      width: 100%;
+      z-index: 2;
+
+      h1 {
+        color: @white;
+      }
+    }
+  }
+
+  // Footer
+  .t3-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+
+    .t3-copyright {
+      padding: 0;
+    }
+  }
+}
+
+// Animation
+@keyframes down {
+  0% {bottom: 0};
+  50% {bottom: 2%};
+  100% {bottom: 0};
+}
+
+@-o-keyframes down {
+  0% {bottom: 0};
+  50% {bottom: 2%};
+  100% {bottom: 0};
+}
+
+@-moz-keyframes down {
+  0% {bottom: 0};
+  50% {bottom: 2%};
+  100% {bottom: 0};
+}
+
+@-webkit-keyframes down {
+  0% {bottom: 0};
+  50% {bottom: 2%};
+  100% {bottom: 0};
+}
+
+
+// --------------------------------------------------
+// FIXING IE 
+// --------------------------------------------------
+.ie8 {
+ 
+}

@@ -1,0 +1,143 @@
+.t3-megamenu .mega-group-ct .row .row .mega-inner {
+  padding: 0;
+}
+.t3-megamenu .row + .row {
+  padding-top: 11px;
+  border-top: 1px solid #dddddd;
+}
+.t3-megamenu .mega > .mega-dropdown-menu {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.t3-megamenu .mega-dropdown-menu {
+  border-radius: 0;
+}
+.t3-megamenu .mega-dropdown-menu a {
+  font-size: 12px;
+}
+.t3-megamenu .dropdown-header,
+.t3-megamenu .mega-nav .mega-group > .dropdown-header,
+.t3-megamenu .dropdown-menu .mega-nav .mega-group > .dropdown-header,
+.t3-megamenu .dropdown-menu .active .mega-nav .mega-group > .dropdown-header {
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}
+.t3-megamenu .dropdown-header:hover,
+.t3-megamenu .mega-nav .mega-group > .dropdown-header:hover,
+.t3-megamenu .dropdown-menu .mega-nav .mega-group > .dropdown-header:hover,
+.t3-megamenu .dropdown-menu .active .mega-nav .mega-group > .dropdown-header:hover,
+.t3-megamenu .dropdown-header:active,
+.t3-megamenu .mega-nav .mega-group > .dropdown-header:active,
+.t3-megamenu .dropdown-menu .mega-nav .mega-group > .dropdown-header:active,
+.t3-megamenu .dropdown-menu .active .mega-nav .mega-group > .dropdown-header:active,
+.t3-megamenu .dropdown-header:focus,
+.t3-megamenu .mega-nav .mega-group > .dropdown-header:focus,
+.t3-megamenu .dropdown-menu .mega-nav .mega-group > .dropdown-header:focus,
+.t3-megamenu .dropdown-menu .active .mega-nav .mega-group > .dropdown-header:focus {
+  background: inherit;
+  color: #ffffff;
+}
+.t3-megamenu .mega-group-ct .row {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+.t3-megamenu .mega-col-nav {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.t3-megamenu .mega-col-nav .mega-col-nav {
+  border: 0;
+  padding-bottom: 0;
+}
+.t3-megamenu .mega-col-nav:last-child {
+  border: 0;
+}
+.t3-megamenu .dropdown-submenu .mega-col-nav {
+  padding-bottom: 20px;
+}
+.t3-megamenu .mega-nav > li > a,
+.t3-megamenu .dropdown-menu .mega-nav > li > a,
+.t3-megamenu .mega-nav > li > a:hover,
+.t3-megamenu .dropdown-menu .mega-nav > li > a:hover,
+.t3-megamenu .mega-nav > li > a:focus,
+.t3-megamenu .dropdown-menu .mega-nav > li > a:focus {
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #777777;
+  padding: 4px 10px;
+  margin-bottom: 4px;
+}
+.t3-megamenu .mega-nav > li.open > a,
+.t3-megamenu .dropdown-menu .mega-nav > li.open > a,
+.t3-megamenu .mega-nav > li.active > a,
+.t3-megamenu .dropdown-menu .mega-nav > li.active > a {
+  background: #3498db;
+  color: #ffffff;
+}
+.t3-megamenu .mega-nav .dropdown-submenu > a::after {
+  margin-right: 0;
+}
+.t3-megamenu .t3-module .module-title {
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.t3-megamenu .t3-module .module-title:hover,
+.t3-megamenu .t3-module .module-title:active,
+.t3-megamenu .t3-module .module-title:focus {
+  background: inherit;
+  color: #ffffff;
+}
+.t3-megamenu .t3-module ul li,
+.t3-megamenu .t3-module .nav li {
+  list-style: disc;
+  display: list-item;
+  float: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.t3-megamenu .t3-module ul li a,
+.t3-megamenu .t3-module .nav li a {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-size: 100%;
+  background: none;
+  font: inherit;
+  white-space: normal;
+}
+.t3-megamenu .t3-module ul li a:hover,
+.t3-megamenu .t3-module .nav li a:hover,
+.t3-megamenu .t3-module ul li a:focus,
+.t3-megamenu .t3-module .nav li a:focus,
+.t3-megamenu .t3-module ul li a:active,
+.t3-megamenu .t3-module .nav li a:active {
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+.t3-megamenu .mega-caption {
+  color: #999999;
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 1;
+  position: absolute;
+}
+.t3-megamenu .nav .input-group-addon [class^="icon-"],
+.t3-megamenu .nav .input-group-addon [class*=" icon-"],
+.t3-megamenu .nav .input-group-addon .fa {
+  margin-right: 0;
+}

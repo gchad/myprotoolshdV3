@@ -1,0 +1,699 @@
+/** 
+ *------------------------------------------------------------------------------
+ * @package       T3 Framework for Joomla!
+ *------------------------------------------------------------------------------
+ * @copyright     Copyright (C) 2004-2013 JoomlArt.com. All Rights Reserved.
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @authors       JoomlArt, JoomlaBamboo, (contribute to this project at github 
+ *                & Google group to become co-author)
+ * @Google group: https://groups.google.com/forum/#!forum/t3fw
+ * @Link:         http://t3-framework.org 
+ *------------------------------------------------------------------------------
+ */
+
+
+// --------------------------------------------------
+// MODULE STYLES
+// --------------------------------------------------
+
+// 
+// GENECRIC MODULE
+// --------------------------------------------------
+.t3-module {
+  background: @t3-module-bg;
+  color: @t3-module-color;
+  margin-bottom: @line-height-computed;
+
+  // Larger margin on Tablet / Desktop
+  @media screen and (min-width: @screen-sm) {
+    margin-bottom: @line-height-computed * 2;
+  }
+
+  // Module padding
+  .module-inner {
+    padding: @t3-module-padding;
+  }
+}
+
+// Module Title
+// ------------
+.module-title {
+  background: url(../images/stripes.png) repeat-x left center;
+  color: @t3-module-title-color;
+  font-size: @font-size-base;
+  margin: 0 0 (@line-height-computed / 2) 0;
+  padding: 0;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  span {
+    background: @white;
+    display: inline-block;
+    padding-right: 6px;
+  }
+
+  // Larger margin on Tablet / Desktop
+  @media screen and (min-width: @screen-sm) {
+    margin-bottom: @line-height-computed;
+  }
+
+}
+
+// Module Content
+// --------------
+.module-ct {
+  background: @t3-module-content-bg;
+  color: @t3-module-content-color;
+  font-size: @t3-font-size-smaller;
+  padding: @t3-module-content-padding;
+  .clearfix();
+}
+
+// Module List
+// -----------
+.module-ct,
+.module-ct .custom {
+  > ul,
+  > ol {
+    margin-left: 20px;
+    padding-left: 0;
+  }
+  
+  > ul.unstyled,
+  > ol.unstyled {
+    padding-left: 0;
+  }
+
+  > ul.nav,
+  > ol.nav {
+    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+
+
+//
+// JOOMLA! MODULES
+// --------------------------------------------------
+
+// Menu
+// ----
+.module_menu {
+  .nav {
+  }
+  
+  .nav > li {
+  }
+  
+  .nav > li > a,
+  .nav > li > .separator {
+    padding: @padding-base-vertical 5px;
+    display: block;
+  }
+
+  // Hover state
+  .nav > li > a:hover {
+  }
+  
+  // Active state
+  .nav > li.active > a {
+  }
+}
+
+
+// Login Form
+// ----------
+#login-form {
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+  }
+  
+  .btn-primary {
+  }
+  
+  ul.unstyled {
+    margin-top: @line-height-computed;
+    padding-left: 13px;
+    
+    li {
+      margin-bottom: 5px;
+      a {
+        color: @gray-dark;
+
+        &:hover, &:active, &:focus {
+          color: @brand-primary;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  #form-login-username {
+  }
+  
+  #form-login-password {
+  }
+  
+  #form-login-remember {
+    label {
+      display: block;
+      font-weight: normal;
+    }
+  }
+
+  .logout-button {
+    margin-top: @t3-global-margin/2;
+  }
+
+}
+
+
+// Advertisement
+// -------------
+.bannergroup {
+}
+
+.banneritem {
+  a {
+    font-weight: bold;
+  }
+}
+
+.bannerfooter {
+  border-top: 1px solid @t3-border-color;
+  font-size: @t3-font-size-smaller;
+  padding-top: @t3-global-padding / 2;
+  text-align: right;
+}
+
+
+// Categories
+// ----------
+.categories-module, ul.categories-module,
+.category-module, ul.category-module {
+  margin: 0;
+
+  li {
+    list-style: none;
+    padding: (@line-height-computed / 2) 0;
+    border-top: 1px solid @t3-border-color;
+    // Remove border for first item
+    &:first-child {
+      border-top: 0;
+    }
+  }
+  
+  h4 {
+    font-size: @t3-font-size-smaller;
+    font-weight: normal;
+    margin: 0;
+
+    > a {
+      color: @gray-dark;
+
+      &:hover, &:active, &:focus {
+        color: @brand-primary;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+
+// News Feed
+// ----------
+.feed {
+  // Feed Title
+  h4 {
+    font-weight: bold;
+  }
+  // Feed list
+  .newsfeed,
+  ul.newsfeed {
+    border-top: 1px solid @hr-border;
+    li {}
+    .feed-link, 
+    h5.feed-link {
+      font-size: @font-size-base;
+      font-weight: normal;
+      margin: 0;
+    }
+  }
+
+}
+
+
+// Latest Users 
+// ------------
+.latestusers,
+ul.latestusers {
+  margin-left: 0;
+  li {
+    background: @gray-lighter;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: @border-radius-base;
+  }
+}
+
+
+// Stats 
+// -----
+.stats-module {
+  dt, dd {
+    display: inline-block;
+    margin: 0;
+  }
+  dt {
+    font-weight: bold;
+    width: 35%;
+  }
+  dd {
+    width: 60%;
+  }
+}
+
+
+// Popular Tags
+//-------------
+.tagspopular {
+  ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+  }
+
+  ul > li {
+    color: @gray;
+    display: inline-block;
+    margin: 0 5px 5px 0;
+
+    .tag-count {
+      font-size: (@font-size-base / 2) + 1;
+      position: relative;
+      top: -3px;
+      right: 6px;
+    }
+  }
+
+  ul > li > a {
+    color: @gray;
+    display:inline;
+    padding: 2px 5px;
+
+    // Links states
+    &:hover,
+    &:focus,
+    &:active {
+      color: @link-hover-color;
+      text-decoration: none;
+    }
+  }
+}
+
+
+
+// Similar tags
+// ------------
+.tagssimilar {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul > li {
+    border-bottom: 1px solid @gray-lighter;
+    padding: 8px 0;
+  }
+
+  ul > li > a {
+    color: @gray;
+    // Link states
+    &:hover,
+    &:focus,
+    &:active {
+      color: @link-hover-color;
+      text-decoration: none;
+    }
+  }
+}
+
+
+// Breadcrums Module
+// -----------------
+.module-ct > ol.breadcrumb {
+  padding: @padding-base-vertical @padding-base-horizontal;
+  margin-left: 0;
+}
+
+// Whois online module
+// -------------------
+ul.whosonline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    background: @gray-lighter;
+    border-radius: 2px;
+    color: @gray-dark;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 5px;
+    padding: 2px 8px;
+  }
+}
+
+
+//
+// MODULES CLASS SUFFIX
+// --------------------------------------------------
+// box-grey module
+.t3-module {
+  // Grey module
+  &.grey {
+    background: lighten(@gray-lighter, 5%);
+    border: 1px solid lighten(@gray-light, 25%);
+    padding: @t3-global-padding;
+
+    .module-title  {
+      font-size: @font-size-base;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    img {
+      margin-bottom: 10px;
+    }
+  }
+
+  // Black module
+  &.black {
+    background: @black;
+    color: @white;
+    padding: @t3-global-padding;
+
+    .module-title {
+      color: @white;
+      font-size: @font-size-base;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      span {
+        background: @black;
+      }
+    }
+
+    .module-ct {
+      color: @gray-lighter;
+
+      h1, h2, h3, h4 {
+        color: @white;
+        margin: 0;
+      }
+
+      a {
+        border-bottom: 1px dotted @white;
+        color: @white;
+
+        &:hover, &:focus, &:active {
+          border-bottom: 1px solid @white;
+          text-decoration: none;
+        }
+      }
+    }
+
+    img {
+      margin-bottom: 10px;
+    }
+  }
+
+  // Box module
+  &.border {
+    border: 3px solid @gray-light;
+    padding: @t3-global-padding;
+
+    .module-title  {
+      font-size: @font-size-base;
+      text-transform: uppercase;
+      background: none;
+    }
+
+    &.border-hilite {
+      border-color: @brand-primary;
+      .module-title  {
+        color: @brand-primary;
+      }
+    }
+  }
+
+  // Box module
+  &.hilite {
+    background: @brand-primary;
+    padding: @t3-global-padding;
+
+    .module-title  {
+      color: @white;
+      font-size: @font-size-base;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-color: @white;
+
+      span {
+        background: @brand-primary;
+      }
+    }
+
+    .module-ct {
+      color: @white;
+    }
+  }
+}
+
+.big-typo {
+  text-align: center;
+
+  i {
+    font-size: @font-size-base * 4;
+    margin-bottom: @t3-global-margin;
+  }
+
+  p {
+    font-size: @t3-font-size-bigger;
+  }
+}
+
+
+// 
+// CUSTOM MODULE
+// --------------------------------------------------
+
+// Testimonials module layout
+.ja-testimonial-wrap {
+  min-height: 260px;
+  max-height: 300px;
+
+  @media (min-width: @screen-md) {
+    min-height: auto;
+  }
+}
+
+#ja-testimonial-list {
+  list-style: none;
+  margin: 0 0 @t3-global-margin;
+  padding: 100px 0 0;
+  position: relative;
+  text-align: center;
+  .clearfix();
+
+  @media (min-width: @screen-md) {
+    margin: 0 0 (@t3-global-margin * 1.5);
+    padding: 0;
+  }
+  
+  li {
+    float: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 0 3px;
+    position: relative;
+
+    span {
+      background: @brand-primary;
+      display: block;
+
+      img {
+        max-width: 100%;
+        width: 100%;
+        background: @brand-primary;
+        .transition(opacity 300ms);
+      }
+    }
+
+    i {
+      color: @white;
+      display: none;
+      font-size: @font-size-large * 2;
+      height: 50px;
+      line-height: 50px;
+      margin: -25px 0 0 -25px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+    }
+
+    @media (max-width: @screen-sm-max) {
+      display: block;
+      height: 100px;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 100%;
+      .opacity(0);
+      .transition(all 1s ease-in-out);
+
+      span {
+        background: transparent;
+
+        img {
+          border-radius: 5px;
+          width: auto;
+        }  
+      }
+
+      &:hover {
+        cursor: normal;
+      }      
+
+      &.active {
+        display: block;
+        text-align: center;
+        width: 100%;
+        .opacity(1);
+
+        span img {
+          .opacity(1);
+        }
+
+        i.fa {
+          display: none;
+        }
+
+      }
+    }
+  }
+
+  li:hover,
+  li.active {
+    img {
+      opacity: 0.5;
+    }
+
+    i {
+      display: block;
+    }
+  }
+
+}
+
+#ja-testimonial {
+  border-left: 0;
+  font-size: @font-size-base;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 auto;
+  float: none;
+  min-height: 100px;
+  padding: 0;
+
+  @media (min-width: @screen-xs) {
+    font-size: @font-size-large;
+  }
+
+  @media screen and (max-width: @screen-xs-max) {
+    margin-left: @grid-gutter-width / 2;
+    margin-right: @grid-gutter-width / 2;
+    width: auto !important;
+  }
+
+  @media (min-width: @screen-md-min) {
+    font-size: @font-size-large + 6;
+    margin-top: 0;
+  }
+
+  small {
+    font-size: @font-size-small;
+    font-weight: 400;
+    padding-top: 5px;
+  }
+
+}
+
+// Frameworks
+.frameworks-content {
+  text-align: center;
+  h3 {
+    margin-top: 0;
+    font-size: 40px;
+    line-height: 52px;
+
+    //Control screen tablet/medium
+    @media (min-width: @screen-sm-min) and (max-width: @screen-md-max) {
+      font-size: @font-size-h2 / 1.5;
+      line-height: @line-height-computed * 2.5;
+    }
+
+    //Control screen tablet
+    @media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+      font-size: @font-size-h2 / 2;
+      line-height: @line-height-computed * 2;
+    }
+
+    //COntrol screen mobile
+    @media screen and (max-width: @screen-xs) {
+      font-size: @font-size-base * 2;
+      line-height: @line-height-computed * 2;
+    }
+  }
+
+  p {
+    width: 50%;
+    margin: 0 auto @t3-global-margin;
+  }
+}
+
+ul.frameworks {
+  padding: 0;
+  margin: @t3-global-margin*2 auto 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    margin: @t3-global-margin;
+
+    @media (min-width: @screen-lg-min) {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Gray img for IE 8
+.ie8 .gotcolors {
+  .opacity(0.1)!important;
+  filter: gray!important;
+
+    &:hover {
+    filter: none!important;
+  }
+}

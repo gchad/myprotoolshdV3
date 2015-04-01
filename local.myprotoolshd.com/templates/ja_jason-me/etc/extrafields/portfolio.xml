@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<fields name="attribs">
+    <fieldset name="extra-fields" label="TPL_GROUP_EXTRA_FIELDS_LABEL" description="" group="extrafields">
+        <field
+                name="jcontent_type"
+                type="text"
+                label="TPL_CONTENT_TYPE_LABEL"
+                description="TPL_CONTENT_TYPE_DESC"
+                />
+        <field
+                name="jcontent_updateon"
+                type="text"
+                label="TPL_CONTENT_UPDATEON_LABEL"
+                description="TPL_CONTENT_UPDATEON_DESC"
+                />
+        <field
+                name="jcontent_version"
+                type="text"
+                label="TPL_CONTENT_VERSION_LABEL"
+                description="TPL_CONTENT_VERSION_DESC"
+                />
+        <field
+                name="jcontent_author"
+                type="text"
+                label="TPL_CONTENT_AUTHOR_LABEL"
+                description="TPL_CONTENT_AUTHOR_DESC"
+                />
+        <field  name="jcontent_carousel" type="list" label="TPL_CONTENT_CAROUSEL_LABEL" description="TPL_CONTENT_CAROUSEL_DESC" >
+        				<option value="0">No</option>
+								<option value="1">Yes</option>
+        </field>
+    </fieldset>
+</fields>
+</form>

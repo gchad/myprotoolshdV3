@@ -1,0 +1,37 @@
+.ja-twitter-avatar {
+  border: 0;
+  padding: 0;
+}
+.ja-twitter-item a {
+  color: #999999;
+  border-bottom: 1px dotted;
+}
+.ja-twitter-item a:hover,
+.ja-twitter-item a:focus {
+  color: #543131;
+  text-decoration: none;
+}
+.ja-twitter-item:last-child {
+  border-bottom: 0;
+}
+div.ja-twitter div.ja-twitter-item {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-bottom: 0;
+}
+div.ja-twitter div.ja-twitter-item:first-child {
+  padding-top: 0 !important;
+}
+div.ja-twitter div.ja-twitter-item:last-child {
+  padding-bottom: 0 !important;
+}
+div.ja-twitter div.ja-twitter-source {
+  font-weight: normal;
+  color: #999999;
+}
+div.ja-twitter div.ja-twitter-source a {
+  border-bottom: 1px dotted;
+}
+div.ja-twitter center {
+  text-align: left;
+}

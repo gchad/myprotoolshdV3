@@ -1,0 +1,64 @@
+/**
+ * @version     1.0.7
+ * @package     com_hellomaps
+ * @copyright   Copyright (C) 2014. All rights reserved.
+ * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author      JoomlaForce Team <support@joomlaforce.com> - http://www.joomlaforce.com
+ */
+ 
+.hellomap_dashboard_icons_wrapper {
+
+}
+
+.hellomap_dashboard_icons_wrapper .usersDashboardPlugin {
+    display: inline-block;
+    width: 110px;
+    height: 70px;
+ /*   -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;*/
+    border: 1px solid #dae2e4;
+    background:#F8F8F8;
+    margin-right: 8px;
+    position: relative;
+    margin-bottom: 10px;
+	
+}
+
+.hellomap_dashboard_icons_wrapper .usersDashboardPlugin:hover {
+ /*   background: #ffebcc;*/
+    cursor: pointer;
+}
+
+.hellomap_dashboard_icons_wrapper .membersIcon img,
+.hellomap_dashboard_icons_wrapper .usersIcon img {
+    margin-left: 30px;
+    margin-top: 10px;
+	
+}
+
+.hellomap_dashboard_icons_wrapper .markerCount {
+    left: 63px;
+    position: absolute;
+    top: 18px;  
+    font-weight: bold;
+    font-size: 18px;
+    font-family: tahoma;   
+	 margin-left:2px;
+}
+
+.hellomap_dashboard_icons_wrapper .dashboard_title {
+    text-align: center;
+    color: #000;
+    margin-top: 8px;
+}
+
+.hellomap_dashboard_icons_wrapper .totalValue {
+    font-weight: bold;
+    font-size: 24px;
+    font-family: tahoma;    
+    text-align: right;
+    border-bottom: 2px solid #d7d7d7;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,119 @@
+.acm-tabs .style-1 {
+  background: none;
+  position: relative;
+  min-height: 380px;
+  z-index: 1;
+}
+@media screen and (max-width: 767px) {
+  .acm-tabs .style-1 {
+    min-height: unset;
+  }
+}
+.acm-tabs .style-1 .nav-tabs {
+  border: 0;
+  margin-bottom: 80px;
+}
+@media screen and (max-width: 767px) {
+  .acm-tabs .style-1 .nav-tabs {
+    margin-bottom: 40px;
+  }
+}
+.acm-tabs .style-1 .nav-tabs li {
+  margin-right: 22px;
+}
+@media screen and (max-width: 767px) {
+  .acm-tabs .style-1 .nav-tabs li {
+    margin-bottom: 11px;
+    width: 100%;
+  }
+}
+.acm-tabs .style-1 .nav-tabs li a {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  color: #555555;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0;
+}
+@media screen and (max-width: 767px) {
+  .acm-tabs .style-1 .nav-tabs li a {
+    display: inline-block;
+    font-size: 12px;
+  }
+}
+.acm-tabs .style-1 .nav-tabs li a:hover,
+.acm-tabs .style-1 .nav-tabs li a:focus,
+.acm-tabs .style-1 .nav-tabs li a:active {
+  border-bottom: 1px solid;
+  color: #272727;
+  outline: 0;
+}
+.acm-tabs .style-1 .nav-tabs li.active a {
+  border-bottom: 1px solid;
+  color: #272727;
+}
+.acm-tabs .style-1 .nav-tabs li.active a:hover,
+.acm-tabs .style-1 .nav-tabs li.active a:focus,
+.acm-tabs .style-1 .nav-tabs li.active a:active {
+  outline: 0;
+}
+.acm-tabs .style-1 .tab-content img {
+  max-width: 100%;
+}
+.acm-tabs .style-1 .tab-content p {
+  margin-bottom: 44px;
+}
+.acm-tabs .style-1 .tab-content .btn-border .fa {
+  margin-right: 5.5px;
+}
+@media screen and (max-width: 767px) {
+  .acm-tabs .style-1 .tab-content .btn-border {
+    margin-bottom: 22px;
+  }
+}
+
+.acm-tabs .style-2 .nav-tabs li a {
+  background-color: #ff3334;
+  border: 0;
+  color: #ffffff;
+  margin: 0;
+  padding: 40px 0;
+  position: relative;
+  text-align: center;
+}
+.acm-tabs .style-2 .nav-tabs li a p {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.acm-tabs .style-2 .nav-tabs li a p:first-child {
+  text-transform: uppercase;
+}
+.acm-tabs .style-2 .nav-tabs li a:focus,
+.acm-tabs .style-2 .nav-tabs li a:hover,
+.acm-tabs .style-2 .nav-tabs li a:active {
+  background-color: #ff191b;
+  outline: 0;
+}
+.acm-tabs .style-2 .nav-tabs li.active a {
+  background-color: #ff0001;
+}
+.acm-tabs .style-2 .nav-tabs li.active a:after {
+  border-width: 26px;
+  border-color: #ff0001 transparent transparent transparent;
+  border-style: solid;
+  content: "";
+  left: 50%;
+  margin-left: -13px;
+  position: absolute;
+  top: 100%;
+  z-index: 6;
+}
+.acm-tabs .style-2 .tab-content {
+  overflow: hidden;
+}
+.acm-tabs .style-2 .map-container {
+  margin: 0;
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+
+	<name>hellomaps</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>June 2014</creationDate>
+	<author>JoomlaForce</author>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>http://www.joomlaforce.com</authorUrl>
+	<copyright>Copyright (C) 2014. All rights reserved</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.0.8</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Hellomaps provides rich interface easy to use for searching User by criteria and Displays the results in the sidebar side.</description>
+    
+    <!-- Runs on install/uninstall/update; New in 2.5 -->
+    <!-- scriptfile>script.php</scriptfile -->
+    
+    <install> <!-- Runs on install -->
+            <sql>
+                    <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+            </sql>
+    </install>
+    <uninstall> <!-- Runs on uninstall -->
+            <sql>
+                    <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+            </sql>
+    </uninstall>
+	<update> <!-- Runs on update; New in 1.6 -->
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
+	<!-- Site Main File Copy Section -->
+	<!-- Note the folder attribute: This attribute describes the folder
+		to copy FROM in the package to install therefore files copied
+		in this section are copied from /site/ in the package -->
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>hellomaps.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>views</folder>
+		<folder>models</folder>
+	</files>
+    <languages folder="site">
+	    <language tag="en-GB">language/en-GB.com_hellomaps.ini</language>
+	</languages>
+
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu img="components/com_hellomaps/assets/icons/16X16_hellomap-icon.png" link="index.php?option=com_hellomaps">COM_HELLOMAPS_MAIN_MENU_TEXT</menu>		
+		<submenu>
+			<!--
+				Note that all & must be escaped to &amp; for the file to be valid
+				XML and be parsed by the installer
+			-->
+			<menu link="option=com_hellomaps" view="hellomaps" img="class:dashboard"
+				alt="Hellomaps/Dashboard">COM_HELLOMAPS_SUBMENU_DASHBOARD_TEXT</menu>			
+			<menu link="option=com_hellomaps&amp;view=config" view="Configuration"
+				img="class:hellomaps-config" alt="Hellomaps/Configuration">COM_HELLOMAPS_SUBMENU_CONFIGURATION_TEXT</menu>
+				
+			<menu link="option=com_plugins&amp;view=plugins&amp;filter_search=hellomaps" view="hellomaps" img="class:dashboard"
+				alt="Hellomaps/Plugins List">COM_HELLOMAPS_SUBMENU_PLUGINS</menu>			
+				
+			<menu link="option=com_hellomaps&amp;view=mapstyler" view="mapstyler"
+				img="class:hellomaps-mapstyler" alt="Hellomaps/Mapstyler">COM_HELLOMAPS_SUBMENU_SETTINGS_TEXT</menu>			
+		</submenu>
+		
+		<!-- Administration Main File Copy Section -->
+		<!-- Note the folder attribute: This attribute describes the folder
+			to copy FROM in the package to install therefore files copied
+			in this section are copied from /admin/ in the package -->
+		<files folder="admin">
+			<!-- Admin Main File Copy Section -->
+			<filename>index.html</filename>
+			<filename>hellomaps.php</filename>
+			<filename>controller.php</filename>
+			<filename>config.xml</filename>
+			<filename>access.xml</filename>
+			<!-- SQL files section -->
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+            <folder>tables</folder>
+			<folder>sql</folder>
+			<folder>views</folder>
+		</files>
+		
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_hellomaps.ini</language>
+			<language tag="en-GB">language/en-GB.com_hellomaps.sys.ini</language>
+		</languages>
+	</administration>
+
+</extension>

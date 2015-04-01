@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="content" method="upgrade">
+	<name>Content - HelloMaps</name>
+	<author>JoomlaForce</author>
+	<creationDate>June 2014</creationDate>
+	<copyright>JoomlaForce Team</copyright>
+	<license>GNU/GPL 3 http://www.gnu.org/licenses/gpl.html</license>
+	<authorEmail>support@joomlaforce.com</authorEmail>
+	<authorUrl>www.joomlaforce.com</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_CONTENT_HELLOMAPS_XML_DESCRIPTION</description>
+	<files>
+		<folder>language</folder>
+		<folder>models</folder>
+		<folder>fields</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<filename plugin="hellomaps">hellomaps.php</filename>
+		<filename>hellomaps.xml</filename>
+		<filename>index.html</filename>
+		
+		
+	</files>
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="register-require-content" type="spacer" class="text"
+					label="PLG_CONTENT_HELLOMAPS_FIELD_NAME_REGISTER_REQUIRE_CONTENT"
+				/>
+
+				<!--<field name="register-require_mappajf" type="radio" 
+									description="PLG_CONTENT_HELLOMAPS_FIELD_MAP_DESC"
+									label="PLG_CONTENT_HELLOMAPS_FIELD_MAP_LABEL"
+									class="btn-group"
+								>
+									<option value="2">JOPTION_REQUIRED</option>
+									<option value="1">JOPTION_OPTIONAL</option>
+									<option value="0">JDISABLED</option>
+				</field>-->
+			</fieldset>
+
+		</fields>
+	</config>
+</extension>

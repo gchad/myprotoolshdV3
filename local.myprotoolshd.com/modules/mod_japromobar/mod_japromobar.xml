@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<extension 
+	type="module"
+	version="2.5"
+	client="site"
+	method="upgrade">
+	<name>JA Promo Bar</name>
+	<author>JoomlArt</author>
+	<creationDate>Jan 2014</creationDate>
+	<copyright>Copyright (C), J.O.O.M Solutions Co., Ltd. All Rights Reserved.</copyright>
+	<license>license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>webmaster@joomlart.com</authorEmail>
+	<authorUrl>http://www.joomlart.com</authorUrl>
+	<version>1.0.0</version>
+	<description>
+	 <![CDATA[
+		<div style='text-align: left;'>
+	 	<p><strong>JA Promo Bar</strong> is a free responsive joomla module, compatible with Joomla 2.5 &amp; Joomla 3 used to create <b>promotion</b> and <b>hello bar</b> for your site. The promotion bar can inlcude your message, links, button and countdown. You can put button and countdown in any position in the promotion bar.</p>
+		<p style="clear:both"><span style="color: #ff6600;"><strong>Key Features:</strong></span></p>
+		 <ul>
+		   	<li>Native with Joomla 2.5 and Joomla 3</li>
+			<li>Fully responsive</li>
+            <li>Customizable countdown</li>
+            <li>Link types: Button or text</li>
+            <li>Sticky promo bar</li>
+			<li>Transparent promo bar when scrolling site down</li>
+            <li>Multiple animation types</li>
+            <li>Easy customization</li>		
+		 </ul>	
+		<p><strong><span style="color: #ff0000;">Upgrade Method:</span><br /></strong></p>
+		<ul>
+			<li>You can install the new version directly over this version. Uninstallation is not required. Backup any customized files before upgrading. OR</li>
+			<li>Use <strong><a href="http://extensions.joomla.org/extensions/core-enhancements/installers/12077" target="_blank">JA Extensions Manager</a></strong> Component for easy upgrades and rollbacks. <strong><a href="http://www.youtube.com/user/JoomlArt#p/c/BC9B0C0BFE98657E/2/mNAuJRmifG8" target="_blank">Watch Video..</a></strong></li>
+		</ul>
+		<p><span style="color: #008000;"><strong>References:</strong></span></p>
+		<ul>
+			<li><a target="_blank" href="http://www.joomlart.com/documentation/joomla-module/ja-promo-bar">Documentation</a></li>
+			<li><a target="_blank" href="http://www.joomlart.com/forums/forumdisplay.php?537-JA-Promo-Bar-Module">Forum</a></li>
+			<li><a target="_blank" href="http://update.joomlart.com/">Updates &amp; Versions</a></li>
+		</ul>
+		<p>Copyright 2004 - 2014 <a href="http://www.joomlart.com/" title="Visit Joomlart.com!">JoomlArt.com</a>.</p>
+		</div>
+	 ]]>
+	</description>
+	<languages>
+		<language tag="en-GB">en-GB.mod_japromobar.ini</language>
+	</languages>
+	<files>
+		<filename module="mod_japromobar">mod_japromobar.php</filename>
+		<filename>index.html</filename>
+		<folder>assets</folder>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/modules/mod_japromobar/assets/elements">
+			<fieldset name="basic">
+                <field name="message"
+                       type="textarea"
+                       filter="raw"
+                       rows="5"
+                       default=""
+                       label="MESSAGE_LABEL"
+                       description="MESSAGE_DESC"/>
+                <field name="link_text"
+                       type="text"
+                       default=""
+                       label="LINK_TEXT_LABEL"
+                       description="LINK_TEXT_DESC"/>
+                <field name="link_url"
+                       type="text"
+                       default=""
+                       label="LINK_URL_LABEL"
+                       description="LINK_URL_DESC"/>
+                <field name="link_target"
+                       type="list"
+                       default="self"
+                       label="LINK_TARGET_LABEL"
+                       description="LINK_TARGET_DESC">
+                    <option value="_self">OPEN_IN_CURRENT_WINDOW</option>
+                    <option value="_blank">OPEN_IN_NEW_TAB</option>
+                    <option value="popup">OPEN_IN_NEW_WINDOW</option>
+                </field>
+                <field name="bgcolor"
+                       type="color"
+                       default="#DD3333"
+                       label="BGCOLOR_LABEL"
+                       description="BGCOLOR_DESC"/>
+
+
+                <field name="textcolor"
+                       type="color"
+                       default="#FFFFFF"
+                       label="TEXTCOLOR_LABEL"
+                       description="TEXTCOLOR_DESC"/>
+
+                <field name="bordercolor"
+                       type="color"
+                       default="#DB5555"
+                       label="BORDERCOLOR_LABEL"
+                       description="BORDERCOLOR_DESC"/>
+
+                <field name="control_color"
+                       type="color"
+                       default="#B82828"
+                       label="CONTROL_COLOR_LABEL"
+                       description="CONTROL_COLOR_DESC"/>
+
+                <field name="link_style"
+                       type="radio"
+                       default="button"
+                       class="btn-group"
+                       label="LINK_STYLE_LABEL"
+                       description="LINK_STYLE_DESC">
+                    <option value="button">BUTTON</option>
+                    <option value="normal">NORMAL</option>
+                </field>
+
+                <field name="button_color"
+                       type="color"
+                       default="#333333"
+                       label="BUTTON_COLOR_LABEL"
+                       description="BUTTON_COLOR_DESC"/>
+
+                <field name="button_text_color"
+                       type="color"
+                       default="#FFFFFF"
+                       label="BUTTON_TEXT_COLOR_LABEL"
+                       description="BUTTON_TEXT_COLOR_DESC"/>
+                <field name="always_top"
+                       type="radio"
+                       default="1"
+                       class="btn-group"
+                       label="ALWAYS_TOP_LABEL"
+                       description="ALWAYS_TOP_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="sticky_opacity"
+                       type="list"
+                       default="1"
+                       label="STICKY_OPACITY_LABEL"
+                       description="STICKY_OPACITY_DESC">
+                    <option value="0.1">10</option>
+                    <option value="0.2">20</option>
+                    <option value="0.3">30</option>
+                    <option value="0.4">40</option>
+                    <option value="0.5">50</option>
+                    <option value="0.6">60</option>
+                    <option value="0.7">70</option>
+                    <option value="0.8">80</option>
+                    <option value="0.9">90</option>
+                    <option value="1">100</option>
+                </field>
+
+                <field name="push_page_down"
+                       type="radio"
+                       default="1"
+                       class="btn-group"
+                       label="PUSH_PAGE_DOWN_LABEL"
+                       description="PUSH_PAGE_DOWN_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="custom_css"
+                       type="textarea"
+                       default=""
+                       label="CUSTOM_CSS_LABEL"
+                       description="CUSTOM_CSS_DESC"/>
+
+                <field name="animation_settings" type="spacer" label="Animation Settings" />
+                <field name="animation_speed"
+                       type="list"
+                       default="400"
+                       label="ANIMATION_SPEED_LABEL"
+                       description="ANIMATION_SPEED_DESC">
+                    <option value="200">SLOW</option>
+                    <option value="400">NORMAL</option>
+                    <option value="600">FAST</option>
+                </field>
+                <field name="animation_easing"
+                       type="list"
+                       default="linear"
+                       label="ANIMATION_EASING_LABEL"
+                       description="ANIMATION_EASING_DESC">
+                    <option value="linear">LINEAR</option>
+                    <option value="swing">SWING</option>
+                    <option value="_Quad">QUAD</option>
+                    <option value="_Cubic">CUBIC</option>
+                    <option value="_Quart">QUART</option>
+                    <option value="_Quint">QUINT</option>
+                    <option value="_Expo">EXPO</option>
+                    <option value="_Sine">SINE</option>
+                    <option value="_Circ">CIRC</option>
+                    <option value="_Elastic">ELASTIC</option>
+                    <option value="_Back">BACK</option>
+                    <option value="_Bounce">BOUNCE</option>
+                </field>
+
+                <field name="countdown_settings" type="spacer" label="Countdown Settings" />
+                <field name="enable_countdown"
+                       type="radio"
+                       default="0"
+                       class="btn-group"
+                       label="ENABLE_COUNTDOWN_LABEL"
+                       description="ENABLE_COUNTDOWN_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+                <field name="countdown_end_date"
+                       type="calendar"
+                       default=""
+                       format="%Y-%m-%d %H:%M:%S"
+                       label="COUNTDOWN_END_DATE_LABEL"
+                       description="COUNTDOWN_END_DATE_DESC"/>
+                <field name="countdown_format"
+                       type="text"
+                       default="%w weeks %D days %H:%M:%S"
+                       label="COUNTDOWN_FORMAT_LABEL"
+                       description="COUNTDOWN_FORMAT_DESC"/>
+                <field name="countdown_expired_text"
+                       type="text"
+                       default="Expired!"
+                       label="COUNTDOWN_EXPIRED_TEXT_LABEL"
+                       description="COUNTDOWN_EXPIRED_TEXT_DESC"/>
+                <field name="countdown_bgcolor"
+                       type="color"
+                       default="#EA7777"
+                       label="COUNTDOWN_BGCOLOR_LABEL"
+                       description="COUNTDOWN_BGCOLOR_DESC"/>
+
+                <field name="countdown_text_color"
+                       type="color"
+                       default="#000000"
+                       label="COUNTDOWN_TEXT_COLOR_LABEL"
+                       description="COUNTDOWN_TEXT_COLOR_DESC"/>
+
+                <field name="countdown_number_bgcolor"
+                       type="color"
+                       default="#000000"
+                       label="COUNTDOWN_NUMBER_BGCOLOR_LABEL"
+                       description="COUNTDOWN_NUMBER_BGCOLOR_DESC"/>
+
+                <field name="countdown_number_color"
+                       type="color"
+                       default="#ffffff"
+                       label="COUNTDOWN_NUMBER_COLOR_LABEL"
+                       description="COUNTDOWN_NUMBER_COLOR_DESC"/>
+
+				<field type="japanel" path="/modules/mod_japromobar/assets/elements/" />
+                <field
+                        name="group"
+                        hidden="true"
+                        type="japanel"
+                        function="depend">
+                    <option for="always_top" value="1" hideRow="true">sticky_opacity</option>
+                </field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

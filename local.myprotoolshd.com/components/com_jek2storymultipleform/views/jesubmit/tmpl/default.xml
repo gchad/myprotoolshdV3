@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="k2storymultiform">
+	</layout>
+	<state>
+		<name>JEK2StoryForm</name>
+		<description>JE K2Story Form Description</description>
+	</state>
+	<fields name="params" addfieldpath="/administrator/components/com_jek2storymultipleform/helpers">
+	
+	
+	<fieldset name="basic">
+		<field name="titel_id" type="text" default="" label="Titel" description="titel" required="true" />
+		<field name="id" type="jepcategory" default="" label="Category List" description="Category List" required="true" />
+		<field name="con_id" type="jecondition" default="" label="Select term and condition" description="Select term and condition" required="true" />
+		<field name="red_id" type="jeredirect" default="" label="Redirect Page" description="Redirect Page" required="true" />
+		
+		<field name="not_id" type="radio" label="Select yes to notify by mail" description="Select yes to notify by mail">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="notemail_id" type="text" default="" label="Notify Email" description="Notify Email" required="true" />
+		
+		<field name="cap_id" type="radio" label="Show Captcha" description="Show Captcha">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="term_id" type="radio" label="Allow terms" description="Allow terms">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="reg_id" type="radio" label="Only Registered User Post Story" description="Only Registered User Post Story">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="pub_id" type="radio" label="Show publish status" description="Show publish status">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="auto_id" type="radio" label="Auto published" description="Auto published">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="user_id" type="radio" label="Username" description="Username">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+		<field name="email_id" type="radio" label="Email" description="Email">
+		<option	value="0">JNO</option>
+		<option value="1">JYES</option>
+		</field>
+		
+	
+	</fieldset>
+	</fields>
+</metadata>

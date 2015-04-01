@@ -1,0 +1,47 @@
+.com_easydiscuss #discuss-wrapper .nav-collapse.collapse {
+  display: block;
+}
+.com_easydiscuss #discuss-wrapper .nav-collapse.collapse .modal-body .row-fluid {
+  margin-left: 0;
+  margin-right: 0;
+}
+.com_easydiscuss #discuss-wrapper .btn {
+  background-image: none;
+  text-shadow: none;
+}
+.com_easydiscuss #discuss-wrapper .btn.btn-primary {
+  border-color: #039be5;
+  background-color: #039be5;
+}
+.com_easydiscuss #discuss-wrapper .btn.btn-primary:hover,
+.com_easydiscuss #discuss-wrapper .btn.btn-primary:focus,
+.com_easydiscuss #discuss-wrapper .btn.btn-primary:active {
+  border-color: #0279b3;
+}
+.com_easydiscuss #discuss-wrapper .commentFormContainer .discuss-comment-form .mt-5 {
+  margin-left: 26px;
+}
+.com_easydiscuss #discuss-wrapper .commentFormContainer .discuss-comment-form .mt-5 input {
+  margin-top: 0;
+}
+.com_easydiscuss #discuss-wrapper .discuss-component-title {
+  line-height: 35px;
+}
+.com_easydiscuss #discuss-wrapper .discuss-searchbar .btn-ask {
+  line-height: 22px;
+}
+.com_easydiscuss #discuss-wrapper .discuss-badges-list .badges-desp {
+  padding-top: 13px;
+}
+.com_easydiscuss #discuss-wrapper .discuss-categories .media .media-body {
+  font-size: 14px;
+}
+.com_easydiscuss #discuss-wrapper .discuss-categories .media .media-body .discuss-subscribe {
+  margin-top: 6.5px;
+}
+.com_easydiscuss #discuss-wrapper .discuss-composer-creating .modal-footer > .row-fluid {
+  margin: 0;
+}
+#discuss-dialog {
+  bottom: auto;
+}

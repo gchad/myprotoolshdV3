@@ -1,0 +1,199 @@
+.ja-ss-sprite img {
+  width: auto;
+  background: none;
+  display: block;
+}
+.ja-ss-item-bg {
+  position: relative;
+  z-index: 1;
+}
+.ja-ss-sprite,
+.ja-ss-desc {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+}
+
+.leftright .ja-ss-sprite.first {
+  bottom: 10%;
+  left: -10%;
+}
+.leftright .ja-ss-sprite.second {
+  bottom: 10%;
+  left: 110%;
+}
+.active.leftright .ja-ss-sprite.first {
+  left: 40%;
+}
+.active.leftright .ja-ss-sprite.second {
+  left: 60%;
+}
+
+.leftleft .ja-ss-sprite.first,
+.leftleft .ja-ss-sprite.second {
+  bottom: 20%;
+  left: -10%;
+}
+.active.leftleft .ja-ss-sprite.first {
+  left: 40%;
+}
+.active.leftleft .ja-ss-sprite.second {
+  left: 60%;
+}
+
+.rightright .ja-ss-sprite.first,
+.rightright .ja-ss-sprite.second {
+  bottom: 20%;
+  left: 110%;
+}
+.active.rightright .ja-ss-sprite.first {
+  left: 40%;
+}
+.active.rightright .ja-ss-sprite.second {
+  left: 60%;
+}
+
+.updown .ja-ss-sprite.first {
+  left: 40%;
+  bottom: -10%;
+}
+.updown .ja-ss-sprite.second {
+  left: 60%;
+  bottom: 110%;
+}
+.active.updown .ja-ss-sprite.first {
+  bottom: 20%;
+}
+.active.updown .ja-ss-sprite.second {
+  bottom: 20%;
+}
+
+.downdown .ja-ss-sprite.first {
+  left: 40%;
+  bottom: 110%;
+}
+.downdown .ja-ss-sprite.second {
+  left: 60%;
+  bottom: 110%;
+}
+.active.downdown .ja-ss-sprite.first {
+  bottom: 20%;
+}
+.active.downdown .ja-ss-sprite.second {
+  bottom: 20%;
+}
+
+.rupdown .ja-ss-sprite.first {
+  -webkit-transform-origin: -200% 70%;
+  -moz-transform-origin: -200% 70%;
+  -o-transform-origin: -200% 70%;
+  transform-origin: -200% 70%;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  left: 40%;
+  bottom: 20%;
+}
+.rupdown .ja-ss-sprite.second {
+  -webkit-transform-origin: 200% 70%;
+  -moz-transform-origin: 200% 70%;
+  -o-transform-origin: 200% 70%;
+  transform-origin: 200% 70%;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  left: 60%;
+  bottom: 20%;
+}
+.active.rupdown .ja-ss-sprite.first,
+.active.rupdown .ja-ss-sprite.second {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.rupup .ja-ss-sprite.first {
+  -webkit-transform-origin: -200% 70%;
+  -moz-transform-origin: -200% 70%;
+  -o-transform-origin: -200% 70%;
+  transform-origin: -200% 70%;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  left: 40%;
+  bottom: 20%;
+}
+.rupup .ja-ss-sprite.second {
+  -webkit-transform-origin: 200% 70%;
+  -moz-transform-origin: 200% 70%;
+  -o-transform-origin: 200% 70%;
+  transform-origin: 200% 70%;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+  left: 60%;
+  bottom: 20%;
+}
+.active.rupup .ja-ss-sprite.first,
+.active.rupup .ja-ss-sprite.second {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+.active .ja-ss-sprite {
+  opacity: 1;
+}
+.ja-ss-desc {
+  background: none;
+  position: absolute;
+  bottom: 140px;
+  color: #000000;
+  text-align: left;
+  padding-left: 40px;
+  top: 40px;
+  z-index: 3;
+  width: 50%;
+}
+@media (min-width: 1200px) {
+  .ja-ss-desc {
+    top: 80px;
+    width: 45%;
+  }
+}
+.active .ja-ss-desc {
+  left: 0;
+}
+.active .ja-ss-desc {
+  opacity: 1;
+}
+
+.custom .ja-ss-item {
+  opacity: 0;
+}
+.custom .ja-ss-item.curr {
+  opacity: 1;
+}
+.custom .ja-ss-item.prev {
+  left: -100%;
+}
+.custom .ja-ss-item.next {
+  left: 100%;
+}
+.custom .ja-ss-item.curr {
+  left: 0%;
+}
+.custom .ja-ss-item.bottom-top {
+  left: 0;
+  top: 100%;
+}
+.custom .ja-ss-item.bottom-top.curr {
+  left: 0;
+  top: 0;
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+<fieldset
+		name="hellomapstab1"
+		label="Copy Styler"
+		description="Paste here your styler code from 'Show JSON' window. If left blank the default style will be used."
+	>
+        <field
+			name="gmap_api_key"
+			type="text"
+			label="COM_HELLOMAPS_GMAP_API_KEY_LABEL"
+			size="200"
+			description="COM_HELLOMAPS_GMAP_API_KEY_DESC"
+			default=""
+		>
+		</field>
+		<field
+			name="jfstyler"
+			type="textarea"
+			label="Google Map Styler"
+			size="200"
+			rows="18"
+			cols="75"
+			description=""
+			default=""
+		>
+		</field>
+	</fieldset>
+<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			filter="rules"
+			validate="rules"
+			component="com_hellomaps"
+			section="component" />
+	</fieldset>    
+</config>

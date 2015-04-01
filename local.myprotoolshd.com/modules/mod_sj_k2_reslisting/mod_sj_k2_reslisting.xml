@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.7" client="site" method="upgrade">
+	<name>Sj Responsive Listing for K2</name>
+	<creationDate>March 2012</creationDate>
+	<author>YouTech Company</author>
+	<copyright>Copyright (c) 2013 YouTech Company</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>contact@ytcvn.com</authorEmail>
+	<authorUrl>http://www.smartaddons.com</authorUrl>
+	<version>2.5.0</version>
+	<description>TPL_YTFRAMEWORK_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_sj_k2_reslisting">mod_sj_k2_reslisting.php</filename>
+		<filename>index.html</filename>
+		<folder>assets</folder>
+		<folder>core</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages/>
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_k2/elements/">
+			<fieldset name="basic">
+				<field name="header1" type="spacer" class="text"
+					label="For devices have screen width from 1200px to greater."
+				/>
+				<field name="nb-column1" type="list" default="6"  label="# Column" description="For devices have screen width from 1200px to greater.">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				<field name="header2" type="spacer" class="text"
+					label="For devices have screen width from 768px up to 1199px."
+				/>
+				<field name="nb-column2" type="list" default="4" label="# Column" description="For devices have screen width from 768px up to 1199px.">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				<field name="header3" type="spacer" class="text"
+					label="For devices have screen width from 480px up to 767px."
+				/>
+				<field name="nb-column3" type="list" default="2" label="# Column" description="For devices have screen width from 480px up to 767px.">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				<field name="header4" type="spacer" class="text"
+					label="For devices have screen width less than or equal 479px"
+				/>
+				<field name="nb-column4" type="list" default="1" label="# Column" description="For devices have screen width less than or equal 479px.">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				
+				<field name="sort_byform_display" class="btn-group" type="radio" default="1" label="Display Sort Form " description="Display sort form">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="layout_select_display" class="btn-group"  type="radio" default="1" label="Display Layout Switch" description="Display Layout Switch">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="default_view" type="radio" class="btn-group"  default="1" label="Default Layout" description="Default Layout">
+					<option value="1">Grid</option>
+					<option value="0">List</option>
+				</field>
+			</fieldset> 
+
+			<fieldset name="source"
+				label="Source Options"
+			>
+				 <field name="catfilter" type="radio" default="0" class="btn-group"  label="K2_CATEGORY_FILTER" description="">
+                    <option value="0">K2_ALL</option>
+                    <option value="1">K2_SELECT</option>
+                </field> 
+				<field name="category_id" type="categoriesmultiple" default="" label="K2_SELECT_ONE_OR_MORE_CATEGORIES" description="K2_SELECT_ONE_ORE_MORE_CATEGORIES_FOR_WHICH_YOU_WANT_TO_FILTER_AN_ITEMS_LIST_SELECT_NONE_TO_FETCH_ITEMS_FROM_ALL_CATEGORIES"/>
+				<field name="category_preload" type="categories" default="" label="Category Preload" description="Please select one category"/>
+				<field name="itemCount" type="text" size="4" default="5" label="K2_ITEM_COUNT" description=""/>
+                <field name="itemsOrdering_display" type="list" multiple="multiple" size="12" default="" label="Show Item Ordering" description="Item ordering show font-end">
+                    <option value="">K2_DEFAULT</option>
+                    <option value="date">K2_OLDEST_FIRST</option>
+                    <option value="rdate">K2_MOST_RECENT_FIRST</option>
+                    <option value="publishUp">K2_RECENTLY_PUBLISHED</option>
+                    <option value="alpha">K2_TITLE_ALPHABETICAL</option>
+                    <option value="ralpha">K2_TITLE_REVERSEALPHABETICAL</option>
+                    <option value="order">K2_ORDERING</option>
+                    <option value="rorder">K2_ORDERING_REVERSE</option>
+                    <option value="hits">K2_MOST_POPULAR</option>
+                    <option value="best">K2_HIGHEST_RATED</option>
+                    <option value="comments">K2_MOST_COMMENTED</option>
+                    <option value="modified">K2_LATEST_MODIFIED</option>
+                    <option value="rand">K2_RANDOM_ORDERING</option>
+                </field>
+				 <field name="itemsOrdering" type="list"  default="" label="K2_ITEM_ORDERING" description="">
+                    <option value="">K2_DEFAULT</option>
+                    <option value="date">K2_OLDEST_FIRST</option>
+                    <option value="rdate">K2_MOST_RECENT_FIRST</option>
+                    <option value="publishUp">K2_RECENTLY_PUBLISHED</option>
+                    <option value="alpha">K2_TITLE_ALPHABETICAL</option>
+                    <option value="ralpha">K2_TITLE_REVERSEALPHABETICAL</option>
+                    <option value="order">K2_ORDERING</option>
+                    <option value="rorder">K2_ORDERING_REVERSE</option>
+                    <option value="hits">K2_MOST_POPULAR</option>
+                    <option value="best">K2_HIGHEST_RATED</option>
+                    <option value="comments">K2_MOST_COMMENTED</option>
+                    <option value="modified">K2_LATEST_MODIFIED</option>
+                    <option value="rand">K2_RANDOM_ORDERING</option>
+                </field>
+				<field name="FeaturedItems" type="list" default="1" label="K2_FEATURED_ITEMS" description="">
+                    <option value="0">K2_HIDE</option>
+                    <option value="1">K2_SHOW</option>
+                    <option value="2">K2_SHOW_ONLY_FEATURED_ITEMS</option>
+				</field>
+			</fieldset>
+			
+
+			<fieldset name="tabs_options" label="Tabs Options">
+				<field name="tab_all_display" class="btn-group"  type="radio" default="1" label="Tab All Display" description="Display tab all">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="tal_max_characters" type="text" default="25" label="Category Title Maxlength" description="Max length of category title by characters. Enter value 0 if you want to show all. Please enter integer number >= 0." />
+				<field name="count_items_display" class="btn-group"  type="radio" default="0" label="Count Items Display" description="Display count items on a tab">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="category_ordering" type="list"
+					default="name"
+					label="Category Oder By"
+					description="Category Oder By"
+				>
+					<option value="name">Name
+					</option>
+					<option value="ordering">Ordering
+					</option>
+				</field>
+			</fieldset>
+			<fieldset name="items_options" label="Items Options">	
+				<field name="item_title_display" class="btn-group"  type="radio" default="1" label="Title Display" description="Display title of item">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="item_title_max_characters" type="text" default="25" label="Title Maxlength" description="Max length of title by characters. Enter value 0 if you want to show all. Please enter integer number >= 0." />
+				<field name="item_description_display" class="btn-group"  type="radio" default="1" label="Description display" description="Display description of item">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="item_des_maxlength_layout_grid" type="text" default="150" label="Description Maxlength for Layout Grid" description="Max length of description by characters. Enter value 0 if you want to show all. Please enter integer number >= 0." />
+				<field name="item_des_maxlength_layout_list" type="text" default="200" label="Description Maxlength for Layout List" description="Max length of description by characters. Enter value 0 if you want to show all. Please enter integer number >= 0." />
+				<field name="item_hits_display" type="radio" class="btn-group"  default="1" label="Hits Display" description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+				<field name="item_created_display"  tyclass="btn-group" pe="radio" default="1" label="Created Date Display" description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+				<field name="item_cat_display" class="btn-group"  type="radio" default="1" label="Category Title" description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>	
+				<field name="item_readmore_display" class="btn-group"  type="radio" default="1" label="Readmore Link" description="Display a link of item">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="link_target" type="list" default="_self" label="Link Target" description="The Type shows when you click on the link">
+					<option value="_blank">New Window</option>
+					<option value="_self">Same Window</option>
+					<option value="_windowopen">Popup Window</option>
+				</field>
+				
+			</fieldset>
+			<fieldset name="image_options" label="Image Options">			
+			    <field name="header1" type="spacer" class="text" label="Get Images From K2 Image" />
+			    <field name="imgcfg_from_k2_image" class="btn-group"  label="K2 Image"  description="K2 item image standard" type="radio" default="1">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+			    </field>
+			    <field name="imgcfg_k2_image_size" type="list" label="K2 Image Size" description="">
+			    	<option value="">Original</option>
+			    	<option value="XSmall">Extra Small</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="XLarge">Extra Large</option>
+                    <option value="Generic">Generic</option>
+			    </field>
+			    <field name="header3" type="spacer" class="text" label="Get Images From Inline Introtext" />-->
+			    <field name="imgcfg_from_inline_introtext"   label="Inline Introtext" class="btn-group" description="Inline Introtext" type="radio" default="1">
+				     <option value="1">Yes</option>
+				     <option value="0">No</option>
+			    </field>
+			    <field name="header4" type="spacer" class="text" label="Get images From Inline Fulltext"/> 
+			    <field name="imgcfg_from_inline_fulltext"   label="Inline Fulltext" class="btn-group" description="Inline Fulltext" type="radio" default="1">
+				     <option value="1">Yes</option>
+				     <option value="0">No</option>
+			    </field>
+			    <field name="header5" type="spacer" class="text" label="Get images From Extend Folder"/>
+			    <field name="imgcfg_from_external"   label="Extend" class="btn-group" description="External" type="radio" default="1">
+				     <option value="1">Yes</option>
+				     <option value="0">No</option>
+			    </field>
+			    
+			    <field name="imgcfg_external_url" type="text" default="images/k2/{id}.jpg" label="External Path (or Url)" description="External Path (or URL)"/>
+			    <field name="imgcfg_order" type="text" default="k2_image, inline_introtext, inline_fulltext, external" label="Priority" description="priority" />
+
+			    <field name="imgcfg_function" type="list" label="Resize Mode">
+				     <option value="none">None</option>
+				     <option value="resize_center">Center</option>
+				     <option value="resize_fill">Fill</option>
+				     <option value="resize_fit">Fit</option>
+				     <option value="resize_stretch">Stretch</option>
+			    </field>
+			    <field name="imgcfg_type" type="list" default="" label="Image Type" description="Image Type">
+				     <option value="">Default</option>
+				     <option value="1">GIF</option>
+				     <option value="2">JPEG</option>
+				     <option value="3">PNG</option>
+			    </field>
+			    <field name="imgcfg_transparency"   label="Keep Transparency" class="btn-group" description="Keep Transparency" type="radio" default="1">
+				     <option value="1">Yes</option>
+				     <option value="0">No</option>
+			    </field>
+			    <field name="imgcfg_width" type="text" default="600" label="Width" description="Width" />
+			    <field name="imgcfg_height" type="text" default="400" label="Height" description="Height" />
+			    <field name="imgcfg_background" type="color" default="" label="Background" description="Background" />
+               	<field name="imgcfg_placeholder"   label="User Default Image" class="btn-group" description="User Default Image" type="radio" default="1">
+	                 <option value="1">Yes</option>
+	                 <option value="0">No</option>
+              	</field>
+                <field name="imgcfg_placeholder_path" type="text" default="modules/mod_sj_k2_reslisting/assets/images/nophoto.png" label="Placeholder Path (or Url)" description="The Path (or URL) of Default Image"/>
+			</fieldset>  
+
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field name="moduleclass_sfx" type="text" default="" label="K2_MODULE_CLASS_SUFFIX" description="K2_MODULE_CLASS_SUFFIX_DESCRIPTION"/>
+				<field name="include_jquery"  type="radio" class="btn-group" default="0" label="Include Jquery" description="select Yes if you want use for joomla 2.5">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field> 
+				<field name="pretext" type="textarea" default="" label="Pre-text" description="Intro text of module" cols="40" rows="4" filter="raw" />
+				<field name="posttext" type="textarea" default="" label="Post-text" description="Footer text of module" cols="40" rows="4" filter="raw" />
+				<field name="owncache" type="list" default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" >
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING
+					</option>
+				</field>
+
+				<field name="cache_time" type="text" default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

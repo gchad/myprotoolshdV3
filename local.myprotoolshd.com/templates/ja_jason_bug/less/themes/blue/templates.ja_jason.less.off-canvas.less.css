@@ -1,0 +1,224 @@
+.t3-wrapper {
+  overflow: hidden;
+  position: static;
+}
+.t3-header-mask .off-canvas-toggle {
+  color: #ffffff;
+}
+.ja-home-3 .t3-header-mask .off-canvas-toggle {
+  color: #272727;
+}
+.off-canvas-toggle {
+  background-color: transparent;
+  border-radius: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  color: #000000;
+  height: 52px;
+  line-height: 43px;
+  padding: 0;
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 52px;
+}
+@media screen and (min-width: 768px) {
+  .off-canvas-toggle {
+    border: 0;
+    height: 40px;
+    width: 40px;
+  }
+}
+.off-canvas-toggle:focus,
+.off-canvas-toggle:hover,
+.off-canvas-toggle:active {
+  background: none;
+  box-shadow: none;
+  outline: none !important;
+  color: #3498db !important;
+}
+.t3-off-canvas {
+  display: none;
+  background: #171717;
+  color: #666666;
+}
+.t3-off-canvas.off-canvas-current {
+  display: block;
+}
+.t3-off-canvas .divider .separator {
+  color: #999999;
+}
+.t3-off-canvas .t3-off-canvas-header {
+  background: rgba(255, 255, 255, 0.05);
+  color: #666666;
+  padding: 0 0 0 12px;
+  height: 35px;
+}
+.t3-off-canvas .t3-off-canvas-header h2 {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 35px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.t3-off-canvas .close {
+  background: rgba(204, 204, 204, 0.05);
+  height: 35px;
+  line-height: 35px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35px;
+}
+.t3-off-canvas .t3-off-canvas-body {
+  padding: 0;
+}
+.t3-off-canvas .t3-off-canvas-body a {
+  color: #999999;
+  text-decoration: none;
+}
+.t3-off-canvas .t3-off-canvas-body a:hover,
+.t3-off-canvas .t3-off-canvas-body a:focus {
+  background-color: transparent;
+  color: #3498db;
+  text-decoration: none;
+  outline: none;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-menu .active a {
+  background: transparent;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > a {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid #333 \9;
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4.88888889px 0 4.88888889px 22px;
+  text-transform: uppercase;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > a .caret {
+  border-bottom-color: #999999;
+  border-top-color: #999999;
+  margin-left: 5.5px;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > a + .dropdown-menu {
+  border-bottom: 1px solid #333 \9;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.active > a,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.open > a,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.active > a:hover,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.open > a:hover,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.active > a:focus,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.open > a:focus,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.active > a:active,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.open > a:active {
+  background-color: transparent;
+  color: #3498db;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.active > a .caret,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li.open > a .caret {
+  border-bottom-color: #3498db;
+  border-top-color: #3498db;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-submenu > a {
+  position: relative;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-submenu > a:after {
+  border-width: 5px;
+  border-color: #999999 transparent transparent;
+  position: absolute;
+  right: 22px;
+  top: 8.800000000000001px;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-submenu.open > a:after,
+.t3-off-canvas .t3-off-canvas-body .dropdown-submenu.active > a:after {
+  border-top-color: #3498db;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-submenu .dropdown-menu {
+  margin-top: 0;
+}
+.t3-off-canvas .t3-off-canvas-body .dropdown-menu {
+  background: #171717;
+  font-size: 13px;
+  margin: 0;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li {
+  border-bottom: 0;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li + li {
+  margin-top: -1px;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu {
+  padding-left: 33px;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu > li > a {
+  font-weight: bold;
+  font-size: 12px;
+  padding-left: 0;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.open > a,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.active > a,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.open > a:hover,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.active > a:hover,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.open > a:focus,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.active > a:focus,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.open > a:active,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.active > a:active {
+  background-color: transparent;
+  color: #3498db;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.open > a .caret,
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu li.active > a .caret {
+  border-bottom-color: #3498db;
+  border-top-color: #3498db;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu > .dropdown-submenu > a {
+  font-weight: bold;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu > .dropdown-submenu > .dropdown-menu {
+  font-weight: normal;
+}
+.t3-off-canvas .t3-off-canvas-body .nav-pills > li > .dropdown-menu > .dropdown-submenu > .dropdown-menu > .dropdown-submenu > .dropdown-menu {
+  padding-left: 11px;
+}
+.t3-off-canvas .t3-off-canvas-body .t3-module {
+  margin-bottom: 22px;
+}
+.t3-off-canvas .t3-off-canvas-body .module-title {
+  color: #ffffff;
+  line-height: 1;
+  margin: 11px 0 11px 11px;
+  padding-left: 15px;
+  text-align: left;
+}
+.old-ie .t3-off-canvas {
+  z-index: 1000 !important;
+}
+#t3-off-canvas-2 .get-touch {
+  margin: 22px 22px 0;
+}
+#t3-off-canvas-2 .get-touch .button {
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+}
+#t3-off-canvas-2 .get-touch .button:hover {
+  border-color: #3498db;
+  color: #3498db;
+}
+#t3-off-canvas-2 .menu-bottom .nav-pills > li > a {
+  border: 0;
+  text-transform: none;
+  font-weight: normal;
+}
+#t3-off-canvas-2 .addthis_toolbox {
+  margin-left: 22px;
+}
+#t3-off-canvas-2 .addthis_toolbox .fa {
+  font-size: 15px;
+  margin-right: 11px;
+}

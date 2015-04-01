@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="2.5" type="template" method="upgrade" client="site">
+	<name>Ja_Jason</name>
+	<version>1.0.0</version>
+	<creationDate>11 Sep 2014</creationDate>
+	<author>JoomlArt.com</author>
+	<authorEmail>webmaster@joomlart.com</authorEmail>
+	<authorUrl>http://www.t3-framework.org</authorUrl>
+	<copyright>Copyright (C), J.O.O.M Solutions Co., Ltd. All Rights Reserved.</copyright>
+	<license>license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<t3>
+		<base>base-bs3</base>
+	</t3>
+	<description>
+		<![CDATA[
+		<div class="overview-header">
+			<h2>
+			  <small style="display: block;">Responsive Joomla template for portfolio - <strong>JA Jason</strong>.</small>
+			</h2>
+			<p>The portfolio responsive Joomla template for Joomla 3 & Joomla 2.5 - JA Jason is a revamp for your portfolio. It's a built-in T3 Framework template with Bootstrap 3, RTL Language Layout, K2 Component, and eCommerce ready with Hikashop component.</p> 
+			<p>JA Jason shift the focus from yourself onto your products and how to make profit from them. With neat design, and rich typography, JA Jason will be a perfect choice for both your products and designer portfolio.</p>
+      <p>With ThemeMagic you will never see yourself wrestling with CSS and PHP codes. For tuning your layout, just use the Layout Configurator.</p>
+			<p>JA Jason is a perfect Joomla template for product and designer portfolio; plus, you will be able to make money from the built-in store.</p>
+			</div>
+		]]>
+	</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>thememagic.xml</filename>
+		<filename>templateInfo.php</filename>
+		<filename>templateHook.php</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>templateHelper.php</filename>
+		<filename>error.php</filename>
+		<filename>offline.php</filename>
+		<folder>etc</folder>
+		<folder>fonts</folder>
+		<folder>html</folder>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>less</folder>
+		<folder>language</folder>
+		<folder>images</folder>
+		<folder>tpls</folder>
+	</files>
+	
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_ja_jason.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_ja_jason.sys.ini</language>
+	</languages>
+
+	<positions>
+		<position>languageswitcherload</position>
+		<position>head-search</position>
+		<position>mainnav</position>
+		<position>navhelper</position>
+		<position>breadcrumbs</position>
+		<position>content-bottom</position>
+		<position>off-canvas-1</position>
+		<position>off-canvas-2</position>
+		<position>slideshow</position>
+		<position>sidebar-1</position>
+		<position>sidebar-2</position>
+		<position>mast-col</position>
+		<position>footer</position>
+		<position>home-0</position>
+		<position>home-1</position>
+		<position>home-2</position>
+		<position>home-3</position>
+		<position>home-4</position>
+		<position>home-5</position>
+		<position>position-0</position>
+		<position>position-1</position>
+		<position>position-2</position>
+		<position>position-3</position>
+		<position>position-4</position>
+		<position>position-5</position>
+		<position>position-6</position>
+		<position>position-7</position>
+		<position>position-8</position>
+		<position>position-9</position>
+		<position>position-10</position>
+		<position>position-11</position>
+		<position>position-12</position>
+		<position>position-13</position>
+		<position>position-14</position>
+		<position>position-15</position>
+		<position>footer-0</position>
+		<position>footer-1</position>
+		<position>footer-2</position>
+		<position>footer-3</position>
+		<position>footer-4</position>
+		<position>footer-5</position>
+		<position>footer-6</position>
+		<position>footer-7</position>
+		<position>footer-8</position>
+		<position>footer-9</position>
+		<position>footer-10</position>
+		<position>intro-1</position>
+		<position>intro-2</position>
+		<position>portfolio-menu</position>
+		<position>left</position>
+		<position>debug</position>
+	</positions>
+
+	<config>
+		<fields name="params" addfieldpath="/plugins/system/t3/includes/depend">
+            <!-- Sample for add or disable template parameters -->
+            
+			<!-- Sample for add or disable template parameters -->
+			<!--fieldset name="menu_params" label="T3_PARAMS_MEGAMENU">
+				<field name="group_disable" type="t3depend" function="@group">
+					<option for="menu_as_bg" value="no">menu_as_bg</option>
+				</field>
+			</fieldset-->
+      
+      <fieldset name="theme_params" label="T3_THEME_LABEL" description="T3_THEME_DESC">
+				<field type="t3depend" function="@legend" label="T3_HEADER_GROUP_LABEL"
+						 description="T3_HEADER_GROUP_DESC"/>
+						 
+        <field name="theme_params_headertype" type="t3depend" function="@group">
+          <option for="headertype" value="image">
+            headerimage
+          </option>
+          <option for="headertype" value="video">
+            headervideo
+          </option>
+        </field>
+
+        <field name="headertype" type="list" default="image"
+               label="T3_THEME_HEADERTYPE_LABEL"
+               description="T3_THEME_HEADERTYPE_DESC">
+          <option value="image">T3_THEME_HEADERTYPE_IMAGE</option>
+          <option value="video">T3_THEME_HEADERTYPE_VIDEO</option>
+        </field>
+
+        <field name="headervideo" type="text" default="" filter="RAW" size="50"
+               label="T3_THEME_HEADERVIDEO_LABEL"
+               description="T3_THEME_HEADERVIDEO_DESC"
+               placeholder="T3_THEME_HEADERVIDEO_HINT"
+          />
+
+        <field name="headerimage" type="t3media" default=""
+               label="T3_THEME_HEADERIMAGE_LABEL"
+               description="T3_THEME_HEADERIMAGE_DESC"/>
+
+      </fieldset>			
+		</fields>
+    
+
+	</config>
+
+	<updateservers>
+		<server type="collection">http://update.joomlart.com/service/tracking/list.xml</server>
+	</updateservers>
+
+</extension>

@@ -368,11 +368,25 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 				break;
 		}
 
-		// Set limit for model
-		if (!$limit)
-		$limit = 10;
-		JRequest::setVar('limit', $limit);
 
+
+        /******* GCHAD FIX *******/
+        
+        $_SESSION['limitK2Search'] = 3;
+
+        $limitK2Search = $_SESSION['limitK2Search'];
+        $limit = $limitK2Search;
+        
+        JRequest::setVar('limit', $limitK2Search);
+        /******* GCHAD FIX *******/
+        
+        
+		// Set limit for model
+		if (!$limit){
+		    $limit = 10;
+            JRequest::setVar('limit', $limit);
+		}
+          
 		// Get items
 		if (!isset($ordering))
 		{
@@ -385,10 +399,15 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		if(count($items)==0){
 			return JError::raiseNotice(500, JText::_('SEARCH_RESULT_NULL'));
 		}
+       
 		// Pagination
 		jimport('joomla.html.pagination');
 		$total = count($items) ? $model->getTotal() : 0;
-		$pagination = new JPagination($total, $limitstart, $limit);
+	    //$pagination = new JPagination($total, $limitstart, $limit);
+        
+        /**** GHAD FIX *****/
+        $_SESSION['totalK2Search'] = $total;
+        /**** GHAD FIX *****/
 		
 		//Fix bug: page navigation does not work properly if SEF is enabled
 		/*$vars = JRequest::get('get');

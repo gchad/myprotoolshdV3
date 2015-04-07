@@ -471,7 +471,7 @@ class JDocumentHTML extends JDocument
 			$this->parse($params);
 		}
 
-		$data = $this->_renderTemplate();
+		$data = $this->_renderTemplate();   
 		parent::render();
 		return $data;
 	}

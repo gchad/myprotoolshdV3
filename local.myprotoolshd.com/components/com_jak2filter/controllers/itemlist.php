@@ -21,6 +21,7 @@ require_once JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'helpers'.DS.'permissions
 require_once JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'helpers'.DS.'utilities.php';
 require_once JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'models'.DS.'item.php';
 require_once JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'models'.DS.'itemlist.php';
+
 class JAK2FilterControllerItemlist extends K2FilterController{
 
     function display($cachable = false, $urlparams = false) {
@@ -30,11 +31,11 @@ class JAK2FilterControllerItemlist extends K2FilterController{
         JRequest::setVar('view', 'itemlist');
 		
         $model=$this->getModel('Itemlist','JAK2FilterModel');
-        
-        $modelitems = new K2ModelItem();
        
-        $modelitems->getData();
-        
+        $modelitems = new K2ModelItem();
+      
+        $modelitems->getData(); //dunno what this really does... it get's the K2item model
+       
         $document = JFactory::getDocument();
         
         $viewType = $document->getType();

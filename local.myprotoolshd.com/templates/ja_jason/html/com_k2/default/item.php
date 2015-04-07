@@ -10,6 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
+$iframe = JRequest::getVar('iframe') ? 'iframe' : '';
 ?>
 
 <?php if(JRequest::getInt('print')==1): ?>
@@ -19,10 +20,11 @@ defined('_JEXEC') or die;
 </a>
 <?php endif; ?>
 
+<?php /*
 <!-- Start K2 Item Layout -->
-<span id="startOfPageId<?php echo JRequest::getInt('id'); ?>"></span>
+<span id="startOfPageId<?php echo JRequest::getInt('id'); ?>"></span> */?>
 
-<div id="k2Container" class="itemView<?php echo ($this->item->featured) ? ' itemIsFeatured' : ''; ?><?php if($this->item->params->get('pageclass_sfx')) echo ' '.$this->item->params->get('pageclass_sfx'); ?>">
+<div id="k2Container" class="<?=$iframe?> itemView<?php echo ($this->item->featured) ? ' itemIsFeatured' : ''; ?><?php if($this->item->params->get('pageclass_sfx')) echo ' '.$this->item->params->get('pageclass_sfx'); ?>">
 
 	<!-- Plugins: BeforeDisplay -->
 	<?php echo $this->item->event->BeforeDisplay; ?>
@@ -70,6 +72,8 @@ defined('_JEXEC') or die;
 
   <!-- K2 Plugins: K2AfterDisplayTitle -->
   <?php echo $this->item->event->K2AfterDisplayTitle; ?>
+  
+
 <div class="itemMeta">
 
   		<div class="row">
@@ -218,7 +222,7 @@ defined('_JEXEC') or die;
 
 
 		
-</div>
+</div>  
 
   <div class="itemBody">
 
@@ -230,70 +234,139 @@ defined('_JEXEC') or die;
 
 	  <?php if($this->item->params->get('itemImage') && !empty($this->item->image)): ?>
 	  <!-- Item Image -->
-	  <div class="itemImageBlock">
-		  <span class="itemImage">
-		  	<a class="modal" rel="{handler: 'image'}" href="<?php echo $this->item->imageXLarge; ?>" title="<?php echo JText::_('K2_CLICK_TO_PREVIEW_IMAGE'); ?>">
-		  		<img src="<?php echo $this->item->image; ?>" alt="<?php if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); ?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
-		  	</a>
-		  </span>
+	  
+	  <table id="blockTop">
+	      
+	       <tr>
+	           
+	           
+	           
+            <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
+          <!-- Item extra fields -->
+          <td id="itemExtraFields">
+            
+              
+            <!--<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>-->
+            
+                <ul>
+                    <?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
+                    <?php if($extraField->value != ''): ?>
+                    <li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
+                        <?php if($extraField->type == 'header'): ?>
+                        <h4 class="itemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
+                        <?php else: ?>
+                        <span class="itemExtraFieldsLabel"><?php echo $extraField->name; ?>:</span>
+                        <span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
+                        <?php endif; ?>
+                    </li>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                
+                <div class="social">
+                    <a href="<?php echo $this->item->link; ?>" class="button2" onclick="window.top.location.href = this.href;">Share</a>
+                </div>
+                
+                <div>
+                <?php if($this->item->params->get('itemTwitterButton',1)): ?>
+                <!-- Twitter Button -->
+                <div class="itemTwitterButton social">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal"<?php if($this->item->params->get('twitterUsername')): ?> data-via="<?php echo $this->item->params->get('twitterUsername'); ?>"<?php endif; ?>>
+                        <?php echo JText::_('K2_TWEET'); ?>
+                    </a>
+                    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+                </div>
+                <?php endif; ?>
+        
+                <?php if($this->item->params->get('itemFacebookButton',1)): ?>
+                <!-- Facebook Button -->
+                <div class="itemFacebookButton social">
+                    <div id="fb-root"></div>
+                    <script type="text/javascript">
+                        (function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
+                    </script>
+                    <div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
+                </div>
+                <?php endif; ?>
+        
+                <?php if($this->item->params->get('itemGooglePlusOneButton',1)): ?>
+                <!-- Google +1 Button -->
+                <div class="itemGooglePlusOneButton social">
+                    <g:plusone annotation="inline" width="120"></g:plusone>
+                    <script type="text/javascript">
+                      (function() {
+                        window.___gcfg = {lang: 'en'}; // Define button default language here
+                        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                        po.src = 'https://apis.google.com/js/plusone.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                      })();
+                    </script>
+                </div>
+                <?php endif; ?>
+            </div>
+           
+          </td>
+          <?php endif; ?>
+          
+    	   <td id="itemImageBlock">
+    	      
+    		  <span class="itemImage">
+    		  	<a class="" rel="" href="<?php echo $this->item->imageXLarge; ?>" title="<?php echo JText::_('K2_CLICK_TO_PREVIEW_IMAGE'); ?>">
+    		  		<img src="<?php echo $this->item->image; ?>" alt="<?php if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); ?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
+    		  	</a>
+    		  </span>
+    
+    		  <?php if($this->item->params->get('itemImageMainCaption') && !empty($this->item->image_caption)): ?>
+    		  <!-- Image caption -->
+    		  <span class="itemImageCaption"><?php echo $this->item->image_caption; ?></span>
+    		  <?php endif; ?>
+    
+    		  <?php if($this->item->params->get('itemImageMainCredits') && !empty($this->item->image_credits)): ?>
+    		  <!-- Image credits -->
+    		  <span class="itemImageCredits"><?php echo $this->item->image_credits; ?></span>
+    		  <?php endif; ?>
+    
+    		  
+    	  </td>
+    	  <?php endif; ?>
+    	  
+    	  
+	  </tr>
+	   </table>
+	  
 
-		  <?php if($this->item->params->get('itemImageMainCaption') && !empty($this->item->image_caption)): ?>
-		  <!-- Image caption -->
-		  <span class="itemImageCaption"><?php echo $this->item->image_caption; ?></span>
-		  <?php endif; ?>
-
-		  <?php if($this->item->params->get('itemImageMainCredits') && !empty($this->item->image_credits)): ?>
-		  <!-- Image credits -->
-		  <span class="itemImageCredits"><?php echo $this->item->image_credits; ?></span>
-		  <?php endif; ?>
-
-		  <div class="clr"></div>
-	  </div>
-	  <?php endif; ?>
-
-	  <?php if(!empty($this->item->fulltext)): ?>
-	  <?php if($this->item->params->get('itemIntroText')): ?>
-	  <!-- Item introtext -->
-	  <div class="itemIntroText">
-	  	<?php echo $this->item->introtext; ?>
-	  </div>
-	  <?php endif; ?>
-	  <?php if($this->item->params->get('itemFullText')): ?>
-	  <!-- Item fulltext -->
-	  <div class="itemFullText">
-	  	<?php echo $this->item->fulltext; ?>
-	  </div>
-	  <?php endif; ?>
+	  <?php  //full text
+	  
+	  if(!empty($this->item->fulltext)): ?>
+    	  <?php if($this->item->params->get('itemIntroText')): ?>
+    	  <!-- Item introtext -->
+    	  <div class="itemIntroText">
+    	  	<?php echo $this->item->introtext; ?>
+    	  </div>
+    	  <?php endif; ?>
+    	  <?php if($this->item->params->get('itemFullText')): ?>
+    	  <!-- Item fulltext -->
+    	  <div class="itemFullText">
+    	  	<?php echo $this->item->fulltext; ?>
+    	  </div>
+    	  <?php endif; ?>
+    	  
 	  <?php else: ?>
-	  <!-- Item text -->
-	  <div class="itemFullText">
-	  	<?php echo $this->item->introtext; ?>
-	  </div>
+    	  <!-- Item text -->
+    	  <div class="itemFullText">
+    	  	<?php echo $this->item->introtext; ?>
+    	  </div>
 	  <?php endif; ?>
 
-		<div class="clr"></div>
+	   <div class="clr"></div>
 
-	  <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
-	  <!-- Item extra fields -->
-	  <div class="itemExtraFields">
-	  	<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>
-	  	<ul>
-			<?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
-			<?php if($extraField->value != ''): ?>
-			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
-				<?php if($extraField->type == 'header'): ?>
-				<h4 class="itemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
-				<?php else: ?>
-				<span class="itemExtraFieldsLabel"><?php echo $extraField->name; ?>:</span>
-				<span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
-				<?php endif; ?>
-			</li>
-			<?php endif; ?>
-			<?php endforeach; ?>
-			</ul>
-	    <div class="clr"></div>
-	  </div>
-	  <?php endif; ?>
+	 
 
 		
 
@@ -304,7 +377,7 @@ defined('_JEXEC') or die;
 	  <?php echo $this->item->event->K2AfterDisplayContent; ?>
 
   </div>
-  <?php if($this->item->params->get('itemVideo') && !empty($this->item->video)): ?>
+  <?php /* if($this->item->params->get('itemVideo') && !empty($this->item->video)): ?>
   <!-- Item video -->
   <a name="itemVideoAnchor" id="itemVideoAnchor"></a>
 
@@ -329,9 +402,9 @@ defined('_JEXEC') or die;
 
 	  <div class="clr"></div>
   </div>
-  <?php endif; ?>
+  <?php endif; */?>
 
-<?php if($this->item->params->get('itemTags') && count($this->item->tags)): ?>
+<?php /*if($this->item->params->get('itemTags') && count($this->item->tags)): ?>
 				  <!-- Item tags -->
 				  <div class="itemTagsBlock">
 					  <ul class="itemTags">
@@ -341,45 +414,54 @@ defined('_JEXEC') or die;
 					  </ul>
 					  <div class="clr"></div>
 				  </div>
-				  <?php endif; ?>	
-<?php if($this->item->params->get('itemHits') || ($this->item->params->get('itemDateModified') && intval($this->item->modified)!=0)): ?>
-		<div class="itemContentFooter">
-
-			<?php if($this->item->params->get('itemHits')): ?>
-			<!-- Item Hits -->
-			<p class="itemHits">
-				<i class="fa fa-eye"></i>  <?php echo $this->item->hits; ?> <?php echo JText::_('K2_TIMES'); ?>
-			</p>
-			<?php endif; ?>
-
-			<?php if($this->item->params->get('itemDateModified') && intval($this->item->modified)!=0): ?>
-			<!-- Item date modified -->
-			<p class="itemDateModified">
-				<i class="fa fa-clock-o"></i> <?php echo JHTML::_('date', $this->item->modified, JText::_('K2_DATE_FORMAT_LC')); ?>
-			</p>
-			<?php endif; ?>
-		</div>
-		<?php endif; ?>
+				  <?php endif;*/ ?>	
+    <?php /*if($this->item->params->get('itemHits') || ($this->item->params->get('itemDateModified') && intval($this->item->modified)!=0)): ?>
+    		
+    		<div class="itemContentFooter">
+    
+    			<?php if($this->item->params->get('itemHits')): ?>
+    			<!-- Item Hits -->
+    			<p class="itemHits">
+    				<i class="fa fa-eye"></i>  <?php echo $this->item->hits; ?> <?php echo JText::_('K2_TIMES'); ?>
+    			</p>
+    			<?php endif; ?>
+    
+    			<?php if($this->item->params->get('itemDateModified') && intval($this->item->modified)!=0): ?>
+    			<!-- Item date modified -->
+    			<p class="itemDateModified">
+    				<i class="fa fa-clock-o"></i> <?php echo JHTML::_('date', $this->item->modified, JText::_('K2_DATE_FORMAT_LC')); ?>
+    			</p>
+    			<?php endif; ?>
+    		</div>
+    <?php endif; */?>
   
 
-	  <?php if($this->item->params->get('itemAttachments') && count($this->item->attachments)): ?>
-	  <!-- Item attachments -->
-	  <div class="itemAttachmentsBlock">
-		  <span><?php echo JText::_('K2_DOWNLOAD_ATTACHMENTS'); ?></span>
-		  <ul class="itemAttachments">
-		    <?php foreach ($this->item->attachments as $attachment): ?>
-		    <li>
-			    <a title="<?php echo K2HelperUtilities::cleanHtml($attachment->titleAttribute); ?>" href="<?php echo $attachment->link; ?>"><?php echo $attachment->title; ?></a>
-			    <?php if($this->item->params->get('itemAttachmentsCounter')): ?>
-			    <span>(<?php echo $attachment->hits; ?> <?php echo ($attachment->hits==1) ? JText::_('K2_DOWNLOAD') : JText::_('K2_DOWNLOADS'); ?>)</span>
-			    <?php endif; ?>
-		    </li>
-		    <?php endforeach; ?>
-		  </ul>
-	  </div>
-	  <?php endif; ?>
+	  <?php /*if($this->item->params->get('itemAttachments') && count($this->item->attachments)): ?>
+    	  <!-- Item attachments -->
+    	  <div class="itemAttachmentsBlock">
+    		  
+    		  <span><?php echo JText::_('K2_DOWNLOAD_ATTACHMENTS'); ?></span>
+    		  <ul class="itemAttachments">
+    		    <?php foreach ($this->item->attachments as $attachment): ?>
+    		    <li>
+    			    <a title="<?php echo K2HelperUtilities::cleanHtml($attachment->titleAttribute); ?>" href="<?php echo $attachment->link; ?>"><?php echo $attachment->title; ?></a>
+    			    <?php if($this->item->params->get('itemAttachmentsCounter')): ?>
+    			    <span>(<?php echo $attachment->hits; ?> <?php echo ($attachment->hits==1) ? JText::_('K2_DOWNLOAD') : JText::_('K2_DOWNLOADS'); ?>)</span>
+    			    <?php endif; ?>
+    		    </li>
+    		    <?php endforeach; ?>
+    		  </ul>
+    	  </div>
+	  <?php endif; */?>
 
-		<div class="clr"></div>
+		<!-- div class="clr"></div> -->
+		
+		<!-- Plugins: AfterDisplay -->
+  <?php  echo $this->item->event->AfterDisplay; ?>
+
+  <!-- K2 Plugins: K2AfterDisplay -->
+  <?php  echo $this->item->event->K2AfterDisplay; ?>
+
   </div>
   <?php endif; ?>
 
@@ -387,86 +469,47 @@ defined('_JEXEC') or die;
 	<!-- Social sharing -->
 	<div class="itemSocialSharing">
 
-		<?php if($this->item->params->get('itemTwitterButton',1)): ?>
-		<!-- Twitter Button -->
-		<div class="itemTwitterButton">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal"<?php if($this->item->params->get('twitterUsername')): ?> data-via="<?php echo $this->item->params->get('twitterUsername'); ?>"<?php endif; ?>>
-				<?php echo JText::_('K2_TWEET'); ?>
-			</a>
-			<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-		</div>
-		<?php endif; ?>
+		
 
-		<?php if($this->item->params->get('itemFacebookButton',1)): ?>
-		<!-- Facebook Button -->
-		<div class="itemFacebookButton">
-			<div id="fb-root"></div>
-			<script type="text/javascript">
-				(function(d, s, id) {
-				  var js, fjs = d.getElementsByTagName(s)[0];
-				  if (d.getElementById(id)) return;
-				  js = d.createElement(s); js.id = id;
-				  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-				  fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
-			<div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
-		</div>
-		<?php endif; ?>
-
-		<?php if($this->item->params->get('itemGooglePlusOneButton',1)): ?>
-		<!-- Google +1 Button -->
-		<div class="itemGooglePlusOneButton">
-			<g:plusone annotation="inline" width="120"></g:plusone>
-			<script type="text/javascript">
-			  (function() {
-			  	window.___gcfg = {lang: 'en'}; // Define button default language here
-			    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-			    po.src = 'https://apis.google.com/js/plusone.js';
-			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-			  })();
-			</script>
-		</div>
-		<?php endif; ?>
-
-		<div class="clr"></div>
+		<!--<div class="clr"></div>-->
 	<?php endif; ?>
 
-  <?php if($this->item->params->get('itemAuthorBlock') && empty($this->item->created_by_alias)): ?>
-  <!-- Author Block -->
-  <div class="itemAuthorBlock">
+  <?php /* if($this->item->params->get('itemAuthorBlock') && empty($this->item->created_by_alias)): ?>
+    
+    <!-- Author Block -->
+    <div class="itemAuthorBlock">
 
-  	<?php if($this->item->params->get('itemAuthorImage') && !empty($this->item->author->avatar)): ?>
-  	<img class="itemAuthorAvatar" src="<?php echo $this->item->author->avatar; ?>" alt="<?php echo K2HelperUtilities::cleanHtml($this->item->author->name); ?>" />
-  	<?php endif; ?>
+  	     <?php if($this->item->params->get('itemAuthorImage') && !empty($this->item->author->avatar)): ?>
+  	     <img class="itemAuthorAvatar" src="<?php echo $this->item->author->avatar; ?>" alt="<?php echo K2HelperUtilities::cleanHtml($this->item->author->name); ?>" />
+  	     <?php endif; ?>
 
-    <div class="itemAuthorDetails clearfix">
-      <h3 class="itemAuthorName">
-      	<a rel="author" href="<?php echo $this->item->author->link; ?>"><?php echo $this->item->author->name; ?></a>
-      </h3>
+        <div class="itemAuthorDetails clearfix">
+            <h3 class="itemAuthorName">
+          	    <a rel="author" href="<?php echo $this->item->author->link; ?>"><?php echo $this->item->author->name; ?></a>
+            </h3>
 
-      <?php if($this->item->params->get('itemAuthorDescription') && !empty($this->item->author->profile->description)): ?>
-      <p><?php echo $this->item->author->profile->description; ?></p>
-      <?php endif; ?>
+              <?php if($this->item->params->get('itemAuthorDescription') && !empty($this->item->author->profile->description)): ?>
+              <p><?php echo $this->item->author->profile->description; ?></p>
+              <?php endif; ?>
+        
+              <?php if($this->item->params->get('itemAuthorURL') && !empty($this->item->author->profile->url)): ?>
+              <span class="itemAuthorUrl"><i class="fa fa-globe"></i> <a rel="me" href="<?php echo $this->item->author->profile->url; ?>" target="_blank"><?php echo str_replace('http://','',$this->item->author->profile->url); ?></a></span>
+              <?php endif; ?>
+        
+              <?php if($this->item->params->get('itemAuthorEmail')): ?>
+              <span class="itemAuthorEmail"><i class="fa fa-envelope-o"></i> <?php echo JHTML::_('Email.cloak', $this->item->author->email); ?></span>
+              <?php endif; ?>
+    
+    			<div class="clr"></div>
+    
+    			<!-- K2 Plugins: K2UserDisplay -->
+    			<?php echo $this->item->event->K2UserDisplay; ?>
+    
+            </div>
+      </div>
+  <?php endif; */?>
 
-      <?php if($this->item->params->get('itemAuthorURL') && !empty($this->item->author->profile->url)): ?>
-      <span class="itemAuthorUrl"><i class="fa fa-globe"></i> <a rel="me" href="<?php echo $this->item->author->profile->url; ?>" target="_blank"><?php echo str_replace('http://','',$this->item->author->profile->url); ?></a></span>
-      <?php endif; ?>
-
-      <?php if($this->item->params->get('itemAuthorEmail')): ?>
-      <span class="itemAuthorEmail"><i class="fa fa-envelope-o"></i> <?php echo JHTML::_('Email.cloak', $this->item->author->email); ?></span>
-      <?php endif; ?>
-
-			<div class="clr"></div>
-
-			<!-- K2 Plugins: K2UserDisplay -->
-			<?php echo $this->item->event->K2UserDisplay; ?>
-
-    </div>
-  </div>
-  <?php endif; ?>
-
-  <?php if($this->item->params->get('itemAuthorLatest') && empty($this->item->created_by_alias) && isset($this->authorLatestItems)): ?>
+  <?php /* if($this->item->params->get('itemAuthorLatest') && empty($this->item->created_by_alias) && isset($this->authorLatestItems)): ?>
   <!-- Latest items from author -->
 	<div class="itemAuthorLatest">
 		<h3><?php echo JText::_('K2_LATEST_FROM'); ?> <?php echo $this->item->author->name; ?></h3>
@@ -478,7 +521,7 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<?php endif; ?>
+	<?php endif; */?>
 
 	<?php
 	/*
@@ -492,7 +535,7 @@ defined('_JEXEC') or die;
 	*/
 	?>
 
-  <?php if($this->item->params->get('itemRelated') && isset($this->relatedItems)): ?>
+  <?php /* if($this->item->params->get('itemRelated') && isset($this->relatedItems)): ?>
   <!-- Related items by tag -->
 	<div class="itemRelated clearfix">
 		<h3><?php echo JText::_("K2_RELATED_ITEMS_BY_TAG"); ?></h3>
@@ -539,57 +582,53 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<?php endif; ?>
+	<?php endif; */?>
 
   
 
-  <?php if($this->item->params->get('itemImageGallery') && !empty($this->item->gallery)): ?>
-  <!-- Item image gallery -->
-  <a name="itemImageGalleryAnchor" id="itemImageGalleryAnchor"></a>
-  <div class="itemImageGallery">
-	  <h3><?php echo JText::_('K2_IMAGE_GALLERY'); ?></h3>
-	  <?php echo $this->item->gallery; ?>
-  </div>
-  <?php endif; ?>
+  <?php /* if($this->item->params->get('itemImageGallery') && !empty($this->item->gallery)): ?>
+      <!-- Item image gallery -->
+      <a name="itemImageGalleryAnchor" id="itemImageGalleryAnchor"></a>
+      <div class="itemImageGallery">
+    	  <h3><?php echo JText::_('K2_IMAGE_GALLERY'); ?></h3>
+    	  <?php echo $this->item->gallery; ?>
+      </div>
+  <?php endif; */?>
 
-  <?php if($this->item->params->get('itemNavigation') && !JRequest::getCmd('print') && (isset($this->item->nextLink) || isset($this->item->previousLink))): ?>
-  <!-- Item navigation -->
-  <div class="itemNavigation">
-  	<span class="itemNavigationTitle"><?php echo JText::_('K2_MORE_IN_THIS_CATEGORY'); ?></span>
-		<div class="row">
-		<?php if(isset($this->item->previousLink)): ?>
-			<div class="col-sm-6">
-				
-				<a class="itemPrevious" href="<?php echo $this->item->previousLink; ?>">
-					<i class="fa fa-angle-double-left"></i>
-				 <span><?php echo $this->item->previousTitle; ?></span>
-				</a>
-			</div>
+  <?php /* if($this->item->params->get('itemNavigation') && !JRequest::getCmd('print') && (isset($this->item->nextLink) || isset($this->item->previousLink))): ?>
+      <!-- Item navigation -->
+      <div class="itemNavigation">
+      	<span class="itemNavigationTitle"><?php echo JText::_('K2_MORE_IN_THIS_CATEGORY'); ?></span>
+    		<div class="row">
+    		<?php if(isset($this->item->previousLink)): ?>
+    			<div class="col-sm-6">
+    				
+    				<a class="itemPrevious" href="<?php echo $this->item->previousLink; ?>">
+    					<i class="fa fa-angle-double-left"></i>
+    				 <span><?php echo $this->item->previousTitle; ?></span>
+    				</a>
+    			</div>
+    
+    		<?php endif; ?>
+    
+    		<?php if(isset($this->item->nextLink)): ?>
+    			<div class="col-sm-6 text-right">
+    				<a class="itemNext" href="<?php echo $this->item->nextLink; ?>">
+    					<span><?php echo $this->item->nextTitle; ?></span> 
+    					<i class="fa fa-angle-double-right"></i>
+    				</a> 
+    			</div>
+    		<?php endif; ?>
+    		</div>
+    
+      </div>
+  <?php endif; */?>
 
-		<?php endif; ?>
-
-		<?php if(isset($this->item->nextLink)): ?>
-			<div class="col-sm-6 text-right">
-				<a class="itemNext" href="<?php echo $this->item->nextLink; ?>">
-					<span><?php echo $this->item->nextTitle; ?></span> 
-					<i class="fa fa-angle-double-right"></i>
-				</a> 
-			</div>
-		<?php endif; ?>
-		</div>
-
-  </div>
-  <?php endif; ?>
-
-  <!-- Plugins: AfterDisplay -->
-  <?php echo $this->item->event->AfterDisplay; ?>
-
-  <!-- K2 Plugins: K2AfterDisplay -->
-  <?php echo $this->item->event->K2AfterDisplay; ?>
+  
 
   <?php if($this->item->params->get('itemComments') && ( ($this->item->params->get('comments') == '2' && !$this->user->guest) || ($this->item->params->get('comments') == '1'))): ?>
-  <!-- K2 Plugins: K2CommentsBlock -->
-  <?php echo $this->item->event->K2CommentsBlock; ?>
+      <!-- K2 Plugins: K2CommentsBlock -->
+      <?php echo $this->item->event->K2CommentsBlock; ?>
   <?php endif; ?>
 
  <?php if($this->item->params->get('itemComments') && ($this->item->params->get('comments') == '1' || ($this->item->params->get('comments') == '2')) && empty($this->item->event->K2CommentsBlock)): ?>
@@ -671,10 +710,12 @@ defined('_JEXEC') or die;
 	  </ul>
 
 	  <div class="itemCommentsPagination">
-	  	<?php echo $this->pagination->getPagesLinks(); ?>
-	  	<div class="clr"></div>
+	      
+    	  	<?php echo $this->pagination->getPagesLinks(); ?>
+    	  	<div class="clr"></div>
+	  	
 	  </div>
-		<?php endif; ?>
+	  <?php endif; ?>
 
 		<?php if($this->item->params->get('commentsFormPosition')=='below' && $this->item->params->get('itemComments') && !JRequest::getInt('print') && ($this->item->params->get('comments') == '1' || ($this->item->params->get('comments') == '2' && K2HelperPermissions::canAddComment($this->item->catid)))): ?>
 	  <!-- Item comments form -->

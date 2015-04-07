@@ -368,16 +368,34 @@ class K2ModelExtraField extends K2Model
 				break;
 
 			case 'link' :
-				$output = '<label>'.JText::_('K2_TEXT').'</label>';
-				$output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
-				$output .= '<label>'.JText::_('K2_URL').'</label>';
-				$output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
-				$output .= '<label>'.JText::_('K2_OPEN_IN').'</label>';
-				$targetOptions[] = JHTML::_('select.option', 'same', JText::_('K2_SAME_WINDOW'));
-				$targetOptions[] = JHTML::_('select.option', 'new', JText::_('K2_NEW_WINDOW'));
-				$targetOptions[] = JHTML::_('select.option', 'popup', JText::_('K2_CLASSIC_JAVASCRIPT_POPUP'));
-				$targetOptions[] = JHTML::_('select.option', 'lightbox', JText::_('K2_LIGHTBOX_POPUP'));
-				$output .= JHTML::_('select.genericlist', $targetOptions, 'K2ExtraField_'.$extraField->id.'[]', '', 'value', 'text', $active[2]);
+                
+                /** GCHAD FIX **/
+                
+                //only for frontend
+                if($_REQUEST['option'] == 'com_jek2story' && $_REQUEST['view'] == 'jesubmit' &&  $_REQUEST['task'] == 'getExtrafield'){
+                       
+                    
+                    // $output = '<label>'.JText::_('K2_URL').'</label>';
+                     $output = '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
+                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
+                     $output .= '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[2], ENT_QUOTES, 'UTF-8').'" />';
+                    
+                //regular
+                } else {
+                    $output = '<label>'.JText::_('K2_TEXT').'</label>';
+                    $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
+                    $output .= '<label>'.JText::_('K2_URL').'</label>';
+                    $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
+                    $output .= '<label>'.JText::_('K2_OPEN_IN').'</label>';
+                    $targetOptions[] = JHTML::_('select.option', 'same', JText::_('K2_SAME_WINDOW'));
+                    $targetOptions[] = JHTML::_('select.option', 'new', JText::_('K2_NEW_WINDOW'));
+                    $targetOptions[] = JHTML::_('select.option', 'popup', JText::_('K2_CLASSIC_JAVASCRIPT_POPUP'));
+                    $targetOptions[] = JHTML::_('select.option', 'lightbox', JText::_('K2_LIGHTBOX_POPUP'));
+                    $output .= JHTML::_('select.genericlist', $targetOptions, 'K2ExtraField_'.$extraField->id.'[]', '', 'value', 'text', $active[2]);
+                    
+                }
+				
+				
 				break;
 
 			case 'csv' :
@@ -420,10 +438,12 @@ class K2ModelExtraField extends K2Model
 				$attrs = version_compare(JVERSION, '3.2', 'ge') ? $arrayAttributes : $attributes;
 				$output = JHTML::_('calendar', $active, 'K2ExtraField_'.$extraField->id, 'K2ExtraField_'.$extraField->id, '%Y-%m-%d', $attrs);
 				break;
+                
 			case 'image' :
 				$output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' />
 				<a class="k2ExtraFieldImageButton" href="'.JRoute::_('index.php?option=com_k2&view=media&type=image&tmpl=component&fieldID=K2ExtraField_'.$extraField->id).'">'.JText::_('K2_SELECT').'</a>';
 				break;
+                
 			case 'header' :
 				$output = '';
 				break;

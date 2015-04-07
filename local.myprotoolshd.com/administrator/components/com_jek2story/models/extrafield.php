@@ -222,6 +222,9 @@ class K2ModelExtraField extends JModelLegacy
 			case 'radio':
 			$output=JHTML::_('select.radiolist', $defaultValues, 'K2ExtraField_'.$extraField->id, '', 'value', 'name',$active);
 			break;
+            
+            
+            
 
 			case 'link':
 			$output='<label>'.JText::_('Text').'</label>';

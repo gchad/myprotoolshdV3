@@ -24,7 +24,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 		$jaK2FilterParams = K2HelperUtilities::getParams('com_jak2filter');
         $limitstart = JRequest::getInt('limitstart');
         $limit 		= JRequest::getInt('limit');
-        $task 		= JRequest::getCmd('task');
+        $task 		= JRequest::getCmd('task'); 
         /*
         if ($task == 'search' && $params->get('googleSearch'))
             return array();
@@ -415,14 +415,15 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
         $query .= $groupby . " ORDER BY ".$orderby;
         
-        //echo $query; die;
-
+       
+        /** THIS IS WHERE WE GET THE ITEMS TO DISPLAY */
+        
         $dispatcher = JDispatcher::getInstance();
         JPluginHelper::importPlugin('k2');
-        $dispatcher->trigger('onK2BeforeSetQuery', array(&$query));
+        $dispatcher->trigger('onK2BeforeSetQuery', array(&$query)); 
         $db->setQuery($query, $limitstart, $limit);
-        $rows = $db->loadObjectList();
-        
+        $rows = $db->loadObjectList(); 
+
 		/*@TODO: remove extra fields that is not allowed to display*/
         $selectedExtraFieldsType = $jaK2FilterParams->get('selectedExtraFieldsType');                
 		if(count($rows) && $selectedExtraFieldsType) 

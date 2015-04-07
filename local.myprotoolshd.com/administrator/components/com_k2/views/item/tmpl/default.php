@@ -217,7 +217,7 @@ $document->addScriptDeclaration("
 									<?php endif; ?>
 									<?php if (count($this->K2PluginsItemContent)): ?>
 									<div class="itemPlugins">
-										<?php foreach($this->K2PluginsItemContent as $K2Plugin): ?>
+										<?php  foreach($this->K2PluginsItemContent as $K2Plugin): ?>
 										<?php if(!is_null($K2Plugin)): ?>
 										<fieldset>
 											<legend><?php echo $K2Plugin->name; ?></legend>

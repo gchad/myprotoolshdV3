@@ -123,10 +123,13 @@ class plgSystemModalsHelperReplace
 
 		// Handle content inside the iframed modal
 		if (JFactory::getApplication()->input->getInt('ml', 0) && JFactory::getApplication()->input->getInt('iframe', 0))
-		{
+		{ 
 			$this->replaceInsideModal($string);
 
 			nnProtect::unprotect($string);
+            
+             /*** GCHAD FIX ***/
+            JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
 
 			return;
 		}

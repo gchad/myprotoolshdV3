@@ -15,16 +15,16 @@ defined('_JEXEC') or die;
 <!-- Start K2 Category Layout -->
 <div id="k2Container" class="itemListView<?php if($this->params->get('pageclass_sfx')) echo ' '.$this->params->get('pageclass_sfx'); ?>">
 
-	<?php if($this->params->get('show_page_title')): ?>
+	<?php  /*if($this->params->get('show_page_title')): ?>
 	<!-- Page title -->
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>
-	<?php endif; ?>
+	<?php endif; */ ?>
 
 	
 
-	<?php if(isset($this->category) || ( $this->params->get('subCategories') && isset($this->subCategories) && count($this->subCategories) )): ?>
+	<?php if(isset($this->category) || ( $this->params->get('subCategories') && isset($this->subCategories) && count($this->subCategories) )): ?> 
 	<!-- Blocks for current category and subcategories -->
 	<div class="itemListCategoriesBlock">
 
@@ -168,37 +168,49 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 			<div class="clr"></div>
 		</div>
-		<?php endif; ?>
+		<?php endif; 
+        
+        
+        
+        
+        /***** THIS GUY *****/ 
 
-		<?php if(isset($this->primary) && count($this->primary)): ?>
+
+
+		if(isset($this->primary) && count($this->primary)): ?>
 		<!-- Primary items -->
 		<div id="itemListPrimary">
-			<?php foreach($this->primary as $key=>$item): ?>
-			
-			<?php
-			// Define a CSS class for the last container on each row
-			if( (($key+1)%($this->params->get('num_primary_columns'))==0) || count($this->primary)<$this->params->get('num_primary_columns') )
-				$lastContainer= ' itemContainerLast';
-			else
-				$lastContainer='';
-			?>
-			
-			<div class="itemContainer<?php echo $lastContainer; ?>"<?php echo (count($this->primary)==1) ? '' : ' style="width:'.number_format(100/$this->params->get('num_primary_columns'), 1).'%;"'; ?>>
-				<?php
-					// Load category_item.php by default
-					$this->item=$item;
-					echo $this->loadTemplate('item');
-				?>
-			</div>
-			<?php if(($key+1)%($this->params->get('num_primary_columns'))==0): ?>
-			<div class="clr"></div>
-			<?php endif; ?>
+			<?php foreach($this->primary as $key=>$item): 
+
+
+        			// Define a CSS class for the last container on each row
+        			if( (($key+1)%($this->params->get('num_primary_columns'))==0) || count($this->primary)<$this->params->get('num_primary_columns') )
+        				$lastContainer= ' itemContainerLast';
+        			else
+        				$lastContainer='';
+        			?>
+        			
+        			<div class="itemContainer<?php echo $lastContainer; ?>"<?php echo (count($this->primary)==1) ? '' : ' style="width:'.number_format(100/$this->params->get('num_primary_columns'), 1).'%;"'; ?>>
+        				<?php
+        					// Load category_item.php by default
+        					$this->item=$item; 
+        					echo $this->loadTemplate('item');
+        				?>
+        			</div>
+        			<?php if(($key+1)%($this->params->get('num_primary_columns'))==0): ?>
+        			<div class="clr"></div>
+        			<?php endif; ?>
 			<?php endforeach; ?>
+			
 			<div class="clr"></div>
 		</div>
 		<?php endif; ?>
+		
+		
+		
+		
 
-		<?php if(isset($this->secondary) && count($this->secondary)): ?>
+		<?php /*if(isset($this->secondary) && count($this->secondary)): ?>
 		<!-- Secondary items -->
 		<div id="itemListSecondary">
 			<?php foreach($this->secondary as $key=>$item): ?>
@@ -224,9 +236,9 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 			<div class="clr"></div>
 		</div>
-		<?php endif; ?>
+		<?php endif; */?>
 
-		<?php if(isset($this->links) && count($this->links)): ?>
+		<?php /*if(isset($this->links) && count($this->links)): ?>
 		<!-- Link items -->
 		<div id="itemListLinks">
 			<h4><?php echo JText::_('K2_MORE'); ?></h4>
@@ -253,19 +265,47 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 			<div class="clr abc"></div>
 		</div>
-		<?php endif; ?>
+		<?php endif; */?>
 
 	</div>
 
 	<!-- Pagination -->
-	<?php if($this->pagination->getPagesLinks()): ?>
+	
+	<?php 
+	/**** GCHAD FIX ****** remove pagination
+     
+	if($this->pagination->getPagesLinks()): ?>
 	<div class="k2Pagination">
 		<?php if($this->params->get('catPagination')) echo $this->pagination->getPagesLinks(); ?>
 		<div class="clr"></div>
 		<?php if($this->params->get('catPaginationResults')) echo $this->pagination->getPagesCounter(); ?>
 	</div>
-	<?php endif; ?>
+	<?php endif;
+     * 
+     */
 
-	<?php endif; ?>
+     endif; ?>
 </div>
 <!-- End K2 Category Layout -->
+
+<?php
+/******* GCHAD FIX ******/
+//Those are the values that will be send and updated via js on the next search
+
+$totalK2Search = $_SESSION['totalK2Search'];
+$limiK2Search =  $_SESSION['limitK2Search'];
+
+
+$limitStart = JRequest::getVar('limitstart',0);
+
+$nextLimitStart = ($limiK2Search + $limitStart) > $totalK2Search ? $totalK2Search : $limiK2Search + $limitStart;
+
+
+?>
+
+<form id="K2FormAjaxParams">
+<input type="hidden" id="K2StartParams" name="start" value="<?=$nextLimitStart?>" />
+<input type="hidden" id="K2TotalParams" name="limit" value="<?=$totalK2Search?>" />
+</form>
+<?php 
+/******* GCHAD FIX ******/

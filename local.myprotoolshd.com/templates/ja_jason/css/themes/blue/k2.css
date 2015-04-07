@@ -1444,9 +1444,9 @@ div.latestItemView {
 div.itemContainer + .clr,
 div.genericItemView + .clr,
 div.latestItemView + .clr {
-  border-bottom: 4px solid #000000;
+  /*border-bottom: 4px solid #000000;
   margin-top: 60px;
-  margin-bottom: 60px;
+  margin-bottom: 60px;*/
 }
 @media (min-width: 1200px) {
   .one-sidebar-left div.itemContainer + .clr,

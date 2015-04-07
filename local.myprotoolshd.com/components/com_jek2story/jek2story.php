@@ -9,7 +9,7 @@
 
 	defined ('_JEXEC') or die ('Restricted access');
 	$option = JRequest::getVar('option','','','string');
-    $controller = JRequest::getVar('view','jesubmit' );
+    $controller = JRequest::getVar('view','jesubmit' ); 
 	$userviews = array('jesubmit','itemlist','itemlist_detail');
 	$flag = 0;
 	if (in_array( $controller, $userviews)) 

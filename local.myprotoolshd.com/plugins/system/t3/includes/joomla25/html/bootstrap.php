@@ -289,7 +289,7 @@ abstract class JHtmlBootstrap
 
 		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
 		$html .= "<div class=\"modal-header\">\n";
-		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">ï¿½</button>\n";
 		$html .= "<h3>" . $params['title'] . "</h3>\n";
 		$html .= "</div>\n";
 		$html .= "<div id=\"" . $selector . "-container\">\n";

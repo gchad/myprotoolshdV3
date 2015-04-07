@@ -271,13 +271,15 @@
 .no_title #cboxTitle {
   height: 24px !important;
   padding: 0;
+  display: none !important;
 }
 .no_title #cboxLoadedContent {
-  margin-top: 26px !important;
+  margin-top: 0px !important;
 }
 .no_title #cboxClose {
   right: 5px;
   top: 5px;
+  
 }
 #cboxTitle .countdown {
   width: 100%;

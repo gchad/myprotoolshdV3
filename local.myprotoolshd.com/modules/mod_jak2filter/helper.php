@@ -673,7 +673,7 @@ class modJak2filterHelper
 			$cls .= $f->disabled ? ' disabled' : ' active';
 
 			if ($this->disable_option_empty != 2 || !$f->disabled) {
-				$html .= '<li rel="'.$f->value.'" class="'.$cls.'">'.$f->name . $f->num_items_txt.'</li>';
+				$html .= '<li rel="'.$f->value.'" class="'.$cls.'"><span class="icon"></span><span class="value">'.$f->name . $f->num_items_txt.'</span></li>';
 			}
 		}
 		$html .= '</ul>';

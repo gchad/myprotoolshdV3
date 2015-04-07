@@ -11,6 +11,7 @@ if (version_compare(PHP_VERSION, '5.3.10', '<'))
 	die('Your host needs to use PHP 5.3.10 or higher to run this version of Joomla!');
 }
 
+
 /**
  * Constant that is checked in included files to prevent direct access.
  * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
@@ -31,11 +32,15 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 
+
 // Mark afterLoad in the profiler.
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 // Instantiate the application.
 $app = JFactory::getApplication('site');
+
+
+
 
 // Execute the application.
 $app->execute();

@@ -28,7 +28,7 @@ class plgSystemModalsHelperScripts
 	public function loadScriptsStyles(&$buffer)
 	{
 		if (JFactory::getApplication()->input->getInt('ml', 0))
-		{
+		{ 
 			$this->loadRedirectScript($buffer);
 
 			return;
@@ -37,8 +37,11 @@ class plgSystemModalsHelperScripts
 		// Add scripts and styles
 		$this->loadJQuery();
 
-		JHtml::script('modals/jquery.colorbox-min.js', false, true);
-		JHtml::script('modals/script.min.js', false, true);
+		//JHtml::script('modals/jquery.colorbox-min.js', false, true);
+		//JHtml::script('modals/script.min.js', false, true);
+        
+        JHtml::script('modals/jquery.colorbox.js', false, true);
+        JHtml::script('modals/script.js', false, true);
 
 		$defaults = $this->setDefaults();
 		$defaults[] = "current: '" . JText::sprintf('MDL_MODALTXT_CURRENT', '{current}', '{total}') . "'";
@@ -56,8 +59,12 @@ class plgSystemModalsHelperScripts
 
 		if ($this->params->load_stylesheet)
 		{
-			JHtml::stylesheet('modals/' . $this->params->style . '.min.css', false, true);
-		}
+			//JHtml::stylesheet('modals/' . $this->params->style . '.min.css', false, true);
+            JHtml::stylesheet('modals/' . $this->params->style . '.css', false, true);
+            
+            
+		} 
+       
 	}
 
 	private function loadJQuery()

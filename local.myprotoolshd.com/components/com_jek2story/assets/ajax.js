@@ -1,22 +1,7 @@
-/**
-
-* @package   JE K2 STORY
-
-* @copyright Copyright (C) 2009 - 2010 Open Source Matters. All rights reserved.
-
-* @license   http://www.gnu.org/licenses/lgpl.html GNU/LGPL, see LICENSE.php
-
-* Contact to : emailtohardik@gmail.com, joomextensions@gmail.com
-
-* Visit : http://www.joomlaextensions.co.in/
-
-**/ 
 
 
+var xmlHttp;
 
-//++++++++++++++++++++++++++ Mail Section +++++++++++++++++++++++++++
-
-var xmlHttp
 //******************************** Check Browser Compability******************
 function GetXmlHttpObject()
 {
@@ -25,7 +10,7 @@ var xmlHttp=null;
 try
  {
  // Firefox, Opera 8.0+, Safari
- xmlHttp=new XMLHttpRequest();
+ xmlHttp = new XMLHttpRequest();
  }
 catch (e)
  {
@@ -42,44 +27,53 @@ catch (e)
 return xmlHttp;
 }
 
-function select_cate(did)
-{
+function select_cate(did) {
 	
-	if(did==0){
+	if(did == 0){
+		
 		alert('Please Select Category');
 		return false;
-	}else{
-	var mylive_url = document.getElementById("live_url").value;
-	var itemid = document.getElementById("k2itemid").value;
-	xmlHttp = GetXmlHttpObject();
-	xmlHttp.onreadystatechange =function() {		
-		if (xmlHttp.readyState == 4) {			
-			//alert(xmlHttp.responseText);return false;
-			document.getElementById("extrafield_data").style.display="block";
-			document.getElementById("extrafield_data").innerHTML =xmlHttp.responseText;
-			
-			initExtraFieldsEditor();
-			 $K2('img.calendar').each(function() {
-                                inputFieldID = $K2(this).prev().attr('id');
-                                imgFieldID = $K2(this).attr('id');
-                                Calendar.setup({
-                                    inputField : inputFieldID,
-                                    ifFormat : "%Y-%m-%d",
-                                    button : imgFieldID,
-                                    align : "Tl",
-                                    singleClick : true
-                                });
-                            });
 		
+	} else {
+		
+		var mylive_url = document.getElementById("live_url").value;
+		var itemid = document.getElementById("k2itemid").value;
+		
+		xmlHttp = GetXmlHttpObject();
+		
+		xmlHttp.onreadystatechange =function() {	
+			
+			if (xmlHttp.readyState == 4) {		
+				
+				//alert(xmlHttp.responseText);return false;
+				document.getElementById("extrafield_data").style.display = "block";
+				document.getElementById("extrafield_data").innerHTML =xmlHttp.responseText;
+				
+				initExtraFieldsEditor();
+				
+				$K2('img.calendar').each(function() {
+					
+	                    inputFieldID = $K2(this).prev().attr('id');
+	                    imgFieldID = $K2(this).attr('id');
+	                    Calendar.setup({
+	                        inputField : inputFieldID,
+	                        ifFormat : "%Y-%m-%d",
+	                        button : imgFieldID,
+	                        align : "Tl",
+	                        singleClick : true
+	                    });
+	                });
+			}
 		}
 		
-	}	
-	var url = mylive_url+"index.php?tmpl=component&option=com_jek2story&view=jesubmit&task=getExtrafield&did=" + did + "&itemid="+itemid;
+		var url = mylive_url+"index.php?tmpl=component&option=com_jek2story&view=jesubmit&task=getExtrafield&did=" + did + "&itemid="+itemid;
+		
+		xmlHttp.open("GET", url, true)
+		xmlHttp.send(null);	
 	
-	xmlHttp.open("GET", url, true)
-	xmlHttp.send(null);			
+	}
 }
-}
+
 function cap_refresh()
 {
 	var mylive_url = document.getElementById("live_url").value;

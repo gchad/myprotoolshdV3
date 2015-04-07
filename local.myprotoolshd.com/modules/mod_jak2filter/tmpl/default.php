@@ -13,8 +13,9 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+        
 JHtml::_('behavior.tooltip', '.ja-k2filter-tip', array('hideDelay'=>1500, 'fixed'=>true, 'className' => 'jak2-tooltip'));
-$formid = 'jak2filter-form-'.$module->id;
+$formid = 'jak2filter-form-'.$module->id; 
 $itemid = $params->get('set_itemid',0)?$params->get('set_itemid',0):JRequest::getInt('Itemid');
 $ajax_filter = $params->get('ajax_filter', 0);
 $share_url = $params->get('share_url_of_results_page', 0);
@@ -32,8 +33,25 @@ $share_url = $params->get('share_url_of_results_page', 0);
 <?php endif; ?>
 <?php if(!$params->get('display_ordering_box', 1) && $params->get('catOrdering') != "inherit"): ?>
 <input type="hidden" id="ordering" name="ordering" value="<?php echo $params->get('catOrdering'); ?>" />
-<?php endif; ?>
-<?php if(!$filter_by_category): ?>
+<?php endif; 
+
+/******* GCHAD FIX ******/
+
+$totalK2Search = $_SESSION['totalK2Search'];
+$limitK2Search = $_SESSION['limitK2Search'];
+
+$limitStart = JRequest::getVar('limitstart', 0);
+$nextLimitStart = ($limitK2Search + $limitStart) > $totalK2Search ? $totalK2Search : $limitK2Search + $limitStart;
+
+?>
+
+<input type="hidden" id="K2Start" name="start" value="<?=$nextLimitStart?>" />
+<input type="hidden" id="K2Total" name="total" value="<?=$totalK2Search?>" />
+
+<?php 
+/******* GCHAD FIX ******/
+
+if(!$filter_by_category): ?>
 <?php echo $categories; ?>
 <?php endif; ?>
 <ul id="jak2filter<?php echo $module->id; ?>" class="ja-k2filter <?php echo $ja_stylesheet;?>">
@@ -267,7 +285,7 @@ $j++;
 ?>
 	<li <?php echo $style;?> class="last-item">
 	<?php if($params->get('auto_filter',1) == 0): ?>
-		<input class="btn" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
+		<input class="btn button2" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
 	<?php endif; ?>
 	<?php if($params->get('enable_reset_button',1) == 1): ?>
 		<input class="btn" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
@@ -375,32 +393,97 @@ window.addEvent('load', function(){
 	<?php endif; ?>
 
 	<?php if($ajax_filter): ?>
-	$('<?php echo $formid; ?>').addEvent('submit', function() {
-		jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
+	
+	$('<?php echo $formid; ?>').addEvent('submit', function() { 
+//		jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
 		<?php if($share_url): ?>
-		jak2GetUrlSharing(this);
+//		jak2GetUrlSharing(this);
 		<?php endif; ?>
 		return false;
 	});
+	
 	jQuery('#<?php echo $formid; ?>').on('submit', function(event) {
+		
 		event.preventDefault();
-		jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
+		
+		var limitStart = parseInt($('K2Start').get('value'));
+		var total = parseInt($('K2Total').get('value'));
+        
+        //makes sure it will start only if there is something to search
+		if(limitStart < total || total == 0){
+		    jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
+		}
+		
+		
 		<?php if($share_url): ?>
-		jak2GetUrlSharing(this);
+	//	jak2GetUrlSharing(this);
 		<?php endif; ?>
 	});
-	if(jQuery('#k2Container')) {
-		jak2AjaxPagination(jQuery('#k2Container'), '<?php echo JURI::root(true).'/'; ?>');
+	
+	//if(jQuery('#k2Container')) {
+	//	jak2AjaxPagination(jQuery('#k2Container'), '<?php echo JURI::root(true).'/'; ?>');
 		<?php if($share_url): ?>
-		jak2GetUrlSharing(this);
+	//	jak2GetUrlSharing(this);
 		<?php endif; ?>
-	}
+//	}
 
 	<?php else: ?>
 	$('<?php echo $formid; ?>').addEvent('submit', function() {
 		$('<?php echo $formid; ?>').submit();
 	});
 	<?php endif; ?>
+	
+	<?php /****** GCHAD FIX **** Add the scrolling to trigger the event */ ?>
+    
+    //initialize ajax submission
+    window.jak2AjaxSubmitting = false;
+    window.jak2BlockSearch = false;
+    
+    //add scrolling to trigger event
+    $(window).addEvent('scroll',function(){
+        
+        //not used
+       function getDocHeight() {
+           
+            var D = document;
+            return Math.max(
+                D.body.scrollHeight, D.documentElement.scrollHeight,
+                D.body.offsetHeight, D.documentElement.offsetHeight,
+                D.body.clientHeight, D.documentElement.clientHeight
+            );
+       } 
+       
+       var container = $('k2Container'); 
+       var containerH = container.getSize().y;
+       var containerPos = container.getPosition().y;
+       var containerPosBottom = containerH + containerPos;
+       var triggerHeight =  containerPosBottom - $(window).getSize().y;
+       
+       var curScrollY =  $(window).getScroll().y;  
+
+        
+       if(curScrollY > triggerHeight && jak2BlockSearch == false){
+            jQuery('#<?php echo $formid; ?>').submit();
+       } 
+    });
+    
+    <?php /****** Make sure we reset the limits when click on search */ ?>
+    
+    var button = jQuery('#<?php echo $formid; ?>').find('input[type=submit]')[0];
+    button.addEvent('click',function(e){
+        
+        e.preventDefault();
+        var container = jQuery('#k2Container');
+        container.empty();
+        
+        $('K2Start').set('value', 0);
+        $('K2Total').set('value', 0);
+        
+        window.jak2BlockSearch = false; //in case there was no item found and we blocked the search
+        
+        jQuery('#<?php echo $formid; ?>').submit();
+    });
+   
 });
 /*]]>*/
 </script>

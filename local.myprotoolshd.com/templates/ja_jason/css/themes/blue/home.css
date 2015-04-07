@@ -58,11 +58,11 @@
 }
 .ja-intro.ja-intro-1 {
   padding-top: 88px;
-  padding-bottom: 88px;
+  padding-bottom: 0px;
 }
 @media (min-width: 768px) {
   .ja-intro.ja-intro-1 {
-    padding-bottom: 154px;
+    padding-bottom: 0px;
   }
 }
 .ja-intro.ja-intro-2 .t3-module {

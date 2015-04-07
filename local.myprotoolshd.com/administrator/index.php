@@ -26,6 +26,7 @@ if (!defined('_JDEFINES'))
 {
 	define('JPATH_BASE', __DIR__);
 	require_once JPATH_BASE . '/includes/defines.php';
+    require_once JPATH_ROOT . '/includes/HPJFunctions.php';
 }
 
 require_once JPATH_BASE . '/includes/framework.php';

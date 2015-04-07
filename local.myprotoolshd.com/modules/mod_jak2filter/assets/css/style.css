@@ -90,23 +90,9 @@ select:focus {
 	outline-offset: -2px;
 }
 
-.ja-k2filter .btn {
-	 -webkit-border-radius: 5;
-  -moz-border-radius: 5;
-  border-radius: 5px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 13px;
-  background: #3498db;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-}
 
-.ja-k2filter .btn:active,
-.ja-k2filter .btn:hover {
-	  background: #258cd1;
-  text-decoration: none;
-}
+
+
 
 .ja-k2filter input[type=text],
 .ja-k2filter select {
@@ -114,7 +100,6 @@ select:focus {
   border: 1px solid #ccc;
   color: #666;
   display: inline-block;
-  font-family: sans-serif;
   font-size: 14px;
   min-height: 30px;
   margin-bottom: 9px;
@@ -174,9 +159,13 @@ ul.ja-k2filter li p input.date {
 
 /* Magic select ---*/
 .ja-k2filter .ja-magic-select {
-	background: #fdfbe4;
+	position: absolute !important;
+	top: 44px;
+	left: 0px;
+	background: #FFFFFF;
+
 	border-radius: 2px;
-	border: 1px solid #cdc4a8;
+	border: 1px solid #AAAAAA;
 	display: none;
 	margin-bottom: 5px;
 	padding: 10px;
@@ -186,16 +175,18 @@ ul.ja-k2filter li p input.date {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	z-index: 10;
 }
 
 .ja-k2filter .ja-magic-select ul {
 	margin: 0;
 	overflow: hidden;
+	padding-left: 0px;
 }
 
 .ja-k2filter .ja-magic-select .arrow {
 	background: url(arrow.png) no-repeat left top;
-	display: block;
+	display: none;
 	position: absolute;
 	top: -12px;
 	left: 10px;
@@ -222,32 +213,43 @@ ul.ja-k2filter li p input.date {
 	cursor: pointer;
 }
 
-.ja-k2filter .ja-magic-select ul li {
+.ja-k2filter .ja-magic-select ul li .icon {
+	
 	background: url(icon-none.png) no-repeat 0 0;
 	color: #666;
-	display: block;
 	font-size: 11px;
-	font-weight: bold;
 	padding-left: 20px;
-	text-shadow: 1px 1px 0 #fff;
+	margin: 0px 5px;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	vertical-align: middle;
+
 }
 
 ul.ja-k2filter li.magic-select {
-	margin-bottom: 10px;
-	overflow: hidden;
+	
+	
+	position: relative;
 }
 
 .ja-k2filter .ja-magic-select ul li:hover {
 	cursor: pointer;
-	color: #690;
+	background-color: #6D2E8B;
+	color: #ffffff;
 }
 
-.ja-k2filter .ja-magic-select li.selected {
+.ja-k2filter .ja-magic-select li.selected .icon{
 	background: url(icon-check.png) no-repeat 0 0;
-	color: #690;
+	color: #000000;
 }
 
 .ja-k2filter .ja-magic-select-container {
+	vertical-align: top;
+	display: inline-block;
+	left: 120px;
+	top: 3px;
+	z-index: 9;
 }
 
 /* Horizontal layout ---*/
@@ -258,6 +260,7 @@ div ul.horizontal-layout li {
 	float: left;
 	padding: 0px 10px;
 	position: relative;
+	min-height: 46px;
 }
 
 ul.horizontal-layout li input.btn {
@@ -279,7 +282,12 @@ ul.ja-k2filter {
 ul.ja-k2filter div.ja-magic-select ul li {
 	background-position: 0 0 !important;
 	float: none;
-	padding-left: 20px !important;
+	font-size: 14px;
+	padding: 4px 4px 4px 0px !important;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	min-height: initial;
+	
 }
 
 ul.ja-k2filter div.ja-magic-select ul li.disabled {
@@ -295,9 +303,9 @@ ul.ja-k2filter .ja-magic-select-container span {
 	border-radius: 3px;
 	color: #666;
 	display: block;
-	float: left;
-	font-size: 11px;
-	margin: 2px 4px 2px 0;
+	
+	font-size: 14px;
+	margin: 2px 4px 4px 10px;
 	padding: 0px 20px 0px 5px;
 	position: relative;
 	white-space: nowrap;
@@ -328,28 +336,28 @@ ul.ja-k2filter label button.select {
 	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 3px;
-	color: #690;
+	color: #6D2E8B;
 	font-size: 13px;
 	display: inline-block !important;
-	margin-left: 5px;
 	padding: 3px 5px;
 	overflow: hidden;
 	vertical-align: middle;
+	height: 36px;
 }
 
 ul.ja-k2filter label button.select:hover,
 ul.ja-k2filter label button.select:focus,
 ul.ja-k2filter label button.select:active {
-	background: #6d9f09;
-	border-color: #690;
+	background: #6D2E8B;;
+	border: 1px solid #ccc;
 	color: #fff;
 	text-decoration: none;
 }
 
 ul.ja-k2filter label button.select.opened {
-	background: #fff;
+	/*background: #fff;
 	border-color: #ddd;
-	color: #ccc;
+	color: #ccc;*/
 }
 
 /* Vertical layout */
@@ -375,7 +383,7 @@ ul.vertical-layout li label.group-label {
   margin-left: -200px;
   padding: 10px 0;
   position: fixed;
-  top: 50px;
+  bottom: 0px;
   text-align: center;
   width: 400px;
   z-index: 999;
@@ -391,6 +399,8 @@ ul.vertical-layout li label.group-label {
 .ja-k2filter label.group-label {
 	font-weight: bold;
 	font-size: 0px;
+	
+	vertical-align: top;
 }
 
 .ja-k2filter select.multiple {
@@ -486,7 +496,6 @@ ul.autocompleter-choices {
 	border-right-color:#DDDDDD;
 	border-bottom-color:#DDDDDD;
 	text-align:left;
-	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
 	z-index:50;
 }
 
@@ -547,7 +556,7 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
 	background: url("link.png") no-repeat scroll 5px center #F5F5F5;
     border: 1px solid #EEE;
     color: #444444;
-	display: block;
+	display: none;
     margin: 5px 0 0 0;
     padding: 1px 0 1px 25px;
     font-size: 11px;
@@ -630,6 +639,10 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
 	margin-top: -5px;
 	border-width: 5px 5px 5px 0;
 	border-right-color: #000;
+}
+
+.magic-select .group-label{
+	display: inline-block;
 }
 .jak2-tooltip.left .jak2-tooltip-arrow {
 	top: 50%;

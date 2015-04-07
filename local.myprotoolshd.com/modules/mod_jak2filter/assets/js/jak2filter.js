@@ -7,7 +7,8 @@
  * Author: J.O.O.M Solutions Co., Ltd
  * Websites: http://www.joomlart.com - http://www.joomlancers.com
  * ------------------------------------------------------------------------
- */
+ */ 
+
 function jak2DisplayExtraFields (moduleid, obj, selected_group) {
 	var sOption = obj.getSelected();
 	var group = sOption.getProperty('rel');
@@ -109,12 +110,14 @@ function jaK2Reset(moduleId, container, submitform)
 function jaMagicInit(lid, fid) {
 
 	$$('#'+lid+' li').each(function(item){
+		
 		if(item.hasClass('selected')) {
-			jaMagicAddElement(lid, fid, item.innerHTML, item.getProperty('rel'));
+			jaMagicAddElement(lid, fid, item.getChildren('.value')[0].innerHTML, item.getProperty('rel'));
 		}
 	});
 
 	$$('#'+lid+' li.active').each(function(item){
+		
 		item.addEvent('click', function() {
 			var id = this.getProperty('rel');
 			if(!id) return;
@@ -124,7 +127,7 @@ function jaMagicInit(lid, fid) {
 		    	$(lid+'-'+id).dispose();
 		    } else {
 		    	this.addClass('selected');
-		    	jaMagicAddElement(lid, fid, this.innerHTML, id);
+		    	jaMagicAddElement(lid, fid, this.getChildren('.value')[0].innerHTML, id);
 		    }
 		    var autofilter = $(lid).getProperty('data-autofilter');
 		    if(autofilter == 1) {
@@ -136,11 +139,15 @@ function jaMagicInit(lid, fid) {
 }
 
 function jaMagicAddElement(lid, fid, label, id) {
+	
 	var container = $(lid+'-container');
+	
 	var el = new Element('span', {
 			id: lid+'-'+id,
-		    html: label + '<input type="hidden" name="'+fid+'[]" value="'+id+'" />'
+		    html: label + '<input type="hidden" name="'+fid+'[]" value="'+id+'" />',
+		    
 		});
+	
 	var elRemove = new Element('span', {
 			title: 'Remove',
 			'class': 'remove',
@@ -159,23 +166,48 @@ function jaMagicAddElement(lid, fid, label, id) {
 		        }
 		    }
 		});
+	
 	el.grab(elRemove);
 	container.grab(el);
 }
 
 function jaMagicSelect(controller, lid) {
-	controller = $(controller);
+		
+	controller = $(controller); 
+	
 	if(controller.hasClass('opened')) {
 		controller.removeClass('opened');
 		controller.addClass('closed');
 		$(lid).setStyle('display', 'none');
+		
 	} else {
+		
+		document.addEvent('keydown', function(e){if(e.key == 'esc'){jaMagicSelectClose(controller, lid);}});
+		
+		document.body.addEvent('click',function(e){
+			
+			var d = e.target;
+
+		    // if this node is not the one we want, move up the dom tree
+		    while (d != null && d != $(lid) && d != controller) {
+		      d = d.parentNode;
+		    }
+
+		    // at this point we have found our containing div or we are out of parent nodes
+		    var insideMyDiv = ( d == $(lid) || d == controller) ? true : false;
+		    
+		    if(!insideMyDiv){
+		    	jaMagicSelectClose(controller, lid);
+		    }
+		});
+		
 		controller.removeClass('closed');
 		controller.addClass('opened');
 		$(lid).setStyle('display', 'block');
 	}
 }
 function jaMagicSelectClose(controller, lid) {
+	
 	controller = $(controller);
 	controllerparent = $(lid).getParent().getElement('.select');
 	if(controllerparent.hasClass('opened')) {
@@ -189,21 +221,30 @@ function jaMagicSelectClose(controller, lid) {
 }
 
 function jak2AjaxSubmit(form, K2SitePath) {
+	
+	
 	//if Container K2 does not exist, submit form to redirect to K2 Filter result page
-    if(jQuery('#k2Container').length) {
-        jak2AjaxStart();
+    if(jQuery('#k2Container').length && window.jak2AjaxSubmitting == false) {
+    	
+    	window.jak2AjaxSubmitting = true;
+        jak2AjaxStart();        
+        
         jQuery.ajax({
             type: "POST",
             url: jQuery(form).attr('action'),
             data: jQuery(form).serialize(),
             success: function(text){
                 jak2AjaxHandle(text, K2SitePath);
+                jak2GetUrlSharing(form);
+                window.jak2AjaxSubmitting = false;
             }
         });
-    } else {
+        
+    } 
+    /*else {
         jQuery(form).find('input[name="tmpl"]').val('');
         $(form).submit();
-    }
+    }*/
 }
 
 function jak2AjaxStart() {
@@ -229,8 +270,8 @@ function jak2GetUrlSharing(form){
 	});
 }
 
-function jak2AjaxPagination(container, K2SitePath) {
-    var pages = container.find('ul.pagination-list li a');
+/*function jak2AjaxPagination(container, K2SitePath) {
+    var pages = container.find('ul.pagination-list li a'); 
     if(!pages.length) {
         pages = container.find('.k2Pagination ul li a');
     }
@@ -248,7 +289,7 @@ function jak2AjaxPagination(container, K2SitePath) {
             return false;
         });
     });
-}
+}*/
 
 function jak2Highlight(container, searchword) {
     if(typeof(jQuery.fn.highlight) == 'function') {
@@ -270,11 +311,24 @@ function jak2Highlight(container, searchword) {
         }
     }
 }
-function jak2AjaxHandle(text, K2SitePath) {
+function jak2AjaxHandle(text, K2SitePath) { 
+	
     var container = jQuery('#k2Container');
     var content = jQuery('<div>' + text + '</div>').find('#k2Container');
+    
+    
+   
     if(content.length) {
-        container.html(content.html());
+    	
+    	//update the form search params
+        var nextAjaxFormParams = jQuery('<div>' + text + '</div>').find('#K2FormAjaxParams');
+
+        $('K2Start').set('value', nextAjaxFormParams.find('#K2StartParams')[0].get('value'));
+        $('K2Total').set('value', nextAjaxFormParams.find('#K2TotalParams')[0].get('value'));
+    	
+    	container.append(content.html());
+    	initModals();
+        /*
         //paging
         jak2AjaxPagination(container, K2SitePath);
 
@@ -311,12 +365,15 @@ function jak2AjaxHandle(text, K2SitePath) {
         });
 
         //highlight search team in result
-        jak2Highlight(container, jQuery('.ja-k2filter input[name="searchword"]').val());
+        jak2Highlight(container, jQuery('.ja-k2filter input[name="searchword"]').val());*/
+    	
     } else {
+    	
+    	window.jak2BlockSearch = true;
         container.html('No Item found!');
     }
     jQuery('#jak2-loading').css({'display': 'none'});
-	jQuery('html, body').animate({scrollTop: container.offset().top}, 1000);
+	//jQuery('html, body').animate({scrollTop: container.offset().top}, 1000);
 }
 
 function jaK2ShowDaterange(obj, range) {

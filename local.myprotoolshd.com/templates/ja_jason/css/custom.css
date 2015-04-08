@@ -92,7 +92,7 @@ h1 {
 	font-family: "AvidOmnesLight" !important;
 }
 
-.button2, .magic-select button {
+.button2{
 border-radius: 5px;
 font-family: Arial;
 color: #ffffff;
@@ -102,6 +102,12 @@ padding: 5px 20px 5px 20px;
 text-decoration: none;
 border: 1px solid transparent;
 font-size: 16px;
+}
+
+.magic-select button {
+	border: 1px solid #CCCCCC;
+	background: none;
+	border-radius: 3px;
 }
 
 body.modal .itemMeta {

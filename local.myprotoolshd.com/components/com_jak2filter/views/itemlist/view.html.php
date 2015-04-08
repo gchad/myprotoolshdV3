@@ -372,7 +372,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 
         /******* GCHAD FIX *******/
         
-        $_SESSION['limitK2Search'] = 3;
+        $_SESSION['limitK2Search'] = 6;
 
         $limitK2Search = $_SESSION['limitK2Search'];
         $limit = $limitK2Search;

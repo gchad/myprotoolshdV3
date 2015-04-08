@@ -1232,7 +1232,7 @@ class jesubmitController extends JControllerLegacy  {
  		foreach ($extraFields as $extraField){
  		   
 			$extra_data .='<tr>';
-			$extra_data .='<td><label align="left">'.$extraField->name.'</label></td></tr><tr>';
+			$extra_data .='<td><label align="left">'.JText::_($extraField->name).'</label></td></tr><tr>';
 			$extra_data .='<td>'.$extraField->element.'</td>';
 			$extra_data .='</tr>';
 		}

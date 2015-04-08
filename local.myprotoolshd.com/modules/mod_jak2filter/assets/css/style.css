@@ -235,7 +235,7 @@ ul.ja-k2filter li.magic-select {
 
 .ja-k2filter .ja-magic-select ul li:hover {
 	cursor: pointer;
-	background-color: #6D2E8B;
+	background-color: #3498db;
 	color: #ffffff;
 }
 
@@ -246,8 +246,8 @@ ul.ja-k2filter li.magic-select {
 
 .ja-k2filter .ja-magic-select-container {
 	vertical-align: top;
-	display: inline-block;
-	left: 120px;
+	position: absolute;
+	left: 134px;
 	top: 3px;
 	z-index: 9;
 }
@@ -305,7 +305,7 @@ ul.ja-k2filter .ja-magic-select-container span {
 	display: block;
 	
 	font-size: 14px;
-	margin: 2px 4px 4px 10px;
+	margin: 2px 4px 4px 4px;
 	padding: 0px 20px 0px 5px;
 	position: relative;
 	white-space: nowrap;
@@ -333,25 +333,29 @@ ul.ja-k2filter .ja-magic-select-container span.remove:hover {
 }
 
 ul.ja-k2filter label button.select {
-	background: #fff;
+	/*background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	color: #6D2E8B;
 	font-size: 13px;
-	display: inline-block !important;
+	
 	padding: 3px 5px;
 	overflow: hidden;
 	vertical-align: middle;
+	;*/
+	display: inline-block !important;
+	font-weight: normal;
 	height: 36px;
+	font-size: 14px;
 }
 
 ul.ja-k2filter label button.select:hover,
 ul.ja-k2filter label button.select:focus,
 ul.ja-k2filter label button.select:active {
-	background: #6D2E8B;;
+	/*background: #6D2E8B;;
 	border: 1px solid #ccc;
 	color: #fff;
-	text-decoration: none;
+	text-decoration: none;*/
 }
 
 ul.ja-k2filter label button.select.opened {

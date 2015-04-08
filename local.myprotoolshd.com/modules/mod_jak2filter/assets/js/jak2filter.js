@@ -108,40 +108,48 @@ function jaK2Reset(moduleId, container, submitform)
 }
 
 function jaMagicInit(lid, fid) {
-
-	$$('#'+lid+' li').each(function(item){
+	
+	
+	if( window.isMagicInit == undefined	){ //makes sure it does not get reinitiated by the modal
 		
-		if(item.hasClass('selected')) {
-			jaMagicAddElement(lid, fid, item.getChildren('.value')[0].innerHTML, item.getProperty('rel'));
-		}
-	});
-
-	$$('#'+lid+' li.active').each(function(item){
 		
-		item.addEvent('click', function() {
-			var id = this.getProperty('rel');
-			if(!id) return;
+		$$('#'+lid+' li').each(function(item){
 			
-		    if(this.hasClass('selected')) {
-		    	this.removeClass('selected');
-		    	$(lid+'-'+id).dispose();
-		    } else {
-		    	this.addClass('selected');
-		    	jaMagicAddElement(lid, fid, this.getChildren('.value')[0].innerHTML, id);
-		    }
-		    var autofilter = $(lid).getProperty('data-autofilter');
-		    if(autofilter == 1) {
-		    	$(lid).getParent('form').fireEvent('submit');
-		    }
+			if(item.hasClass('selected')) {
+				jaMagicAddElement(lid, fid, item.getChildren('.value')[0].innerHTML, item.getProperty('rel'));
+			}
 		});
-	    
-	});
+	
+		$$('#'+lid+' li.active').each(function(item){
+			
+			item.addEvent('click', function() {
+				var id = this.getProperty('rel');
+				if(!id) return;
+				
+			    if(this.hasClass('selected')) {
+			    	this.removeClass('selected');
+			    	$(lid+'-'+id).dispose();
+			    } else {
+			    	this.addClass('selected');
+			    	jaMagicAddElement(lid, fid, this.getChildren('.value')[0].innerHTML, id);
+			    }
+			    var autofilter = $(lid).getProperty('data-autofilter');
+			    if(autofilter == 1) {
+			    	$(lid).getParent('form').fireEvent('submit');
+			    }
+			});
+		    
+		});
+		
+		window.isMagicInit = true;
+	}
+	
 }
 
 function jaMagicAddElement(lid, fid, label, id) {
 	
 	var container = $(lid+'-container');
-	
+	console.log(lid);
 	var el = new Element('span', {
 			id: lid+'-'+id,
 		    html: label + '<input type="hidden" name="'+fid+'[]" value="'+id+'" />',
@@ -176,16 +184,20 @@ function jaMagicSelect(controller, lid) {
 	controller = $(controller); 
 	
 	if(controller.hasClass('opened')) {
+		
 		controller.removeClass('opened');
 		controller.addClass('closed');
 		$(lid).setStyle('display', 'none');
 		
 	} else {
 		
-		document.addEvent('keydown', function(e){if(e.key == 'esc'){jaMagicSelectClose(controller, lid);}});
+		document.addEvent('keydown', function(e){
+			if(e.key == 'esc'){
+			jaMagicSelectClose(controller, lid);}
+		});
 		
 		document.body.addEvent('click',function(e){
-			
+			console.log('click');
 			var d = e.target;
 
 		    // if this node is not the one we want, move up the dom tree
@@ -315,9 +327,7 @@ function jak2AjaxHandle(text, K2SitePath) {
 	
     var container = jQuery('#k2Container');
     var content = jQuery('<div>' + text + '</div>').find('#k2Container');
-    
-    
-   
+
     if(content.length) {
     	
     	//update the form search params
@@ -328,6 +338,7 @@ function jak2AjaxHandle(text, K2SitePath) {
     	
     	container.append(content.html());
     	initModals();
+    	setScrollButton();
         /*
         //paging
         jak2AjaxPagination(container, K2SitePath);
@@ -382,4 +393,20 @@ function jaK2ShowDaterange(obj, range) {
     } else {
         jQuery(range).hide();
     }
+}
+
+function setScrollButton() {
+	
+	if($('K2ScrollButton')){
+		
+		var limitStart = parseInt($('K2Start').get('value'));
+		var total = parseInt($('K2Total').get('value'));
+		
+		if(limitStart >= total){
+			$('K2ScrollButton').hide();
+		}else {
+			$('K2ScrollButton').show();
+		}
+	}
+    
 }

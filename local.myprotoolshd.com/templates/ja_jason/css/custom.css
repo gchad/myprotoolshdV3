@@ -92,7 +92,7 @@ h1 {
 	font-family: "AvidOmnesLight" !important;
 }
 
-.button2 {
+.button2, .magic-select button {
 border-radius: 5px;
 font-family: Arial;
 color: #ffffff;
@@ -112,7 +112,7 @@ body.modal .itemMeta {
 	color: #FFFFFF !important;
 	border: 2px solid #FFFFFF !important;
 }
-.ja-intro.ja-intro-1 {
+.ja-home-6 .ja-intro.ja-intro-1 {
 	padding-bottom: 0px !important;
 }
 
@@ -274,3 +274,19 @@ a.imgWrap:hover > .blueOverlay{
 	border-radius: 5px;
 }
 
+div.intro-text::after {
+	display: none;
+}
+
+.ja-home-5 #t3-mainbody{
+	display: none;
+}
+
+#K2ScrollButtonWrap{
+	text-align: center;
+}
+
+.ja-intro .t3-module.row-image {
+  background: url("../../../images/intro-rtl.jpg") no-repeat left bottom #171717;
+  position: relative;
+}

@@ -293,12 +293,12 @@ defined('_JEXEC') or die;
 //Those are the values that will be send and updated via js on the next search
 
 $totalK2Search = $_SESSION['totalK2Search'];
-$limiK2Search =  $_SESSION['limitK2Search'];
+$limitK2Search =  $_SESSION['limitK2Search'];
 
 
 $limitStart = JRequest::getVar('limitstart',0);
 
-$nextLimitStart = ($limiK2Search + $limitStart) > $totalK2Search ? $totalK2Search : $limiK2Search + $limitStart;
+$nextLimitStart = ($limitK2Search + $limitStart) > $totalK2Search ? $totalK2Search : $limitK2Search + $limitStart;
 
 
 ?>

@@ -315,6 +315,7 @@ function isDate(txtDate){
 
 //validate startdate and enddate before submit form
 function validateDateRange(obj){
+    
     if(obj.id == 'sdate_<?php echo $module->id; ?>' || obj.id == 'edate_<?php echo $module->id; ?>'){
         var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>').get('value');
         var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>').get('value');
@@ -334,6 +335,7 @@ function validateDateRange(obj){
 }
 
 window.addEvent('load', function(){
+    
 	if($('jak2filter<?php echo $module->id;?>').getElement('#category_id')){
 		jak2DisplayExtraFields(<?php echo $module->id;?>, $('jak2filter<?php echo $module->id;?>').getElement('#category_id'), <?php echo $selected_group; ?>);
 	}
@@ -412,6 +414,10 @@ window.addEvent('load', function(){
         //makes sure it will start only if there is something to search
 		if(limitStart < total || total == 0){
 		    jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
+		} else {
+		    if($('K2ScrollButton')){
+		     //   $('K2ScrollButton')..css({'display': 'none'});
+		    }
 		}
 		
 		
@@ -457,7 +463,7 @@ window.addEvent('load', function(){
        var containerH = container.getSize().y;
        var containerPos = container.getPosition().y;
        var containerPosBottom = containerH + containerPos;
-       var triggerHeight =  containerPosBottom - $(window).getSize().y;
+       var triggerHeight =  containerPosBottom - $(window).getSize().y + 100;
        
        var curScrollY =  $(window).getScroll().y;  
 
@@ -467,9 +473,12 @@ window.addEvent('load', function(){
        } 
     });
     
+    
+    
     <?php /****** Make sure we reset the limits when click on search */ ?>
     
     var button = jQuery('#<?php echo $formid; ?>').find('input[type=submit]')[0];
+    
     button.addEvent('click',function(e){
         
         e.preventDefault();
@@ -483,6 +492,16 @@ window.addEvent('load', function(){
         
         jQuery('#<?php echo $formid; ?>').submit();
     });
+    
+    
+    <?php /***** displays the please scroll buton or not *//// ?>
+   
+    
+    jQuery('<div id="K2ScrollButtonWrap"><button id="K2ScrollButton" class="button2">' + '<?php echo JText::_('PLEASE_SCROLL');?>' + '</button></div>').appendTo('#t3-content');
+    $('K2ScrollButton').addEvent('click',function(e){
+        jQuery('#<?php echo $formid; ?>').submit();
+    });
+    setScrollButton();
    
 });
 /*]]>*/

@@ -88,9 +88,26 @@ if($tplparams->get('tpl_userpage_mid') == $active->id){
 					}
 				}
 			?>
-		<?php else : ?>
-			<i class="fa fa-flag"></i>
-		<?php endif ?>
+		<?php else : 
+      
+            $langMatrix = array(
+                1 => 'English',
+                3 => 'Deutsch',
+                6 => 'Français',
+                4 => 'Español'
+               
+                );
+		    
+		    foreach($list as $language) {
+		        
+                    if($language->active){
+
+                        echo '<span id="barSep">|</span><span id="activeLang">'.$langMatrix[$language->lang_id].'</span>';
+                    }
+                }
+		    
+			/*<!--<i class="fa fa-flag"></i**/
+	 endif ?>
 		<i class="fa fa-caret-down"></i>
 	</a>
 	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

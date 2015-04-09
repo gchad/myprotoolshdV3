@@ -72,7 +72,7 @@ if( JFile::exists(JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'k2.php')){
 	
 	$ja_stylesheet			= $params->get('ja_stylesheet');
 	$auto_filter		= (int) $params->get('auto_filter');
-	
+
 	$ja_column = '';
 	if($ja_stylesheet == 'horizontal-layout' && $params->get('ja_column') && $params->get('ja_column') > 0){
 		$ja_column	= 'width:'.round(100/$params->get('ja_column'),2).'%;';

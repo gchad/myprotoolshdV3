@@ -79,8 +79,15 @@ class jesubmitController extends JControllerLegacy  {
         $now =& JFactory::getDate();
         $created=$now->toSql();
         
+        if(isset($_POST['facilityName']) && isset($_POST['artistName'])){
+             $_POST['title'] =  $_POST['facilityName'].' -- '. $_POST['artistName'];
+        }else {
+             $_POST['title'] =  $_POST['facilityName'];
+        }
+       
         $post = $_POST;
-
+        
+        
         require_once ($k2admin_path.'/'.'lib'.'/'.'class.upload.php');
         $params = &JComponentHelper::getParams('com_k2');
         
@@ -91,14 +98,15 @@ class jesubmitController extends JControllerLegacy  {
         $setting_name = JRequest::getVar('setting_name','','','int');   
         $setting_email= JRequest::getVar('setting_email','','','int'); 
         
-        if($setting_name == 0){
+        /*if($setting_name == 0){
           $post['name'] = $user->name;
         }
         
         if($setting_email == 0){
           $post['email'] = $user->email;
-        }
+        }*/
         
+      
         $cap        =   $_SESSION['comments-captcha-code'];
         $textval    = $post['cap'];
         
@@ -108,12 +116,20 @@ class jesubmitController extends JControllerLegacy  {
           
         //adding mode    
         } else {
-            
-            
-            //check all fields?
-            /*$msg = JText::_( 'FILL_ALL_FIELDS');
-            $this->setRedirect ($redir_link, $msg);*/
-            
+           
+          
+             if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) == false){
+                 $msg = JText::_( 'VALID_EMAIL');
+                 $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
+             }
+             
+             //check all fields?
+             if(empty($post['email']) || empty($post['name']) || empty($post['title'])){
+                  $msg = JText::_( 'FILL_ALL_FIELDS');
+                  $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                  
+             }
+                        
             if($cap == $textval) { 
                 
                 $mosConfig_live_site=  substr_replace(JURI::root(), '', -1, 1); 
@@ -213,7 +229,8 @@ class jesubmitController extends JControllerLegacy  {
                 );
               
                 $plugin = json_encode( $map, JSON_UNESCAPED_UNICODE );
-                
+                $user->id = 0;
+                 
                 //insert in database
                 $sql = "INSERT INTO #__k2_items ".
                        "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
@@ -224,6 +241,16 @@ class jesubmitController extends JControllerLegacy  {
                 $db->query();
                 $item_id = $db->insertid();
                 
+                
+                //register a new joomla
+                $user->name = $post['title'];
+                $user->username = $post['name'];
+                /* TO DO */
+                
+                
+               
+                
+                //insert in k2story db
                 $published = $post['publish'] == 0 ? 0 : 1; 
                 
                 $sql = "INSERT INTO #__je_k2itemlist (`itemid`,`userid`,`name`,`email`,`published`)".
@@ -231,7 +258,8 @@ class jesubmitController extends JControllerLegacy  {
                 
                 $db->setQuery($sql);
                 $db->query();
-
+                
+               
                 
                 //test if there is a file
                 if($file['name'] != '') {
@@ -1219,11 +1247,14 @@ class jesubmitController extends JControllerLegacy  {
 			$extraFields = $extraFieldModel->getExtraFieldsByGroup($res->extraFieldsGroup);
 		//else $extraFields = NULL;
 
-		for($i=0; $i<sizeof($extraFields); $i++){
-			if($itemid)
-			$extraFields[$i]->element= $extraFieldModel->renderExtraField($extraFields[$i],$itemid);
-			else
-			$extraFields[$i]->element= $extraFieldModel->renderExtraField($extraFields[$i]);
+//debug($extraFields);
+		for($i=0; $i< sizeof($extraFields); $i++){
+		    
+			if($itemid){
+			     $extraFields[$i]->element= $extraFieldModel->renderExtraField($extraFields[$i],$itemid);
+			} else {
+			     $extraFields[$i]->element= $extraFieldModel->renderExtraField($extraFields[$i]);
+            }
 			
 		}
        

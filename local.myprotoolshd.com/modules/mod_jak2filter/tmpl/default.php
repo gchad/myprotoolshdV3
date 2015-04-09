@@ -311,7 +311,7 @@ $clear = '';
 function isDate(txtDate){
     var reg = /^(\d{4})([\/-])(\d{1,2})\2(\d{1,2})$/;
     return reg.test(txtDate);
-}
+};
 
 //validate startdate and enddate before submit form
 function validateDateRange(obj){
@@ -332,7 +332,20 @@ function validateDateRange(obj){
     else{
         $('<?php echo $formid; ?>').fireEvent('submit');
     }
-}
+};
+
+function searchFromScratch(){
+        
+        var container = jQuery('#k2Container');
+        container.empty();
+        
+        $('K2Start').set('value', 0);
+        $('K2Total').set('value', 0);
+        
+        window.jak2BlockSearch = false; //in case there was no item found and we blocked the search
+        
+        jQuery('#<?php echo $formid; ?>').submit();
+};
 
 window.addEvent('load', function(){
     
@@ -340,58 +353,76 @@ window.addEvent('load', function(){
 		jak2DisplayExtraFields(<?php echo $module->id;?>, $('jak2filter<?php echo $module->id;?>').getElement('#category_id'), <?php echo $selected_group; ?>);
 	}
 
-	<?php if($auto_filter): ?>
-	var f = $('<?php echo $formid; ?>');
-	f.getElements('input').each(function(el) {
-		el.addEvent('change', function(){
-            if(this.id == 'sdate_<?php echo $module->id; ?>' || this.id == 'edate_<?php echo $module->id; ?>'){
-                var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>').get('value');
-                var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>').get('value');
-                if(sDate != '' && eDate != ''){
-                    if(isDate(sDate) && isDate(eDate)){
-                        this.removeClass('date-error');
-                        $('<?php echo $formid; ?>').fireEvent('submit');
+	<?php 
+	
+	/**** AUTO SEARCH ******/
+	
+	if($auto_filter): ?>
+    	var f = $('<?php echo $formid; ?>');
+    	
+    	f.getElements('input').each(function(el) {
+    	    
+    		el.addEvent('change', function(){
+    		    
+                if(this.id == 'sdate_<?php echo $module->id; ?>' || this.id == 'edate_<?php echo $module->id; ?>'){
+                    var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>').get('value');
+                    var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>').get('value');
+                    if(sDate != '' && eDate != ''){
+                        if(isDate(sDate) && isDate(eDate)){
+                            this.removeClass('date-error');
+                            searchFromScratch();
+                            <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+                        }
+                        else{
+                            this.addClass('date-error');
+                        }
                     }
-                    else{
-                        this.addClass('date-error');
-                    }
+                    
+                } else{
+                    searchFromScratch();
+                    <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
                 }
-            }
-            else{
-                $('<?php echo $formid; ?>').fireEvent('submit');
-            }
-
-		});
-	});
-	f.getElements('select').each(function(el) {
-		el.addEvent('change', function(){
-            if(this.id == 'dtrange' && this.value == 'range'){
-                var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>');
-                var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>');
-                if(sDate.get('value') != '' && eDate.get('value') != ''){
-                    var isStartDate = isDate(sDate.get('value'));
-                    var isEndDate = isDate(eDate.get('value'));
-                    if(isStartDate && isEndDate){
-                        $('<?php echo $formid; ?>').fireEvent('submit');
+    
+    		});
+    	});
+    	
+    	f.getElements('select').each(function(el) {
+    	    
+    		el.addEvent('change', function(){
+    		    
+                if(this.id == 'dtrange' && this.value == 'range'){
+                    
+                    var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>');
+                    var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>');
+                   
+                    if(sDate.get('value') != '' && eDate.get('value') != ''){
+                        var isStartDate = isDate(sDate.get('value'));
+                        var isEndDate = isDate(eDate.get('value'));
+                        if(isStartDate && isEndDate){
+                             searchFromScratch();
+                            <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+                        }
+                        else{
+                            if(!isStartDate)
+                                sDate.addClass('date-error');
+                            if(!isEndDate)
+                                eDate.addClass('date-error');
+                        }
                     }
-                    else{
-                        if(!isStartDate)
-                            sDate.addClass('date-error');
-                        if(!isEndDate)
-                            eDate.addClass('date-error');
-                    }
+                } else {
+                     searchFromScratch();
+                    <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
                 }
-            }
-            else{
-                $('<?php echo $formid; ?>').fireEvent('submit');
-            }
-		});
-	});
-	f.getElements('textarea').each(function(el) {
-		el.addEvent('change', function(){
-			$('<?php echo $formid; ?>').fireEvent('submit');
-		});
-	});
+    		});
+    	});
+    	
+    	f.getElements('textarea').each(function(el) {
+    		el.addEvent('change', function(){
+    		    searchFromScratch();
+    			<?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+    		});
+    	});
+    	
 	<?php endif; ?>
 
 	<?php if($ajax_filter): ?>
@@ -475,23 +506,21 @@ window.addEvent('load', function(){
     
     
     
-    <?php /****** Make sure we reset the limits when click on search */ ?>
+    <?php /****** Make sure we reset the limits when click on search or auto search is enabled*/ ?>
     
+    
+    //if the search button is here
     var button = jQuery('#<?php echo $formid; ?>').find('input[type=submit]')[0];
     
-    button.addEvent('click',function(e){
+    if(button){
+        button.addEvent('click',function(e){
         
         e.preventDefault();
-        var container = jQuery('#k2Container');
-        container.empty();
-        
-        $('K2Start').set('value', 0);
-        $('K2Total').set('value', 0);
-        
-        window.jak2BlockSearch = false; //in case there was no item found and we blocked the search
-        
-        jQuery('#<?php echo $formid; ?>').submit();
+        searchFromScratch();
+       
     });
+    }
+   
     
     
     <?php /***** displays the please scroll buton or not *//// ?>

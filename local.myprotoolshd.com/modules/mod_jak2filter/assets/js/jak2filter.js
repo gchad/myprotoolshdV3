@@ -135,6 +135,7 @@ function jaMagicInit(lid, fid) {
 			    }
 			    var autofilter = $(lid).getProperty('data-autofilter');
 			    if(autofilter == 1) {
+			    	searchFromScratch();
 			    	$(lid).getParent('form').fireEvent('submit');
 			    }
 			});
@@ -149,7 +150,7 @@ function jaMagicInit(lid, fid) {
 function jaMagicAddElement(lid, fid, label, id) {
 	
 	var container = $(lid+'-container');
-	console.log(lid);
+
 	var el = new Element('span', {
 			id: lid+'-'+id,
 		    html: label + '<input type="hidden" name="'+fid+'[]" value="'+id+'" />',
@@ -170,6 +171,7 @@ function jaMagicAddElement(lid, fid, label, id) {
 				    var autofilter = $(lid).getProperty('data-autofilter');
 				    if(autofilter == 1) {
 				    	$(lid).getParent('form').fireEvent('submit');
+				    	searchFromScratch();
 				    }
 		        }
 		    }
@@ -177,6 +179,7 @@ function jaMagicAddElement(lid, fid, label, id) {
 	
 	el.grab(elRemove);
 	container.grab(el);
+	searchFromScratch();
 }
 
 function jaMagicSelect(controller, lid) {
@@ -381,7 +384,8 @@ function jak2AjaxHandle(text, K2SitePath) {
     } else {
     	
     	window.jak2BlockSearch = true;
-        container.html('No Item found!');
+        container.html('<div id="noItemFound">No Item found!</div>');
+        setScrollButton();
     }
     jQuery('#jak2-loading').css({'display': 'none'});
 	//jQuery('html, body').animate({scrollTop: container.offset().top}, 1000);

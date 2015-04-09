@@ -51,6 +51,7 @@ function select_cate(did) {
 				
 				initExtraFieldsEditor();
 				
+				
 				$K2('img.calendar').each(function() {
 					
 	                    inputFieldID = $K2(this).prev().attr('id');

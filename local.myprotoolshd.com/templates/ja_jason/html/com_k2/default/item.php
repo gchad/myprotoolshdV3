@@ -241,78 +241,73 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
 	           
 	           
 	           
-            <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
-          <!-- Item extra fields -->
-          <td id="itemExtraFields">
-            
+          
+          <td id="social">
               
-            <!--<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>-->
+                <div class="share">
+                    <a class="button2" href="<?php echo $this->item->link; ?>" class="button2" onclick="window.top.location.href = this.href;"><?php echo JText::_('GET_PAGE_URL')?></a>
+                
+                </div>
+                
+                
+
+        
+
+       
+                <?php if($this->item->params->get('itemTwitterButton',1) || $this->item->params->get('itemFacebookButton',1) || $this->item->params->get('itemGooglePlusOneButton',1)): ?>
+              
+                    <!-- Social sharing -->
+                    <div class="itemSocialSharing">
+                    
+                            <?php if($this->item->params->get('itemTwitterButton',1)): ?>
+                            <!-- Twitter Button -->
+                            <div class="itemTwitterButton social">
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal"<?php if($this->item->params->get('twitterUsername')): ?> data-via="<?php echo $this->item->params->get('twitterUsername'); ?>"<?php endif; ?>>
+                                    <?php echo JText::_('K2_TWEET'); ?>
+                                </a>
+                                <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+                            </div>
+                            <?php endif; ?>
+                    
+                            <?php if($this->item->params->get('itemFacebookButton',1)): ?>
+                            <!-- Facebook Button -->
+                            <div class="itemFacebookButton social">
+                                <div id="fb-root"></div>
+                                <script type="text/javascript">
+                                    (function(d, s, id) {
+                                      var js, fjs = d.getElementsByTagName(s)[0];
+                                      if (d.getElementById(id)) return;
+                                      js = d.createElement(s); js.id = id;
+                                      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                                      fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));
+                                </script>
+                                <div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
+                            </div>
+                            <?php endif; ?>
+                    
+                            <?php if($this->item->params->get('itemGooglePlusOneButton',1)): ?>
+                            <!-- Google +1 Button -->
+                            <div class="itemGooglePlusOneButton social">
+                                <g:plusone annotation="inline" width="120"></g:plusone>
+                                <script type="text/javascript">
+                                  (function() {
+                                    window.___gcfg = {lang: 'en'}; // Define button default language here
+                                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                    po.src = 'https://apis.google.com/js/plusone.js';
+                                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                                  })();
+                                </script>
+                            </div>
+                            <?php endif; ?>
+                    
+                    </div>
             
-                <ul>
-                    <?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
-                    <?php if($extraField->value != ''): ?>
-                    <li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
-                        <?php if($extraField->type == 'header'): ?>
-                        <h4 class="itemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
-                        <?php else: ?>
-                        <span class="itemExtraFieldsLabel"><?php echo $extraField->name; ?>:</span>
-                        <span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
-                        <?php endif; ?>
-                    </li>
-                    <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-                
-                <div class="social">
-                    <a href="<?php echo $this->item->link; ?>" class="button2" onclick="window.top.location.href = this.href;">Share</a>
-                </div>
-                
-                <div>
-                <?php if($this->item->params->get('itemTwitterButton',1)): ?>
-                <!-- Twitter Button -->
-                <div class="itemTwitterButton social">
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal"<?php if($this->item->params->get('twitterUsername')): ?> data-via="<?php echo $this->item->params->get('twitterUsername'); ?>"<?php endif; ?>>
-                        <?php echo JText::_('K2_TWEET'); ?>
-                    </a>
-                    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-                </div>
-                <?php endif; ?>
-        
-                <?php if($this->item->params->get('itemFacebookButton',1)): ?>
-                <!-- Facebook Button -->
-                <div class="itemFacebookButton social">
-                    <div id="fb-root"></div>
-                    <script type="text/javascript">
-                        (function(d, s, id) {
-                          var js, fjs = d.getElementsByTagName(s)[0];
-                          if (d.getElementById(id)) return;
-                          js = d.createElement(s); js.id = id;
-                          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                          fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));
-                    </script>
-                    <div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
-                </div>
-                <?php endif; ?>
-        
-                <?php if($this->item->params->get('itemGooglePlusOneButton',1)): ?>
-                <!-- Google +1 Button -->
-                <div class="itemGooglePlusOneButton social">
-                    <g:plusone annotation="inline" width="120"></g:plusone>
-                    <script type="text/javascript">
-                      (function() {
-                        window.___gcfg = {lang: 'en'}; // Define button default language here
-                        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                        po.src = 'https://apis.google.com/js/plusone.js';
-                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                      })();
-                    </script>
-                </div>
-                <?php endif; ?>
-            </div>
-           
+             <?php endif; ?>
+             
+             
           </td>
-          <?php endif; ?>
+          
           
     	   <td id="itemImageBlock">
     	      
@@ -365,6 +360,73 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
 	  <?php endif; ?>
 
 	   <div class="clr"></div>
+	   
+	   
+	   
+	   
+	    <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
+          <!-- Item extra fields -->
+          
+           <div id="itemExtraFieldsWrap">
+              <div id="itemExtraFields">
+                
+                  
+                <!--<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>-->
+                
+                    <ul>
+                        <?php 
+                        
+                        /*** GCHAF FIX add fields ***/
+                        
+                        $obj = new stdClass; 
+                        $obj->type = 'textfield';
+                        $obj->name = 'Category';
+                        $obj->value = $this->item->category->name;
+                        $obj->group = 1; 
+                        
+                        array_push($this->item->extra_fields, $obj);
+                        
+                        
+                        $plugins = json_decode($this->item->plugins);
+                        
+                        $obj = new stdClass; 
+                        $obj->type = 'textfield';
+                        $obj->name = 'Address';
+                        $obj->value = $plugins->address;
+                        $obj->group = 1; 
+                        
+                        array_push($this->item->extra_fields, $obj);
+                //  debug($this->item->extra_fields);
+                        
+                        ?>
+                        <?php foreach ($this->item->extra_fields as $key => $extraField): ?>
+                        <?php if($extraField->value != '' && $extraField->id <> 1): /** GCHAD FIX remove country **/ ?>
+                        <li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
+                            <?php if($extraField->type == 'header'){ ?>
+                                
+                                <h4 class="itemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
+                            
+                            <?php } elseif ($extraField->type == 'link'){ 
+                                ?>
+                                <span class="itemExtraFieldsValue"><a target="_blank" href="http://<?php echo $extraField->url ?> ">Official Website</a></span>
+                                    
+                                    <?php
+                            } else { ?>
+                                
+                                <span class="itemExtraFieldsLabel"><b><?php echo $extraField->name; ?>:</b></span>
+                                <span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
+                            <?php } ?>
+                        </li>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    
+                </div>
+               
+              </div>
+          </div>
+          <?php endif; ?>
 
 	 
 
@@ -465,15 +527,7 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
   </div>
   <?php endif; ?>
 
-  <?php if($this->item->params->get('itemTwitterButton',1) || $this->item->params->get('itemFacebookButton',1) || $this->item->params->get('itemGooglePlusOneButton',1)): ?>
-	<!-- Social sharing -->
-	<div class="itemSocialSharing">
-
-		
-
-		<!--<div class="clr"></div>-->
-	<?php endif; ?>
-
+  
   <?php /* if($this->item->params->get('itemAuthorBlock') && empty($this->item->created_by_alias)): ?>
     
     <!-- Author Block -->

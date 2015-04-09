@@ -399,7 +399,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		if(count($items)==0){
 			return JError::raiseNotice(500, JText::_('SEARCH_RESULT_NULL'));
 		}
-       
+      
 		// Pagination
 		jimport('joomla.html.pagination');
 		$total = count($items) ? $model->getTotal() : 0;

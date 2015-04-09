@@ -54,15 +54,22 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 return false;
             }
             
-            if(form.email.value == "") {
-                alert ("<?php echo JText::_( 'ERR_EMAIL'); ?>");
+             var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            if(form.email.value == "" || !reg.test(form.email.value)) {
+                alert ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
                 form.email.focus();
                 return false;
             }
-            
-            if(form.title.value == "") {
+           
+            if(form.facilityName.value == "") {
                 alert ("<?php echo JText::_( 'ERR_TITLE'); ?>");
-                form.title.focus();
+                form.facilityName.focus();
+                return false;
+            }
+            
+            if(form.artistName.value == "") {
+                alert ("<?php echo JText::_( 'ERR_TITLE'); ?>");
+                form.artistName.focus();
                 return false;
             }
                     
@@ -122,6 +129,10 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
         window.googleMap = new google.maps.places.Autocomplete( (document.getElementById('address')), { types: ['geocode'] });
     });
     
+    function insertPlaceHolders(){
+        
+    }
+    
 </script>
 
 <?php
@@ -134,14 +145,12 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 <div class="login-wrap2">
 
   <div class="login ">
-  
+    <h3><?php echo  $this->res->title; ?></h3>
     <form id="avidStory" action="<?php echo $link;?>" method="post" enctype="multipart/form-data" onSubmit="return submitbutton()" >
 
         <table class="contenettable" >
             
-            <tr>
-        		<th ><h3><?php echo  $this->res->title; ?></h3></label></td>
-        	</tr><?php 
+            <?php 
         		
         	
         		if($setting->name == 1){?>
@@ -152,7 +161,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             	 	
             	 	<tr> 
             			<td>
-            			    <input required   class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['name']; } if($id){ echo $this->detail->name;} ?>" />
+            			    <input required placeholder="<?php echo  JText::_( 'NAME_PLACEHOLDER');?>" class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['name']; } if($id){ echo $this->detail->name;} ?>" />
             		    </td>
             		</tr><?php 
                 }	
@@ -164,20 +173,30 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             	 	
             	 	<tr> 
             			<td>
-            			    <input required   class="inputbox" type="text" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
+            			    <input required   placeholder="me@example.com" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
             		    </td>
             		</tr><?php 
                 }?>
         	
         	 	<tr>
-        			<td><label><?php echo  JText::_( 'TITLE'); ?></label></td>
+        			<td><label><?php echo  JText::_( 'FACILITY'); ?></label></td>
         	 	</tr>
         	 	
         	 	<tr> 
         			<td>
-        			    <input required   class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['title']; } if($id){echo $this->detail->title;} ?>" />
+        			    <input required class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
         	        </td>
-        		</tr><?php
+        		</tr>
+        		
+        		<tr>
+                    <td><label><?php echo  JText::_( 'ARTIST'); ?></label></td>
+                </tr>
+                
+                <tr> 
+                    <td>
+                        <input required class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
+                    </td>
+                </tr><?php
         		
         		/********* GCHAD FIX *****/?>
         			

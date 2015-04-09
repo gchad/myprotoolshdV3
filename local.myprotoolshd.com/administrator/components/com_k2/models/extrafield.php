@@ -212,6 +212,7 @@ class K2ModelExtraField extends K2Model
 		}
 
 		$defaultValues = $json->decode($extraField->value);
+        usort($defaultValues, 'alphaOrder');
 
 		foreach ($defaultValues as $value)
 		{
@@ -320,7 +321,15 @@ class K2ModelExtraField extends K2Model
 		{
 
 			case 'textfield' :
-				$output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' />';
+                
+                /* GCHAD FIX  for credits and URLs*****/
+                if($extraField->id == 5 || $extraField->id == 6){
+                    $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" placeholder="'.$active.'" '.$attributes.' />';
+                
+                } else {
+                    $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' />';
+                
+                }
 				break;
 
 			case 'labels' :
@@ -377,11 +386,12 @@ class K2ModelExtraField extends K2Model
                     
                     // $output = '<label>'.JText::_('K2_URL').'</label>';
                      $output = '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
-                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
+                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  placeholder="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
                      $output .= '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[2], ENT_QUOTES, 'UTF-8').'" />';
                     
                 //regular
                 } else {
+                    
                     $output = '<label>'.JText::_('K2_TEXT').'</label>';
                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
                     $output .= '<label>'.JText::_('K2_URL').'</label>';
@@ -507,5 +517,11 @@ class K2ModelExtraField extends K2Model
 		}
 		return $value;
 	}
+
+}
+
+function alphaOrder($a, $b){
+   
+    return strcmp($a->name, $b->name);
 
 }

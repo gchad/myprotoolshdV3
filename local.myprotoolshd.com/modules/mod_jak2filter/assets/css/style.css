@@ -95,10 +95,11 @@ select:focus {
 
 
 .ja-k2filter input[type=text],
-.ja-k2filter select {
+.ja-k2filter select,
+ul.ja-k2filter label button.select {
   background-color: #fff;
   border: 1px solid #ccc;
-  color: #666;
+  color: #666 !important;
   display: inline-block;
   font-size: 14px;
   min-height: 30px;
@@ -114,17 +115,19 @@ select:focus {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  /*box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  transition: border linear .2s, box-shadow linear .2s;
+  transition: border linear .2s, box-shadow linear .2s;*/
   
-  -o-transition: border linear .2s, box-shadow linear .2s;
+ /* -o-transition: border linear .2s, box-shadow linear .2s;
   -moz-transition: border linear .2s, box-shadow linear .2s;
   -webkit-transition: border linear .2s, box-shadow linear .2s;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+  -webkit-box-sizing: border-box;*/
+  
+ 
 }
 
 .ja-k2filter.horizontal-layout .keyword-options label {
@@ -161,7 +164,7 @@ ul.ja-k2filter li p input.date {
 .ja-k2filter .ja-magic-select {
 	position: absolute !important;
 	top: 44px;
-	left: 0px;
+	left: 10px;
 	background: #FFFFFF;
 
 	border-radius: 2px;
@@ -245,12 +248,9 @@ ul.ja-k2filter li.magic-select {
 }
 
 .ja-k2filter .ja-magic-select-container {
-	vertical-align: top;
-	position: absolute;
-	left: 134px;
-	top: 3px;
-	z-index: 9;
-}
+	
+	
+	}
 
 /* Horizontal layout ---*/
 div ul.horizontal-layout li {
@@ -302,10 +302,9 @@ ul.ja-k2filter .ja-magic-select-container span {
 	border: 1px solid #E1E1E8;
 	border-radius: 3px;
 	color: #666;
-	display: block;
-	
+	display: inline-block;
 	font-size: 14px;
-	margin: 2px 4px 4px 4px;
+	margin: 2px 4px 4px 0px;
 	padding: 0px 20px 0px 5px;
 	position: relative;
 	white-space: nowrap;
@@ -333,20 +332,13 @@ ul.ja-k2filter .ja-magic-select-container span.remove:hover {
 }
 
 ul.ja-k2filter label button.select {
-	/*background: #fff;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	color: #6D2E8B;
-	font-size: 13px;
-	
-	padding: 3px 5px;
-	overflow: hidden;
-	vertical-align: middle;
-	;*/
-	display: inline-block !important;
+
+	display: block !important;
 	font-weight: normal;
 	height: 36px;
 	font-size: 14px;
+	padding: 2px 0px 0px 10px;
+	text-align: left;
 }
 
 ul.ja-k2filter label button.select:hover,
@@ -646,7 +638,7 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
 }
 
 .magic-select .group-label{
-	display: inline-block;
+	display: block;
 }
 .jak2-tooltip.left .jak2-tooltip-arrow {
 	top: 50%;

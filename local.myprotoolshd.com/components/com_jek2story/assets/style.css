@@ -243,15 +243,22 @@ table.contenettable tr td, table.contenettable tr, table.contenettable tr th{ bo
 
 
 .login-wrap2 {
-width: 470px;
+width: 610px;
 margin: 40px auto 66px;
 }
 
 .login-wrap2 form {
 background: #f7f7f7;
 margin-bottom: 0;
-padding: 20px 20px 20px 20px;
+padding: 0px 20px 20px 20px;
 border-radius: 5px;
+}
+
+
+.t3-mainbody h3{
+	font-size: 30px !important;
+	font-weight: bold !important;
+	margin-bottom: 10px !important;
 }
 
 .button2 {
@@ -267,6 +274,7 @@ border: 1px solid transparent;
 
 .login-wrap2 form label {
 	margin: 20px 0px 2px 0px;
+	font-size: 16px;
 }
 .login-wrap2 .contenettable{
 	display: block;
@@ -318,6 +326,10 @@ td.terms {
 
 .login-wrap2 .editor iframe{
 	height: 180px !important;
+}
+
+#t3-mainbody {
+background-color: #FFFFFF !important;
 }
 
 

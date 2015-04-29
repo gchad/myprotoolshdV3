@@ -1,5 +1,9 @@
 @media (max-width: 768px){
 	
+	#titlePre{
+		display: block;
+	}
+	
 	.languageswitcherload{
 		border: none !important;
 		top: 18px !important;
@@ -105,6 +109,10 @@
 
 @media (min-width: 768px){
 	
+	#titlePre{
+		display: inline-block;
+	}
+	
 	.ja-intro .intro-content .info #carousel-home{
 		display: inline-block;
 		position: absolute;
@@ -190,6 +198,10 @@
 
 @media (min-width: 992px){
 	
+	#titlePre{
+		display: inline-block;
+	}
+	
 	#t3-mainnav li a{
 		margin-right: 40px !important;
 	}
@@ -252,6 +264,10 @@
 
 @media (min-width: 1200px){
 	
+	#titlePre{
+		display: inline-block;
+	}
+	
 	.catItemImageBlock{
 		height: 250px;
 	}
@@ -306,6 +322,27 @@
 	
 }
 
+.nowrap{
+	white-space: nowrap;
+}
+ #titlePre{
+ margin-right: 8px;
+ font-family: 'AvidOmnesLight' !important;
+ }
+
+
+.ja-intro .intro-content .info #carousel-home{
+	position: relative !important;
+}
+
+.ja-intro .intro-content .info #carousel-home .carousel-inner .item.active{
+	position: relative !important;
+}
+
+.ja-intro .intro-content .info #carousel-home .carousel-inner .item p{
+	margin: 0px !important;
+}
+
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Lato:400,700);
 
 @font-face {
@@ -316,12 +353,13 @@
 }
 
 body, input, p, select, div {
-	 -webkit-font-smoothing: antialiased;
+	
 	 -moz-osx-font-smoothing: grayscale; 
 	font-family: "Source Sans Pro" !important;
 }
 
 h2,h3,h4,h5,h6,h7 {
+	 -webkit-font-smoothing: antialiased;
 	font-family: "Lato" !important;
 	font-weight: normal !important;
 	 -webkit-font-smoothing: antialiased;
@@ -528,10 +566,9 @@ a.imgWrap:hover > .blueOverlay{
 	width: 29%;	
 	vertical-align: top;
 }
-
-#social a:hover {
-	color: white;
-}
+ #map_canvas{
+ 	display: none;
+ }
 
 .itemMeta{
 	display: none;
@@ -612,6 +649,7 @@ margin-top: 10px;
  
 
  #introPanel #hashtag{
+ 	font-family: 'AvidOmnesLight' !important;
  	margin-bottom: 10px;
  }
  
@@ -623,25 +661,24 @@ margin-top: 10px;
  }
 
 #Mod144 {
-	background-image: url('/images/gallery.png');
-	
-	
+	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/gallery.png');	
 }
 
 #galleryPanel h1, #galleryPanel, #requestPanel h1, #requestPanel, #introPanel, #introPanel h1{
 	color: white;
+	 -webkit-font-smoothing: antialiased;
 }
 
 #Mod143{
-	background-image: url('/images/map.png')
+	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/map.png')
 }
 
 #Mod136{
-	background-image: url('/images/showcase.png')
+	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/showcase.png')
 }
 
 #Mod137{
-	background-image: url('/images/request.png')
+	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/request.png')
 }
 
 #Mod143 p, #Mod143 a, #Mod136 p, #Mod136 a {
@@ -649,7 +686,7 @@ margin-top: 10px;
 }
 
 .t3-header.t3-header-3 .ja-intro-1{
-	
+	 -webkit-font-smoothing: antialiased;
 	text-align: left !important;
 }
 
@@ -779,7 +816,7 @@ a.button3:hover{
  }
  
  .ja-home-6 .row{
- 	margin-top: 7px;
+ 	margin-top: 0px;
  }
  
  #system-message > div{

@@ -80,7 +80,7 @@ class jesubmitController extends JControllerLegacy  {
         $created=$now->toSql();
         
         if(isset($_POST['facilityName']) && isset($_POST['artistName'])){
-             $_POST['title'] =  $_POST['facilityName'].' -- '. $_POST['artistName'];
+             $_POST['title'] =  $_POST['facilityName'].' — '. $_POST['artistName'];
         }else {
              $_POST['title'] =  $_POST['facilityName'];
         }
@@ -1259,11 +1259,11 @@ class jesubmitController extends JControllerLegacy  {
 		}
        
 		//$extra_data ='<table>';
-		
+		//debug($extraFields);
  		foreach ($extraFields as $extraField){
  		   
 			$extra_data .='<tr>';
-			$extra_data .='<td><label align="left">'.JText::_($extraField->name).'</label></td></tr><tr>';
+			$extra_data .='<td><label id="label_K2ExtraField_'.JText::_($extraField->id).'" align="left">'.JText::_($extraField->name).'</label></td></tr><tr>';
 			$extra_data .='<td>'.$extraField->element.'</td>';
 			$extra_data .='</tr>';
 		}

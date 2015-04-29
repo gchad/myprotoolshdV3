@@ -243,17 +243,7 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
 	           
           
           <td id="social">
-              
-                <div class="share">
-                    <a class="button2" href="<?php echo $this->item->link; ?>" class="button2" onclick="window.top.location.href = this.href;"><?php echo JText::_('GET_PAGE_URL')?></a>
                 
-                </div>
-                
-                
-
-        
-
-       
                 <?php if($this->item->params->get('itemTwitterButton',1) || $this->item->params->get('itemFacebookButton',1) || $this->item->params->get('itemGooglePlusOneButton',1)): ?>
               
                     <!-- Social sharing -->
@@ -300,6 +290,10 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
                                 </script>
                             </div>
                             <?php endif; ?>
+                            
+                            <div class="share">
+                                <a class="" href="<?php echo $this->item->link; ?>" class="button2" onclick="window.top.location.href = this.href;"><?php echo JText::_('GET_PAGE_URL')?></a>
+                            </div>
                     
                     </div>
             
@@ -312,9 +306,9 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
     	   <td id="itemImageBlock">
     	      
     		  <span class="itemImage">
-    		  	<a class="" rel="" href="<?php echo $this->item->imageXLarge; ?>" title="<?php echo JText::_('K2_CLICK_TO_PREVIEW_IMAGE'); ?>">
+    		  	<!--<a rel="" href="<?php echo $this->item->imageXLarge; ?>" title="<?php echo JText::_('K2_CLICK_TO_PREVIEW_IMAGE'); ?>">-->
     		  		<img src="<?php echo $this->item->image; ?>" alt="<?php if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); ?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
-    		  	</a>
+    		  	<!--</a>-->
     		  </span>
     
     		  <?php if($this->item->params->get('itemImageMainCaption') && !empty($this->item->image_caption)): ?>
@@ -360,14 +354,13 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
 	  <?php endif; ?>
 
 	   <div class="clr"></div>
-	   
-	   
-	   
+
 	   
 	    <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
           <!-- Item extra fields -->
           
            <div id="itemExtraFieldsWrap">
+               
               <div id="itemExtraFields">
                 
                   
@@ -396,7 +389,7 @@ $iframe = JRequest::getVar('iframe') ? 'iframe' : '';
                         $obj->group = 1; 
                         
                         array_push($this->item->extra_fields, $obj);
-                //  debug($this->item->extra_fields);
+                
                         
                         ?>
                         <?php foreach ($this->item->extra_fields as $key => $extraField): ?>

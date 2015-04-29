@@ -91,10 +91,10 @@ if($tplparams->get('tpl_userpage_mid') == $active->id){
 		<?php else : 
       
             $langMatrix = array(
-                1 => 'English',
-                3 => 'Deutsch',
-                6 => 'Français',
-                4 => 'Español'
+                1 => 'UK',
+                3 => 'DE',
+                6 => 'FR',
+                4 => 'ES'
                
                 );
 		    

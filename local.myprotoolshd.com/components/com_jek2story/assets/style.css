@@ -332,4 +332,8 @@ td.terms {
 background-color: #FFFFFF !important;
 }
 
+.error {
+	color: rgb(180,0,0);
+}
+
 

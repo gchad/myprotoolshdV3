@@ -41,20 +41,133 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 <script language="javascript" type="text/javascript">
 
     window.addEvent('domready',function(){
+
+        var button = $('storySubmit');
         
-        var form = $('avidStory');
-        
-        form.addEvent('submit',function(e){
-            
+        button.addEvent('click',function(e){
+             
+            var form = $('avidStory');
             e.preventDefault();
-        
+   
+            var validate = true;
+            var focused = false;
+            var errorMsg = false;
+            var labels = form.getElements('label');
+            
+            labels.each(function(el){
+                el.removeClass('error');
+            });
+            
+            var inputs = form.getElements('input');
+           // var inputs = [];
+            inputs.each(function(el){
+                
+                var name = el.name.replace('[]','');
+                 
+                if( el.type != 'hidden'){
+                    
+                    if( el.value == ""){
+                        
+                        var validate = false;
+                        errorMsg =  ("<?php echo JText::_( 'FILL_ALL FIELDS'); ?>");
+                        
+                        
+                        if( $('label_' + name)){
+                            $('label_' + name).addClass('error');
+                        } 
+                        
+                        if(focused == false){
+                            el.focus(); 
+                            focused = true;
+                        }
+                    }
+                }
+                
+                if( el.type == 'email'){
+                    
+                    var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                    
+                    if(!reg.test(el.value)){
+                        
+                         var validate = false;
+                         errorMsg = ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
+                         
+                         if($('label_' + name)){
+                            $('label_' + name).addClass('error');
+                         }; 
+                         
+                         if(focused == false){
+                            el.focus(); 
+                            focused = true;
+                        };
+                    }
+                }
+            });
+            
+            var selects = form.getElements('select');
+            
+            selects.each(function(el){
+                
+                 var name = el.name.replace('[]','');
+              
+                if( el.value == 0 || el.value == ""){
+                        
+                        var validate = false;
+                        errorMsg =  ("<?php echo JText::_( 'FILL_ALL FIELDS'); ?>");
+                       
+                        if( $('label_' +  name)){
+                            $('label_' + name).addClass('error');
+                        };
+                        
+                        if(focused == false){
+                            el.focus(); 
+                            focused = true;
+                        };
+                    }
+                
+            });
+            
+            //editor
+            var story = tinyMCE.editors[0].getContent();
+
+            if( story.trim() == ""){
+                    
+                var validate = false;
+                errorMsg =  ("<?php echo JText::_( 'FILL_ALL FIELDS'); ?>");
+               
+                if( $('label_fulltext')){
+                    $('label_fulltext').addClass('error');
+                } 
+                
+                if(focused == false){
+                    tinyMCE.activeEditor.focus(); 
+                    focused = true;
+                }
+            };
+      
+   
+            //terms
+            if (form.accept.checked == false) {
+                
+                errorMsg =  ( "<?php echo  JText::_( 'ERR_TERMS_COND'); ?>" );
+                form.accept.focus();
+            }   
+
+            
+           if(errorMsg){
+               alert(errorMsg);
+               return false;
+           }
+            
+ 
+        <?php /*
             if(form.name.value == "") {
                 alert ("<?php echo JText::_( 'ERR_FNAME'); ?>");
                 form.name.focus();
                 return false;
             }
             
-             var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
             if(form.email.value == "" || !reg.test(form.email.value)) {
                 alert ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
                 form.email.focus();
@@ -98,6 +211,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
     <?php   }    ?>
     
             if(form.address.value == "") {
+                
                 alert ("<?php echo JText::_( 'ERR_ADDRESS'); ?>");
                 form.address.focus();
                 return false;
@@ -116,10 +230,26 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                      $('address_lat').value =  adLat;
                 }
                
-            };
+            };*/?>
     
-    
-            form.submit();
+            if(validate == true){
+                
+                var place = googleMap.getPlace();
+                var adLat = place.geometry.location.k;
+                var adLong = place.geometry.location.D;
+                
+                if(adLong){
+                     $('address_long').value = adLong;
+                }
+                
+                if(adLat){
+                     $('address_lat').value =  adLat;
+                }
+                
+               
+                form.submit();
+            }
+            
           
         });
     });
@@ -148,76 +278,81 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
     <h3><?php echo  $this->res->title; ?></h3>
     <form id="avidStory" action="<?php echo $link;?>" method="post" enctype="multipart/form-data" onSubmit="return submitbutton()" >
 
-        <table class="contenettable" >
+        <table class="contenettable" ><?php 
             
-            <?php 
-        		
-        	
         		if($setting->name == 1){?>
         		    
                 	<tr>
-            			<td><label><?php echo  JText::_( 'NAME'); ?></label></td>
+            			<td><label id="label_name"><?php echo  JText::_( 'NAME'); ?></label></td>
             	 	</tr>
             	 	
             	 	<tr> 
             			<td>
-            			    <input required placeholder="<?php echo  JText::_( 'NAME_PLACEHOLDER');?>" class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['name']; } if($id){ echo $this->detail->name;} ?>" />
+            			    <input placeholder="<?php echo  JText::_( 'NAME_PLACEHOLDER');?>" class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['name']; } if($id){ echo $this->detail->name;} ?>" />
             		    </td>
             		</tr><?php 
                 }	
                 
                 if($setting->email == 1){?>		
             	 	<tr>
-            			<td><label><?php echo  JText::_( 'EMAIL'); ?></label></td>
+            			<td><label id="label_email"><?php echo  JText::_( 'EMAIL'); ?></label></td>
             	 	</tr>
             	 	
             	 	<tr> 
             			<td>
-            			    <input required   placeholder="me@example.com" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
+            			    <input placeholder="me@example.com" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
             		    </td>
             		</tr><?php 
                 }?>
         	
         	 	<tr>
-        			<td><label><?php echo  JText::_( 'FACILITY'); ?></label></td>
+        			<td><label id="label_artistName"><?php echo JText::_( 'ARTIST'); ?></label></td>
         	 	</tr>
         	 	
         	 	<tr> 
         			<td>
-        			    <input required class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
+        			    <input class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
         	        </td>
         		</tr>
         		
         		<tr>
-                    <td><label><?php echo  JText::_( 'ARTIST'); ?></label></td>
+                    <td><label id="label_facilityName"><?php echo  JText::_( 'FACILITY'); ?></label></td>
                 </tr>
                 
                 <tr> 
                     <td>
-                        <input required class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
+                        <input  class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
                     </td>
                 </tr><?php
         		
         		/********* GCHAD FIX *****/?>
         			
         		<tr>
-                    <td><label><?php echo JText::_( 'LOCATION'); ?> *</label></td>
+                    <td><label id="label_address"><?php echo JText::_( 'LOCATION'); ?> *</label></td>
                 </tr>
                 <tr> 
                     <td>
-                        <input required id="address" class="inputbox" type="text" name="address" size="50"  value="" />
-                        <input required id="address_long" class="inputbox" type="hidden" name="address_long" value="" />
-                        <input required id="address_lat" class="inputbox" type="hidden" name="address_lat" value="" />
+                        <input  id="address" class="inputbox" type="text" name="address" size="50"  value="" />
+                        <input  id="address_long" class="inputbox" type="hidden" name="address_long" value="" />
+                        <input  id="address_lat" class="inputbox" type="hidden" name="address_lat" value="" />
                     </td>
                 </tr><?php
                 
                 
                 /******* GHAD FIX ******/
                 
-                if($this->res->category == "1") {?>
+                if($this->res->category == "1") {
+                
+                 /******* GHAD FIX ******  makes category required */
+                   
+                 // $this->lists['catid'] = str_replace('<select','<select required ',$this->lists['catid']);
+                  
+                  /******* GHAD FIX ******/
+
+?>
             		
             		<tr>
-             			<td><label align="left"> <?php echo JText::_( 'CATEGORY'); ?> :</label></td>
+             			<td><label id="label_catid" align="left"> <?php echo JText::_( 'CATEGORY'); ?></label></td>
             		</tr>
             		<tr>
             			<td><?php echo $this->lists['catid']; ?></td>
@@ -225,7 +360,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		
                 } else { ?>
          
-                    <input required type="hidden" name="catid" id="catid" value="<?php echo $this->res->cat_id;?> *" /><?php 
+                    <input  type="hidden" name="catid" id="catid" value="<?php echo $this->res->cat_id;?> *" /><?php 
                     
                 } ?>
                 
@@ -237,7 +372,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
          		
          	
         	 	<tr>
-        	 		<td><label align="left"><?php echo  JText::_( 'MAINTEXT'); ?> *</label></td>
+        	 		<td><label id="label_fulltext" align="left"><?php echo  JText::_( 'MAINTEXT'); ?> *</label></td>
         		</tr>
         		
           		<tr>
@@ -266,14 +401,14 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		              $text = '';
                              }  
                              
-                			 echo $editor->display('fulltext',$text,'$widthPx','$heightPx','80','50','0'); //$editor->display("fulltext",$longtext,'$widthPx','$heightPx','80','20','0'); 
+                			 echo $editor->display('fulltext', $text, '$widthPx','$heightPx','80','50','0'); //$editor->display("fulltext",$longtext,'$widthPx','$heightPx','80','20','0'); 
             			 }?>
             			 
         		   </td>
          		</tr>
          		
         		<tr>
-        		  <td><label><?php echo  JText::_( 'UPLOAD_IMAGE'); ?> *</label></td>
+        		  <td><label id="label_itemimage" ><?php echo  JText::_( 'UPLOAD_IMAGE'); ?> *</label></td>
         		</tr>
         		
         		<tr>
@@ -309,7 +444,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             			</td>
             		</tr>
             		<tr>
-            			<td><input required  class="inputbox" type="text" name="cap" value="" id="cap" /></td>
+            			<td><input class="inputbox" type="text" name="cap" value="" id="cap" /></td>
             			<input type="hidden" name="cpt" id="cpt" value="1" />
             		</tr><?php 
             		
@@ -326,7 +461,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
         		    
             		<tr>
             	        <td class="terms">
-                			<input required   type="checkbox" id="acc" name="accept" value="accept" />
+                			<input required type="checkbox" id="acc" name="accept" value="accept" />
                 			<a href="javascript: void(0)" onclick="window.open('index.php?tmpl=component&option=com_jek2story&view=jesubmit&call=2', 'windowname', 'scrollbars=1,width=500px, height=500px')"><?php echo  JText::_( 'ACCEPT_TERMS_CONDITION'); ?></a>
                             <input type="hidden" id="termaccept" name="termaccept" value="1" />
                         </td>

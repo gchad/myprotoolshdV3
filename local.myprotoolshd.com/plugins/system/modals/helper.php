@@ -123,7 +123,10 @@ class plgSystemModalsHelper
 		list($pre, $body, $post) = nnText::getBody($html);
 		$this->replace($body, 'body');
 
-		if (strpos($body, $this->params->class) === false)
+        /**** GCHAD FIX ******/
+        /***** NEVER REMOVE MODAL ****/ 
+        $gchad = false;
+		if (strpos($body, $this->params->class) === false && $gchad === true)
 		{
 			// remove style and script if no items are found
 			$pre = preg_replace('#\s*<' . 'link [^>]*href="[^"]*/(modals/css|css/modals)/[^"]*\.css[^"]*"[^>]* />#s', '', $pre);

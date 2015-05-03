@@ -371,6 +371,10 @@ abstract class JHtmlBehavior
 			->addScriptDeclaration(
 			"
 		jQuery(function($) {
+		        if( window['SqueezeBox'] == undefined){
+		            return false;
+		        }
+		    
 			SqueezeBox.initialize(" . $options . ");
 			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'

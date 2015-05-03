@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset name="general" label="jQuery" description="COM_RSTBOX_JQUERY_DESC">
+        <field name="jquery" default="1" class="btn-group btn-group-yesno" type="radio" label="COM_RSTBOX_JQUERY_FRONT" description="COM_RSTBOX_JQUERY_FRONT_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="jqueryback" default="1" class="btn-group btn-group-yesno" type="radio" label="COM_RSTBOX_JQUERY_BACK" description="COM_RSTBOX_JQUERY_BACK_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+
+	<fieldset name="Misc" label="Misc" description="">
+        <field name="forceloadmedia" default="0" class="btn-group btn-group-yesno" type="radio" label="COM_RSTBOX_FORCE_LOAD_MEDIA" description="COM_RSTBOX_FORCE_LOAD_MEDIA_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="debug" default="0" class="btn-group btn-group-yesno" type="radio" label="COM_RSTBOX_DEBUG" description="COM_RSTBOX_DEBUG_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+	</fieldset>
+
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC" >
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_rstbox"
+			section="component" />
+	</fieldset>
+</config>

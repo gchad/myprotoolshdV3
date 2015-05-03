@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6" method="upgrade">
+	<name>Package - Responsive Scroll Triggered Box for Joomla</name>
+	<author>Tassos Marinos</author>
+	<creationDate>August 2014</creationDate>
+	<packagename>rstbox</packagename>
+	<version>1.4.2</version>
+	<license>GNU/GPLv3 http://www.gnu.org/copyleft/gpl.html</license>
+	<url>http://www.tassos.gr/joomla-extensions</url>
+	<packager>Joomla Extensions by Tassos Marinos</packager>
+	<packagerurl>http://www.tassos.gr/joomla-extensions</packagerurl>
+    <description>Responsive Scroll Triggered Box 1.4.2</description>
+	<files folder="packages">
+		<file type="component" id="rstbox">com_rstbox.zip</file>
+		<file type="plugin" id="rstbox" group="system">plg_sys_rstbox.zip</file>
+	</files>
+ </extension>

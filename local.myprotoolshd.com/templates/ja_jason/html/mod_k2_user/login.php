@@ -9,7 +9,8 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
+$app = JFactory::getApplication();
+$app->redirect(JRoute::_('index.php?option=com_users&view=login'));
 ?>
 
 <div id="k2ModuleBox<?php echo $module->id; ?>" class="k2LoginBlock<?php if($params->get('moduleclass_sfx')) echo ' '.$params->get('moduleclass_sfx'); ?>">
@@ -34,15 +35,15 @@ defined('_JEXEC') or die;
 	    </p>
 	    <?php endif; ?>
 
-	    <input type="submit" name="Submit" class="button" value="<?php echo JText::_('K2_LOGIN') ?>" />
+	    <input type="submit" name="Submit" class="button2" value="<?php echo JText::_('K2_LOGIN') ?>" />
 	  </fieldset>
 
 	  <ul>
 	    <li><a href="<?php echo $resetLink; ?>"><?php echo JText::_('K2_FORGOT_YOUR_PASSWORD'); ?></a></li>
 	    <li><a href="<?php echo $remindLink ?>"><?php echo JText::_('K2_FORGOT_YOUR_USERNAME'); ?></a></li>
-	    <?php if ($usersConfig->get('allowUserRegistration')): ?>
+	    <?php /*if ($usersConfig->get('allowUserRegistration')): ?>
 	    <li><a href="<?php echo $registrationLink; ?>"><?php echo JText::_('K2_CREATE_AN_ACCOUNT'); ?></a></li>
-	    <?php endif; ?>
+	    <?php endif; */?>
 	  </ul>
 
 	  <?php if($params->get('posttext')): ?>

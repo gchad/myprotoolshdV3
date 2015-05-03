@@ -79,7 +79,7 @@ class jesubmitController extends JControllerLegacy  {
         $now =& JFactory::getDate();
         $created=$now->toSql();
         
-        if(isset($_POST['facilityName']) && isset($_POST['artistName'])){
+        if(isset($_POST['facilityName']) && !empty($_POST['artistName'])){
              $_POST['title'] =  $_POST['facilityName'].' — '. $_POST['artistName'];
         }else {
              $_POST['title'] =  $_POST['facilityName'];
@@ -230,25 +230,46 @@ class jesubmitController extends JControllerLegacy  {
               
                 $plugin = json_encode( $map, JSON_UNESCAPED_UNICODE );
                 $user->id = 0;
-                 
-                //insert in database
+                
+                //Joomla user
+                $user->name = $post['title'];
+                $user->username = $post['name'];
+                
+                $newUser = new stdClass;
+                $newUser->name = $post['title'];
+                $newUser->username = $user->username;
+                $newUser->email = $post['email'];
+                $newUser->password = 'password';
+                $newUser->registerDate = date('Y-m-d H:i:s');
+                $newUser->lastvisitDate = date('Y-m-d H:i:s');
+                
+                $db->insertObject('jos_users',$newUser,'id');
+                $newUserId = $db->insertid();
+                $user->id = $newUserId;
+                
+                //K2 items
                 $sql = "INSERT INTO #__k2_items ".
                        "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
                        "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."','".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','*','".addslashes($plugin)."')"; 
                        
-                
                 $db->setQuery($sql);
                 $db->query();
                 $item_id = $db->insertid();
                 
-                
-                //register a new joomla
-                $user->name = $post['title'];
-                $user->username = $post['name'];
-                /* TO DO */
-                
-                
-               
+                //K2 User
+                $newK2User = new stdClass;
+                $newK2User->userID = $user->id;
+                $newK2User->userName = $user->username;
+                $newK2User->gender = 'm';
+                $newK2User->group = 1;
+                $db->insertObject('jos_k2_users',$newK2User,'id');
+                $newK2UserId = $db->insertid();
+              
+                //joomla usergroup map
+                $sql = "INSERT INTO #__user_usergroup_map (`user_id`,`group_id`) values ($user->id, 2)";
+                $db->setQuery($sql);
+                $db->query();
+              
                 
                 //insert in k2story db
                 $published = $post['publish'] == 0 ? 0 : 1; 
@@ -259,7 +280,7 @@ class jesubmitController extends JControllerLegacy  {
                 $db->setQuery($sql);
                 $db->query();
                 
-               
+                
                 
                 //test if there is a file
                 if($file['name'] != '') {
@@ -287,8 +308,10 @@ class jesubmitController extends JControllerLegacy  {
                          
                     $browse_tempt1 = $mesg->notify_message;
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
-                    $browse_tempt1 =str_replace("{User}", $post['name'], $browse_tempt1);
-                                
+                    $browse_tempt1 =str_replace("{User}", $user->username, $browse_tempt1);
+                    //$browse_tempt1 =str_replace("{login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    $browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                          
                     $config     = &JFactory::getConfig();
                     $from       = $post['email']; 
                     $fromname   = $post['name'];        
@@ -1247,7 +1270,7 @@ class jesubmitController extends JControllerLegacy  {
 			$extraFields = $extraFieldModel->getExtraFieldsByGroup($res->extraFieldsGroup);
 		//else $extraFields = NULL;
 
-//debug($extraFields);
+
 		for($i=0; $i< sizeof($extraFields); $i++){
 		    
 			if($itemid){
@@ -1259,7 +1282,7 @@ class jesubmitController extends JControllerLegacy  {
 		}
        
 		//$extra_data ='<table>';
-		//debug($extraFields);
+		
  		foreach ($extraFields as $extraField){
  		   
 			$extra_data .='<tr>';

@@ -13,7 +13,7 @@
 (function($) {
 	$(document).ready(function() {
 		if (typeof( window['modal_defaults'] ) != "undefined") {
-			initModals();
+			initModals(); 
 		}
 	});
 

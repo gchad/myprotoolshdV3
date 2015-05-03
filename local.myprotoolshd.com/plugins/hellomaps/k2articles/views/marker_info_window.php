@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted access');
         </div>
         <div class="k2articlesPartRight">
             <div class="memberInfo">
-                <a href="<?php echo $markerData['itemLink']; ?>" target="_blank">                    
+                <a href="<?php  echo JRoute::_($markerData['itemLink']); ?>" target="_blank">                    
                     <?php echo JText::_('PLG_HELLOMAPS_K2ARTICLES_VIEW_PROFILE_LABEL'); ?>   
                     <div class="memberArrow">
                         <img src="<?php echo JURI::root().'plugins/hellomaps/k2articles/images/rightArrow.png'; ?>" alt="arrow" />

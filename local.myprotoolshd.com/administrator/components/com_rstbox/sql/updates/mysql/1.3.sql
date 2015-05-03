@@ -1,0 +1,1 @@
+ALTER TABLE `#__rstbox` ADD `accesslevel` SMALLINT NULL DEFAULT NULL AFTER `params` ;

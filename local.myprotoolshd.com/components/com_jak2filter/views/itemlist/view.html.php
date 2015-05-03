@@ -38,7 +38,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		$params->def('num_secondary_columns', 1);
 		$params->def('num_links', 0);
 		$params->def('num_links_columns', 1);
-		//
+		
 		$model = $this->getModel('itemlist');
 		$limitstart = JRequest::getInt('limitstart');
 		$view = JRequest::getWord('view');
@@ -396,8 +396,10 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		{
 			$items = $model->getData($ordering);
 		}
+        
 		if(count($items)==0){
-			return JError::raiseNotice(500, JText::_('SEARCH_RESULT_NULL'));
+		   
+			//return JError::raiseNotice(500, JText::_('SEARCH_RESULT_NULL'));
 		}
       
 		// Pagination

@@ -10,6 +10,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
+$doc = JFactory::getDocument();
+unset($doc->_scripts['/media/system/js/modal.js']);
+
 ?>
 
 <!-- Start K2 Category Layout -->

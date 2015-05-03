@@ -135,7 +135,41 @@ class modJak2filterHelper
 					
 					if(!in_array($fieldId, $fields) || !method_exists($this, $func)) continue;
 
-					$row = $this->getExtraField($fieldId);
+					$row = $this->getExtraField($fieldId); 
+                    
+                   
+                    /***** GHAD FIX *****/
+                    
+                    
+                    if($row->name == 'Region'){
+                        
+                        require_once('libraries/joomla/language/helper.php');
+                        $languages  = JLanguageHelper::getLanguages();
+                        $activeLanguage = JFactory::getLanguage()->getTag();
+                        
+                        $langRow = array();
+                        
+                        foreach($languages as $k => $v){
+                            
+                            $langRow[]=array(
+                                "name" => $v->title,
+                                "value" => $v->lang_id,
+                                "target" => null,
+                                "alias" => "region",
+                                "required" => 1,
+                                "showNull" => 0,
+                                "ordering" => $v->ordering,
+                                "selected" =>$activeLanguage == $v->lang_code
+                                
+                            );
+                        }
+                       
+                        $row->value = json_encode($langRow);                       
+                    }
+                    
+                    /**************/
+                    
+                    
 					if(!$row) continue;
 					$group = $row->group;
 					if(isset($activeGroups) && !in_array($group, $activeGroups)) {
@@ -586,20 +620,38 @@ class modJak2filterHelper
 		$input = JFactory::getApplication()->input;
 
 		$selected_values = $input->get($fieldname, null);
+        
+       
 		if($field->jatype == 'xfield') {
-			$values = $this->getXFieldValues($field);
+			$values = $this->getXFieldValues($field); 
 			$attrs = array('class'=>'exfield exgroup'.$field->group);
 		} else {
 			$values = $field->value;
 			$attrs = isset($field->attrs) ? $field->attrs : array();
 			sort( $values, SORT_REGULAR );
 		}
+        
+        /***** GCHAD FIX *****/
+        
+        if($field->name == 'Region'){
+            
+           usort($values, 'sortRegionFields');
+           foreach($values as $k => $v){
+               if($v->selected == 1){
+                   $selected_values = $v->value;
+               }
+           }
+        }
+        /**********************/
+        
 		$html[] = JHTML::_('select.option', 0, JText::sprintf('JAK2_SELECT_OPTION', $field->name));
+        
 		foreach ($values as $f) {
 			if ($this->disable_option_empty != 2 || !$f->disabled) {
 				$html[] = JHTML::_('select.option', $f->value, $f->name . $f->num_items_txt, 'value', 'text', $f->disabled);
 			}
         }
+        
 		
         return JHTML::_('select.genericlist', $html, $fieldname, $attrs, 'value', 'text', $selected_values);
 	}
@@ -1313,3 +1365,7 @@ function jaK2GetOrderFields($activeGroups = null) {
 
 	return $options;
 }
+
+function sortRegionFields($a,$b){
+               return $a->ordering > $b->ordering;
+           }

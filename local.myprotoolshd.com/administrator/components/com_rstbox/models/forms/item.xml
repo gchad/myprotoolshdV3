@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="general">
+        <field name="published" type="radio" 
+            label="JSTATUS" 
+            description="JFIELD_PUBLISHED_DESC" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="name" type="text" 
+            label="COM_RSTBOX_ITEM_TITLE" 
+            description="COM_RSTBOX_ITEM_TITLE_DESC" 
+            required="true" 
+        />
+        <field name="prm_showtitle" type="radio" 
+            label="COM_RSTBOX_ITEM_SHOWTITLE" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        
+        <field name="testmode" type="radio" 
+            label="COM_RSTBOX_ITEM_TESTMODE" 
+            description="COM_RSTBOX_ITEM_TESTMODE_DESC" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="published" type="radio" 
+            label="JSTATUS" 
+            description="JFIELD_PUBLISHED_DESC" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+        <field name="id" type="hidden" />
+    </fieldset>
+    <fieldset name="type">
+        <field name="boxtype" type="list" 
+            default="custom" 
+            label="COM_RSTBOX_ITEM_TYPE" 
+            description="COM_RSTBOX_ITEM_TYPE_DESC" 
+            class="chzn-color-state">
+            <option value="emailform">COM_RSTBOX_ITEM_EMAILSUBCRIPTION</option>
+            <option value="module">COM_RSTBOX_ITEM_MODULE</option>
+            <option value="custom">COM_RSTBOX_ITEM_CUSTOMHTML</option>
+        </field>
+    </fieldset>
+    <fieldset name="custom">
+        <field name="customhtml" type="editor" 
+            rows="5" 
+            cols="40" 
+            filter="raw" 
+            label="COM_RSTBOX_ITEM_CUSTOMHTML" 
+            description="COM_RSTBOX_ITEM_CUSTOMHTML_DESC"
+        />
+        <field name="prm_preparecontent" type="radio" 
+            label="COM_RSTBOX_PREPARE_CONTENT" 
+            description="COM_RSTBOX_PREPARE_CONTENT_DESC" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+
+    <fieldset name="module" addfieldpath="administrator/components/com_rstbox/models/fields">
+        <field name="bx_moduleid" type="modules"
+            label="COM_RSTBOX_ITEM_MODULEID"
+            description="COM_RSTBOX_ITEM_MODULEID_DESC"
+        />
+    </fieldset>
+
+    <fieldset name="emailform">
+        <field type="spacer" name="myspacer0" label="Form Settings" class="h3" />
+        <field name="bx_mc_url" type="url" 
+            class="input-xlarge" 
+            label="COM_RSTBOX_ITEM_EMAIL_URL" 
+            description="COM_RSTBOX_ITEM_EMAIL_URL_DESC" 
+            size="40" 
+        />
+        <field name="bx_mc_header" type="textarea"
+            filter="raw"
+            rows="7"
+            cols="30" 
+            label="COM_RSTBOX_ITEM_HEADER" 
+            description="COM_RSTBOX_ITEM_HEADER_DESC"
+        />
+        <field name="bx_mc_showlabels" type="list" 
+            default="1" 
+            label="COM_RSTBOX_ITEM_LABELS_STYLE" 
+            description="COM_RSTBOX_ITEM_LABELS_STYLE">
+                <option value="0">COM_RSTBOX_ITEM_LABELS_STYLE_NORMAL</option>
+                <option value="1">COM_RSTBOX_ITEM_LABELS_STYLE_PLACEHOLDER</option>
+                <option value="2">COM_RSTBOX_ITEM_LABELS_STYLE_BOTH</option>
+        </field>
+        <field type="spacer" name="merge00" label="COM_RSTBOX_ITEM_FIELD_EMAIL" class="h3" />
+        <field name="bx_mc_email_namefield" 
+            label="COM_RSTBOX_ITEM_FIELD_NAME"
+            size="40"
+            default="email"
+        />
+        <field name="bx_mc_email_name" 
+            label="COM_RSTBOX_ITEM_FIELD_LABEL"
+            size="40"
+            default="Email address"
+        />
+        <field type="spacer" name="merge1" label="COM_RSTBOX_ITEM_FIELD1" class="h3" />
+        <field name="bx_mc_merge1_name" 
+            label="COM_RSTBOX_ITEM_FIELD_NAME"
+            size="40"
+        />
+        <field name="bx_mc_merge1_active" type="radio" 
+            label="COM_RSTBOX_ITEM_FIELD_ACTIVE" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field>  
+        <field name="bx_mc_merge1_type" type="list" 
+            default="0" 
+            label="COM_RSTBOX_ITEM_FIELD_TYPE">
+            <option value="text">COM_RSTBOX_ITEM_FIELD_TYPE_TEXT</option>
+            <option value="hidden">COM_RSTBOX_ITEM_FIELD_TYPE_HIDDEN</option>
+        </field>
+        <field name="bx_mc_merge1_label" type="text"
+            label="COM_RSTBOX_ITEM_FIELD_LABEL" 
+            size="40"
+        />
+        <field name="bx_mc_merge1_value" 
+            label="COM_RSTBOX_ITEM_FIELD_VALUE" 
+            size="40"
+        />
+        <field name="bx_mc_merge1_required" type="radio" 
+            label="COM_RSTBOX_ITEM_FIELD_REQUIRED" 
+            class="btn-group btn-group-yesno"
+            filter="intval" 
+            size="1" 
+            default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field>    
+        <field type="spacer" name="merge2" label="COM_RSTBOX_ITEM_FIELD2" class="h3" />
+        <field name="bx_mc_merge2_name" 
+            label="COM_RSTBOX_ITEM_FIELD_NAME"
+            size="40"
+        />
+        <field name="bx_mc_merge2_active" type="radio" 
+            label="COM_RSTBOX_ITEM_FIELD_ACTIVE" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field>  
+        <field name="bx_mc_merge2_type" type="list" 
+            default="0" 
+            label="COM_RSTBOX_ITEM_FIELD_TYPE">
+            <option value="text">COM_RSTBOX_ITEM_FIELD_TYPE_TEXT</option>
+            <option value="hidden">COM_RSTBOX_ITEM_FIELD_TYPE_HIDDEN</option>
+        </field>
+        <field name="bx_mc_merge2_label" type="text"
+            label="COM_RSTBOX_ITEM_FIELD_LABEL" 
+            size="40"
+        />
+        <field name="bx_mc_merge2_value" 
+            label="COM_RSTBOX_ITEM_FIELD_VALUE" 
+            size="40"
+        />
+        <field name="bx_mc_merge2_required" type="radio" 
+            label="COM_RSTBOX_ITEM_FIELD_REQUIRED" 
+            class="btn-group btn-group-yesno"
+            filter="intval" 
+            size="1" 
+            default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field>   
+        <field type="spacer" name="myspacer3" label="Submit Button" class="h3" />
+        <field name="bx_mc_submit" type="text"
+            default="Sign up" 
+            label="COM_RSTBOX_ITEM_FIELD_LABEL" 
+        />
+        <field name="bx_mc_submit_bg" type="color" 
+            default="#5db75d" 
+            label="COM_RSTBOX_ITEM_BACKGROUNDCOLOR" 
+        />
+        <field name="bx_mc_submit_color" type="color" 
+            default="#fff" 
+            label="COM_RSTBOX_ITEM_TEXTCOLOR"
+        />
+        <field type="spacer" name="myspacer200" hr="true"/>
+    </fieldset>
+
+    <fieldset name="item">
+        <field name="position" type="list" 
+            default="bottom-right" 
+            label="COM_RSTBOX_ITEM_BOX_POSITION" 
+            description="COM_RSTBOX_ITEM_BOX_POSITION_DESC">
+                <option value="top-left">COM_RSTBOX_ITEM_BOX_POSITION_TOPLEFT</option>
+                <option value="top-center">COM_RSTBOX_ITEM_BOX_POSITION_TOPCENTER</option>
+                <option value="top-right">COM_RSTBOX_ITEM_BOX_POSITION_TOPRIGHT</option>
+                <option value="bottom-left">COM_RSTBOX_ITEM_BOX_POSITION_BOTTOMLEFT</option>
+                <option value="bottom-center">COM_RSTBOX_ITEM_BOX_POSITION_BOTTOMCENTER</option>
+                <option value="bottom-right">COM_RSTBOX_ITEM_BOX_POSITION_BOTTOMRIGHT</option>
+                <option value="center">COM_RSTBOX_ITEM_BOX_POSITION_CENTER</option>
+        </field>
+        <field name="triggermethod" type="list" 
+            label="COM_RSTBOX_ITEM_TRIGGER" 
+            description="COM_RSTBOX_ITEM_TRIGGER_DESC">
+                <option value="pageheight">COM_RSTBOX_ITEM_TRIGGER_PAGEHEIGHT</option>
+                <option value="pageload">COM_RSTBOX_ITEM_TRIGGER_PAGELOAD</option>
+                <option value="userleave">COM_RSTBOX_ITEM_TRIGGER_USERLEAVE</option>
+                <option value="element">COM_RSTBOX_ITEM_TRIGGER_ELEMENT</option>
+        </field>
+        <field name="prm_triggerelement" type="text" 
+            label="COM_RSTBOX_ITEM_TRIGGER_ELEMENT2" 
+            description="COM_RSTBOX_ITEM_TRIGGER_ELEMENT_DESC"
+            size="30"
+        />
+        <field name="prm_triggerpercentage" type="text" 
+            class="input-mini" 
+            label="COM_RSTBOX_ITEM_TRIGGER_PERCENTAGE" 
+            default="80"
+            description="COM_RSTBOX_ITEM_TRIGGER_PERCENTAGE_DESC"
+            size="6"
+        />
+        <field name="prm_triggerdelay" type="text" 
+            label="COM_RSTBOX_ITEM_TRIGGER_DELAY" 
+            description="COM_RSTBOX_ITEM_TRIGGER_DELAY_DESC"
+            size="30"
+            default="0"
+            class="input-mini" 
+        />
+        <field name="prm_autohide" type="radio" 
+            label="COM_RSTBOX_ITEM_AUTOHIDE" 
+            class="btn-group btn-group-yesno"
+            description="COM_RSTBOX_ITEM_AUTOHIDE_DESC"
+            filter="intval" 
+            size="1" 
+            default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field>  
+        <field name="animation" type="list" 
+            default="slide" 
+            label="COM_RSTBOX_ITEM_ANIMATION">
+                <option value="slide">COM_RSTBOX_ITEM_ANIMATION_SLIDE</option>
+                <option value="fade">COM_RSTBOX_ITEM_ANIMATION_FADE</option>
+        </field>
+        <field name="cookie" default="30" type="text" 
+            class="input-mini" 
+            label="COM_RSTBOX_ITEM_COOKIE" 
+            description="COM_RSTBOX_ITEM_COOKIE_DESC"
+            size="6"
+        />
+    </fieldset>
+    <fieldset name="appearance1">
+        <field name="prm_width" type="text" 
+            default="500px" 
+            class="input-mini" 
+            label="COM_RSTBOX_ITEM_WIDTH" 
+            description="COM_RSTBOX_ITEM_WIDTH_DESC"
+            size="10"
+        />
+        <field name="prm_height" type="text" 
+            default="auto" 
+            class="input-mini" 
+            label="COM_RSTBOX_ITEM_HEIGHT" 
+            description="COM_RSTBOX_ITEM_HEIGHT_DESC"
+            size="10"
+        />
+        <field name="prm_padding" type="text" 
+            default="22px" 
+            class="input-mini" 
+            label="COM_RSTBOX_ITEM_PADDING" 
+            size="5"
+        />
+        <field type="spacer" name="myspacer1" hr="true" />
+        <field name="prm_textcolor" type="color" 
+            default="#444" 
+            label="COM_RSTBOX_ITEM_TEXTCOLOR" 
+            size="10"
+        />
+        <field name="prm_backgroundcolor" type="color" 
+            default="#fff"
+            label="COM_RSTBOX_ITEM_BACKGROUNDCOLOR"
+            size="10"
+        />
+        <field name="prm_bordercolor" type="color"
+            default="#5db75d" 
+            label="COM_RSTBOX_ITEM_BORDERCOLOR"
+            size="10"
+        />
+        <field name="prm_borderwidth" type="text" 
+            class="input-mini" 
+            default="15px" 
+            label="COM_RSTBOX_ITEM_BORDERWIDTH"
+            description="COM_RSTBOX_ITEM_BORDERWIDTH_DESC"
+            size="10"
+        />
+        <field name="prm_boxshadow" type="text" 
+            label="COM_RSTBOX_ITEM_BOXSHADOW"
+            description="COM_RSTBOX_ITEM_BOXSHADOW_DESC"
+            size="10"
+        />
+    </fieldset>
+    <fieldset name="appearance2">
+        <field name="prm_overlay" type="radio" 
+            label="COM_RSTBOX_ITEM_OVERLAY" 
+            description="COM_RSTBOX_ITEM_OVERLAY_DESC" 
+            class="btn-group" 
+            filter="intval" 
+            size="1" 
+            default="0">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field> 
+        <field name="prm_overlay_color" type="color" 
+            default="#000" 
+            label="COM_RSTBOX_ITEM_OVERLAY_COLOR" 
+            description="COM_RSTBOX_ITEM_OVERLAY_COLOR_DESC" 
+            size="10"
+        />       
+        <field name="prm_overlay_percent" type="list" 
+            label="COM_RSTBOX_ITEM_OVERLAY_PERCENT"
+            description="COM_RSTBOX_ITEM_OVERLAY_PERCENT_DESC" 
+            class="btn-group" 
+            default=".8">
+                <option value=".1">10%</option>
+                <option value=".2">20%</option>
+                <option value=".3">30%</option>
+                <option value=".4">40%</option>
+                <option value=".5">50%</option>
+                <option value=".6">60%</option>
+                <option value=".7">70%</option>
+                <option value=".8">80%</option>
+                <option value=".9">90%</option>
+                <option value="1">100%</option>
+        </field> 
+
+        <field name="prm_overlayclick" type="radio" 
+            label="COM_RSTBOX_ITEM_OVERLAY_CLICK" 
+            description="COM_RSTBOX_ITEM_OVERLAY_CLICK_DESC" 
+            class="btn-group" 
+            filter="intval" 
+            size="1" 
+            default="1">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+        </field> 
+
+        <field type="spacer" name="myspacer2" hr="true" />
+        <field name="prm_customstyles" type="textarea" 
+            label="COM_RSTBOX_ITEM_CUSTOMSTYLES"
+            description="COM_RSTBOX_ITEM_CUSTOMSTYLES_DESC"
+        />
+        <field name="prm_customcss" type="textarea" 
+            label="COM_RSTBOX_ITEM_CUSTOMCSS"
+            description="COM_RSTBOX_ITEM_CUSTOMCSS_DESC"
+        />
+    </fieldset>
+    <fieldset name="advanced">
+        <field name="prm_customcode" type="textarea" 
+            label="COM_RSTBOX_ITEM_CUSTOMCODE" filter="raw"
+            description="COM_RSTBOX_ITEM_CUSTOMCODE_DESC"
+        />
+        <field name="prm_classsuffix" type="text" 
+            label="COM_RSTBOX_ITEM_CLASSSUFFIX"
+            description="COM_RSTBOX_ITEM_CLASSSUFFIX_DESC"
+        /> 
+    </fieldset> 
+
+    <fieldset name="publishingAssignments">
+        <field name="prm_allmenus" type="radio"
+            label="COM_RSTBOX_SHOW_ON_PAGES" 
+            class="btn-group" 
+            description="COM_RSTBOX_SHOW_ON_PAGES_DESC"
+            filter="intval" 
+            default="1">
+            <option class="rstbox_ignore" value="1">JALL</option>
+            <option class="rstbox_include" value="0">Include</option>
+        </field>
+        <field name="menuitems" type="menuitem" 
+            size="10" 
+            multiple="multiple" 
+            label="COM_RSTBOX_ITEM_MENU_ASSIGNMENT" 
+            description="COM_RSTBOX_ITEM_MENU_ASSIGNMENT_DESC" 
+        />
+        <field name="accesslevel" type="accesslevel" 
+            label="COM_RSTBOX_ACCESSLEVEL" 
+            description="COM_RSTBOX_ACCESSLEVEL_DESC" 
+            default="1"
+        />
+        <field name="prm_assign_devices" type="radio" 
+            label="COM_RSTBOX_ASSIGN_DEVICES" 
+            description="COM_RSTBOX_ASSIGN_DEVICES_DESC" 
+            class="btn-group chzn-color-state" 
+            filter="intval" 
+            size="1" 
+            default="0">
+            <option class="rstbox_ignore" value="0">All</option>
+            <option class="rstbox_include" value="1">Include</option>
+            <option class="rstbox_exclude" value="2">Exclude</option>
+        </field>
+        <field name="prm_assign_devices_list" type="list" 
+            label="COM_RSTBOX_ASSIGN_DEVICES_LIST" 
+            description="COM_RSTBOX_ASSIGN_DEVICES_LIST_DESC" 
+            multiple="multiple">
+            <option value="desktop">Desktops</option>
+            <option value="mobile">Mobiles</option>
+            <option value="tablet">Tablets</option>
+        </field>
+        <field name="prm_assign_lang" type="radio" 
+            label="COM_RSTBOX_ASSIGN_LANGS" 
+            description="COM_RSTBOX_ASSIGN_LANGS_DESC" 
+            class="btn-group chzn-color-state" 
+            filter="intval" 
+            size="1" 
+            default="0">
+            <option class="rstbox_ignore" value="0">All</option>
+            <option class="rstbox_include" value="1">Include</option>
+            <option class="rstbox_exclude" value="2">Exclude</option>
+        </field>
+        <field name="prm_assign_lang_list" type="contentlanguage" 
+            label="COM_RSTBOX_ASSIGN_LANGS_LIST" 
+            description="COM_RSTBOX_ASSIGN_LANGS_LIST_DESC" 
+            multiple="multiple"/>
+    </fieldset>
+</form>

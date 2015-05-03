@@ -392,11 +392,11 @@ class K2ModelExtraField extends K2Model
                 //regular
                 } else {
                     
-                    $output = '<label>'.JText::_('K2_TEXT').'</label>';
-                    $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
-                    $output .= '<label>'.JText::_('K2_URL').'</label>';
-                    $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
-                    $output .= '<label>'.JText::_('K2_OPEN_IN').'</label>';
+                    $output = '<label class="K2ExtraFieldLabel1_'.$extraField->id.'">'.JText::_('K2_TEXT').'</label>';
+                    $output .= '<input class="K2ExtraFieldInput1_'.$extraField->id.'" type="text" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
+                    $output .= '<label class="K2ExtraFieldLabel2_'.$extraField->id.'">'.JText::_('K2_URL').'</label>';
+                    $output .= '<input class="K2ExtraFieldInput2_'.$extraField->id.'" type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  value="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
+                    $output .= '<label class="K2ExtraFieldLabel3_'.$extraField->id.'">'.JText::_('K2_OPEN_IN').'</label>';
                     $targetOptions[] = JHTML::_('select.option', 'same', JText::_('K2_SAME_WINDOW'));
                     $targetOptions[] = JHTML::_('select.option', 'new', JText::_('K2_NEW_WINDOW'));
                     $targetOptions[] = JHTML::_('select.option', 'popup', JText::_('K2_CLASSIC_JAVASCRIPT_POPUP'));

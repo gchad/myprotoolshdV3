@@ -13,10 +13,14 @@ defined('_JEXEC') or die;
 // Get user stuff (do not change)
 $user = JFactory::getUser();
 
+if($user->id == 0){
+    $app = JFactory::getApplication();
+    $app->redirect('/');
+}
 ?>
 
 <!-- Start K2 User Layout -->
-
+    
 <div id="k2Container" class="userView<?php if($this->params->get('pageclass_sfx')) echo ' '.$this->params->get('pageclass_sfx'); ?>">
 
 	<?php if($this->params->get('show_page_title') && $this->params->get('page_title')!=$this->user->name): ?>
@@ -26,7 +30,7 @@ $user = JFactory::getUser();
 	</div>
 	<?php endif; ?>
 
-	<?php if($this->params->get('userFeedIcon',1)): ?>
+	<?php /*if($this->params->get('userFeedIcon',1)): ?>
 	<!-- RSS feed icon -->
 	<div class="k2FeedIcon">
 		<a href="<?php echo $this->feed; ?>" title="<?php echo JText::_('K2_SUBSCRIBE_TO_THIS_RSS_FEED'); ?>">
@@ -34,9 +38,10 @@ $user = JFactory::getUser();
 		</a>
 		<div class="clr"></div>
 	</div>
-	<?php endif; ?>
+	<?php endif; */?>
 
-	<?php if ($this->params->get('userImage') || $this->params->get('userName') || $this->params->get('userDescription') || $this->params->get('userURL') || $this->params->get('userEmail')): ?>
+	<?php /* if ($this->params->get('userImage') || $this->params->get('userName') || $this->params->get('userDescription') || $this->params->get('userURL') || $this->params->get('userEmail')): ?>
+	
 	<div class="userBlock">
 	
 		<?php if(isset($this->addLink) && JRequest::getInt('id')==$user->id): ?>
@@ -82,7 +87,7 @@ $user = JFactory::getUser();
 		
 		<div class="clr"></div>
 	</div>
-	<?php endif; ?>
+	<?php endif;*/?>
 
 	<?php if(count($this->items)): ?>
 	<!-- Item list -->
@@ -97,22 +102,20 @@ $user = JFactory::getUser();
 			
 			<!-- K2 Plugins: K2BeforeDisplay -->
 			<?php echo $item->event->K2BeforeDisplay; ?>
+			
+			
 		
 			<div class="userItemHeader">
+			    
+			    
 				
 			  <?php if($this->params->get('userItemTitle')): ?>
 			  <!-- Item title -->
 			  <h3 class="userItemTitle">
-					<?php if(isset($item->editLink)): ?>
-					<!-- Item edit link -->
-					<span class="userItemEditLink">
-						<a class="modal" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo $item->editLink; ?>">
-							<?php echo JText::_('K2_EDIT_ITEM'); ?>
-						</a>
-					</span>
-					<?php endif; ?>
+			      
+					<?php echo $item->title; ?>
 
-			  	<?php if ($this->params->get('userItemTitleLinked') && $item->published): ?>
+			  	<?php /*if ($this->params->get('userItemTitleLinked') && $item->published): ?>
 					<a href="<?php echo $item->link; ?>">
 			  		<?php echo $item->title; ?>
 			  	</a>
@@ -125,26 +128,37 @@ $user = JFactory::getUser();
 		  				<?php echo JText::_('K2_UNPUBLISHED'); ?>
 		  			</sup>
 	  			</span>
-	  			<?php endif; ?>
+	  			<?php endif; */?>
+	  			
+	  			<?php if(isset($item->editLink)): ?>
+                    <!-- Item edit link -->
+                    
+                    <span class="userItemEditLink">
+                        <a class="modal button2" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo $item->editLink; ?>">
+                            <?php echo JText::_('K2_EDIT_ITEM'); ?>
+                        </a>
+                    </span>
+                <?php endif; ?>
+                
 			  </h3>
 			  <?php endif; ?>
 			  
-			  <?php if($this->params->get('userItemDateCreated')): ?>
+			  <?php /* if($this->params->get('userItemDateCreated')): ?>
 				<!-- Date created -->
 				<span class="userItemDateCreated">
 				<i class="fa fa-clock-o"></i>
 					<?php echo JHTML::_('date', $item->created , JText::_('K2_DATE_FORMAT_LC')); ?>
 				</span>
-				<?php endif; ?>
+				<?php endif; */?>
 				
-				<?php if($this->params->get('userItemCategory')): ?>
+				<?php /* if($this->params->get('userItemCategory')): ?>
 				<!-- Item category name -->
 				<div class="userItemCategory">
 					<i class="fa fa-folder-o"></i>
 					<a href="<?php echo $item->category->link; ?>"><?php echo $item->category->name; ?></a>
 				</div>
-				<?php endif; ?>
-				<?php if($this->params->get('userItemCommentsAnchor') && ( ($this->params->get('comments') == '2' && !$this->user->guest) || ($this->params->get('comments') == '1')) ): ?>
+				<?php endif; */?>
+				<?php /*if($this->params->get('userItemCommentsAnchor') && ( ($this->params->get('comments') == '2' && !$this->user->guest) || ($this->params->get('comments') == '1')) ): ?>
 				<!-- Anchor link to comments below -->
 				<div class="userItemCommentsLink">
 					<?php if(!empty($item->event->K2CommentsCounter)): ?>
@@ -162,7 +176,7 @@ $user = JFactory::getUser();
 						<?php endif; ?>
 					<?php endif; ?>
 				</div>
-				<?php endif; ?>
+				<?php endif; */?>
 		  </div>
 		
 		  <!-- Plugins: AfterDisplayTitle -->
@@ -183,9 +197,9 @@ $user = JFactory::getUser();
 			  <!-- Item Image -->
 			  <div class="userItemImageBlock">
 				  <span class="userItemImage">
-				    <a href="<?php echo $item->link; ?>" title="<?php if(!empty($item->image_caption)) echo K2HelperUtilities::cleanHtml($item->image_caption); else echo K2HelperUtilities::cleanHtml($item->title); ?>">
+				    <?php /* <a href="<?php echo $item->link; ?>" title="<?php if(!empty($item->image_caption)) echo K2HelperUtilities::cleanHtml($item->image_caption); else echo K2HelperUtilities::cleanHtml($item->title); ?>">*/?>
 				    	<img src="<?php echo $item->imageGeneric; ?>" alt="<?php if(!empty($item->image_caption)) echo K2HelperUtilities::cleanHtml($item->image_caption); else echo K2HelperUtilities::cleanHtml($item->title); ?>" style="width:<?php echo $this->params->get('itemImageGeneric'); ?>px; height:auto;" />
-				    </a>
+				    <?php /* </a> */ ?>
 				  </span>
 				  <div class="clr"></div>
 			  </div>
@@ -209,7 +223,7 @@ $user = JFactory::getUser();
 			  <div class="clr"></div>
 		  </div>
 		
-		  <?php if($this->params->get('userItemTags')): ?>
+		  <?php /* if($this->params->get('userItemTags')): ?>
 		  <div class="userItemLinks">
 				
 			  <?php if($this->params->get('userItemTags') && isset($item->tags)): ?>
@@ -236,7 +250,7 @@ $user = JFactory::getUser();
 
 				<div class="clr"></div>
 		  </div>
-		  <?php endif; ?>  
+		  <?php endif; */ ?>  
 
 		  <!-- Plugins: AfterDisplay -->
 		  <?php echo $item->event->AfterDisplay; ?>
@@ -262,7 +276,15 @@ $user = JFactory::getUser();
 	<?php endif; ?>
 	
 	<?php endif; ?>
-
+	
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal">
+        
+                <button type="submit" class="button2 btn btn-primary"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JLOGOUT'); ?></button>
+            
+        <input type="hidden" name="return" value="/" />
+        <?php echo JHtml::_('form.token'); ?>
+    </form>
+	
 </div>
 
 <!-- End K2 User Layout -->

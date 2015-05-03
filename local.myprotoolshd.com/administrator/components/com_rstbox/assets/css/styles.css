@@ -1,0 +1,54 @@
+.boxtypes h2 {
+	border-bottom: 1px solid #cccccc;
+	margin-bottom: 1em;
+	padding-bottom: 0.5em;
+}
+span.h3 label {
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-bottom: -6px;
+	margin-top: 5px;
+}
+td {
+    vertical-align: middle !important;
+}
+
+.chzn-container.disabled {
+    pointer-events: none;
+}
+
+.control-group label {
+	display:inline-block;
+}
+.helpcontrol {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.well > .control-group:last-child {
+	margin-bottom: 0;
+}
+
+.rstbox_ignore.btn.active {
+    background-color: #5186A3;
+    border-color: #5186A3;
+}
+.rstbox_include.btn.active {
+	background-color:#51a351;
+	border-color: #51a351 #51a351 #387038;
+}
+.rstbox_exclude.btn.active {
+	background-color:#bd362f;
+    border-color: #bd362f;
+}
+
+textarea {
+    box-sizing: border-box;
+    overflow:auto;
+}
+
+.paddingLeft {
+	padding-left:20px;
+}
+.paddingRight {
+	padding-right: 20px;
+}

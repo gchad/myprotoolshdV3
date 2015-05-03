@@ -64,7 +64,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 var name = el.name.replace('[]','');
                  
-                if( el.type != 'hidden'){
+                if( el.type != 'hidden' && el.name != 'artistName'){
                     
                     if( el.value == ""){
                         
@@ -305,15 +305,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		</tr><?php 
                 }?>
         	
-        	 	<tr>
-        			<td><label id="label_artistName"><?php echo JText::_( 'ARTIST'); ?></label></td>
-        	 	</tr>
         	 	
-        	 	<tr> 
-        			<td>
-        			    <input class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
-        	        </td>
-        		</tr>
         		
         		<tr>
                     <td><label id="label_facilityName"><?php echo  JText::_( 'FACILITY'); ?></label></td>
@@ -323,7 +315,18 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                     <td>
                         <input  class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
                     </td>
-                </tr><?php
+                </tr>
+                
+                <tr>
+                    <td><label id="label_artistName"><?php echo JText::_( 'ARTIST'); ?></label></td>
+                </tr>
+                
+                <tr> 
+                    <td>
+                        <input class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
+                    </td>
+                </tr>
+                <?php
         		
         		/********* GCHAD FIX *****/?>
         			

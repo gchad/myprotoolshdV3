@@ -12,11 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 include_once(JPATH_ADMINISTRATOR.'/components/com_k2/tables/table.php');
 include_once(JPATH_ADMINISTRATOR.'/components/com_k2/tables/k2category.php');
+
 class JAK2FilterModelItemlist extends JAK2FilterModel
 {
     function getData($ordering = NULL)
     {
-
+        
+        
         $user 		= JFactory::getUser();
         $aid 		= $user->get('aid');
         $db 		= JFactory::getDBO();
@@ -25,10 +27,44 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
         $limitstart = JRequest::getInt('limitstart');
         $limit 		= JRequest::getInt('limit');
         $task 		= JRequest::getCmd('task'); 
+        
+        
+        /****** GCHAD*****/
+        //is ajax or not
+        // AJAX only get's through
+        
+        $_SESSION['isAjax'] = JRequest::getVar('isAjax') == 1 ? true : false;
+        if(JRequest::getVar('isAjax') != 1){
+             return;
+        };
+        
+        //this will sort the date at first pass with no ajax
+        /*$xf_8 =  JRequest::getVar('xf_8');
+        
+        if(!$xf_8){
+           
+            require_once('libraries/joomla/language/helper.php');
+            $languages  = JLanguageHelper::getLanguages();
+            $activeLanguage = JFactory::getLanguage()->getTag();
+            
+            foreach($languages as $l){
+                
+                if($l->lang_code == $activeLanguage){
+                    $xf_8 = $l->lang_id;
+                 $xf_8 = 6;
+                    JRequest::setVar('xf_8', $xf_8);
+                }
+            }   
+        }*/
+ 
+        /*********************/
+        
         /*
         if ($task == 'search' && $params->get('googleSearch'))
             return array();
         */    
+        
+       
 		$tags_id = JRequest::getVar('tags_id');
 		
 		$rating = JRequest::getVar('rating', '');
@@ -219,6 +255,9 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
             case 'search' :
                 $badchars = array('#', '>', '<', '\\');
                 $search = JString::trim(JString::str_ireplace($badchars, '', JRequest::getString('searchword', null)));
+                
+                /****** THIS IS WHERE WE BUILD THE EXTRA SEARCH QUERY *****/
+                
                 $sql = $this->prepareSearch($search);
                 if (!empty($sql))
                 {
@@ -415,7 +454,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
         $query .= $groupby . " ORDER BY ".$orderby;
         
-       
+      
         /** THIS IS WHERE WE GET THE ITEMS TO DISPLAY */
         
         $dispatcher = JDispatcher::getInstance();
@@ -1229,21 +1268,33 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 		$aLabels = $db->loadColumn();
 
 		$matchTypes = $config->get('extra_fields_search_mode', array());
+        
         if(count($vars)) {
+            
             $exPattern = '/xf_([0-9]+)(?:_([a-zA-Z0-9_]+))*/i';
+            
             foreach ($vars as $field => $value) {
+               
                 if(empty($value)) continue;
-                if(preg_match($exPattern, $field, $matches) && $filter != $field) {
+                
+                if(preg_match($exPattern, $field, $matches) && $filter != $field && $field != 'xf_8') { //remove the REGION id 8 from the construction
+                
                     $fid = $matches[1];
                     $cType = isset($matches[2]) ? $matches[2] : ''; //custom type
 
                     //Example K2 extra field value is storage in database
                     //{"id":"1","value":"180"}
+                    
                     $prefix = '{"id":"'.$fid.'","value":[^{]*';
+                   
                     if(empty($cType)) {
+                        
                         if(is_array($value)) {
+                            
                             if(count($value)) {
+                                
 								$matchtype = 'any';
+                                
 								if(count($matchTypes)) {
 									foreach($matchTypes as $mt) {
 										if(strpos($mt, $fid.':') === 0) {
@@ -1254,7 +1305,9 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 								}
 
                             	if(in_array($fid, $aLabels)) {
+                            	    
                             		foreach($value as $index => $val) {
+                            		    
                             			$val = $this->rgEscapse($this->convert_string_non_latin($val));
                                 		$val = str_replace('\u', '\\\\\\\\u', $val);
 										$value[$index] = $val;
@@ -1272,6 +1325,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 										$searchPattern = $prefix.'([",][[:space:]]*'.implode('[[:space:]]*[",]|[",][[:space:]]*', $value).'[[:space:]]*[",])'; // ~ IN (string1, string2, ...)
 									}
                             	} else {
+                            	    
 									if($matchtype == 'all') {
 										//http://www.joomlart.com/forums/showthread.php?95259-Changing-filter-function-from-logical-OR-to-logical-AND&p=410936#post410936
 										$options = array();
@@ -1284,18 +1338,25 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 									}
                             	}
                             }
+                            
                         } else {
+                            
                             $value = $this->rgEscapse($value);
+                            
                             if(in_array($fid, $aLabels)) {
+                                
                             	$value = $this->rgEscapse($this->convert_string_non_latin($value));
                                 $value = str_replace('\u', '\\\\\\\\u', $value);
                             	$searchPattern = $prefix.'[",][[:space:]]*'.$value.'[[:space:]]*[",]'; // ~ EQUAL 'string'
+                           
                             } else {
                             	$searchPattern = $prefix.'"'.$value.'"'; // ~ EQUAL 'string'
                             }
                         }
                         $where[] = "(i.extra_fields REGEXP '".$searchPattern."')";
+                        
                     } else {
+                        
                         switch ($cType) {
                             case 'txt':
 								$value = trim($value);
@@ -1338,6 +1399,80 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
         
 
         $sql .= empty($where) ? '' : ' AND ' . implode(' AND ', $where);
+       
+        /************************** GCHAD FIX ****/
+        
+         if(count($vars)) {
+            
+            $exPattern = '/xf_([0-9]+)(?:_([a-zA-Z0-9_]+))*/i';
+            $where = array();
+             
+            foreach ($vars as $field => $value) {
+                    
+                if(empty($value)) continue;
+
+                if(preg_match($exPattern, $field, $matches) && $filter != $field && $field == 'xf_8') {
+                       
+                    $fid = $matches[1];
+                    $cType = isset($matches[2]) ? $matches[2] : ''; //custom type
+           
+                    $matrix = array(
+                        
+                        //UK
+                        1 => array(252),
+                        
+                        //Germany
+                        3 => array(87),
+                        
+                        //Spain
+                        4 => array(221),
+                        
+                        //Italy
+                        5 => array(113),
+                        
+                        //France
+                        6 => array(79),
+                        
+                        //Nordic
+                        7 => array(),
+                        
+                        //Africa
+                        8 => array(),
+                        
+                        //Middle East
+                        9 => array(),
+                        
+                        //Europe
+                        10 => array(79,87,113,221,252),
+                        
+                        
+                    
+                    
+                    
+                    );
+
+                    $countryIdsList = key_exists($value, $matrix) ? $matrix[$value] : false;
+                   
+                    if(!empty($countryIdsList)){
+                        
+                        foreach($countryIdsList as $k => $countryId){
+                        
+                             $prefix = '{"id":"'.$fid.'","value":[^{]*';
+                            
+                             $value = $this->rgEscapse($countryId);
+                             $searchPattern = $prefix.'"'.$value.'"'; // ~ EQUAL 'string'
+                             $where[] = "(i.extra_fields REGEXP '".$searchPattern."')";     
+                         }  
+                    }                           
+                }
+            }  
+         }
+
+         $sql .= empty($where) ? '' : ' AND (' . implode(' OR ', $where).')';
+
+       
+        /***********************************************/
+         
 
         if(empty($search)) {
             return $sql;
@@ -1414,7 +1549,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 				}
 			}
         }
-		//echo $sql;
+		
         return $sql;
     }
 

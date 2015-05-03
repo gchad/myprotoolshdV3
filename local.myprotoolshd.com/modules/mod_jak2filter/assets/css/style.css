@@ -270,8 +270,8 @@ ul.horizontal-layout li input.btn {
 	min-width: 100px;
 }
 
-ul.horizontal-layout li:last-child,
-ul.horizontal-layout li.last-item {
+ul#jak2filter101 > li:last-child,
+ul#jak2filter101 > li.last-item {
 	width: 100%;
 	display: none;
 }

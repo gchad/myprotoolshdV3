@@ -10,6 +10,11 @@
 // no direct access
 defined('_JEXEC') or die;
 
+/***** GCHAD FIX *****/
+$app = JFactory::getApplication();
+$user = JFactory::getUser();
+require(JPATH_SITE.DS.'components/com_k2/helpers/route.php');
+$app->redirect(JRoute::_(K2HelperRoute::getUserRoute($user->id)));
 ?>
 
 <!-- K2 user profile form -->

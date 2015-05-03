@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>Responsive Scroll Triggered Box - Render</name>
+	<author>Tassos Marinos</author>
+	<creationDate>August 2014</creationDate>
+	<copyright>Copyright (C) 2014 Tassos Marinos. All rights reserved.</copyright>
+	<license>GNU General Public License</license>
+	<authorEmail>info@tassos.gr</authorEmail>
+	<authorUrl>http://www.tassos.gr</authorUrl>
+	<version>1</version>
+	<description>Responsive Scroll Triggered Box Render Plugin</description>
+	<files>
+		<filename plugin="rstbox">rstbox.php</filename>
+	</files>
+</extension>

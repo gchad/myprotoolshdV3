@@ -217,7 +217,7 @@ if($filter_by_category){
 ?>
 
 <?php if($list): ?>
-	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1): ?>
+	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1):?>
 		<li id="ja-extra-field-accordion-<?php echo $module->id; ?>" class="accordion">
 			<?php foreach($list as $glist): ?>
 			<?php $groupid = $glist['groupid']; ?>
@@ -423,7 +423,9 @@ window.addEvent('load', function(){
     		});
     	});
     	
-	<?php endif; ?>
+	<?php endif;
+    
+    /***** END AUTO SEARCH *****/?>
 
 	<?php if($ajax_filter): ?>
 	
@@ -441,13 +443,16 @@ window.addEvent('load', function(){
 		
 		var limitStart = parseInt($('K2Start').get('value'));
 		var total = parseInt($('K2Total').get('value'));
-        
+		
         //makes sure it will start only if there is something to search
 		if(limitStart < total || total == 0){
+		    
 		    jak2AjaxSubmit(this, '<?php echo JURI::root(true).'/'; ?>');
+		    
 		} else {
+		    
 		    if($('K2ScrollButton')){
-		     //   $('K2ScrollButton')..css({'display': 'none'});
+		        //$('K2ScrollButton').css({'display': 'none'});
 		    }
 		}
 		
@@ -475,34 +480,43 @@ window.addEvent('load', function(){
     //initialize ajax submission
     window.jak2AjaxSubmitting = false;
     window.jak2BlockSearch = false;
+   
     
     //add scrolling to trigger event
-    $(window).addEvent('scroll',function(){
+    var container = $('k2Container'); 
+    
+    if(container){
+        
+       $(window).addEvent('scroll',function(){
         
         //not used
-       function getDocHeight() {
+           function getDocHeight() {
+               
+                var D = document;
+                return Math.max(
+                    D.body.scrollHeight, D.documentElement.scrollHeight,
+                    D.body.offsetHeight, D.documentElement.offsetHeight,
+                    D.body.clientHeight, D.documentElement.clientHeight
+                );
+           } 
            
-            var D = document;
-            return Math.max(
-                D.body.scrollHeight, D.documentElement.scrollHeight,
-                D.body.offsetHeight, D.documentElement.offsetHeight,
-                D.body.clientHeight, D.documentElement.clientHeight
-            );
-       } 
-       
-       var container = $('k2Container'); 
-       var containerH = container.getSize().y;
-       var containerPos = container.getPosition().y;
-       var containerPosBottom = containerH + containerPos;
-       var triggerHeight =  containerPosBottom - $(window).getSize().y + 100;
-       
-       var curScrollY =  $(window).getScroll().y;  
-
-        
-       if(curScrollY > triggerHeight && jak2BlockSearch == false){
-            jQuery('#<?php echo $formid; ?>').submit();
-       } 
-    });
+          // var isAjax = $('K2IsAjax').get('value');
+      
+           var containerH = container.getSize().y;
+           var containerPos = container.getPosition().y;
+           var containerPosBottom = containerH + containerPos;
+           var triggerHeight =  containerPosBottom - $(window).getSize().y + 100;
+           
+           var curScrollY =  $(window).getScroll().y;  
+    
+            
+           if(curScrollY > triggerHeight && jak2BlockSearch == false ){
+               
+                jQuery('#<?php echo $formid; ?>').submit();
+           } 
+        });
+    
+    }
     
     
     
@@ -513,12 +527,13 @@ window.addEvent('load', function(){
     var button = jQuery('#<?php echo $formid; ?>').find('input[type=submit]')[0];
     
     if(button){
+        
         button.addEvent('click',function(e){
         
-        e.preventDefault();
-        searchFromScratch();
+            e.preventDefault();
+            searchFromScratch();
        
-    });
+         });
     }
    
     
@@ -531,6 +546,8 @@ window.addEvent('load', function(){
         jQuery('#<?php echo $formid; ?>').submit();
     });
     setScrollButton();
+    
+    searchFromScratch();
    
 });
 /*]]>*/

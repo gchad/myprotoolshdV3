@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="authentication" method="upgrade">
+	<name>Authentication - EmailAsUsername</name>
+	<author>Lunarhotel.co.uk</author>
+	<creationDate>February 2014</creationDate>
+	<copyright>Copyright (C) 2005 - 2014 Lunarhotel.co.uk All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>www.lunarhotel.co.uk</authorEmail>
+	<authorUrl>www.lunarhotel.co.uk</authorUrl>
+	<version>5.2</version>
+	<description>EmailAsUsername Authentication plugin - allows logging in with Email Address</description>
+	<files>
+		<filename plugin="EmailAsUsername">EmailAsUsername.php</filename>
+	</files>
+	
+	<config>
+	</config>
+</extension>

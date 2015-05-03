@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.5" type="plugin" group="system" method="upgrade">
+	<name>System - Email As Username</name>
+	<author>LunarHotel.co.uk</author>
+	<creationDate>28 March 2014</creationDate>
+	<copyright>Copyright (C) 2014 LunarHotel.co.uk. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support@lunarhotel.co.uk</authorEmail>
+	<authorUrl>www.LunarHotel.co.uk</authorUrl>
+	<version>5.24</version>
+	<description>Eradicates username fields in the front end. REMEMBER: ENABLE THE PLUGIN IN THE PLUGIN MANAGER! Please refer to LunarHotel.co.uk for support</description>
+	<files>
+		<filename plugin="emailasusername">emailasusername.php</filename>
+		<filename plugin="emailasusername">emailasusername.xml</filename>
+		<filename plugin="emailasusername">apollo.php</filename>
+		<filename plugin="emailasusername">lunarExtention.php</filename>
+		<folder>template_overrides</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="backupTemplateOverrides" type="radio" default="1" label="Take a file backup of template overrides" description="Takes a file backup of your html override folder. Recommended set to yes">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>
+				<field name="logging" type="radio" default="0" label="Enable logging" description="Log is output to EmailAsUsername.log.php">
+					<option value="0">No</option>
+					<option value="2">Yes</option>
+				</field>
+			</fieldset>
+			<fieldset name="ADVANCED">
+				<field name="jsprofileredirect" type="radio" default="0" label="Redirect to Joomla Profile Page to JomSocial" description="Ensures that the JomSocial Profile page is shown even if the the Joomla Login module is shown or com_users login view is used to login">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="jsItemid" type="text" size="10" default="" label="JomSocial ItemId" description="The ItemId of JomSocial, so that menu highlighting continues to function" />
+				<field name="vmShowJoomlaNameField" type="radio" default="1" label="Virtuemart: Show the Joomla name field" description="If set to no this will hide the first name field under shopper information">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

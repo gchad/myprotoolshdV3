@@ -1,5 +1,10 @@
 @media (max-width: 768px){
 	
+	.k2LoginBlock, .reset-confirm{
+ 	
+ 		width: 100%;
+ 	}
+	
 	#titlePre{
 		display: block;
 	}
@@ -108,6 +113,11 @@
 }
 
 @media (min-width: 768px){
+	
+	.k2LoginBlock, .reset-confirm{
+ 	
+ 		width: 450px;
+ 	}
 	
 	#titlePre{
 		display: inline-block;
@@ -374,14 +384,14 @@ h1 {
 
 .button2{
 border-radius: 5px;
-font-family: Arial;
-color: #ffffff;
-font-size: 13px;
-background: #3498db;
-padding: 5px 20px 5px 20px;
-text-decoration: none;
-border: 1px solid transparent;
-font-size: 16px;
+font-family: Arial !important;
+color: #ffffff !important;
+
+background: #3498db !important;
+padding: 5px 20px 5px 20px !important;
+text-decoration: none !important;
+border: 1px solid transparent !important;
+font-size: 16px !important;
 }
 
 .magic-select button {
@@ -574,10 +584,16 @@ a.imgWrap:hover > .blueOverlay{
 	display: none;
 }
 
-
-#t3-mainbody{
+ #t3-mainbody{
+	background-color: transparent;
+}
+.com_jak2filter.view-itemlist #t3-mainbody{
 	background-color: #959595;
 }	
+
+.com_users #t3-mainbody{
+	background-color: transparent;
+}
 #k2Container.itemView{
 	background: #FFFFFF;
 	padding: 10px;
@@ -836,3 +852,152 @@ a.button3:hover{
  	font-size: 16px;
  	padding: 20px;
  }
+ 
+ div.itemExtraFields h3{
+ 	font-family: "AvidOmnesLight" !important;
+ }
+ 
+ #form-login-remember{
+ 	display: none;
+ }
+ 
+ .k2LoginBlock, .reset-confirm{
+ 	
+ 	margin: auto;
+ }
+ 
+ .form-actions{
+ 	background-color: transparent !important;
+ 	padding: 0px;
+ }
+ 
+ .com_k2.view-itemlist.task-user span.userItemEditLink{
+ 	position: relative;
+ 	top: 0px;
+ 	display: inline-block;
+ 	vertical-align: top;
+ 	margin-left: 20px;
+ } 
+ 
+ .com_k2.view-itemlist.task-user span.userItemEditLink a{
+ 	top: 0px;
+ 	line-height: 20px;
+ 	padding: 5px 20px 5px 20px;
+ }
+ 
+.com_k2.view-itemlist.task-user div.userItemHeader{
+	margin-top: 20px;
+}
+
+.com_k2.view-itemlist.task-user span.userItemImage img{
+	width: inherit !important;
+}
+
+ .view-item.task-edit tr td{
+	border-top: none !important;
+}
+
+div#k2FrontendContainer{
+	background: transparent;
+}
+
+.com_k2  h2{
+	font-family: "AvidOmnesLight" !important;
+	background: transparent;
+	margin: 0px 0px 20px 0px !important;
+	padding: 0px !important;
+}
+
+ .view-item.task-edit .header a{
+	color: white;
+}
+
+ .view-item.task-edit input, .view-item.task-edit select{
+ 	max-width: 300px !important;
+ 	margin: 10px 10px 10px 0px !important;
+ 	font-size: 14px !important;
+ 	min-width: 200px !important;
+ }
+ 
+.view-item.task-edit .K2ExtraFieldLabel1_5, .view-item.task-edit .K2ExtraFieldLabel2_5, .view-item.task-edit .K2ExtraFieldLabel3_5,
+.view-item.task-edit .K2ExtraFieldInput1_5, .view-item.task-edit select#K2ExtraField_5{
+ 	display: none;
+ }
+ 
+.view-item.task-edit .itemPlugins legend{
+	display: none;
+}
+
+.view-item.task-edit .itemPlugins fieldset div{
+	padding-left: 6px;
+}
+
+.view-item.task-edit .itemPlugins fieldset div.paramLabel label{
+	display: block !important;
+	font-size: 14px;
+}
+
+.view-item.task-edit #gmap{
+	width: 65% !important;
+}
+
+ .view-item.task-edit .simpleTabsNavigation,  .view-item.task-edit .article-content{
+ 	display: none;
+ }
+
+div#k2Frontend table td.key{
+	background: transparent !important;
+font-size: 14px !important;
+vertical-align: middle !important;
+padding-right: 10px !important;
+border: none !important;
+}
+
+div.simpleTabsContent{
+	border: none !important;
+}
+
+.view-item.task-edit div.itemImages{
+	margin-bottom: 10px;
+}
+
+.view-item.task-edit div.itemImages p:first-child{
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0px;
+}
+
+.view-item.task-edit div.itemImages hr{
+	margin: 5px 0px;
+}
+
+.view-item.task-edit #k2Tab5{
+	margin-top: 20px;
+}
+
+.com_users.view-login .col-xs-6{
+	width: 100%;
+}
+
+.login-wrap form .form-group .control-label label{
+	/*font-family: "AvidOmnesLight" !important;*/
+	font-weight: bold;
+}
+
+.com_users.view-login #t3-mainbody{
+	margin-top: 20px;
+}
+
+li[data-id="185"	]{
+	display: none;
+}
+
+.reset-complete input{
+	display: inline;
+	
+}
+
+.reset-complete form{
+display: block;
+width: 400px;
+margin: 20px auto;}

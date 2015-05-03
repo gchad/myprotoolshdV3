@@ -17,7 +17,7 @@ JHtml::_('behavior.formvalidation');
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
-	<?php endif; ?>
+	<?php endif;?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=reset.confirm'); ?>" method="post" class="form-validate">
 
@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 		<?php endforeach; ?>
 
 		<div class="form-actions">
-			<button type="submit" class="validate"><?php echo JText::_('JSUBMIT'); ?></button>
+			<button type="submit" class="validate button2"><?php echo JText::_('JSUBMIT'); ?></button>
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

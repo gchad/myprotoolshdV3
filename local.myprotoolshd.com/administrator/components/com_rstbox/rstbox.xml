@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade">
+    <name>com_rstbox</name>
+    <creationDate>August 2014</creationDate>
+    <author>Tassos Marinos</author>
+    <authorEmail>info@tassos.gr</authorEmail>
+    <authorUrl>http://www.tassos.gr/joomla-extensions</authorUrl>
+    <copyright>(c) 2014 Tassos Marinos. All rights reserved</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/copyleft/gpl.html</license>
+    <version>1.4.2</version>
+    <description>Responsive Scroll Triggered Box 1.4.2</description>
+    <scriptfile>script.php</scriptfile>
+    <install><sql><file driver="mysql" charset="utf8">sql/rstbox.sql</file></sql></install>
+    <uninstall><sql><file driver="mysql" charset="utf8">sql/uninstall.rstbox.sql</file></sql></uninstall>
+    <update><schemas><schemapath type="mysql">sql/updates/mysql</schemapath></schemas></update>
+    <files folder="site">
+        <filename>index.html</filename>
+        <folder>assets</folder>
+    </files>
+    <updateservers>
+        <server type="extension" priority="1" name="Responsive Scroll Triggered Box">http://www.tassos.gr/updates/rstbox.xml</server>
+    </updateservers>
+    <administration>
+        <menu view="items" link="option=com_rstbox&amp;view=items">COM_RSTBOX</menu>
+        <files folder="admin">
+            <filename>index.html</filename>
+            <filename>controller.php</filename>
+            <filename>config.xml</filename>
+            <filename>access.xml</filename>
+            <filename>rstbox.php</filename>
+            <folder>assets</folder>
+            <folder>controllers</folder>
+            <folder>helpers</folder>
+            <folder>language</folder>
+            <folder>layouts</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+        </files>
+       <languages folder="admin/language">
+            <language tag="en-GB">en-GB.com_rstbox.ini</language>
+            <language tag="en-GB">en-GB.com_rstbox.sys.ini</language>
+        </languages>
+    </administration>
+</extension>

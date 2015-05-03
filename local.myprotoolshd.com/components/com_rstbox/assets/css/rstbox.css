@@ -1,0 +1,146 @@
+/**
+ * @package         Responsive Scroll Triggered Box
+ * @author          Tassos Marinos <info@tassos.gr>
+ * @link            http://www.tassos.gr
+ * @copyright       Copyright © 2015 TM Extensions All Rights Reserved
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+ 
+.rstboxes *, .rstboxes *:before, .rstboxes *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.rstboxes {
+    text-align: left;
+}
+.rstbox-header {
+	font-size: 1.6em;
+	font-weight: bold;
+	line-height: 1em;
+	margin-bottom: 20px;
+}
+.rstbox-content {
+    overflow: hidden;
+}
+.rstbox-close {
+	background:none !important;
+	color: #b0acac !important;
+	display: block;
+	font-family: Tahoma;
+	font-size: 21px;
+	line-height: 0;
+	margin: 0;
+	padding: 13px 11px;
+	position: absolute;
+	right: 0;
+	text-decoration: none !important;
+	top: 0;
+	z-index: 100;
+    height: 33px;
+}
+.rstbox {
+	position: fixed;
+	background-color: #fff;
+	border: solid 7px #ccc;
+	-webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 1, 0.3);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 1, 0.3);
+	display: none;
+	z-index: 99999;
+	overflow: auto;
+	font-size: 14px;
+	line-height: 1.4em;
+	width: 100%;
+}
+.rstbox_bottom-left {
+	bottom: 0;
+	left: 0;
+}
+.rstbox_bottom-center {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.rstbox_bottom-right {
+	bottom: 0;
+	right: 0;
+}
+.rstbox_top-left {
+	top: 0;
+	left: 0;
+}
+.rstbox_top-center {
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.rstbox_top-right {
+	top: 0;
+	right: 0;
+}
+.rstbox_center {
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+/* Form Styles */
+.rstbox_header ul {
+	list-style: disc inside none;
+	margin: 0;
+	padding: 0;
+}
+.rstbox_input {
+	border: 1px solid #aeaeae;
+	font-size: 1em;
+	padding: 0.6em 0.8em;
+	width: 100%;
+	font-family: "Arial";
+	line-height: normal;
+	margin: 0;
+}
+.rstbox_field_row {
+	margin-bottom: 0.5em;
+}
+.rstbox_btn {
+	border: medium none;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0.6em 1em;
+	font-size: 1em;
+	margin: 0;
+	overflow: visible;
+}
+.rstbox_btn:hover {
+	opacity: .8;
+}
+.rstbox_header {
+	margin-bottom: 20px;
+	opacity: 0.8;
+}
+.rstbox_field_row label {
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+.rstbox_overlay {
+    background-color: #000;
+    opacity: .8;
+    content: " ";
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    overflow: hidden;
+    -webkit-transition: all 200ms ease-in-out;
+	-moz-transition: all 200ms ease-in-out;
+	-ms-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+}

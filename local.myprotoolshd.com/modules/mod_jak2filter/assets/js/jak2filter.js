@@ -242,12 +242,14 @@ function jak2AjaxSubmit(form, K2SitePath) {
     if(jQuery('#k2Container').length && window.jak2AjaxSubmitting == false) {
     	
     	window.jak2AjaxSubmitting = true;
-        jak2AjaxStart();        
+        jak2AjaxStart();  
+        
+        var data = jQuery(form).serialize() + '&isAjax=1';
         
         jQuery.ajax({
             type: "POST",
             url: jQuery(form).attr('action'),
-            data: jQuery(form).serialize(),
+            data: data,
             success: function(text){
                 jak2AjaxHandle(text, K2SitePath);
                 jak2GetUrlSharing(form);
@@ -273,6 +275,8 @@ function jak2GetUrlSharing(form){
 	var params = jQuery(form).serialize();
 	params = params.replace('task=search&', 'task=shareurl&');
 	params = params.replace('&tmpl=component', '');
+	params = params + '&isAjax=1';
+	
 	jQuery.ajax({
 		type: "POST",
 		url: jQuery(form).attr('action'),
@@ -331,7 +335,7 @@ function jak2AjaxHandle(text, K2SitePath) {
     var container = jQuery('#k2Container');
     var content = jQuery('<div>' + text + '</div>').find('#k2Container');
 
-    if(content.length) {
+    if(content.length && content.find('#itemListPrimary').length) {
     	
     	//update the form search params
         var nextAjaxFormParams = jQuery('<div>' + text + '</div>').find('#K2FormAjaxParams');

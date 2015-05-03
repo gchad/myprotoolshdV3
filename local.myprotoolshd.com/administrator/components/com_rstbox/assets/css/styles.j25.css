@@ -1,0 +1,74 @@
+.form-horizontal .control-group {
+	margin-bottom: 9px;
+}
+.control-group .controls {
+	margin-left: 160px;
+}
+.helpcontrol label {
+	clear: none !important;
+	float: left !important;
+	margin-top: 0 !important;
+}
+.clearfix {
+	*zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+	display: table;
+	content: "";
+	line-height: 0;
+}
+.clearfix:after {
+	clear: both;
+}
+.controls input, .controls select, .controls textarea {
+	font-size: 12px;
+	padding: 5px;
+}
+.control-label .label {
+	margin-top: 0 !important;
+}
+div.current select {
+	margin-bottom: 0 !important;
+}
+.row-fluid {
+	display: block;
+	padding: 7px;
+}
+.row-fluid > div:not(:last-child) {
+	margin-bottom: 30px;
+}
+.star {
+	font-size: inherit !important;
+}
+fieldset {
+	margin-bottom: 0 !important;
+}
+fieldset label {
+	padding-right: 15px;
+}
+dt {
+	font-size: 12px;
+	padding: 7px 20px !important;
+}
+div.current {
+	background-color: #f9f9f9;
+	padding: 10px 16px !important;
+}
+.well {
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	margin-bottom: 20px;
+	min-height: 20px;
+	padding: 19px;
+}
+hr {
+	opacity: .3;
+}
+.paddingLeft {
+	padding-left:0;
+}
+.paddingRight {
+	padding-right:0;
+}

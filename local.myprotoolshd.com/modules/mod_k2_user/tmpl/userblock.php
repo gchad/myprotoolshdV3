@@ -9,7 +9,11 @@
 
 // no direct access
 defined('_JEXEC') or die;
+/***** GCHAD FIX ***/
 
+$app = JFactory::getApplication();
+$user = JFactory::getUser();
+$app->redirect(JRoute::_(K2HelperRoute::getUserRoute($user->id)));
 ?>
 
 <div id="k2ModuleBox<?php echo $module->id; ?>" class="k2UserBlock<?php if($params->get('moduleclass_sfx')) echo ' '.$params->get('moduleclass_sfx'); ?>">

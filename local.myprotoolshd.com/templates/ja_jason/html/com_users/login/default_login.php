@@ -70,17 +70,17 @@ JHtml::_('behavior.keepalive');
 			
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
        <div class="form-group">
-        <div class="col-xs-6">
+        <?php /* <div class="col-xs-6">
           <div class="checkbox">
             <label>
-              <input id="remember" type="checkbox" name="remember" value="yes"/> 
+              <input id="remember" type="checkbox" name="remember" value="no"/> 
               <?php echo JText::_(version_compare(JVERSION, '3.0', 'ge') ? 'COM_USERS_LOGIN_REMEMBER_ME' : 'JGLOBAL_REMEMBER_ME') ?>
             </label>
           </div>
-        </div>
+        </div>*/?>
 
         <div class="col-xs-6">
-          <button type="submit" class="btn btn-primary pull-right"><?php echo JText::_('JLOGIN'); ?></button>
+          <button type="submit" class="btn button2 btn-primary pull-right"><?php echo JText::_('JLOGIN'); ?></button>
         </div>
       </div>
       <?php endif; ?>
@@ -98,10 +98,10 @@ JHtml::_('behavior.keepalive');
               <?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a></li>
             <?php
             $usersConfig = JComponentHelper::getParams('com_users');
-            if ($usersConfig->get('allowUserRegistration')) : ?>
+            /*if  ($usersConfig->get('allowUserRegistration')) : ?>
             <li><a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
                 <?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a></li>
-            <?php endif; ?>
+            <?php endif; */?>
           </ul>
         </div>
       </div>

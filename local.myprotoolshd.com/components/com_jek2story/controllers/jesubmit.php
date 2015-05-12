@@ -309,8 +309,8 @@ class jesubmitController extends JControllerLegacy  {
                     $browse_tempt1 = $mesg->notify_message;
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
                     $browse_tempt1 =str_replace("{User}", $user->username, $browse_tempt1);
-                    //$browse_tempt1 =str_replace("{login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
-                    $browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    $browse_tempt1 =str_replace("{login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    //$browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                           
                     $config     = &JFactory::getConfig();
                     $from       = $post['email']; 
@@ -1467,6 +1467,10 @@ class jesubmitController extends JControllerLegacy  {
             
         return false;   
 	}
+
+    function test(){
+        debug(JRoute::_('index.php?option=com_users&view=login'));
+    }
 	
 }
 ?>

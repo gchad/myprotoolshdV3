@@ -105,10 +105,10 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             });
             
             var selects = form.getElements('select');
-            
+           
             selects.each(function(el){
                 
-                 var name = el.name.replace('[]','');
+                var name = el.name.replace('[]','');
               
                 if( el.value == 0 || el.value == ""){
                         

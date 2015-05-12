@@ -83,4 +83,5 @@ class jesubmitController extends JControllerLegacy
 		}
 		exit;
 	}
+   
 }

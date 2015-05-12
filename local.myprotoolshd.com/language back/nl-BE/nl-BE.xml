@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.4" client="site">
+	<tag>nl-BE</tag>
+	<name>Flemish (nl-BE)</name>
+	<version>3.4.1</version>
+	<creationDate>22 march 2015</creationDate>
+	<author>Flemish translation team: Pangea</author>
+	<authorEmail>frank.joris@skynet.be</authorEmail>
+	<authorUrl>pangea.suburbs.be</authorUrl>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Flemish site language for Joomla 3.4.1</description>
+	<metadata>
+		<name>Flemish (nl-BE)</name>
+		<tag>nl-BE</tag>
+		<rtl>0</rtl>
+		<locale>nl_BE.utf8, nl_BE.UTF-8, nl_BE.UTF-8@euro, nl_BE, be</locale>
+		<firstDay>1</firstDay>
+		<weekEnd>0,6</weekEnd>
+	</metadata>
+	<params />
+</metafile>

@@ -4,7 +4,7 @@
  * Displays a protected key field with option to update it
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,9 +14,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
 
-class JFormFieldNN_Key extends JFormField
+class JFormFieldNN_Key extends nnFormField
 {
 	public $type = 'Key';
 
@@ -31,7 +31,7 @@ class JFormFieldNN_Key extends JFormField
 		{
 			return '<div id="' . $this->id . '_field" class="btn-wrapper input-append clearfix">'
 			. '<input type="text" class="nn_codefield" name="' . $this->name . '" id="' . $this->id . '" autocomplete="off" value="" />'
-			. '<button href="#" class="btn btn-success btn" title="' . JText::_('JAPPLY') . '" onclick="' . $action . '">'
+			. '<button href="#" class="btn btn-success" title="' . JText::_('JAPPLY') . '" onclick="' . $action . '">'
 			. '<span class="icon-checkmark"></span>'
 			. '</button>'
 			. '</div>';
@@ -73,11 +73,6 @@ class JFormFieldNN_Key extends JFormField
 			. '</div>'
 
 			. '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '_hidden" value="' . $this->value . '" />';
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }
 

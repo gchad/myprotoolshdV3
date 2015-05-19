@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: Content
- * Displays a multiselectbox of available categories / items
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,47 +13,11 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/parameters.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/groupfield.php';
 
-class JFormFieldNN_Content extends JFormField
+class JFormFieldNN_Content extends nnFormGroupField
 {
 	public $type = 'Content';
-	private $params = null;
-	private $db = null;
-	private $max_list_count = 0;
-
-	protected function getInput()
-	{
-		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDbo();
-
-		$parameters = nnParameters::getInstance();
-		$params = $parameters->getPluginParams('nnframework');
-		$this->max_list_count = $params->max_list_count;
-
-		if (!is_array($this->value))
-		{
-			$this->value = explode(',', $this->value);
-		}
-
-		$group = $this->get('group', 'categories');
-		$options = $this->{'get' . $group}();
-
-		$size = (int) $this->get('size');
-		$multiple = $this->get('multiple');
-
-		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
-
-		switch ($group)
-		{
-			case 'categories':
-				return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, $multiple);
-
-			default:
-				return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-		}
-	}
 
 	function getCategories()
 	{
@@ -72,11 +35,9 @@ class JFormFieldNN_Content extends JFormField
 			return -1;
 		}
 
-		$show_ignore = $this->get('show_ignore');
-
 		// assemble items to the array
 		$options = array();
-		if ($show_ignore)
+		if ($this->get('show_ignore'))
 		{
 			if (in_array('-1', $this->value))
 			{
@@ -87,25 +48,13 @@ class JFormFieldNN_Content extends JFormField
 		}
 
 		$query->clear('select')
-			->select('c.id, c.title, c.level, c.published, c.language')
+			->select('c.id, c.title as name, c.level, c.published, c.language')
 			->order('c.lft');
 
 		$this->db->setQuery($query);
-		$items = $this->db->loadObjectList();
+		$list = $this->db->loadObjectList();
 
-		foreach ($items as &$item)
-		{
-			if ($item->language && $item->language != '*')
-			{
-				$item->title .= ' (' . $item->language . ')';
-			}
-			$item->title = nnText::prepareSelectItem($item->title, $item->published);
-			$option = JHtml::_('select.option', $item->id, $item->title);
-			$option->level = $item->level - 1;
-			$options[] = $option;
-		}
-
-		return $options;
+		return $options + $this->getOptionsByList($list, array('language'), -1);
 	}
 
 	function getItems()
@@ -129,59 +78,6 @@ class JFormFieldNN_Content extends JFormField
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name .= ' [' . $item->id . ']';
-			if ($item->language && $item->language != '*')
-			{
-				$item->name .= ' (' . $item->language . ')';
-			}
-			$item->name .= ($item->cat ? ' [' . $item->cat . ']' : '');
-			$item->name = nnText::prepareSelectItem($item->name, $item->published);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	function getAuthors()
-	{
-		$query = $this->db->getQuery(true)
-			->select('COUNT(*)')
-			->from('#__content AS i')
-			->where('i.access > -1')
-			->group('i.created_by');
-		$this->db->setQuery($query);
-		$total = $this->db->loadResult();
-
-		if ($total > $this->max_list_count)
-		{
-			return -1;
-		}
-
-		$query->clear('select')
-			->select('u.name, u.id')
-			->join('LEFT', '#__users AS u ON u.id = i.created_by')
-			->order('name');
-		$this->db->setQuery($query);
-		$list = $this->db->loadObjectList();
-
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name .= ' [' . $item->id . ']';
-			$item->name = nnText::prepareSelectItem($item->name);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return $this->getOptionsByList($list, array('language', 'cat', 'id'));
 	}
 }

@@ -4,7 +4,7 @@
  * Displays a textfield with a color picker
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -15,6 +15,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.form.formfield');
+
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
 
 class JFormFieldNN_ColorPicker extends JFormField
 {
@@ -46,7 +48,7 @@ class nnFieldColorPicker
 		}
 
 		JHtml::stylesheet('nnframework/colorpicker.min.css', false, true);
-		JFactory::getDocument()->addScriptVersion(JURI::root(true) . '/media/nnframework/js/colorpicker.min.js');
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/colorpicker.min.js');
 
 		$class = ' class="' . trim('nncolorpicker chzn-done ' . $this->get('class')) . '"';
 

@@ -2,7 +2,7 @@
  * Main stylesheet
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -43,6 +43,10 @@ div.nn_well {
 	color: @grayDark;
 }
 
+.alert-inline {
+	margin: 14px 0 0;
+}
+
 .nn_btn-ignore.btn-danger.active {
 	.buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255, 255, 255, .75));
 }
@@ -67,6 +71,59 @@ div.nn_well {
 	content: "\e008";
 }
 
+.icon-spin {
+	-webkit-animation: spin .5s infinite linear;
+	-moz-animation: spin .5s infinite linear;
+	-ms-animation: spin .5s infinite linear;
+	-o-animation: spin .5s infinite linear;
+	animation: spin .5s infinite linear;
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg)
+	}
+	100% {
+		-webkit-transform: rotate(359deg)
+	}
+}
+
+@-moz-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg)
+	}
+	100% {
+		-moz-transform: rotate(359deg)
+	}
+}
+
+@-ms-keyframes spin {
+	0% {
+		-ms-transform: rotate(0deg)
+	}
+	100% {
+		-ms-transform: rotate(359deg)
+	}
+}
+
+@-o-keyframes spin {
+	0% {
+		-o-transform: rotate(0deg)
+	}
+	100% {
+		-o-transform: rotate(359deg)
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg)
+	}
+	100% {
+		transform: rotate(359deg)
+	}
+}
+
 .inlist .simplecolors-swatch span {
 	position: relative;
 }
@@ -77,13 +134,15 @@ div.nn_well {
 	font-size: 13px;
 }
 
-.dropdown {
-	display: inline-block;
-}
+@media (min-width: 768px) {
+	.dropdown {
+		display: inline-block;
+	}
 
-.dropdown-menu.dropup-menu {
-	bottom: 100%;
-	top: auto;
+	.dropdown-menu.dropup-menu {
+		bottom: 100%;
+		top: auto;
+	}
 }
 
 /* popovers */
@@ -182,7 +241,57 @@ input.nn_keyfield {
 	color: @grayLight;
 	padding: 2px 0;
 }
+
 #key_button,
 #jform_key_button {
 	margin-left: 8px;
+}
+
+.ghosted {
+	.opacity(60);
+}
+
+.nn_licence {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.nn_footer {
+	margin-top: 30px;
+
+	div {
+		margin-top: 30px;
+		text-align: center;
+	}
+
+	.nn_footer_review {
+		margin-top: 5px;
+
+		a.stars {
+			.icon-star {
+				color: mix(@yellow, @orange);
+				margin: 0;
+				.transition-duration(500ms);
+			}
+
+			&:hover {
+				text-decoration: none;
+				.icon-star {
+					.rotate(216deg);
+				}
+			}
+		}
+	}
+
+	.nn_footer_logo {
+		img {
+			vertical-align: -40%;
+		}
+	}
+
+	.nn_footer_copyright {
+		margin-top: 3px;
+		font-size: 0.7em;
+		.opacity(60);
+	}
 }

@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: RedShop
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,88 +13,87 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: RedShop
- */
-class nnFrameworkAssignmentsRedShop
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsRedShop extends nnFrameworkAssignment
 {
-	function init(&$parent)
+	function init()
 	{
-		$parent->params->item_id = JFactory::getApplication()->input->getInt('pid', 0);
-		$parent->params->category_id = JFactory::getApplication()->input->getInt('cid', 0);
-		$parent->params->id = ($parent->params->item_id) ? $parent->params->item_id : $parent->params->category_id;
+		$this->request->item_id = JFactory::getApplication()->input->getInt('pid', 0);
+		$this->request->category_id = JFactory::getApplication()->input->getInt('cid', 0);
+		$this->request->id = ($this->request->item_id) ? $this->request->item_id : $this->request->category_id;
 	}
 
-	function passPageTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passPageTypes()
 	{
-		return $parent->passPageTypes('com_redshop', $selection, $assignment, 1);
+		return $this->passByPageTypes('com_redshop', $this->selection, $this->assignment, true);
 	}
 
-	function passCategories(&$parent, &$params, $selection = array(), $assignment = 'all', $article = 0)
+	function passCategories()
 	{
-		if ($parent->params->option != 'com_redshop')
+		if ($this->request->option != 'com_redshop')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$pass = (
-			($params->inc_categories
-				&& ($parent->params->view == 'category')
+			($this->params->inc_categories
+				&& ($this->request->view == 'category')
 			)
-			|| ($params->inc_items && $parent->params->view == 'product')
+			|| ($this->params->inc_items && $this->request->view == 'product')
 		);
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$cats = array();
-		if ($parent->params->category_id)
+		if ($this->request->category_id)
 		{
-			$cats = $parent->params->category_id;
+			$cats = $this->request->category_id;
 		}
-		else if ($parent->params->item_id)
+		else if ($this->request->item_id)
 		{
-			$parent->q->clear()
+			$query = $this->db->getQuery(true)
 				->select('x.category_id')
 				->from('#__redshop_product_category_xref AS x')
-				->where('x.product_id = ' . (int) $parent->params->item_id);
-			$parent->db->setQuery($parent->q);
-			$cats = $parent->db->loadColumn();
+				->where('x.product_id = ' . (int) $this->request->item_id);
+			$this->db->setQuery($query);
+			$cats = $this->db->loadColumn();
 		}
 
-		$cats = $parent->makeArray($cats);
+		$cats = $this->makeArray($cats);
 
-		$pass = $parent->passSimple($cats, $selection, 'include');
+		$pass = $this->passSimple($cats, 'include');
 
-		if ($pass && $params->inc_children == 2)
+		if ($pass && $this->params->inc_children == 2)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
-		else if (!$pass && $params->inc_children)
+		else if (!$pass && $this->params->inc_children)
 		{
 			foreach ($cats as $cat)
 			{
-				$cats = array_merge($cats, self::getCatParentIds($parent, $cat));
+				$cats = array_merge($cats, $this->getCatParentIds($cat));
 			}
 		}
 
-		return $parent->passSimple($cats, $selection, $assignment);
+		return $this->passSimple($cats);
 	}
 
-	function passProducts(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passProducts()
 	{
-		if (!$parent->params->id || $parent->params->option != 'com_redshop' || $parent->params->view != 'product')
+		if (!$this->request->id || $this->request->option != 'com_redshop' || $this->request->view != 'product')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		return $parent->passSimple($parent->params->id, $selection, $assignment);
+		return $this->passSimple($this->request->id);
 	}
 
-	function getCatParentIds(&$parent, $id = 0)
+	function getCatParentIds($id = 0)
 	{
-		return $parent->getParentIds($id, 'redshop_category_xref', 'category_parent_id', 'category_child_id');
+		return $this->getParentIds($id, 'redshop_category_xref', 'category_parent_id', 'category_child_id');
 	}
 }

@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Text
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -15,6 +15,21 @@ defined('_JEXEC') or die;
 
 class nnText
 {
+	public static function fixDateOffset(&$date)
+	{
+		if ($date <= 0)
+		{
+			$date = 0;
+
+			return;
+		}
+
+		$date = JFactory::getDate($date, JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset')));
+		$date->setTimezone(new DateTimeZone('UTC'));
+
+		$date = $date->format('Y-m-d H:i:s', true, false);
+	}
+
 	public static function dateToDateFormat($dateFormat)
 	{
 		$caracs = array(
@@ -188,33 +203,39 @@ class nnText
 
 		$string = str_replace(array('&nbsp;', '&#160;'), ' ', $string);
 		$string = preg_replace('#- #', '  ', $string);
+
 		for ($i = 0; $remove_first > $i; $i++)
 		{
 			$string = preg_replace('#^  #', '', $string);
 		}
-		preg_match('#^( *)(.*)$#', $string, $match);
-		list($string, $pre, $name) = $match;
 
-		$pre = preg_replace('#  #', ' ·  ', $pre);
-		$pre = preg_replace('#(( ·  )*) ·  #', '\1 »  ', $pre);
-		$pre = str_replace('  ', ' &nbsp; ', $pre);
+		if (preg_match('#^( *)(.*)$#', $string, $match))
+		{
+			list($string, $pre, $name) = $match;
+
+			$pre = preg_replace('#  #', ' ·  ', $pre);
+			$pre = preg_replace('#(( ·  )*) ·  #', '\1 »  ', $pre);
+			$pre = str_replace('  ', ' &nbsp; ', $pre);
+
+			$string = $pre . $name;
+		}
 
 		switch (true)
 		{
 			case ($type == 'separator'):
-				$pre = '[[:font-weight:normal;font-style:italic;color:grey;:]]' . $pre;
+				$string = '[[:font-weight:normal;font-style:italic;color:grey;:]]' . $string;
 				break;
+
 			case (!$published):
-				$pre = '[[:font-style:italic;color:grey;:]]' . $pre;
-				$name = $name . ' [' . JText::_('JUNPUBLISHED') . ']';
+				$string = '[[:font-style:italic;color:grey;:]]' . $string . ' [' . JText::_('JUNPUBLISHED') . ']';
 				break;
+
 			case ($published == 2):
-				$pre = '[[:font-style:italic;:]]' . $pre;
-				$name = $name . ' [' . JText::_('JARCHIVED') . ']';
+				$string = '[[:font-style:italic;:]]' . $string . ' [' . JText::_('JARCHIVED') . ']';
 				break;
 		}
 
-		return $pre . $name;
+		return $string;
 	}
 
 	public static function strReplaceOnce($search, $replace, $string)
@@ -606,8 +627,135 @@ class nnText
 		return array($pre, $body, $post);
 	}
 
+	static function getContentContainingSearches($string, $start_searches = array(), $end_searches = array(), $start_offset = 200, $end_offset = null)
+	{
+		// String is too short to split and search through
+		if (strlen($string) < 100)
+		{
+			return array('', $string, '');
+		}
+
+		$end_offset = is_null($end_offset) ? $start_offset : $end_offset;
+
+		$found = 0;
+		$start_split = strlen($string);
+
+		foreach ($start_searches as $search)
+		{
+			$pos = strpos($string, $search);
+
+			if ($pos === false)
+			{
+				continue;
+			}
+
+			$start_split = min($start_split, $pos);
+			$found = 1;
+		}
+
+		// No searches are found
+		if (!$found)
+		{
+			return array($string, '', '');
+		}
+
+		// String is too short to split
+		if (strlen($string) < ($start_offset + $end_offset + 1000))
+		{
+			return array('', $string, '');
+		}
+
+		$start_split = max($start_split - $start_offset, 0);
+
+		$pre = substr($string, 0, $start_split);
+		$string = substr($string, $start_split);
+
+		self::fixBrokenTagsByPreString($pre, $string);
+
+		if (empty($end_searches))
+		{
+			$end_searches = $start_searches;
+		}
+
+		$found = 0;
+		$end_split = 0;
+		foreach ($end_searches as $search)
+		{
+			$pos = strrpos($string, $search);
+
+			if ($pos === false)
+			{
+				continue;
+			}
+
+			$end_split = max($end_split, $pos + strlen($search));
+			$found = 1;
+		}
+
+		// No end split is found, so don't split remainder
+		if (!$found)
+		{
+			return array($pre, $string, '');
+		}
+
+		$end_split = min($end_split + $end_offset, strlen($string));
+
+		$post = substr($string, $end_split);
+		$string = substr($string, 0, $end_split);
+
+		self::fixBrokenTagsByPostString($post, $string);
+
+		return array($pre, $string, $post);
+	}
+
+	protected static function fixBrokenTagsByPreString(&$pre, &$string)
+	{
+		if (!preg_match('#</?[a-z][^>]*(="[^"]*)?$#s', $pre, $match))
+		{
+			return;
+		}
+
+		$pre = substr($pre, 0, strlen($pre) - strlen($match['0']));
+		$string = $match['0'] . $string;
+	}
+
+	protected static function fixBrokenTagsByPostString(&$post, &$string)
+	{
+		if (!preg_match('#</?[a-z][^>]*(="[^"]*)?$#s', $string, $match))
+		{
+			return;
+		}
+
+		if (!preg_match('#^[^>]*>#s', $post, $match))
+		{
+			return;
+		}
+
+		$post = substr($post, strlen($match['0']));
+		$string .= $match['0'];
+	}
+
 	static function createArray($string, $separator = ',')
 	{
 		return array_filter(explode($separator, trim($string)));
+	}
+
+	static function stringContains($haystacks, $needles)
+	{
+		$haystacks = (array) $haystacks;
+		$needles = (array) $needles;
+
+		foreach ($haystacks as $haystack)
+		{
+			foreach ($needles as $needle)
+			{
+				if (strpos($haystack, $needle) !== false)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

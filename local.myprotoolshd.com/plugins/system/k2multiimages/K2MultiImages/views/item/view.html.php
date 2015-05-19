@@ -87,7 +87,8 @@ class K2ViewItem extends K2View {
 		$model = &$controller->getModel('itemmultiimages');
 		//added
 		$item = $model->getData();
-		
+        
+       
 		// Does the item exists?
 		if (!is_object($item) || !$item->id) {
 			JError::raiseError(404, JText::_('K2_ITEM_NOT_FOUND'));
@@ -118,7 +119,11 @@ class K2ViewItem extends K2View {
 		}
 
 		// Published check
-		if (!$item->published || $item->trash) {
+		
+		/**** GCHAD FIX ****/
+		$preview = JRequest::getVar('preview',null);
+       
+		if ( ( !$item->published || $item->trash ) && !$preview) {
 			JError::raiseError(404, JText::_('K2_ITEM_NOT_FOUND'));
 		}
 

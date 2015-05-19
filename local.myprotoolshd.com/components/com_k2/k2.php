@@ -6,7 +6,9 @@
  * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
-
+ 
+//debug(JRoute::_('index.php?option=com_k2&view=item&id=15&lang=en&preview=1'));
+//debug(JRoute::_('index.php?option=com_k2&id=15&lang=en&view=item'));
 // no direct access
 defined('_JEXEC') or die;
 

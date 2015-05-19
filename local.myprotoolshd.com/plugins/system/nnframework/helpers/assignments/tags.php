@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Tags
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,22 +13,21 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Tags
- */
-class nnFrameworkAssignmentsTags
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsTags extends nnFrameworkAssignment
 {
-	function passTags(&$parent, &$params, $selection = array(), $assignment = 'all', $article = 0)
+	function passTags()
 	{
-		$is_content = in_array($parent->params->option, array('com_content', 'com_flexicontent'));
+		$is_content = in_array($this->request->option, array('com_content', 'com_flexicontent'));
 
 		if (!$is_content)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$is_item = in_array($parent->params->view, array('', 'article', 'item'));
-		$is_category = in_array($parent->params->view, array('category'));
+		$is_item = in_array($this->request->view, array('', 'article', 'item'));
+		$is_category = in_array($this->request->view, array('category'));
 
 		if ($is_item)
 		{
@@ -40,66 +39,66 @@ class nnFrameworkAssignmentsTags
 		}
 		else
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		// Load the tags.
-		$parent->q->clear()
-			->select($parent->db->quoteName('t.id'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('t.id'))
 			->from('#__tags AS t')
 			->join(
 				'INNER', '#__contentitem_tag_map AS m'
 				. ' ON m.tag_id = t.id'
-				. ' AND m.type_alias = ' . $parent->db->quote($prefix)
-				. ' AND m.content_item_id IN ( ' . $parent->params->id . ')'
+				. ' AND m.type_alias = ' . $this->db->quote($prefix)
+				. ' AND m.content_item_id IN ( ' . $this->request->id . ')'
 			);
-		$parent->db->setQuery($parent->q);
-		$tags = $parent->db->loadColumn();
+		$this->db->setQuery($query);
+		$tags = $this->db->loadColumn();
 
 		if (empty($tags))
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		foreach ($tags as $tag)
 		{
-			if (!$this->passTag($tag, $selection, $parent, $params))
+			if (!$this->passTag($tag))
 			{
 				continue;
 			}
 
-			return $parent->pass(1, $assignment);
+			return $this->pass(true);
 		}
 
-		return $parent->pass(0, $assignment);
+		return $this->pass(false);
 	}
 
-	private function passTag($tag, $selection, $parent, $params)
+	private function passTag($tag)
 	{
-		$pass = in_array($tag, $selection);
+		$pass = in_array($tag, $this->selection);
 
 		if ($pass)
 		{
 			// If passed, return false if assigned to only children
 			// Else return true
-			return ($params->inc_children != 2);
+			return ($this->params->inc_children != 2);
 		}
 
-		if (!$params->inc_children)
+		if (!$this->params->inc_children)
 		{
 			return false;
 		}
 
 		// Return true if a parent id is present in the selection
 		return array_intersect(
-			self::getParentIds($parent, $tag),
-			$selection
+			$this->getTagsParentIds($tag),
+			$this->selection
 		);
 	}
 
-	private function getParentIds(&$parent, $id = 0)
+	private function getTagsParentIds($id = 0)
 	{
-		$parentids = $parent->getParentIds($id, 'tags');
+		$parentids = $this->getParentIds($id, 'tags');
 		// Remove the root tag
 		$parentids = array_diff($parentids, array('1'));
 

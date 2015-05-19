@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: FlexiContent
- * Displays a multiselectbox of available Flexicontent Tags / Types
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,54 +12,21 @@
  */
 
 defined('_JEXEC') or die;
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/groupfield.php';
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
-
-class JFormFieldNN_FlexiContent extends JFormField
+class JFormFieldNN_FlexiContent extends nnFormGroupField
 {
 	public $type = 'FlexiContent';
-	private $params = null;
-	private $db = null;
+	public $default_group = 'Tags';
 
 	protected function getInput()
 	{
-		if (!nnFrameworkFunctions::extensionInstalled('flexicontent'))
+		if ($error = $this->missingFilesOrTables(array('tags', 'types')))
 		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_FILES_NOT_FOUND', JText::_('NN_FLEXICONTENT')) . '</fieldset>';
+			return $error;
 		}
 
-		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
-
-		$group = $this->get('group', 'categories');
-
-		$tables = $this->db->getTableList();
-		if (!in_array($this->db->getPrefix() . 'flexicontent_' . $group, $tables))
-		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_TABLE_NOT_FOUND', JText::_('NN_FLEXICONTENT')) . '</fieldset>';
-		}
-
-		if (!is_array($this->value))
-		{
-			$this->value = explode(',', $this->value);
-		}
-
-		$options = $this->{'get' . $group}();
-
-		$size = (int) $this->get('size');
-		$multiple = $this->get('multiple');
-
-		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
-
-		switch ($group)
-		{
-			case 'categories':
-				return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, $multiple);
-
-			default:
-				return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-		}
+		return $this->getSelectList();
 	}
 
 	function getTags()
@@ -73,7 +39,7 @@ class JFormFieldNN_FlexiContent extends JFormField
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		return $this->getOptions($list);
+		return $this->getOptionsByList($list);
 	}
 
 	function getTypes()
@@ -86,23 +52,6 @@ class JFormFieldNN_FlexiContent extends JFormField
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		return $this->getOptions($list);
-	}
-
-	function getOptions($list)
-	{
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return $this->getOptionsByList($list);
 	}
 }

@@ -6,7 +6,9 @@
  * @copyright	Copyright (c) 2006 - 2012 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
+//debug(JRequest::get(true));
 
+//?option=com_k2&view=item&id=107h&lang=en
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
@@ -85,6 +87,17 @@ else {
 				jQuery('div.nivo-controlNav').hide();
 				jQuery('a.nivo-prevNav, a.nivo-nextNav').hide();
 			}
+			
+			/** GCHAD FIX link opens in new window ****/
+			$$('#k2Container a[href]').each(function(el){
+			    
+			    el.addEventListener("click", function(e){
+			        e.preventDefault(); 
+			        var url = el.get('href');
+			        window.parent.location.href= url;
+			    });
+			   
+			});
 		});
 </script>
 						
@@ -141,6 +154,14 @@ else {
 
 	  </h2>
 	  <?php endif; ?>
+	  
+	  <?php
+	  if(isset( $this->item->extraFields->Credits)) {
+	      echo '<div class="credits">'. JText::_('CREDITS').': '. $this->item->extraFields->Credits->value.'</div>';
+	  }
+	 
+	  
+	  ?>
 
 		<?php if($this->item->params->get('itemAuthor')): ?>
 		<!-- Item Author -->
@@ -345,11 +366,18 @@ else {
 			<?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
 			<?php if($extraField->value): ?>
 			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
-				<span class="itemExtraFieldsLabel"><?php echo $extraField->name; ?>:</span>
+				<span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span>
 				<span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
 			</li>
 			<?php endif; ?>
-			<?php endforeach; ?>
+			<?php endforeach; 
+			
+			/**** GCHAD FIX ****/
+			
+			
+			?>
+			<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
+			    <span class="itemExtraFieldsValue"><a href="<?=$this->item->link?>"><?=$this->item->link?></a></span></li>
 			</ul>
 	    <div class="clr"></div>
 	  </div>
@@ -766,3 +794,4 @@ else {
 	<div class="clr"></div>
 </div>
 <!-- End K2 Item Layout -->
+

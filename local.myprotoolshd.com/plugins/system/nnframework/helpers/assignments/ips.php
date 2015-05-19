@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: IPs
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,27 +13,27 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: IPs
- */
-class nnFrameworkAssignmentsIPs
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsIPs extends nnFrameworkAssignment
 {
-	function passIPs(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passIPs()
 	{
-		if (is_array($selection))
+		if (is_array($this->selection))
 		{
-			$selection = implode(',', $selection);
+			$this->selection = implode(',', $this->selection);
 		}
-		$selection = explode(',', str_replace(array(' ', "\r", "\n"), array('', '', ','), $selection));
 
-		$pass = $this->checkIPList($selection);
+		$this->selection = explode(',', str_replace(array(' ', "\r", "\n"), array('', '', ','), $this->selection));
 
-		return $parent->pass($pass, $assignment);
+		$pass = $this->checkIPList();
+
+		return $this->pass($pass);
 	}
 
-	function checkIPList($selection)
+	function checkIPList()
 	{
-		foreach ($selection as $range)
+		foreach ($this->selection as $range)
 		{
 			// Check next range if this one doesn't match
 			if (!$this->checkIP($range))

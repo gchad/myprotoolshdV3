@@ -62,7 +62,7 @@ class jesubmitController extends JControllerLegacy  {
 		return true;
 	}
     
-    /** NEEDS TESTING ON ALL UPLOAD FIELS, Check the extra fields that where hidden); */
+  
     function save(){
         
         JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -117,11 +117,6 @@ class jesubmitController extends JControllerLegacy  {
         //adding mode    
         } else {
            
-          
-             if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) == false){
-                 $msg = JText::_( 'VALID_EMAIL');
-                 $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
-             }
              
              //check all fields?
              if(empty($post['email']) || empty($post['name']) || empty($post['title'])){
@@ -129,6 +124,28 @@ class jesubmitController extends JControllerLegacy  {
                   $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
                   
              }
+             
+             //hack to split emails
+             $emailsArray = preg_split('/\s*[,|;]\s*/', trim($post['email']));
+             
+      
+             if (filter_var($emailsArray[0], FILTER_VALIDATE_EMAIL) == false){
+                     
+                 $msg = JText::_( 'VALID_EMAIL');
+                 $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
+                 
+                 if(isset($emailsArray[1]) && filter_var($emailsArray[1], FILTER_VALIDATE_EMAIL) == false){
+                        
+                    $msg = JText::_( 'VALID_EMAIL');
+                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
+                 }
+             }
+             
+             
+             //reassign emails
+             $post['email'] = $emailsArray[0];
+             $destEmail = isset($emailsArray[1]) ? $emailsArray[1] : $emailsArray[0];
+             
                         
             if($cap == $textval) { 
                 
@@ -231,6 +248,30 @@ class jesubmitController extends JControllerLegacy  {
                 $plugin = json_encode( $map, JSON_UNESCAPED_UNICODE );
                 $user->id = 0;
                 
+                //language
+                $language = "*";
+                $country = isset($post['K2ExtraField_8']) ? $post['K2ExtraField_8'] : null;
+                
+                global $countryMatrix;
+                
+                require_once('libraries/joomla/language/helper.php');
+                $languages  = JLanguageHelper::getLanguages();
+                $activeLanguage = JFactory::getLanguage()->getTag();
+                
+                foreach ($countryMatrix as $countryId => $cArray){ 
+                    foreach ($cArray as $v){
+                        if($v == $country){
+                            $languageId = $countryId;
+                        }
+                    }
+                }
+             
+                foreach ($languages as $k => $v){
+                    if($languageId == $v->lang_id){
+                        $language = $v->lang_code;
+                    }
+                }
+                
                 //Joomla user
                 $user->name = $post['title'];
                 $user->username = $post['name'];
@@ -250,7 +291,8 @@ class jesubmitController extends JControllerLegacy  {
                 //K2 items
                 $sql = "INSERT INTO #__k2_items ".
                        "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
-                       "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."','".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','*','".addslashes($plugin)."')"; 
+                       "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."',".
+                       "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; 
                        
                 $db->setQuery($sql);
                 $db->query();
@@ -299,16 +341,25 @@ class jesubmitController extends JControllerLegacy  {
                 //emails
                 if ($mesg->notify) {
                     
+                    $preview =  ltrim(JRoute::_("index.php?option=com_k2&view=item&id=$item_id&lang=en&preview=1"),'/');
+                        
+                  
+                    //to admin
                     $browse_tempt = $mesg->message;
                     $browse_tempt = str_replace("{created_by}", $post['name'], $browse_tempt);
                     $browse_tempt = str_replace("{email}", $post['email'], $browse_tempt);
                     $browse_tempt = str_replace("{introtext}", $post['title'], $browse_tempt);
                     $browse_tempt = str_replace("{fulltext}", $post['fulltext'], $browse_tempt);
                     $browse_tempt = str_replace("{REMOTE_ADDR}", $post['address'], $browse_tempt);
+                    $browse_tempt = str_replace("{preview}", $preview, $browse_tempt);
                          
+                         
+                        
+                    //to user
                     $browse_tempt1 = $mesg->notify_message;
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
                     $browse_tempt1 =str_replace("{User}", $user->username, $browse_tempt1);
+                    $browse_tempt1 = str_replace("{preview}", $preview, $browse_tempt1);
                     $browse_tempt1 =str_replace("{login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                     //$browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                           
@@ -319,7 +370,7 @@ class jesubmitController extends JControllerLegacy  {
                     $created_by_alias = 'Admin'; 
                   
                     JFactory::getMailer()->sendMail($from               , $fromname         , $mesg->notify_email , $subject, $browse_tempt , $mode=1); //mail go to admin
-                    JFactory::getMailer()->sendMail($mesg->notify_email , $created_by_alias , $from               , $subject, $browse_tempt1, $mode=1); // User msg
+                    JFactory::getMailer()->sendMail($mesg->notify_email , $created_by_alias , $destEmail          , $subject, $browse_tempt1, $mode=1); // User msg
                 }
                 
                 
@@ -1269,7 +1320,7 @@ class jesubmitController extends JControllerLegacy  {
 		//if($item->id)
 			$extraFields = $extraFieldModel->getExtraFieldsByGroup($res->extraFieldsGroup);
 		//else $extraFields = NULL;
-
+//debug($extraFieldModel);
 
 		for($i=0; $i< sizeof($extraFields); $i++){
 		    
@@ -1391,7 +1442,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);
+               // $handle->Process($savepath);
     
                 //Medium image
                 $handle->image_resize = true;
@@ -1423,7 +1474,7 @@ class jesubmitController extends JControllerLegacy  {
                     $imageWidth = $params->get('itemImageS', '200');
                 }
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);
+              //  $handle->Process($savepath);
     
                 //XSmall image
                 $handle->image_resize = true;
@@ -1441,7 +1492,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);
+              //  $handle->Process($savepath);
     
                 //Generic image
                 $handle->image_resize = true;
@@ -1453,7 +1504,7 @@ class jesubmitController extends JControllerLegacy  {
                 $handle->file_new_name_body = $filename.'_Generic';
                 $imageWidth = $params->get('itemImageGeneric', '300');
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);
+              //  $handle->Process($savepath);
     
                 if($files['image']['error'] === 0){
                     $handle->Clean();

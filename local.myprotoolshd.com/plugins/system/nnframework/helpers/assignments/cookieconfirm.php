@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: CookieConfirm
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,16 +13,15 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: URL
- */
-class nnFrameworkAssignmentsCookieConfirm
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsCookieConfirm extends nnFrameworkAssignment
 {
-	function passCookieConfirm(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passCookieConfirm()
 	{
 		require_once JPATH_PLUGINS . '/system/cookieconfirm/core.php';
 		$pass = plgSystemCookieconfirmCore::getInstance()->isCookiesAllowed();
 
-		return $parent->pass($pass, $assignment);
+		return $this->pass($pass);
 	}
 }

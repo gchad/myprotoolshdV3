@@ -2,7 +2,7 @@
  * Main stylesheet
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,7 +13,7 @@
  * Stylesheet for font faces
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -283,6 +283,9 @@ div.nn_well h4 {
 .nn_well.alert-error {
   color: #333333;
 }
+.alert-inline {
+  margin: 14px 0 0;
+}
 .nn_btn-ignore.btn-danger.active {
   color: #333333;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
@@ -316,16 +319,16 @@ div.nn_well h4 {
 .nn_btn-exclude.btn-success.active {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #da4f49;
-  background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-  background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+  background-color: #ad312b;
+  background-image: -moz-linear-gradient(top, #bd362f, #942a25);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#bd362f), to(#942a25));
+  background-image: -webkit-linear-gradient(top, #bd362f, #942a25);
+  background-image: -o-linear-gradient(top, #bd362f, #942a25);
+  background-image: linear-gradient(to bottom, #bd362f, #942a25);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
-  border-color: #bd362f #bd362f #802420;
-  *background-color: #bd362f;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbd362f', endColorstr='#ff942a25', GradientType=0);
+  border-color: #942a25 #942a25 #571916;
+  *background-color: #942a25;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -336,12 +339,12 @@ div.nn_well h4 {
 .nn_btn-exclude.btn-success.active.disabled,
 .nn_btn-exclude.btn-success.active[disabled] {
   color: #ffffff;
-  background-color: #bd362f;
-  *background-color: #a9302a;
+  background-color: #942a25;
+  *background-color: #802420;
 }
 .nn_btn-exclude.btn-success.active:active,
 .nn_btn-exclude.btn-success.active.active {
-  background-color: #942a25 \9;
+  background-color: #6b1f1b \9;
 }
 .nn_textarea {
   -webkit-box-sizing: border-box;
@@ -357,6 +360,53 @@ div.nn_well h4 {
 .icon-back:before {
   content: "\e008";
 }
+.icon-spin {
+  -webkit-animation: spin .5s infinite linear;
+  -moz-animation: spin .5s infinite linear;
+  -ms-animation: spin .5s infinite linear;
+  -o-animation: spin .5s infinite linear;
+  animation: spin .5s infinite linear;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
 .inlist .simplecolors-swatch span {
   position: relative;
 }
@@ -365,12 +415,14 @@ div.nn_well h4 {
 .btn-toolbar .dropdown-menu {
   font-size: 13px;
 }
-.dropdown {
-  display: inline-block;
-}
-.dropdown-menu.dropup-menu {
-  bottom: 100%;
-  top: auto;
+@media (min-width: 768px) {
+  .dropdown {
+    display: inline-block;
+  }
+  .dropdown-menu.dropup-menu {
+    bottom: 100%;
+    top: auto;
+  }
 }
 /* popovers */
 .popover {
@@ -435,16 +487,16 @@ div.chzn-container#advancedparams_color_chzn {
 .btn-group-yesno-reverse .active.btn-success {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #da4f49;
-  background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-  background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-  background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+  background-color: #ad312b;
+  background-image: -moz-linear-gradient(top, #bd362f, #942a25);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#bd362f), to(#942a25));
+  background-image: -webkit-linear-gradient(top, #bd362f, #942a25);
+  background-image: -o-linear-gradient(top, #bd362f, #942a25);
+  background-image: linear-gradient(to bottom, #bd362f, #942a25);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
-  border-color: #bd362f #bd362f #802420;
-  *background-color: #bd362f;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbd362f', endColorstr='#ff942a25', GradientType=0);
+  border-color: #942a25 #942a25 #571916;
+  *background-color: #942a25;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -455,26 +507,26 @@ div.chzn-container#advancedparams_color_chzn {
 .btn-group-yesno-reverse .active.btn-success.disabled,
 .btn-group-yesno-reverse .active.btn-success[disabled] {
   color: #ffffff;
-  background-color: #bd362f;
-  *background-color: #a9302a;
+  background-color: #942a25;
+  *background-color: #802420;
 }
 .btn-group-yesno-reverse .active.btn-success:active,
 .btn-group-yesno-reverse .active.btn-success.active {
-  background-color: #942a25 \9;
+  background-color: #6b1f1b \9;
 }
 .btn-group-yesno-reverse .active.btn-danger {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #5bb75b;
-  background-image: -moz-linear-gradient(top, #62c462, #51a351);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
-  background-image: -webkit-linear-gradient(top, #62c462, #51a351);
-  background-image: -o-linear-gradient(top, #62c462, #51a351);
-  background-image: linear-gradient(to bottom, #62c462, #51a351);
+  background-color: #409740;
+  background-image: -moz-linear-gradient(top, #46a546, #378137);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#46a546), to(#378137));
+  background-image: -webkit-linear-gradient(top, #46a546, #378137);
+  background-image: -o-linear-gradient(top, #46a546, #378137);
+  background-image: linear-gradient(to bottom, #46a546, #378137);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
-  border-color: #51a351 #51a351 #387038;
-  *background-color: #51a351;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff46a546', endColorstr='#ff378137', GradientType=0);
+  border-color: #378137 #378137 #204b20;
+  *background-color: #378137;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -485,12 +537,12 @@ div.chzn-container#advancedparams_color_chzn {
 .btn-group-yesno-reverse .active.btn-danger.disabled,
 .btn-group-yesno-reverse .active.btn-danger[disabled] {
   color: #ffffff;
-  background-color: #51a351;
-  *background-color: #499249;
+  background-color: #378137;
+  *background-color: #2f6f2f;
 }
 .btn-group-yesno-reverse .active.btn-danger:active,
 .btn-group-yesno-reverse .active.btn-danger.active {
-  background-color: #408140 \9;
+  background-color: #285d28 \9;
 }
 .thumbnail-small > .thumbnail > img {
   max-width: 40px;
@@ -512,4 +564,49 @@ input.nn_keyfield {
 #key_button,
 #jform_key_button {
   margin-left: 8px;
+}
+.ghosted {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.nn_licence {
+  margin-top: 30px;
+  text-align: center;
+}
+.nn_footer {
+  margin-top: 30px;
+}
+.nn_footer div {
+  margin-top: 30px;
+  text-align: center;
+}
+.nn_footer .nn_footer_review {
+  margin-top: 5px;
+}
+.nn_footer .nn_footer_review a.stars .icon-star {
+  color: #fcac0a;
+  margin: 0;
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+.nn_footer .nn_footer_review a.stars:hover {
+  text-decoration: none;
+}
+.nn_footer .nn_footer_review a.stars:hover .icon-star {
+  -webkit-transform: rotate(216deg);
+  -moz-transform: rotate(216deg);
+  -ms-transform: rotate(216deg);
+  -o-transform: rotate(216deg);
+  transform: rotate(216deg);
+}
+.nn_footer .nn_footer_logo img {
+  vertical-align: -40%;
+}
+.nn_footer .nn_footer_copyright {
+  margin-top: 3px;
+  font-size: 0.7em;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
 }

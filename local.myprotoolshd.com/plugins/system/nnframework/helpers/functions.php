@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Functions
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -20,7 +20,31 @@ require_once __DIR__ . '/cache.php';
  */
 class nnFrameworkFunctions
 {
-	var $_version = '15.1.6';
+	var $_version = '15.4.4';
+
+	public static function addScriptVersion($url)
+	{
+		jimport('joomla.filesystem.file');
+
+		if (!JFile::exists(JPATH_SITE . $url))
+		{
+			return JFactory::getDocument()->addScriptVersion($url);
+		}
+
+		JFactory::getDocument()->addScript($url . '?' . filemtime(JPATH_SITE . $url));
+	}
+
+	public static function addStyleSheetVersion($url)
+	{
+		jimport('joomla.filesystem.file');
+
+		if (!JFile::exists(JPATH_SITE . $url))
+		{
+			return JFactory::getDocument()->addStyleSheetVersion($url);
+		}
+
+		JFactory::getDocument()->addStyleSheet($url . '?' . filemtime(JPATH_SITE . $url));
+	}
 
 	public function getByUrl($url)
 	{
@@ -111,110 +135,156 @@ class nnFrameworkFunctions
 		);
 	}
 
-	protected function curl($url)
+	public static function getAliasAndElement(&$name)
 	{
-		$hash = md5('curl_' . $url);
+		$name = self::getNameByAlias($name);
+		$alias = self::getAliasByName($name);
+		$element = self::getElementByAlias($alias);
 
-		if (nnCache::has($hash))
-		{
-			return nnCache::get($hash);
-		}
-
-		$timeout = JFactory::getApplication()->input->getInt('timeout', 3);
-		$timeout = min(array(30, max(array(3, $timeout))));
-
-		$ch = curl_init($url);
-
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'NoNumber/' . $this->_version);
-		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-
-		jimport('joomla.filesystem.file');
-		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_nonumbermanager/nonumbermanager.php'))
-		{
-			$config = JComponentHelper::getParams('com_nonumbermanager');
-			if ($config && $config->get('use_proxy', 0) && $config->get('proxy_host'))
-			{
-				curl_setopt($ch, CURLOPT_PROXY, $config->get('proxy_host') . ':' . $config->get('proxy_port'));
-				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $config->get('proxy_login') . ':' . $config->get('proxy_password'));
-				curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-			}
-		}
-
-		//follow on location problems
-		if (!ini_get('safe_mode') && !ini_get('open_basedir'))
-		{
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			$html = curl_exec($ch);
-		}
-		else
-		{
-			$html = $this->curl_redir_exec($ch);
-		}
-		curl_close($ch);
-
-		return nnCache::set($hash,
-			$html
-		);
+		return array($alias, $element);
 	}
 
-	public function curl_redir_exec($ch)
+	public static function getNameByAlias($alias)
 	{
-		static $curl_loops = 0;
-		static $curl_max_loops = 20;
-
-		if ($curl_loops++ >= $curl_max_loops)
+		// Alias has an underscore, so is a language string
+		if (strpos($alias, '_') !== false)
 		{
-			$curl_loops = 0;
+			return JText::_($alias);
+		}
 
+		// Alias has a space and/or capitals, so is already a name
+		if (strpos($alias, ' ') !== false || $alias !== strtolower($alias))
+		{
+			return $alias;
+		}
+
+		return JText::_(self::getXMLValue('name', $alias));
+	}
+
+	public static function getAliasByName($name)
+	{
+		$alias = preg_replace('#[^a-z0-9]#', '', strtolower($name));
+
+		switch ($alias)
+		{
+			case 'advancedmodules':
+				return 'advancedmodulemanager';
+
+			case 'advancedtemplates':
+				return 'advancedtemplatemanager';
+
+			case 'nonumbermanager':
+				return 'nonumberextensionmanager';
+
+			case 'what-nothing':
+				return 'whatnothing';
+		}
+
+		return $alias;
+	}
+
+	public static function getElementByAlias($alias)
+	{
+		$alias = self::getAliasByName($alias);
+
+		switch ($alias)
+		{
+			case 'advancedmodulemanager':
+				return 'advancedmodules';
+
+			case 'advancedtemplatemanager':
+				return 'advancedtemplates';
+
+			case 'nonumberextensionmanager':
+				return 'nonumbermanager';
+
+			case 'whatnothing':
+				return 'what-nothing';
+		}
+
+		return $alias;
+	}
+
+	static function getXMLValue($key, $alias, $type = 'component', $folder = 'system')
+	{
+		if (!$xml = self::getXML($alias, $type, $folder))
+		{
+			return '';
+		}
+
+		if (!isset($xml[$key]))
+		{
+			return '';
+		}
+
+		return isset($xml[$key]) ? $xml[$key] : '';
+	}
+
+	static function getXML($alias, $type = 'component', $folder = 'system')
+	{
+		if (!$file = self::getXMLFile($alias, $type, $folder))
+		{
 			return false;
 		}
 
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		$data = curl_exec($ch);
+		return JApplicationHelper::parseXMLInstallFile($file);
+	}
 
-		list($header, $data) = explode("\n\n", str_replace("\r", '', $data), 2);
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	static function getXMLFile($alias, $type = 'component', $folder = 'system')
+	{
+		jimport('joomla.filesystem.file');
 
-		if ($http_code == 301 || $http_code == 302)
+		$element = self::getElementByAlias($alias);
+
+		$files = array();
+
+		// Components
+		if (empty($type) || $type == 'component')
 		{
-			$matches = array();
-			preg_match('/Location:(.*?)\n/', $header, $matches);
-			$url = @parse_url(trim(array_pop($matches)));
-			if (!$url)
-			{
-				//couldn't process the url to redirect to
-				$curl_loops = 0;
-
-				return $data;
-			}
-			$last_url = parse_url(curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));
-			if (!$url['scheme'])
-			{
-				$url['scheme'] = $last_url['scheme'];
-			}
-			if (!$url['host'])
-			{
-				$url['host'] = $last_url['host'];
-			}
-			if (!$url['path'])
-			{
-				$url['path'] = $last_url['path'];
-			}
-			$new_url = $url['scheme'] . '://' . $url['host'] . $url['path'] . ($url['query'] ? '?' . $url['query'] : '');
-			curl_setopt($ch, CURLOPT_URL, $new_url);
-
-			return self::curl_redir_exec($ch);
+			$files[] = JPATH_ADMINISTRATOR . '/components/com_' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_SITE . '/components/com_' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_ADMINISTRATOR . '/components/com_' . $element . '/com_' . $element . '.xml';
+			$files[] = JPATH_SITE . '/components/com_' . $element . '/com_' . $element . '.xml';
 		}
-		else
+
+		// Plugins
+		if (empty($type) || $type == 'plugin')
 		{
-			$curl_loops = 0;
+			if (!empty($folder))
+			{
+				$files[] = JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml';
+				$files[] = JPATH_PLUGINS . '/' . $folder . '/' . $element . '.xml';
+			}
 
-			return $data;
+			// System Plugins
+			$files[] = JPATH_PLUGINS . '/system/' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_PLUGINS . '/system/' . $element . '.xml';
+
+			// Editor Button Plugins
+			$files[] = JPATH_PLUGINS . '/editors-xtd/' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_PLUGINS . '/editors-xtd/' . $element . '.xml';
 		}
+
+		// Modules
+		if (empty($type) || $type == 'module')
+		{
+			$files[] = JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_SITE . '/modules/mod_' . $element . '/' . $element . '.xml';
+			$files[] = JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/mod_' . $element . '.xml';
+			$files[] = JPATH_SITE . '/modules/mod_' . $element . '/mod_' . $element . '.xml';
+		}
+
+		foreach ($files as $file)
+		{
+			if (!JFile::exists($file))
+			{
+				continue;
+			}
+
+			return $file;
+		}
+
+		return '';
 	}
 
 	static function extensionInstalled($extension, $type = 'component', $folder = 'system')
@@ -429,5 +499,111 @@ class nnFrameworkFunctions
 		return (object) array(
 			$xml->getName() => $propertiesArray
 		);
+	}
+
+	protected function curl($url)
+	{
+		$hash = md5('curl_' . $url);
+
+		if (nnCache::has($hash))
+		{
+			return nnCache::get($hash);
+		}
+
+		$timeout = JFactory::getApplication()->input->getInt('timeout', 3);
+		$timeout = min(array(30, max(array(3, $timeout))));
+
+		$ch = curl_init($url);
+
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'NoNumber/' . $this->_version);
+		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+
+		jimport('joomla.filesystem.file');
+		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_nonumbermanager/nonumbermanager.php'))
+		{
+			$config = JComponentHelper::getParams('com_nonumbermanager');
+			if ($config && $config->get('use_proxy', 0) && $config->get('proxy_host'))
+			{
+				curl_setopt($ch, CURLOPT_PROXY, $config->get('proxy_host') . ':' . $config->get('proxy_port'));
+				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $config->get('proxy_login') . ':' . $config->get('proxy_password'));
+				curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+			}
+		}
+
+		//follow on location problems
+		if (!ini_get('safe_mode') && !ini_get('open_basedir'))
+		{
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			$html = curl_exec($ch);
+		}
+		else
+		{
+			$html = $this->curl_redir_exec($ch);
+		}
+		curl_close($ch);
+
+		return nnCache::set($hash,
+			$html
+		);
+	}
+
+	public function curl_redir_exec($ch)
+	{
+		static $curl_loops = 0;
+		static $curl_max_loops = 20;
+
+		if ($curl_loops++ >= $curl_max_loops)
+		{
+			$curl_loops = 0;
+
+			return false;
+		}
+
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		$data = curl_exec($ch);
+
+		list($header, $data) = explode("\n\n", str_replace("\r", '', $data), 2);
+		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		if ($http_code == 301 || $http_code == 302)
+		{
+			$matches = array();
+			preg_match('/Location:(.*?)\n/', $header, $matches);
+			$url = @parse_url(trim(array_pop($matches)));
+			if (!$url)
+			{
+				//couldn't process the url to redirect to
+				$curl_loops = 0;
+
+				return $data;
+			}
+			$last_url = parse_url(curl_getinfo($ch, CURLINFO_EFFECTIVE_URL));
+			if (!$url['scheme'])
+			{
+				$url['scheme'] = $last_url['scheme'];
+			}
+			if (!$url['host'])
+			{
+				$url['host'] = $last_url['host'];
+			}
+			if (!$url['path'])
+			{
+				$url['path'] = $last_url['path'];
+			}
+			$new_url = $url['scheme'] . '://' . $url['host'] . $url['path'] . ($url['query'] ? '?' . $url['query'] : '');
+			curl_setopt($ch, CURLOPT_URL, $new_url);
+
+			return self::curl_redir_exec($ch);
+		}
+		else
+		{
+			$curl_loops = 0;
+
+			return $data;
+		}
 	}
 }

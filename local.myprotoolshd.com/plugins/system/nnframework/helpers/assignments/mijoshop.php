@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: MijoShop
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,12 +13,11 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: MijoShop
- */
-class nnFrameworkAssignmentsMijoShop
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsMijoShop extends nnFrameworkAssignment
 {
-	function init(&$parent)
+	function init()
 	{
 		$input = JFactory::getApplication()->input;
 
@@ -28,9 +27,9 @@ class nnFrameworkAssignmentsMijoShop
 			$category_id = end(explode('_', $category_id));
 		}
 
-		$parent->params->item_id = $input->getInt('product_id', 0);
-		$parent->params->category_id = $category_id;
-		$parent->params->id = ($parent->params->item_id) ? $parent->params->item_id : $parent->params->category_id;
+		$this->request->item_id = $input->getInt('product_id', 0);
+		$this->request->category_id = $category_id;
+		$this->request->id = ($this->request->item_id) ? $this->request->item_id : $this->request->category_id;
 
 		$view = $input->getCmd('view', '');
 		if (empty($view))
@@ -47,79 +46,79 @@ class nnFrameworkAssignmentsMijoShop
 			$view = MijoShop::get('router')->getView($route);
 		}
 
-		$parent->params->view = $view;
+		$this->request->view = $view;
 	}
 
-	function passPageTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passPageTypes()
 	{
-		return $parent->passPageTypes('com_mijoshop', $selection, $assignment, 1);
+		return $this->passByPageTypes('com_mijoshop', $this->selection, $this->assignment, true);
 	}
 
-	function passCategories(&$parent, &$params, $selection = array(), $assignment = 'all', $article = 0)
+	function passCategories()
 	{
-		if ($parent->params->option != 'com_mijoshop')
+		if ($this->request->option != 'com_mijoshop')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$pass = (
-			($params->inc_categories
-				&& ($parent->params->view == 'category')
+			($this->params->inc_categories
+				&& ($this->request->view == 'category')
 			)
-			|| ($params->inc_items && $parent->params->view == 'product')
+			|| ($this->params->inc_items && $this->request->view == 'product')
 		);
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$cats = array();
-		if ($parent->params->category_id)
+		if ($this->request->category_id)
 		{
-			$cats = $parent->params->category_id;
+			$cats = $this->request->category_id;
 		}
-		else if ($parent->params->item_id)
+		else if ($this->request->item_id)
 		{
-			$parent->q->clear()
+			$query = $this->db->getQuery(true)
 				->select('c.category_id')
 				->from('#__mijoshop_product_to_category AS c')
-				->where('c.product_id = ' . (int) $parent->params->id);
-			$parent->db->setQuery($parent->q);
-			$cats = $parent->db->loadColumn();
+				->where('c.product_id = ' . (int) $this->request->id);
+			$this->db->setQuery($query);
+			$cats = $this->db->loadColumn();
 		}
 
-		$cats = $parent->makeArray($cats);
+		$cats = $this->makeArray($cats);
 
-		$pass = $parent->passSimple($cats, $selection, 'include');
+		$pass = $this->passSimple($cats, 'include');
 
-		if ($pass && $params->inc_children == 2)
+		if ($pass && $this->params->inc_children == 2)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
-		else if (!$pass && $params->inc_children)
+		else if (!$pass && $this->params->inc_children)
 		{
 			foreach ($cats as $cat)
 			{
-				$cats = array_merge($cats, self::getCatParentIds($parent, $cat));
+				$cats = array_merge($cats, $this->getCatParentIds($cat));
 			}
 		}
 
-		return $parent->passSimple($cats, $selection, $assignment);
+		return $this->passSimple($cats);
 	}
 
-	function passProducts(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passProducts()
 	{
-		if (!$parent->params->id || $parent->params->option != 'com_mijoshop' || $parent->params->view != 'product')
+		if (!$this->request->id || $this->request->option != 'com_mijoshop' || $this->request->view != 'product')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		return $parent->passSimple($parent->params->id, $selection, $assignment);
+		return $this->passSimple($this->request->id);
 	}
 
-	function getCatParentIds(&$parent, $id = 0)
+	function getCatParentIds($id = 0)
 	{
-		return $parent->getParentIds($id, 'mijoshop_category', 'parent_id', 'category_id');
+		return $this->getParentIds($id, 'mijoshop_category', 'parent_id', 'category_id');
 	}
 }

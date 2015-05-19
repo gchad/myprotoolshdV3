@@ -4,7 +4,7 @@
  * extra JHTML functions
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -81,19 +81,28 @@ class nnHtml
 			}
 			$html = JHtml::_('select.genericlist', $options, $name, 'class="inputbox"', 'value', 'text', $value);
 
-			return preg_replace('#>((?:\s*-\s*)*)\[\[\:(.*?)\:\]\]#si', ' style="\2">\1', $html);
+			return self::handlePreparedStyles($html);
 		}
+
+		$size = (int) $size ?: 300;
 
 		if ($simple)
 		{
-			$attr = $size ? 'style="width: ' . (int) $size . 'px"' : '';
+			$attr = 'style="width: ' . $size . 'px"';
 			$attr .= $multiple ? ' multiple="multiple"' : '';
 
-			return JHtml::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+			$html = JHtml::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+
+			return self::handlePreparedStyles($html);
 		}
 
+		require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
+
+		JFactory::getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
+
 		JHtml::stylesheet('nnframework/multiselect.min.css', false, true);
-		JFactory::getDocument()->addScriptVersion(JURI::root(true) . '/media/nnframework/js/multiselect.min.js');
+
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/multiselect.min.js');
 
 		$html = array();
 
@@ -145,9 +154,7 @@ class nnHtml
 			}
 		}
 
-		$size = $size ?: 300;
-
-		$html[] = '<ul class="nn_multiselect-ul" style="max-height:300px;min-width:' . (int) $size . 'px;overflow-x: hidden;">';
+		$html[] = '<ul class="nn_multiselect-ul" style="max-height:300px;min-width:' . $size . 'px;overflow-x: hidden;">';
 		$prevlevel = 0;
 
 		foreach ($o as $i => $option)
@@ -227,11 +234,16 @@ class nnHtml
 
 		$html = implode('', $html);
 
-		return preg_replace('#>\[\[\:(.*?)\:\]\]#si', ' style="\1">', $html);
+		return self::handlePreparedStyles($html);
 	}
 
 	static function selectlistsimple(&$options, $name, $value, $id, $size = 0, $multiple = 0)
 	{
 		return self::selectlist($options, $name, $value, $id, $size, $multiple, 1);
+	}
+
+	static private function handlePreparedStyles($string)
+	{
+		return preg_replace('#>((?:\s*-\s*)*)\[\[\:(.*?)\:\]\]#si', ' style="\2">\1', $string);
 	}
 }

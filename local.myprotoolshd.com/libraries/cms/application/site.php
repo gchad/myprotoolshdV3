@@ -573,18 +573,8 @@ final class JApplicationSite extends JApplicationCms
 
 		// If a language was specified it has priority, otherwise use user or default language settings
 		JPluginHelper::importPlugin('system', 'languagefilter');
-
-		if (empty($options['language']))
-		{
-			// Detect the specified language
-			$lang = $this->input->getString('language', null);
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
-			{
-				$options['language'] = $lang;
-			}
-		}
+        
+		
 
 		if ($this->_language_filter && empty($options['language']))
 		{
@@ -621,6 +611,20 @@ final class JApplicationSite extends JApplicationCms
 				$options['language'] = $lang;
 			}
 		}
+        
+        /**** GCHAD FIX *****/
+        /*** we put the string detection after the browser ***/
+        if (empty($options['language']))
+        {
+            // Detect the specified language
+            $lang = $this->input->getString('language', null);
+
+            // Make sure that the user's language exists
+            if ($lang && JLanguage::exists($lang))
+            {
+                $options['language'] = $lang;
+            }
+        }
 
 		if (empty($options['language']))
 		{

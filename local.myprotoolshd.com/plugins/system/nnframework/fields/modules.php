@@ -4,7 +4,7 @@
  * Displays an article id field with a button
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,18 +14,15 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
 
-class JFormFieldNN_Modules extends JFormField
+class JFormFieldNN_Modules extends nnFormField
 {
 	public $type = 'Modules';
-	private $params = null;
-	private $db = null;
 
 	protected function getInput()
 	{
 		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
 
 		JHtml::_('behavior.modal', 'a.modal');
 
@@ -138,10 +135,5 @@ class JFormFieldNN_Modules extends JFormField
 		}
 
 		return preg_replace('#>\[\[\:(.*?)\:\]\]#si', ' style="\1">', $html);
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

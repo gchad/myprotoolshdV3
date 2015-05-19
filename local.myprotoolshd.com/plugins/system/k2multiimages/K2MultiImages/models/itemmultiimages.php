@@ -25,13 +25,17 @@ class K2ModelItemMultiImages extends K2Model
 		$id = JRequest::getInt('id');
 		$db = &JFactory::getDBO();
 		$query = "SELECT * FROM #__k2_items WHERE id={$id}";
-
+            
+            /* GCHAD FIX ***/
+            /* remove the language filter */
+            
+            /*
 			$languageFilter = $mainframe->getLanguageFilter();
 			if ($languageFilter)
 			{
 				$languageTag = JFactory::getLanguage()->getTag();
 				$query .= " AND language IN (".$db->Quote($languageTag).",".$db->Quote('*').")";
-			}
+			}*/
 
 		$db->setQuery($query, 0, 1);
 		$row = $db->loadObject();

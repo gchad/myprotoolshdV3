@@ -4,7 +4,7 @@
  * Displays a list of components with check boxes
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,42 +14,40 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldNN_Components extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_Components extends nnFormField
 {
 	public $type = 'Components';
-	private $params = null;
-	private $db = null;
 
 	protected function getInput()
 	{
 		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
 
-		$frontend = $this->get('frontend', 1);
-		$admin = $this->get('admin', 1);
-		$size = (int) $this->get('size');
+		$options = $this->getComponents();
 
-		if (!$frontend && !$admin)
+		if (empty($options))
 		{
 			return '';
 		}
 
-		$components = $this->getComponents($frontend, $admin);
-
-		$options = array();
-
-		foreach ($components as $component)
-		{
-			$options[] = JHtml::_('select.option', $component->element, $component->name);
-		}
+		$size = (int) $this->get('size');
 
 		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
 
 		return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, 1);
 	}
 
-	function getComponents($frontend = 1, $admin = 1)
+	function getComponents()
 	{
+		$frontend = $this->get('frontend', 1);
+		$admin = $this->get('admin', 1);
+
+		if (!$frontend && !$admin)
+		{
+			return array();
+		}
+
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 
@@ -98,11 +96,13 @@ class JFormFieldNN_Components extends JFormField
 		}
 		ksort($comps);
 
-		return $comps;
-	}
+		$options = array();
 
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		foreach ($comps as $component)
+		{
+			$options[] = JHtml::_('select.option', $component->element, $component->name);
+		}
+
+		return $options;
 	}
 }

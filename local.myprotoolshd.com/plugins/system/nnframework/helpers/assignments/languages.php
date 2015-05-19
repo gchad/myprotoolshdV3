@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Languages
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,13 +13,12 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Languages
- */
-class nnFrameworkAssignmentsLanguages
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsLanguages extends nnFrameworkAssignment
 {
-	function passLanguages(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passLanguages()
 	{
-		return $parent->passSimple(JFactory::getLanguage()->getTag(), $selection, $assignment, 1);
+		return $this->passSimple(JFactory::getLanguage()->getTag(), true);
 	}
 }

@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: Agents
- * Displays a multiselectbox of different browsers
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,18 +13,17 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
 
-class JFormFieldNN_Agents extends JFormField
+class JFormFieldNN_Agents extends nnFormField
 {
 	public $type = 'Agents';
-	private $params = null;
 
 	protected function getInput()
 	{
 		$this->params = $this->element->attributes();
 
-		$group = $this->get('group');
+		$group = $this->get('group', 'os');
 
 		if (!is_array($this->value))
 		{
@@ -139,10 +137,5 @@ class JFormFieldNN_Agents extends JFormField
 		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
 
 		return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, 1);
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

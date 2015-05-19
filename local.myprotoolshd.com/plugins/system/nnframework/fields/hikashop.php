@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: HikaShop
- * Displays a multiselectbox of available HikaShop categories / products
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,59 +13,20 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/parameters.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/groupfield.php';
 
-class JFormFieldNN_HikaShop extends JFormField
+class JFormFieldNN_HikaShop extends nnFormGroupField
 {
 	public $type = 'HikaShop';
-	private $params = null;
-	private $db = null;
-	private $max_list_count = 0;
 
 	protected function getInput()
 	{
-		if (!nnFrameworkFunctions::extensionInstalled('hikashop'))
+		if ($error = $this->missingFilesOrTables(array('categories' => 'category', 'products' => 'product')))
 		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_FILES_NOT_FOUND', JText::_('NN_HIKASHOP')) . '</fieldset>';
+			return $error;
 		}
 
-		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
-
-		$group = $this->get('group', 'categories');
-
-		$tables = $this->db->getTableList();
-		if (!in_array($this->db->getPrefix() . 'hikashop_' . ($group == 'products' ? 'product' : 'category'), $tables))
-		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_TABLE_NOT_FOUND', JText::_('NN_HIKASHOP')) . '</fieldset>';
-		}
-
-		$parameters = nnParameters::getInstance();
-		$params = $parameters->getPluginParams('nnframework');
-		$this->max_list_count = $params->max_list_count;
-
-		if (!is_array($this->value))
-		{
-			$this->value = explode(',', $this->value);
-		}
-
-		$options = $this->{'get' . $group}();
-
-		$size = (int) $this->get('size');
-		$multiple = $this->get('multiple');
-
-		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
-
-		switch ($group)
-		{
-			case 'categories':
-				return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, $multiple);
-
-			default:
-				return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-		}
+		return $this->getSelectList();
 	}
 
 	function getCategories()
@@ -83,14 +43,12 @@ class JFormFieldNN_HikaShop extends JFormField
 			return -1;
 		}
 
-		$show_ignore = $this->get('show_ignore');
-
 		$query->clear()
 			->select('c.category_id')
 			->from('#__hikashop_category AS c')
 			->where('c.category_type = ' . $this->db->quote('root'));
 		$this->db->setQuery($query);
-		$root = $this->db->loadResult();
+		$root = (int) $this->db->loadResult();
 
 		$query->clear()
 			->select('c.category_id as id, c.category_parent_id AS parent_id, c.category_name AS title, c.category_published as published')
@@ -101,40 +59,7 @@ class JFormFieldNN_HikaShop extends JFormField
 		$this->db->setQuery($query);
 		$items = $this->db->loadObjectList();
 
-		// establish the hierarchy of the menu
-		// TODO: use node model
-		$children = array();
-
-		// first pass - collect children
-		foreach ($items as $v)
-		{
-			$pt = $v->parent_id;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
-			$children[$pt] = $list;
-		}
-
-		// second pass - get an indent list of the items
-		$list = JHtml::_('menu.treerecurse', (int) $root, '', array(), $children, 9999, 0, 0);
-
-		// assemble items to the array
-		$options = array();
-		if ($show_ignore)
-		{
-			if (in_array('-1', $this->value))
-			{
-				$this->value = array('-1');
-			}
-			$options[] = JHtml::_('select.option', '-1', '- ' . JText::_('NN_IGNORE') . ' -', 'value', 'text', 0);
-			$options[] = JHtml::_('select.option', '-', '&nbsp;', 'value', 'text', 1);
-		}
-		foreach ($list as $item)
-		{
-			$item->treename = nnText::prepareSelectItem($item->treename, $item->published, '', 1);
-			$options[] = JHtml::_('select.option', $item->id, $item->treename, 'value', 'text', 0);
-		}
-
-		return $options;
+		return $this->getOptionsTreeByList($items, $root);
 	}
 
 	function getProducts()
@@ -149,20 +74,6 @@ class JFormFieldNN_HikaShop extends JFormField
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name = $item->name . ' [' . $item->id . ']' . ($item->cat ? ' [' . $item->cat . ']' : '');
-			$item->name = nnText::prepareSelectItem($item->name, $item->published);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return $this->getOptionsByList($list, array('cat', 'id'));
 	}
 }

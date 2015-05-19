@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: MultiSelect
- * Displays a multiselectbox
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,13 +13,11 @@
 
 defined('_JEXEC') or die;
 
-/**
- * MultiSelect Element
- */
-class JFormFieldNN_MultiSelect extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_MultiSelect extends nnFormField
 {
 	public $type = 'MultiSelect';
-	private $params = null;
 
 	protected function getInput()
 	{
@@ -44,10 +41,5 @@ class JFormFieldNN_MultiSelect extends JFormField
 		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
 
 		return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, 1);
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

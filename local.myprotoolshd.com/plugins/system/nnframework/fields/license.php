@@ -4,7 +4,7 @@
  * Displays the License state
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,10 +14,11 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldNN_License extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_License extends nnFormField
 {
 	public $type = 'License';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -37,11 +38,6 @@ class JFormFieldNN_License extends JFormField
 
 		require_once JPATH_PLUGINS . '/system/nnframework/helpers/licenses.php';
 
-		return '</div><div class="hide">' . nnLicenses::getInstance()->getMessage($extension);
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return '</div><div class="hide">' . NoNumberLicenses::render($extension, true);
 	}
 }

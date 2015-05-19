@@ -4,7 +4,7 @@
  * Adds slide in and out functionality to framework based on an framework value
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
  * @copyright       Copyright © 2015 NoNumber All Rights Reserved
@@ -12,6 +12,8 @@
  */
 
 defined('_JEXEC') or die;
+
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
 
 /**
  * To use this, make a start xml param tag with the param and value set
@@ -25,7 +27,6 @@ defined('_JEXEC') or die;
 class JFormFieldNN_Toggler extends JFormField
 {
 	public $type = 'Toggler';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -61,8 +62,8 @@ class nnFieldToggler
 		$div = $this->get('div', 0);
 
 		JHtml::_('jquery.framework');
-		JFactory::getDocument()->addScriptVersion(JURI::root(true) . '/media/nnframework/js/script.min.js');
-		JFactory::getDocument()->addScriptVersion(JURI::root(true) . '/media/nnframework/js/toggler.min.js');
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/script.min.js');
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/toggler.min.js');
 
 		$param = preg_replace('#^\s*(.*?)\s*$#', '\1', $param);
 		$param = preg_replace('#\s*\|\s*#', '|', $param);

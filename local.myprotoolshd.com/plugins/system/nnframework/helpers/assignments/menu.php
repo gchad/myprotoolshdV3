@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Menu
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,68 +13,72 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Menu
- */
-class nnFrameworkAssignmentsMenu
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsMenu extends nnFrameworkAssignment
 {
-	function passMenu(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passMenu()
 	{
-		$pass = 0;
-
-		if ($parent->params->Itemid && !empty($selection))
+		// return if no Itemid or selection is set
+		if (!$this->request->Itemid || empty($this->selection))
 		{
-			$menutype = 'type.' . self::getMenuType($parent);
-			$pass = in_array($menutype, $selection);
-			if (!$pass)
+			return $this->pass($this->params->inc_noitemid);
+		}
+
+		$menutype = 'type.' . self::getMenuType();
+
+		// return true if menu type is in selection
+		if (in_array($menutype, $this->selection))
+		{
+			return $this->pass(true);
+		}
+
+		// return true if menu is in selection
+		if (in_array($this->request->Itemid, $this->selection))
+		{
+			return $this->pass(($this->params->inc_children != 2));
+		}
+
+		if (!$this->params->inc_children)
+		{
+			return $this->pass(false);
+		}
+
+		$parent_ids = $this->getMenuParentIds($this->request->Itemid);
+		$parent_ids = array_diff($parent_ids, array('1'));
+		foreach ($parent_ids as $id)
+		{
+			if (!in_array($id, $this->selection))
 			{
-				$selection = $parent->makeArray($selection);
-				$pass = in_array($parent->params->Itemid, $selection);
-				if ($pass && $params->inc_children == 2)
-				{
-					$pass = 0;
-				}
-				else if (!$pass && $params->inc_children)
-				{
-					$parentids = self::getParentIds($parent, $parent->params->Itemid);
-					$parentids = array_diff($parentids, array('1'));
-					foreach ($parentids as $id)
-					{
-						if (in_array($id, $selection))
-						{
-							$pass = 1;
-							break;
-						}
-					}
-					unset($parentids);
-				}
+				continue;
 			}
-		}
-		else if ($params->inc_noItemid)
-		{
-			$pass = 1;
+
+			return $this->pass(true);
 		}
 
-		return $parent->pass($pass, $assignment);
+		return $this->pass(false);
+
 	}
 
-	function getParentIds(&$parent, $id = 0)
+	function getMenuParentIds($id = 0)
 	{
-		return $parent->getParentIds($id, 'menu');
+		return $this->getParentIds($id, 'menu');
 	}
 
-	function getMenuType(&$parent)
+	function getMenuType()
 	{
-		if (!isset($parent->params->menutype))
+		if (isset($this->request->menutype))
 		{
-			$parent->q->clear()
-				->select('m.menutype')
-				->from('#__menu AS m')
-				->where('m.id = ' . (int) $parent->params->Itemid);
-			$parent->db->setQuery($parent->q);
-			$parent->params->menutype = $parent->db->loadResult();
+			return $this->request->menutype;
 		}
 
-		return $parent->params->menutype;
+		$query = $this->db->getQuery(true)
+			->select('m.menutype')
+			->from('#__menu AS m')
+			->where('m.id = ' . (int) $this->request->Itemid);
+		$this->db->setQuery($query);
+		$this->request->menutype = $this->db->loadResult();
+
+		return $this->request->menutype;
 	}
 }

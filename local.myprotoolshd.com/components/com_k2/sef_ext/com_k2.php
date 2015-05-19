@@ -153,6 +153,7 @@ switch ($view)
 			}
 
 			$database->setQuery($query);
+            
 			if (shTranslateUrl($option, $shLangName))
 				$row = $database->loadObject();
 			else
@@ -168,13 +169,21 @@ switch ($view)
 					break;
 				default :
 				case 2 :
-					$fullPath = getCategoryPath($row->catid, true);
+                    
+                    /**** GCHAD FIX ****/
+                    $title[] = 'pro-tools-user';
+					/*$fullPath = getCategoryPath($row->catid, true);
 					foreach ($fullPath as $path)
 					{
 						$title[] = $path;
-					}
+					}*/
 					break;
 			}
+           
+            /**** GCHAD FIX ****/
+            if(isset($preview) && $preview == 1){
+                $title[] = 'preview';
+            }
 
 			if ($sh404SefInsertItemId)
 			{
@@ -282,6 +291,8 @@ if (!empty($format) && $format == 'feed')
 	}
 }
 
+
+
 if (isset($layout))
 	shRemoveFromGETVarsList('layout');
 if (isset($task))
@@ -302,6 +313,8 @@ if (isset($day))
 	shRemoveFromGETVarsList('day');
 if (isset($id))
 	shRemoveFromGETVarsList('id');
+if (isset($preview))
+    shRemoveFromGETVarsList('preview');
 
 /*
  * Only remove format variable if form is html. In all other situations, leave it there as some system plugins

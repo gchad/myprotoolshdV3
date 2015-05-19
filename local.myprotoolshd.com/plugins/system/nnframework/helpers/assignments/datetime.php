@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: DateTime
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,97 +13,98 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: DateTime
- */
-class nnFrameworkAssignmentsDateTime
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 {
-	function passDate(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passDate()
 	{
-		if ((int) $params->publish_up || (int) $params->publish_down)
+		if (!$this->params->publish_up && !$this->params->publish_down)
 		{
-			$now = strtotime($parent->date->format('Y-m-d H:i:s', 1));
-			if (isset($params->recurring) && $params->recurring)
-			{
-				if (!(int) $params->publish_up || !(int) $params->publish_down)
-				{
-					// no date range set
-					return ($assignment == 'include');
-				}
-
-				$up = strtotime(date('Y') . JFactory::getDate($params->publish_up)->format('-m-d H:i:s'));
-				$down = strtotime(date('Y') . JFactory::getDate($params->publish_down)->format('-m-d H:i:s'));
-
-				// pass:
-				// 1) now is between up and down
-				// 2) up is later in year than down and:
-				// 2a) now is after up
-				// 2b) now is before down
-				if (
-					($up < $now && $down > $now)
-					|| ($up > $down
-						&& (
-							$up < $now
-							|| $down > $now
-						)
-					)
-				)
-				{
-					return ($assignment == 'include');
-				}
-
-				// outside date range
-				return $parent->pass(0, $assignment);
-			}
-			if ((int) $params->publish_up)
-			{
-				if (strtotime($params->publish_up) > $now)
-				{
-					// outside date range
-					return $parent->pass(0, $assignment);
-				}
-			}
-			if ((int) $params->publish_down)
-			{
-				if (strtotime($params->publish_down) < $now)
-				{
-					// outside date range
-					return $parent->pass(0, $assignment);
-				}
-			}
+			// no date range set
+			return ($this->assignment == 'include');
 		}
 
-		// pass or no date range set
-		return ($assignment == 'include');
+		$now = strtotime($this->date->format('Y-m-d H:i:s'));
+
+		if (isset($this->params->recurring) && $this->params->recurring)
+		{
+			if (!(int) $this->params->publish_up || !(int) $this->params->publish_down)
+			{
+				// no date range set
+				return ($this->assignment == 'include');
+			}
+
+			$up = strtotime(date('Y') . JFactory::getDate($this->params->publish_up)->format('-m-d H:i:s'));
+			$down = strtotime(date('Y') . JFactory::getDate($this->params->publish_down)->format('-m-d H:i:s'));
+
+			// pass:
+			// 1) now is between up and down
+			// 2) up is later in year than down and:
+			// 2a) now is after up
+			// 2b) now is before down
+			if (
+				($up < $now && $down > $now)
+				|| ($up > $down
+					&& (
+						$up < $now
+						|| $down > $now
+					)
+				)
+			)
+			{
+				return ($this->assignment == 'include');
+			}
+
+			// outside date range
+			return $this->pass(false);
+		}
+
+		if (
+			(
+				(int) $this->params->publish_up
+				&& strtotime($this->params->publish_up) > $now
+			)
+			|| (
+				(int) $this->params->publish_down
+				&& strtotime($this->params->publish_down) < $now
+			)
+		)
+		{
+			// outside date range
+			return $this->pass(false);
+		}
+
+		// pass
+		return ($this->assignment == 'include');
 	}
 
-	function passSeasons(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passSeasons()
 	{
-		$season = self::getSeason($parent->date, $params->hemisphere);
+		$season = self::getSeason($this->date, $this->params->hemisphere);
 
-		return $parent->passSimple($season, $selection, $assignment);
+		return $this->passSimple($season);
 	}
 
-	function passMonths(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passMonths()
 	{
-		$month = $parent->date->format('m', 1); // 01 (for January) through 12 (for December)
-		return $parent->passSimple((int) $month, $selection, $assignment);
+		$month = $this->date->format('m', 1); // 01 (for January) through 12 (for December)
+		return $this->passSimple((int) $month);
 	}
 
-	function passDays(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passDays()
 	{
-		$day = $parent->date->format('N', 1); // 1 (for Monday) though 7 (for Sunday )
-		return $parent->passSimple($day, $selection, $assignment);
+		$day = $this->date->format('N', 1); // 1 (for Monday) though 7 (for Sunday )
+		return $this->passSimple($day);
 	}
 
-	function passTime(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passTime()
 	{
-		$date = strtotime($parent->date->format('Y-m-d H:i:s', 1));
+		$date = strtotime($this->date->format('Y-m-d H:i:s', 1));
 
-		$publish_up = strtotime($params->publish_up);
-		$publish_down = strtotime($params->publish_down);
+		$publish_up = strtotime($this->params->publish_up);
+		$publish_down = strtotime($this->params->publish_down);
 
-		$pass = 0;
 		if ($publish_up > $publish_down)
 		{
 			// publish up is after publish down (spans midnight)
@@ -112,7 +113,7 @@ class nnFrameworkAssignmentsDateTime
 			// - OR before publish down
 			if ($date >= $publish_up || $date < $publish_down)
 			{
-				$pass = 1;
+				return $this->pass(true);
 			}
 		}
 		else
@@ -123,11 +124,11 @@ class nnFrameworkAssignmentsDateTime
 			// - AND before publish down
 			if ($date >= $publish_up && $date < $publish_down)
 			{
-				$pass = 1;
+				return $this->pass(true);
 			}
 		}
 
-		return $parent->pass($pass, $assignment);
+		return $this->pass(false);
 	}
 
 	function getSeason(&$d, $hemisphere = 'northern')

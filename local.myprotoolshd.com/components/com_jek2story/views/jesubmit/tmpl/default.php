@@ -85,22 +85,27 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 if( el.type == 'email'){
                     
+                    var emails = el.value.split(/[|,;]/);
+                    
                     var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
                     
-                    if(!reg.test(el.value)){
+                    emails.each(function(email){ 
                         
-                         var validate = false;
-                         errorMsg = ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
-                         
-                         if($('label_' + name)){
-                            $('label_' + name).addClass('error');
-                         }; 
-                         
-                         if(focused == false){
-                            el.focus(); 
-                            focused = true;
-                        };
-                    }
+                        if(!reg.test(email.trim())){
+                            
+                             var validate = false;
+                             errorMsg = ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
+                             
+                             if($('label_' + name)){
+                                $('label_' + name).addClass('error');
+                             }; 
+                             
+                             if(focused == false){
+                                el.focus(); 
+                                focused = true;
+                             };
+                        }
+                    });
                 }
             });
             
@@ -235,18 +240,17 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             if(validate == true){
                 
                 var place = googleMap.getPlace();
-                var adLat = place.geometry.location.k;
-                var adLong = place.geometry.location.D;
+                var adLat = place.geometry.location.A;
+                var adLong = place.geometry.location.F;
+                
+                 if(adLat){
+                     $('address_lat').value =  adLat;
+                }
                 
                 if(adLong){
                      $('address_long').value = adLong;
                 }
-                
-                if(adLat){
-                     $('address_lat').value =  adLat;
-                }
-                
-               
+
                 form.submit();
             }
             
@@ -276,6 +280,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 
   <div class="login ">
     <h3><?php echo  $this->res->title; ?></h3>
+    <p><?=JText::_('STORY_SUBHEADER')?></p>
     <form id="avidStory" action="<?php echo $link;?>" method="post" enctype="multipart/form-data" onSubmit="return submitbutton()" >
 
         <table class="contenettable" ><?php 
@@ -313,17 +318,17 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 <tr> 
                     <td>
-                        <input  class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
+                        <input placeholder="<?=JText::_( 'FACILITY_PLACEHOLDER')?>" class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
                     </td>
                 </tr>
                 
                 <tr>
-                    <td><label id="label_artistName"><?php echo JText::_( 'ARTIST'); ?></label></td>
+                    <td><label  id="label_artistName"><?php echo JText::_( 'ARTIST'); ?></label></td>
                 </tr>
                 
                 <tr> 
                     <td>
-                        <input class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
+                        <input placeholder="<?=JText::_( 'ARTIST_PLACEHOLDER')?>" class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
                     </td>
                 </tr>
                 <?php
@@ -331,7 +336,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
         		/********* GCHAD FIX *****/?>
         			
         		<tr>
-                    <td><label id="label_address"><?php echo JText::_( 'LOCATION'); ?> *</label></td>
+                    <td><label id="label_address"><?php echo JText::_( 'LOCATION'); ?> *</label>{tip <?=JText::_('MAP_TOOLTIP');?>}?{/tip}</td>
                 </tr>
                 <tr> 
                     <td>
@@ -375,7 +380,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
          		
          	
         	 	<tr>
-        	 		<td><label id="label_fulltext" align="left"><?php echo  JText::_( 'MAINTEXT'); ?> *</label></td>
+        	 		<td><label id="label_fulltext" align="left"><?php echo  JText::_( 'MAINTEXT'); ?> *</label>{tip <?=JText::_('STORY_TOOLTIP');?>}?{/tip}</td>
         		</tr>
         		
           		<tr>
@@ -411,7 +416,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
          		</tr>
          		
         		<tr>
-        		  <td><label id="label_itemimage" ><?php echo  JText::_( 'UPLOAD_IMAGE'); ?> *</label></td>
+        		  <td><label id="label_itemimage" ><?php echo  JText::_( 'UPLOAD_IMAGE'); ?> *</label>{tip <?=JText::_('PHOTO_TOOLTIP');?>}?{/tip}</td>
         		</tr>
         		
         		<tr>

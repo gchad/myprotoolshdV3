@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Agents
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,81 +13,80 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Browsers
- */
-class nnFrameworkAssignmentsAgents
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsAgents extends nnFrameworkAssignment
 {
 	/**
 	 * passBrowsers
 	 */
-	function passBrowsers(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passBrowsers()
 	{
-		$pass = 0;
-
-		$selection = $parent->makeArray($selection);
-
-		if (!empty($selection))
+		if (empty($this->selection))
 		{
-			jimport('joomla.environment.browser');
-			$browser = JBrowser::getInstance();
-			$a = $browser->getAgentString();
+			return $this->pass(false);
+		}
 
-			switch (true)
+		$pass = false;
+		jimport('joomla.environment.browser');
+		$agent = JBrowser::getInstance()->getAgentString();
+
+		switch (true)
+		{
+			case (stripos($agent, 'Trident') !== false):
+				$agent = preg_replace('#(Trident/[0-9\.]+; rv:([0-9\.]+))#is', '\1 MSIE \2', $agent);
+				break;
+			case (stripos($agent, 'Chrome') !== false):
+				$agent = preg_replace('#(Chrome/.*)Safari/[0-9\.]*#is', '\1', $agent);
+				break;
+			case (stripos($agent, 'Opera') !== false):
+				$agent = preg_replace('#(Opera/.*)Version/#is', '\1Opera/', $agent);
+				break;
+		}
+
+		foreach ($this->selection as $selection)
+		{
+			if (!$selection)
 			{
-				case (stripos($a, 'Trident') !== false):
-					$a = preg_replace('#(Trident/[0-9\.]+; rv:([0-9\.]+))#is', '\1 MSIE \2', $a);
-					break;
-				case (stripos($a, 'Chrome') !== false):
-					$a = preg_replace('#(Chrome/.*)Safari/[0-9\.]*#is', '\1', $a);
-					break;
-				case (stripos($a, 'Opera') !== false):
-					$a = preg_replace('#(Opera/.*)Version/#is', '\1Opera/', $a);
-					break;
+				continue;
 			}
 
-			foreach ($selection as $sel)
+			if ($selection == 'mobile')
 			{
-				if (!$sel)
+				if ($this->isMobile())
 				{
-					continue;
-				}
-
-				if ($sel == 'mobile')
-				{
-					if ($this->isMobile())
-					{
-						$pass = 1;
-						break;
-					}
-					continue;
-				}
-
-				if (!(strpos($sel, '#') === 0))
-				{
-					$sel = '#' . preg_quote($sel, '#') . '#';
-				}
-
-				// also check for _ instead of . for Safari agents
-				$sel = preg_replace('#\\\.([^\]])#', '[\._]\1', $sel);
-				$sel = str_replace('\.]', '\._]', $sel);
-				if (preg_match($sel . 'i', $a))
-				{
-					$pass = 1;
+					$pass = true;
 					break;
 				}
+
+				continue;
+			}
+
+			if (!(strpos($selection, '#') === 0))
+			{
+				$selection = '#' . preg_quote($selection, '#') . '#';
+			}
+
+			// also check for _ instead of . for Safari agents
+			$selection = preg_replace('#\\\.([^\]])#', '[\._]\1', $selection);
+			$selection = str_replace('\.]', '\._]', $selection);
+
+			if (preg_match($selection . 'i', $agent))
+			{
+				$pass = true;
+				break;
 			}
 		}
 
-		return $parent->pass($pass, $assignment);
+		return $this->pass($pass);
 	}
 
 	/**
 	 * passOS
 	 */
-	function passOS(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passOS()
 	{
-		return self::passBrowsers($parent, $params, $selection, $assignment);
+		return self::passBrowsers($this->params, $this->selection, $this->assignment);
 	}
 
 	/**
@@ -456,10 +455,10 @@ class nnFrameworkAssignmentsAgents
 
 			if (preg_match('#' . $regex . '#is', $agent))
 			{
-				return 1;
+				return true;
 			}
 		}
 
-		return 0;
+		return false;
 	}
 }

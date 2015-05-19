@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: VirtueMart
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,66 +13,65 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: VirtueMart
- */
-class nnFrameworkAssignmentsVirtueMart
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsVirtueMart extends nnFrameworkAssignment
 {
-	function init(&$parent)
+	function init()
 	{
-		$parent->params->item_id = JFactory::getApplication()->input->getInt('virtuemart_product_id', 0);
-		$parent->params->category_id = JFactory::getApplication()->input->getString('virtuemart_category_id', '');
-		$parent->params->id = ($parent->params->item_id) ? $parent->params->item_id : $parent->params->category_id;
+		$this->request->item_id = JFactory::getApplication()->input->getInt('virtuemart_product_id', 0);
+		$this->request->category_id = JFactory::getApplication()->input->getString('virtuemart_category_id', '');
+		$this->request->id = ($this->request->item_id) ? $this->request->item_id : $this->request->category_id;
 	}
 
-	function passPageTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passPageTypes()
 	{
 		// Because VM sucks, we have to get the view again
-		$parent->params->view = JFactory::getApplication()->input->getString('view');
+		$this->request->view = JFactory::getApplication()->input->getString('view');
 
-		return $parent->passPageTypes('com_virtuemart', $selection, $assignment, 1);
+		return $this->passByPageTypes('com_virtuemart', $this->selection, $this->assignment, true);
 	}
 
-	function passCategories(&$parent, &$params, $selection = array(), $assignment = 'all', $article = 0)
+	function passCategories()
 	{
-		if ($parent->params->option != 'com_virtuemart')
+		if ($this->request->option != 'com_virtuemart')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		// Because VM sucks, we have to get the view again
-		$parent->params->view = JFactory::getApplication()->input->getString('view');
+		$this->request->view = JFactory::getApplication()->input->getString('view');
 
-		$pass = (($params->inc_categories && in_array($parent->params->view, array('categories', 'category')))
-			|| ($params->inc_items && $parent->params->view == 'productdetails')
+		$pass = (($this->params->inc_categories && in_array($this->request->view, array('categories', 'category')))
+			|| ($this->params->inc_items && $this->request->view == 'productdetails')
 		);
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$cats = array();
-		if ($parent->params->view == 'productdetails' && $parent->params->item_id)
+		if ($this->request->view == 'productdetails' && $this->request->item_id)
 		{
-			$parent->q->clear()
+			$query = $this->db->getQuery(true)
 				->select('x.virtuemart_category_id')
 				->from('#__virtuemart_product_categories AS x')
-				->where('x.virtuemart_product_id = ' . (int) $parent->params->item_id);
-			$parent->db->setQuery($parent->q);
-			$cats = $parent->db->loadColumn();
+				->where('x.virtuemart_product_id = ' . (int) $this->request->item_id);
+			$this->db->setQuery($query);
+			$cats = $this->db->loadColumn();
 		}
-		else if ($parent->params->category_id)
+		else if ($this->request->category_id)
 		{
-			$cats = $parent->params->category_id;
+			$cats = $this->request->category_id;
 			if (!is_numeric($cats))
 			{
-				$parent->q->clear()
+				$query = $this->db->getQuery(true)
 					->select('config')
 					->from('#__virtuemart_configs')
 					->where('virtuemart_config_id = 1');
-				$parent->db->setQuery($parent->q);
-				$config = $parent->db->loadResult();
+				$this->db->setQuery($query);
+				$config = $this->db->loadResult();
 				$lang = substr($config, strpos($config, 'vmlang='));
 				$lang = substr($lang, 0, strpos($lang, '|'));
 				if (preg_match('#"([^"]*_[^"]*)"#', $lang, $lang))
@@ -84,49 +83,50 @@ class nnFrameworkAssignmentsVirtueMart
 					$lang = 'en_gb';
 				}
 
-				$parent->q->clear()
+				$query = $this->db->getQuery(true)
 					->select('l.virtuemart_category_id')
 					->from('#__virtuemart_categories_' . $lang . ' AS l')
-					->where('l.slug = ' . $parent->db->quote($cats));
-				$parent->db->setQuery($parent->q);
-				$cats = $parent->db->loadResult();
+					->where('l.slug = ' . $this->db->quote($cats));
+				$this->db->setQuery($query);
+				$cats = $this->db->loadResult();
 			}
 		}
 
-		$cats = $parent->makeArray($cats);
+		$cats = $this->makeArray($cats);
 
-		$pass = $parent->passSimple($cats, $selection, 'include');
+		$pass = $this->passSimple($cats, 'include');
 
-		if ($pass && $params->inc_children == 2)
+		if ($pass && $this->params->inc_children == 2)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
-		else if (!$pass && $params->inc_children)
+
+		if (!$pass && $this->params->inc_children)
 		{
 			foreach ($cats as $cat)
 			{
-				$cats = array_merge($cats, self::getCatParentIds($parent, $cat));
+				$cats = array_merge($cats, $this->getCatParentIds($cat));
 			}
 		}
 
-		return $parent->passSimple($cats, $selection, $assignment);
+		return $this->passSimple($cats);
 	}
 
-	function passProducts(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passProducts()
 	{
 		// Because VM sucks, we have to get the view again
-		$parent->params->view = JFactory::getApplication()->input->getString('view');
+		$this->request->view = JFactory::getApplication()->input->getString('view');
 
-		if (!$parent->params->id || $parent->params->option != 'com_virtuemart' || $parent->params->view != 'productdetails')
+		if (!$this->request->id || $this->request->option != 'com_virtuemart' || $this->request->view != 'productdetails')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		return $parent->passSimple($parent->params->id, $selection, $assignment);
+		return $this->passSimple($this->request->id);
 	}
 
-	function getCatParentIds(&$parent, $id = 0)
+	function getCatParentIds($id = 0)
 	{
-		return $parent->getParentIds($id, 'virtuemart_category_categories', 'category_parent_id', 'category_child_id');
+		return $this->getParentIds($id, 'virtuemart_category_categories', 'category_parent_id', 'category_child_id');
 	}
 }

@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: FlexiContent
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,87 +13,86 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: FlexiContent
- */
-class nnFrameworkAssignmentsFlexiContent
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsFlexiContent extends nnFrameworkAssignment
 {
-	function passPageTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passPageTypes()
 	{
-		return $parent->passPageTypes('com_flexicontent', $selection, $assignment);
+		return $this->passByPageTypes('com_flexicontent', $this->selection, $this->assignment);
 	}
 
-	function passTags(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passTags()
 	{
-		if ($parent->params->option != 'com_flexicontent')
+		if ($this->request->option != 'com_flexicontent')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$pass = (
-			($params->inc_tags && $parent->params->view == 'tags')
-			|| ($params->inc_items && in_array($parent->params->view, array('item', 'items')))
+			($this->params->inc_tags && $this->request->view == 'tags')
+			|| ($this->params->inc_items && in_array($this->request->view, array('item', 'items')))
 		);
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		if ($params->inc_tags && $parent->params->view == 'tags')
+		if ($this->params->inc_tags && $this->request->view == 'tags')
 		{
-			$parent->q->clear()
+			$query = $this->db->getQuery(true)
 				->select('t.name')
 				->from('#__flexicontent_tags AS t')
 				->where('t.id = ' . (int) trim(JFactory::getApplication()->input->getInt('id', 0)))
 				->where('t.published = 1');
-			$parent->db->setQuery($parent->q);
-			$tag = $parent->db->loadResult();
+			$this->db->setQuery($query);
+			$tag = $this->db->loadResult();
 			$tags = array($tag);
 		}
 		else
 		{
-			$parent->q->clear()
+			$query = $this->db->getQuery(true)
 				->select('t.name')
 				->from('#__flexicontent_tags_item_relations AS x')
 				->join('LEFT', '#__flexicontent_tags AS t ON t.id = x.tid')
-				->where('x.itemid = ' . (int) $parent->params->id)
+				->where('x.itemid = ' . (int) $this->request->id)
 				->where('t.published = 1');
-			$parent->db->setQuery($parent->q);
-			$tags = $parent->db->loadColumn();
+			$this->db->setQuery($query);
+			$tags = $this->db->loadColumn();
 		}
 
-		return $parent->passSimple($tags, $selection, $assignment, 1);
+		return $this->passSimple($tags, true);
 	}
 
-	function passTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passTypes()
 	{
-		if ($parent->params->option != 'com_flexicontent')
+		if ($this->request->option != 'com_flexicontent')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$pass = in_array($parent->params->view, array('item', 'items'));
+		$pass = in_array($this->request->view, array('item', 'items'));
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$parent->q->clear()
+		$query = $this->db->getQuery(true)
 			->select('x.type_id')
 			->from('#__flexicontent_items_ext AS x')
-			->where('x.item_id = ' . (int) $parent->params->id);
-		$parent->db->setQuery($parent->q);
-		$type = $parent->db->loadResult();
+			->where('x.item_id = ' . (int) $this->request->id);
+		$this->db->setQuery($query);
+		$type = $this->db->loadResult();
 
-		$types = $parent->makeArray($type, 1);
+		$types = $this->makeArray($type, 1);
 
-		return $parent->passSimple($types, $selection, $assignment);
+		return $this->passSimple($types);
 	}
 
-	function getCatParentIds(&$parent, $id = 0)
+	function getCatParentIds($id = 0)
 	{
-		return $parent->getParentIds($id, 'categories', 'parent_id');
+		return $this->getParentIds($id, 'categories', 'parent_id');
 	}
 }

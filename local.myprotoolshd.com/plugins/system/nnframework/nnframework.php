@@ -3,7 +3,7 @@
  * Main Plugin File
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -19,6 +19,11 @@ if (JFactory::getApplication()->isAdmin())
 	require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
 	nnFrameworkFunctions::loadLanguage('plg_system_nnframework');
 }
+
+jimport('joomla.filesystem.file');
+
+// If controller.php exists, assume this is K2 v3
+define('NN_K2_VERSION', JFile::exists(JPATH_ADMINISTRATOR . '/components/com_k2/controller.php') ? 3 : 2);
 
 /**
  * Plugin that loads Framework

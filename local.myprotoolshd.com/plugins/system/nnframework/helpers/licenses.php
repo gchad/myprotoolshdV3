@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Licenses
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -30,160 +30,53 @@ class nnLicenses
 
 class NoNumberLicenses
 {
-	function getMessage($name = '', $check = 1)
+	/*
+	 *  Deprecated. Use render()
+	*/
+	public function getMessage($name, $check_pro = false)
+	{
+		return self::render($name, $check_pro);
+	}
+
+	public static function render($name, $check_pro = false)
 	{
 		if (!$name)
 		{
 			return '';
 		}
 
-		$alias = preg_replace('#[^a-z]#', '', strtolower($name));
+		require_once __DIR__ . '/functions.php';
 
-		if ($check)
+		$alias = nnFrameworkFunctions::getAliasByName($name);
+		$name = nnFrameworkFunctions::getNameByAlias($name);
+
+		if ($check_pro && self::isPro($alias))
 		{
-			$type = $this->getVersionType($alias);
-			if ($type == 'pro')
-			{
-				return '';
-			}
+			return '';
 		}
 
-		$text = html_entity_decode(JText::sprintf('NN_USING_FREE_VERSION', JText::_($name)), ENT_COMPAT, 'UTF-8');
-
-		$html = array();
-		$html[] = '<div class="clearfix"></div>';
-		$html[] = '<div class="alert" style="text-align:center;">';
-		$html[] = $text;
-		$html[] = ': <a href="http://www.nonumber.nl/go-pro?ext=' . $alias . '" target="_blank"><em>';
-		$html[] = html_entity_decode(JText::_('NN_GO_PRO'), ENT_COMPAT, 'UTF-8');
-		$html[] = '</em></a>';
-		$html[] = '</div>';
-
-		return implode('', $html);
+		return
+			'<div class="alert nn_licence">'
+			. JText::sprintf('NN_IS_FREE_VERSION', $name)
+			. '<br />'
+			. JText::_('NN_FOR_MORE_GO_PRO')
+			. '<br />'
+			. '<a href="https://www.nonumber.nl/purchase?ext=' . $alias . '" target="_blank" class="btn btn-small btn-primary">'
+			. ' <span class="icon-basket"></span>'
+			. html_entity_decode(JText::_('NN_GO_PRO'), ENT_COMPAT, 'UTF-8')
+			. '</a>'
+			. '</div>';
 	}
 
-	/**
-	 * Return an empty extension item
-	 */
-	function getVersionType($element)
+	private static function isPro($element)
 	{
-		jimport('joomla.filesystem.file');
+		require_once __DIR__ . '/functions.php';
 
-		switch ($element)
+		if (!$version = nnFrameworkFunctions::getXMLValue('version', $element))
 		{
-			case 'advancedmodulemanager':
-				$element = 'advancedmodules';
-				break;
-			case 'nonumberextensionmanager':
-				$element = 'nonumbermanager';
-				break;
-			case 'whatnothing':
-				$element = 'what-nothing';
-				break;
-		}
-		$file = '';
-		$xml = '';
-
-		// Components
-		if (!$file)
-		{
-			if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_ADMINISTRATOR . '/components/com_' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_SITE . '/components/com_' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_SITE . '/components/com_' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_' . $element . '/com_' . $element . '.xml'))
-			{
-				$xml = JPATH_ADMINISTRATOR . '/components/com_' . $element . '/com_' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_SITE . '/components/com_' . $element . '/com_' . $element . '.xml'))
-			{
-				$xml = JPATH_SITE . '/components/com_' . $element . '/com_' . $element . '.xml';
-			}
-			if ($xml)
-			{
-				$file = $xml;
-			}
+			return false;
 		}
 
-		// System Plugins
-		if (!$file)
-		{
-			if (JFile::exists(JPATH_PLUGINS . '/system/' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_PLUGINS . '/system/' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_PLUGINS . '/system/' . $element . '.xml'))
-			{
-				$xml = JPATH_PLUGINS . '/system/' . $element . '.xml';
-			}
-			if ($xml)
-			{
-				$file = $xml;
-			}
-		}
-
-		// Editor Button Plugins
-		if (!$file)
-		{
-			if (JFile::exists(JPATH_PLUGINS . '/editors-xtd/' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_PLUGINS . '/editors-xtd/' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_PLUGINS . '/editors-xtd/' . $element . '.xml'))
-			{
-				$xml = JPATH_PLUGINS . '/editors-xtd/' . $element . '.xml';
-			}
-			if ($xml)
-			{
-				$file = $xml;
-			}
-		}
-		// Modules
-		if (!$file)
-		{
-			if (JFile::exists(JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_SITE . '/modules/mod_' . $element . '/' . $element . '.xml'))
-			{
-				$xml = JPATH_SITE . '/modules/mod_' . $element . '/' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/mod_' . $element . '.xml'))
-			{
-				$xml = JPATH_ADMINISTRATOR . '/modules/mod_' . $element . '/mod_' . $element . '.xml';
-			}
-			else if (JFile::exists(JPATH_SITE . '/modules/mod_' . $element . '/mod_' . $element . '.xml'))
-			{
-				$xml = JPATH_SITE . '/modules/mod_' . $element . '/mod_' . $element . '.xml';
-			}
-			if ($xml)
-			{
-				$file = $xml;
-			}
-		}
-
-		$type = 'old';
-		if ($file)
-		{
-			$xml = JApplicationHelper::parseXMLInstallFile($file);
-			if ($xml && isset($xml['version']))
-			{
-				if (stripos($xml['version'], 'FREE') !== false)
-				{
-					$type = 'free';
-				}
-				else if (stripos($xml['version'], 'PRO') !== false)
-				{
-					$type = 'pro';
-				}
-			}
-		}
-
-		return $type;
+		return (stripos($version, 'PRO') !== false);
 	}
 }

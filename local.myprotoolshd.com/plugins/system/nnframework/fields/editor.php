@@ -4,7 +4,7 @@
  * Displays an HTML editor text field
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,10 +14,11 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldNN_Editor extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_Editor extends nnFormField
 {
 	public $type = 'Editor';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -38,10 +39,5 @@ class JFormFieldNN_Editor extends JFormField
 		$html = $editor->display($this->name, $this->value, $width, $height, true, $this->id);
 
 		return '</div><div>' . $html;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

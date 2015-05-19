@@ -1,9 +1,9 @@
 <?php
 /**
- * NoNumber Framework Helper File: Assignments: ZOO
+ * NoNumber Framework Helper File: Assignments: Zoo
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,69 +13,90 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: ZOO
- */
-class nnFrameworkAssignmentsZOO
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsZoo extends nnFrameworkAssignment
 {
-	function init(&$parent)
+	function init()
 	{
-		if (!$parent->params->view)
+		if (!$this->request->view)
 		{
-			$parent->params->view = $parent->params->task;
+			$this->request->view = $this->request->task;
 		}
-		switch ($parent->params->view)
+
+		switch ($this->request->view)
 		{
 			case 'item':
-				$parent->params->idname = 'item_id';
+				$this->request->idname = 'item_id';
 				break;
 			case 'category':
-				$parent->params->idname = 'category_id';
+				$this->request->idname = 'category_id';
 				break;
 		}
-		$parent->params->id = JFactory::getApplication()->input->getInt($parent->params->idname, 0);
+
+		$this->request->id = JFactory::getApplication()->input->getInt($this->request->idname, 0);
 	}
 
-	function passPageTypes(&$parent, &$params, $selection = array(), $assignment = 'all')
+	public function initAssignment($assignment, $article = 0)
 	{
-		return $parent->passPageTypes('com_zoo', $selection, $assignment);
-	}
+		parent::initAssignment($assignment, $article);
 
-	function passCategories(&$parent, &$params, $selection = array(), $assignment = 'all', $article = 0)
-	{
-		if ($parent->params->option != 'com_zoo')
+		if ($this->request->option != 'com_zoo' && !isset($this->request->idname))
 		{
-			return $parent->pass(0, $assignment);
+			return;
+		}
+
+		switch ($this->request->idname)
+		{
+			case 'item_id':
+				$this->request->view = 'item';
+				break;
+			case 'category_id':
+				$this->request->view = 'category';
+				break;
+		}
+	}
+
+	function passPageTypes()
+	{
+		return $this->passByPageTypes('com_zoo', $this->selection, $this->assignment);
+	}
+
+	function passCategories()
+	{
+		if ($this->request->option != 'com_zoo')
+		{
+			return $this->pass(false);
 		}
 
 		$pass = (
-			($params->inc_apps && $parent->params->view == 'frontpage')
-			|| ($params->inc_categories && $parent->params->view == 'category')
-			|| ($params->inc_items && $parent->params->view == 'item')
+			($this->params->inc_apps && $this->request->view == 'frontpage')
+			|| ($this->params->inc_categories && $this->request->view == 'category')
+			|| ($this->params->inc_items && $this->request->view == 'item')
 		);
 
 		if (!$pass)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
 		$cats = array();
-		if ($article && isset($article->catid))
+		if ($this->article && isset($this->article->catid))
 		{
-			$cats = $article->catid;
+			$cats = $this->article->catid;
 		}
 		else
 		{
-			switch ($parent->params->view)
+			switch ($this->request->view)
 			{
 				case 'frontpage':
-					if ($parent->params->id)
+					if ($this->request->id)
 					{
-						$cats[] = $parent->params->id;
+						$cats[] = $this->request->id;
 					}
 					else
 					{
-						$menuparams = $parent->getMenuItemParams($parent->params->Itemid);
+						$menuparams = $this->getMenuItemParams($this->request->Itemid);
 						if (isset($menuparams->application))
 						{
 							$cats[] = 'app' . $menuparams->application;
@@ -84,13 +105,13 @@ class nnFrameworkAssignmentsZOO
 					break;
 
 				case 'category':
-					if ($parent->params->id)
+					if ($this->request->id)
 					{
-						$cats[] = $parent->params->id;
+						$cats[] = $this->request->id;
 					}
 					else
 					{
-						$menuparams = $parent->getMenuItemParams($parent->params->Itemid);
+						$menuparams = $this->getMenuItemParams($this->request->Itemid);
 						if (isset($menuparams->category))
 						{
 							$cats[] = $menuparams->category;
@@ -98,79 +119,109 @@ class nnFrameworkAssignmentsZOO
 					}
 					if ($cats['0'])
 					{
-						$parent->q->clear()
+						$query = $this->db->getQuery(true)
 							->select('c.application_id')
 							->from('#__zoo_category AS c')
 							->where('c.id = ' . (int) $cats['0']);
-						$parent->db->setQuery($parent->q);
-						if ($parent->db->loadResult())
+						$this->db->setQuery($query);
+						if ($this->db->loadResult())
 						{
-							$cats[] = 'app' . $parent->db->loadResult();
+							$cats[] = 'app' . $this->db->loadResult();
 						}
 					}
 					break;
 
 				case 'item':
-					$id = $parent->params->id;
+					$id = $this->request->id;
 					if (!$id)
 					{
-						$menuparams = $parent->getMenuItemParams($parent->params->Itemid);
+						$menuparams = $this->getMenuItemParams($this->request->Itemid);
 						$id = isset($menuparams->item_id) ? $menuparams->item_id : '';
 					}
 					if ($id)
 					{
-						$parent->q->clear()
+						$query = $this->db->getQuery(true)
 							->select('c.category_id')
 							->from('#__zoo_category_item AS c')
 							->where('c.item_id = ' . (int) $id)
 							->where('c.category_id != 0');
-						$parent->db->setQuery($parent->q);
-						$cats = $parent->db->loadColumn();
+						$this->db->setQuery($query);
+						$cats = $this->db->loadColumn();
 
-						$parent->q->clear()
+						$query = $this->db->getQuery(true)
 							->select('i.application_id')
 							->from('#__zoo_item AS i')
 							->where('i.id = ' . (int) $id);
-						$parent->db->setQuery($parent->q);
-						$cats[] = 'app' . $parent->db->loadResult();
+						$this->db->setQuery($query);
+						$cats[] = 'app' . $this->db->loadResult();
 					}
 					break;
 
 				default:
-					return $parent->pass(0, $assignment);
+					return $this->pass(false);
 			}
 		}
 
-		$cats = $parent->makeArray($cats);
+		$cats = $this->makeArray($cats);
 
-		$pass = $parent->passSimple($cats, $selection, 'include');
+		$pass = $this->passSimple($cats, 'include');
 
-		if ($pass && $params->inc_children == 2)
+		if ($pass && $this->params->inc_children == 2)
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
-		else if (!$pass && $params->inc_children)
+		else if (!$pass && $this->params->inc_children)
 		{
 			foreach ($cats as $cat)
 			{
-				$cats = array_merge($cats, self::getCatParentIds($parent, $cat));
+				$cats = array_merge($cats, $this->getCatParentIds($cat));
 			}
 		}
 
-		return $parent->passSimple($cats, $selection, $assignment);
+		return $this->passSimple($cats);
 	}
 
-	function passItems(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passItems()
 	{
-		if (!$parent->params->id || $parent->params->option != 'com_zoo' || $parent->params->view != 'item')
+		if (!$this->request->id || $this->request->option != 'com_zoo')
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		return $parent->passSimple($parent->params->id, $selection, $assignment);
+		if ($this->request->view != 'item')
+		{
+			return $this->pass(false);
+		}
+
+		$pass = false;
+
+		// Pass Article Id
+		if (!$this->passItemByType($pass, 'ContentIds'))
+		{
+			return $this->pass(false);
+		}
+
+		// Pass Authors
+		if (!$this->passItemByType($pass, 'Authors'))
+		{
+			return $this->pass(false);
+		}
+
+		return $this->pass($pass);
 	}
 
-	function getCatParentIds(&$parent, $id = 0)
+	public function getItem($fields = array())
+	{
+		$query = $this->db->getQuery(true)
+			->select($fields)
+			->from('#__zoo_item')
+			->where('id = ' . (int) $this->request->id);
+		$this->db->setQuery($query);
+
+		return $this->db->loadObject();
+	}
+
+	function getCatParentIds($id = 0)
 	{
 		$parent_ids = array();
 
@@ -186,34 +237,34 @@ class nnFrameworkAssignmentsZOO
 				$parent_ids[] = $id;
 				break;
 			}
-			else
+
+			$query = $this->db->getQuery(true)
+				->select('c.parent')
+				->from('#__zoo_category AS c')
+				->where('c.id = ' . (int) $id);
+			$this->db->setQuery($query);
+			$pid = $this->db->loadResult();
+
+			if (!$pid)
 			{
-				$parent->q->clear()
-					->select('c.parent')
+				$query = $this->db->getQuery(true)
+					->select('c.application_id')
 					->from('#__zoo_category AS c')
 					->where('c.id = ' . (int) $id);
-				$parent->db->setQuery($parent->q);
-				$pid = $parent->db->loadResult();
-				if ($pid)
+				$this->db->setQuery($query);
+				$app = $this->db->loadResult();
+
+				if ($app)
 				{
-					$parent_ids[] = $pid;
+					$parent_ids[] = 'app' . $app;
 				}
-				else
-				{
-					$parent->q->clear()
-						->select('c.application_id')
-						->from('#__zoo_category AS c')
-						->where('c.id = ' . (int) $id);
-					$parent->db->setQuery($parent->q);
-					$app = $parent->db->loadResult();
-					if ($app)
-					{
-						$parent_ids[] = 'app' . $app;
-					}
-					break;
-				}
-				$id = $pid;
+
+				break;
 			}
+
+			$parent_ids[] = $pid;
+
+			$id = $pid;
 		}
 
 		return $parent_ids;

@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Users
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,12 +13,11 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Users
- */
-class nnFrameworkAssignmentsUsers
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsUsers extends nnFrameworkAssignment
 {
-	function passUserGroupLevels(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passUserGroupLevels()
 	{
 		$user = JFactory::getUser();
 
@@ -31,11 +30,11 @@ class nnFrameworkAssignmentsUsers
 			$groups = $user->getAuthorisedGroups();
 		}
 
-		return $parent->passSimple($groups, $selection, $assignment);
+		return $this->passSimple($groups);
 	}
 
-	function passUsers(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passUsers()
 	{
-		return $parent->passSimple(JFactory::getUser()->get('id'), $selection, $assignment);
+		return $this->passSimple(JFactory::getUser()->get('id'));
 	}
 }

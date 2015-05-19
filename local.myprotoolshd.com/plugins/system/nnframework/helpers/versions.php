@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: VersionCheck
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -12,6 +12,8 @@
  */
 
 defined('_JEXEC') or die;
+
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
 
 class nnVersions
 {
@@ -30,36 +32,34 @@ class nnVersions
 
 class NoNumberVersions
 {
-	function getMessage($element = '', $xml = '', $version = '', $type = 'system', $admin = 1)
+	/*
+	 *  Deprecated. Use render()
+	*/
+	public function getMessage($alias = '', $xml = '', $version = '')
 	{
-		if (!$element)
+		self::render($alias);
+	}
+
+	public static function render($alias)
+	{
+		if (!$alias)
 		{
 			return '';
 		}
 
-		$alias = preg_replace('#[^a-z]#', '', strtolower($element));
+		require_once __DIR__ . '/functions.php';
 
-		if ($xml)
-		{
-			$xml = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/' . $xml);
-			if ($xml && isset($xml['version']))
-			{
-				$version = $xml['version'];
-			}
-		}
+		$name = nnFrameworkFunctions::getNameByAlias($alias);
+		$alias = nnFrameworkFunctions::getAliasByName($alias);
 
-		if (!$version)
-		{
-			$version = self::getXMLVersion($element, $type, $admin);
-		}
-
-		if (!$version)
+		if (!$version = self::getXMLVersion($alias))
 		{
 			return '';
 		}
 
 		JHtml::_('jquery.framework');
-		JFactory::getDocument()->addScriptVersion(JURI::root(true) . '/media/nnframework/js/script.min.js');
+
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/script.min.js');
 		$url = 'download.nonumber.nl/extensions.php?j=3&e=' . $alias;
 		$script = "
 			jQuery(document).ready(function() {
@@ -72,124 +72,194 @@ class NoNumberVersions
 		";
 		JFactory::getDocument()->addScriptDeclaration($script);
 
-		return '<div class="alert alert-error" style="display:none;" id="nonumber_version_' . $alias . '">' . $this->getMessageText($alias, $version) . '</div>';
+		return '<div class="alert alert-success" style="display:none;" id="nonumber_version_' . $alias . '">' . self::getMessageText($alias, $name, $version) . '</div>';
 	}
 
-	function getMessageText($alias, $version)
+	public static function getMessageText($alias, $name, $version)
 	{
-		jimport('joomla.filesystem.file');
+		list($url, $onclick) = self::getUpdateLink($alias, $version);
 
-		$version = str_replace(array('FREE', 'PRO'), '', $version);
+		$href = $onclick ? '' : 'href="' . $url . '" target="_blank" ';
+		$onclick = $onclick ? 'onclick="' . $onclick . '" ' : '';
 
-		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_nonumbermanager/nonumbermanager.xml')
-			|| JFile::exists(JPATH_ADMINISTRATOR . '/components/com_nonumbermanager/com_nonumbermanager.xml')
-		)
+		$is_pro = strpos($version, 'PRO') !== false;
+		$version = str_replace(array('FREE', 'PRO'), array('', ' <small>[PRO]</small>'), $version);
+
+		$msg = '<div class="text-center">'
+			. '<span class="ghosted">'
+			. JText::sprintf('NN_NEW_VERSION_OF_AVAILABLE', JText::_($name))
+			. '</span>'
+			. '<br />'
+			. '<a ' . $href . $onclick . ' class="btn btn-large btn-success">'
+			. '<span class="icon-upload"></span> '
+			. html_entity_decode(JText::sprintf('NN_UPDATE_TO', '<span id="nonumber_newversionnumber_' . $alias . '"></span>'), ENT_COMPAT, 'UTF-8')
+			. '</a>';
+
+		if (!$is_pro)
 		{
-			$url = 'index.php?option=com_nonumbermanager';
-		}
-		else
-		{
-			$url = 'http://www.nonumber.nl/' . $alias . '#download';
+			$msg .= ' <a href="https://www.nonumber.nl/purchase?ext=' . $alias . '" target="_blank" class="btn btn-large btn-primary">'
+				. '<span class="icon-basket"></span> '
+				. JText::_('NN_GO_PRO')
+				. '</a>';
 		}
 
-		$msg = '<strong>'
-			. JText::_('NN_NEW_VERSION_AVAILABLE')
-			. ': <a href="' . $url . '" target="_blank">'
-			. JText::sprintf('NN_UPDATE_TO', '<span id="nonumber_newversionnumber_' . $alias . '"></span>')
-			. '</a></strong><br /><em>'
+		$msg .= '<br />'
+			. '<span class="ghosted">'
+			. '[ <a href="https://www.nonumber.nl/' . $alias . '#changelog" target="_blank">'
+			. JText::_('NN_CHANGELOG')
+			. '</a> ]'
+			. '<br />'
 			. JText::sprintf('NN_CURRENT_VERSION', $version)
-			. ' ('
-			. JText::_('NN_ONLY_VISIBLE_TO_ADMIN')
-			. ')</em>';
+			. '</span>'
+			. '</div>';
 
 		return html_entity_decode($msg, ENT_COMPAT, 'UTF-8');
 	}
 
-	function getCopyright($name, $version, $jedid = 0, $element = 'nnframework', $type = 'system', $copyright = 1, $admin = 1)
+	public static function getUpdateLink($alias, $version)
+	{
+		$is_pro = strpos($version, 'PRO') !== false;
+
+		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_nonumbermanager/nonumbermanager.xml'))
+		{
+			$url = $is_pro
+				? 'http://www.nonumber.nl/' . $alias . '#download'
+				: JRoute::_('index.php?option=com_installer&view=update');
+
+			return array($url, '');
+		}
+
+		$config = JComponentHelper::getParams('com_nonumbermanager');
+
+		$key = trim($config->get('key'));
+
+		if ($is_pro && !$key)
+		{
+			return array('index.php?option=com_nonumbermanager', '');
+		}
+
+		JHtml::_('bootstrap.framework');
+		JHtml::_('behavior.modal');
+		jimport('joomla.filesystem.file');
+
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nnframework/js/script.min.js');
+		JFactory::getDocument()->addScriptDeclaration("
+			var NNEM_TIMEOUT = " . (int) $config->get('timeout', 5) . ";
+			var NNEM_TOKEN = '" . JSession::getFormToken() . "';
+		");
+		nnFrameworkFunctions::addScriptVersion(JURI::root(true) . '/media/nonumbermanager/js/script.min.js');
+
+		$url = 'http://download.nonumber.nl?ext=' . $alias . '&j=3';
+
+		if ($is_pro)
+		{
+			$url .= '&k=' . strtolower(substr($key, 0, 8) . md5(substr($key, 8)));
+		}
+
+		return array('', 'nnManager.openModal(\'update\', [\'' . $alias . '\'], [\'' . $url . '\'], true);');
+	}
+
+	/*
+	 *  Deprecated. Use getFooter()
+	*/
+	public function getCopyright($name, $version, $jedid = 0, $element = 'nnframework', $type = 'system', $copyright = 1, $admin = 1)
+	{
+		return self::getFooter($name, $copyright);
+	}
+
+	public static function getFooter($name, $copyright = 1)
 	{
 		$html = array();
-		$html[] = '<p style="text-align:center;">';
-		$html[] = JText::_($name);
 
-		if (!$version)
-		{
-			$version = self::getXMLVersion($element, $type, $admin);
-		}
-
-		if ($version)
-		{
-			if (strpos($version, 'PRO') !== false)
-			{
-				$version = str_replace('PRO', '', $version);
-				$version .= ' <small>[PRO]</small>';
-			}
-			else if (strpos($version, 'FREE') !== false)
-			{
-				$version = str_replace('FREE', '', $version);
-				$version .= ' <small>[FREE]</small>';
-			}
-			$html[] = ' v' . $version;
-		}
+		$html[] = '<div class="nn_footer_extension">' . self::getFooterName($name) . '</div>';
 
 		if ($copyright)
 		{
-			$html[] = '<br />' . JText::_('NN_COPYRIGHT') . ' &copy; ' . date('Y') . ' NoNumber ' . JText::_('NN_ALL_RIGHTS_RESERVED');
-			$html[] = '<br />' . html_entity_decode(JText::sprintf('NN_RATE', 'http://nonr.nl/jed-' . str_replace('_', '', strtolower($name)) . '#reviews'));
+			$html[] = '<div class="nn_footer_review">' . self::getFooterReview($name) . '</div>';
+			$html[] = '<div class="nn_footer_logo">' . self::getFooterLogo() . '</div>';
+			$html[] = '<div class="nn_footer_copyright">' . self::getFooterCopyright() . '</div>';
+
 		}
 
-		$html[] = '</p>';
-
-		return implode('', $html);
+		return '<div class="nn_footer">' . implode('', $html) . '</div>';
 	}
 
-	static function getXMLVersion($element = 'nnframework', $type = 'system', $admin = 1, $urlformat = 0)
+	private static function getFooterName($name)
 	{
-		if (!$element)
+		$name = JText::_($name);
+
+		if (!$version = self::getXMLVersion($name))
 		{
-			$element = 'nnframework';
-		}
-		if (!$type)
-		{
-			$type = 'system';
-		}
-		if (!strlen($admin))
-		{
-			$admin = 1;
+			return $name;
 		}
 
-		switch ($type)
+		if (strpos($version, 'PRO') !== false)
 		{
-			case 'component':
-			case 'components':
-			case 'module':
-			case 'modules':
-				$type .= in_array($type, array('component', 'module')) ? 's' : '';
-				if ($admin)
-				{
-					$path = JPATH_ADMINISTRATOR;
-				}
-				else
-				{
-					$path = JPATH_SITE;
-				}
-				$path .= '/' . $type . '/' . ($type == 'modules' ? 'mod_' : 'com_') . $element . '/' . ($type == 'modules' ? 'mod_' : '') . $element . '.xml';
-				break;
-			default:
-				$path = JPATH_PLUGINS . '/' . $type . '/' . $element . '/' . $element . '.xml';
-				break;
+			return $name . ' v' . str_replace('PRO', '', $version) . ' <small>[PRO]</small>';
 		}
 
-		$version = '';
-		$xml = JApplicationHelper::parseXMLInstallFile($path);
-		if ($xml && isset($xml['version']))
+		if (strpos($version, 'FREE') !== false)
 		{
-			$version = trim($xml['version']);
-			if ($urlformat)
-			{
-				$version = '?v=' . strtolower(str_replace(array('FREE', 'PRO'), array('f', 'p'), $version));
-			}
+			return $name . ' v' . str_replace('FREE', '', $version) . ' <small>[FREE]</small>';
 		}
 
-		return $version;
+		return $name . ' v' . $version;
+	}
+
+	private static function getFooterReview($name)
+	{
+		require_once __DIR__ . '/functions.php';
+
+		$alias = nnFrameworkFunctions::getAliasByName($name);
+
+		$jed_url = 'http://nonr.nl/jed-' . $alias . '#reviews';
+
+		return
+			html_entity_decode(JText::sprintf(
+				'NN_JED_REVIEW',
+				'<a href="' . $jed_url . '" target="_blank">',
+				'</a>'
+				. ' <a href="' . $jed_url . '" target="_blank" class="stars">'
+				. '<span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span>'
+				. '</a>'
+			));
+	}
+
+	private static function getFooterLogo()
+	{
+		return
+			JText::sprintf(
+				'NN_POWERED_BY',
+				'<a href="https://www.nonumber.nl" target="_blank"><img src="' . JUri::root() . 'media/nnframework/images/logo.png" /></a>'
+			);
+	}
+
+	private static function getFooterCopyright()
+	{
+		return JText::_('NN_COPYRIGHT') . ' &copy; ' . date('Y') . ' NoNumber ' . JText::_('NN_ALL_RIGHTS_RESERVED');
+	}
+
+	public static function getXMLVersion($alias, $urlformat = false, $type = 'component', $folder = 'system')
+	{
+		require_once __DIR__ . '/functions.php';
+
+		if (!$version = nnFrameworkFunctions::getXMLValue('version', $alias, $type, $folder))
+		{
+			return '';
+		}
+
+		$version = trim($version);
+
+		if (!$urlformat)
+		{
+			return $version;
+		}
+
+		return $version . '?v=' . strtolower(str_replace(array('FREE', 'PRO'), array('f', 'p'), $version));
+	}
+
+	public static function getPluginXMLVersion($alias, $folder = 'system')
+	{
+		return NoNumberVersions::getXMLVersion($alias, false, 'plugin', $folder);
 	}
 }

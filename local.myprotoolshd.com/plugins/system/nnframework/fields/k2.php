@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: K2
- * Displays a multiselectbox of available K2 categories / tags / items
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,70 +13,30 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/parameters.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/groupfield.php';
 
-class JFormFieldNN_K2 extends JFormField
+class JFormFieldNN_K2 extends nnFormGroupField
 {
 	public $type = 'K2';
-	private $db = null;
-	private $max_list_count = 0;
-	private $params = null;
 
 	protected function getInput()
 	{
-		if (!nnFrameworkFunctions::extensionInstalled('k2'))
+		if ($error = $this->missingFilesOrTables(array('categories', 'items', 'tags')))
 		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_FILES_NOT_FOUND', JText::_('NN_K2')) . '</fieldset>';
+			return $error;
 		}
 
-		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
-
-		$group = $this->get('group', 'categories');
-
-		if (in_array($group, array('categories', 'items', 'tags')))
-		{
-			$tables = $this->db->getTableList();
-			if (!in_array($this->db->getPrefix() . 'k2_' . $group, $tables))
-			{
-				return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_TABLE_NOT_FOUND', JText::_('NN_K2')) . '</fieldset>';
-			}
-		}
-
-		$parameters = nnParameters::getInstance();
-		$params = $parameters->getPluginParams('nnframework');
-		$this->max_list_count = $params->max_list_count;
-
-		if (!is_array($this->value))
-		{
-			$this->value = explode(',', $this->value);
-		}
-
-		$options = $this->{'get' . $group}();
-
-		$size = (int) $this->get('size');
-		$multiple = $this->get('multiple');
-
-		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
-
-		switch ($group)
-		{
-			case 'categories':
-				return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, $multiple);
-
-			default:
-				return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-		}
+		return $this->getSelectList();
 	}
 
 	function getCategories()
 	{
+		$state_field = NN_K2_VERSION == 3 ? 'state' : 'published';
+
 		$query = $this->db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__k2_categories AS c')
-			->where('c.published > -1');
+			->where('c.' . $state_field . ' > -1');
 		$this->db->setQuery($query);
 		$total = $this->db->loadResult();
 
@@ -86,86 +45,46 @@ class JFormFieldNN_K2 extends JFormField
 			return -1;
 		}
 
-		$get_categories = $this->get('getcategories', 1);
-		$show_ignore = $this->get('show_ignore');
+		$parent_field = NN_K2_VERSION == 3 ? 'parent_id' : 'parent';
+		$title_field = NN_K2_VERSION == 3 ? 'title' : 'name';
+		$ordering_field = NN_K2_VERSION == 3 ? 'lft' : 'ordering';
 
-		$query->clear()
-			->select('c.id, c.parent AS parent_id, c.name AS title, c.published')
-			->from('#__k2_categories AS c')
-			->where('c.published > -1');
-		if (!$get_categories)
+		$query->clear('select')
+			->select('c.id, c.' . $parent_field . ' AS parent_id, c.' . $title_field . ' AS title, c.' . $state_field . ' AS published');
+		if (!$this->get('getcategories', 1))
 		{
-			$query->where('c.parent = 0');
+			$query->where('c.' . $parent_field . ' = 0');
 		}
-		$query->order('c.ordering, c.name');
+		$query->order('c.' . $ordering_field . ', c.' . $title_field);
 		$this->db->setQuery($query);
 		$items = $this->db->loadObjectList();
 
-		// establish the hierarchy of the menu
-		// TODO: use node model
-		$children = array();
-
-		if ($items)
-		{
-			// first pass - collect children
-			foreach ($items as $v)
-			{
-				$pt = $v->parent_id;
-				$list = @$children[$pt] ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
-			}
-		}
-
-		// second pass - get an indent list of the items
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
-
-		// assemble items to the array
-		$options = array();
-		if ($show_ignore)
-		{
-			if (in_array('-1', $this->value))
-			{
-				$this->value = array('-1');
-			}
-			$options[] = JHtml::_('select.option', '-1', '- ' . JText::_('NN_IGNORE') . ' -', 'value', 'text', 0);
-			$options[] = JHtml::_('select.option', '-', '&nbsp;', 'value', 'text', 1);
-		}
-		foreach ($list as $item)
-		{
-			$item->treename = nnText::prepareSelectItem($item->treename, $item->published, '', 1);
-			$options[] = JHtml::_('select.option', $item->id, $item->treename, 'value', 'text', 0);
-		}
-
-		return $options;
+		return $this->getOptionsTreeByList($items);
 	}
 
 	function getTags()
 	{
+		$state_field = NN_K2_VERSION == 3 ? 'state' : 'published';
+
 		$query = $this->db->getQuery(true)
-			->select('t.name')
+			->select('t.name as id, t.name as name')
 			->from('#__k2_tags AS t')
-			->where('t.published = 1')
+			->where('t.' . $state_field . ' = 1')
 			->order('t.name');
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$options[] = JHtml::_('select.option', $item->name, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
+		return $this->getOptionsByList($list);
 	}
 
 	function getItems()
 	{
+		$state_field = NN_K2_VERSION == 3 ? 'state' : 'published';
+
 		$query = $this->db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__k2_items AS i')
-			->where('i.published > -1');
+			->where('i.' . $state_field . ' > -1');
 		$this->db->setQuery($query);
 		$total = $this->db->loadResult();
 
@@ -174,61 +93,15 @@ class JFormFieldNN_K2 extends JFormField
 			return -1;
 		}
 
+		$cat_title_field = NN_K2_VERSION == 3 ? 'title' : 'name';
+
 		$query->clear('select')
-			->select('i.id, i.title as name, c.name as cat, i.published')
+			->select('i.id, i.title as name, c.' . $cat_title_field . ' as cat, i.' . $state_field . ' as published')
 			->join('LEFT', '#__k2_categories AS c ON c.id = i.catid')
 			->order('i.title, i.ordering, i.id');
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name = $item->name . ' [' . $item->id . ']' . ($item->cat ? ' [' . $item->cat . ']' : '');
-			$item->name = nnText::prepareSelectItem($item->name, $item->published);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	function getAuthors()
-	{
-		$query = $this->db->getQuery(true)
-			->select('COUNT(*)')
-			->from('#__k2_items AS i')
-			->where('i.published > -1')
-			->group('i.created_by');
-		$this->db->setQuery($query);
-		$total = $this->db->loadResult();
-
-		if ($total > $this->max_list_count)
-		{
-			return -1;
-		}
-
-		$query->clear('select')
-			->select('u.name, u.id')
-			->join('LEFT', '#__users AS u ON u.id = i.created_by')
-			->order('name');
-		$this->db->setQuery($query);
-		$list = $this->db->loadObjectList();
-
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name .= ' [' . $item->id . ']';
-			$item->name = nnText::prepareSelectItem($item->name);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return $this->getOptionsByList($list, array('cat', 'id'));
 	}
 }

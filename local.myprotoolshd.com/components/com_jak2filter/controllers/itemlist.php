@@ -25,7 +25,7 @@ require_once JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'models'.DS.'itemlist.php
 class JAK2FilterControllerItemlist extends K2FilterController{
 
     function display($cachable = false, $urlparams = false) {
-    	error_reporting(E_ALL ^ E_NOTICE);
+    	//error_reporting(E_ALL ^ E_NOTICE);
 
         JRequest::setVar('task', 'search');
         JRequest::setVar('view', 'itemlist');

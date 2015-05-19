@@ -1,10 +1,9 @@
 <?php
 /**
- * Element: ZOO
- * Displays a multiselectbox of available ZOO categories
+ * Element: Zoo
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,59 +13,20 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/functions.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/parameters.php';
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/groupfield.php';
 
-class JFormFieldNN_ZOO extends JFormField
+class JFormFieldNN_Zoo extends nnFormGroupField
 {
-	public $type = 'ZOO';
-	private $params = null;
-	private $db = null;
-	private $max_list_count = 0;
+	public $type = 'Zoo';
 
 	protected function getInput()
 	{
-		if (!nnFrameworkFunctions::extensionInstalled('zoo'))
+		if ($error = $this->missingFilesOrTables(array('applications' => 'application', 'categories' => 'category', 'items' => 'item')))
 		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_FILES_NOT_FOUND', JText::_('NN_ZOO')) . '</fieldset>';
+			return $error;
 		}
 
-		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDBO();
-
-		$group = $this->get('group', 'categories');
-
-		$tables = $this->db->getTableList();
-		if (!in_array($this->db->getPrefix() . 'zoo_' . ($group == 'applications' ? 'application' : 'category'), $tables))
-		{
-			return '<fieldset class="alert alert-danger">' . JText::_('ERROR') . ': ' . JText::sprintf('NN_TABLE_NOT_FOUND', JText::_('NN_ZOO')) . '</fieldset>';
-		}
-
-		$parameters = nnParameters::getInstance();
-		$params = $parameters->getPluginParams('nnframework');
-		$this->max_list_count = $params->max_list_count;
-
-		if (!is_array($this->value))
-		{
-			$this->value = explode(',', $this->value);
-		}
-
-		$options = $this->{'get' . $group}();
-
-		$size = (int) $this->get('size');
-		$multiple = $this->get('multiple');
-
-		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
-
-		switch ($group)
-		{
-			case 'categories':
-				return nnHtml::selectlist($options, $this->name, $this->value, $this->id, $size, $multiple);
-
-			default:
-				return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-		}
+		return $this->getSelectList();
 	}
 
 	function getCategories()
@@ -83,10 +43,8 @@ class JFormFieldNN_ZOO extends JFormField
 			return -1;
 		}
 
-		$show_ignore = $this->get('show_ignore');
-
 		$options = array();
-		if ($show_ignore)
+		if ($this->get('show_ignore'))
 		{
 			if (in_array('-1', $this->value))
 			{
@@ -156,7 +114,7 @@ class JFormFieldNN_ZOO extends JFormField
 	function getItems()
 	{
 		$query = $this->db->getQuery(true)
-			->select('i.id, i.name, a.name as app, i.state as published')
+			->select('i.id, i.name, a.name as cat, i.state as published')
 			->from('#__zoo_item AS i')
 			->join('LEFT', '#__zoo_application AS a ON a.id = i.application_id')
 			->where('i.state > -1')
@@ -164,20 +122,6 @@ class JFormFieldNN_ZOO extends JFormField
 		$this->db->setQuery($query);
 		$list = $this->db->loadObjectList();
 
-		// assemble items to the array
-		$options = array();
-		foreach ($list as $item)
-		{
-			$item->name = $item->name . ' [' . $item->id . '] [' . $item->app . ']';
-			$item->name = nnText::prepareSelectItem($item->name, $item->published);
-			$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text', 0);
-		}
-
-		return $options;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
+		return $this->getOptionsByList($list, array('cat', 'id'));
 	}
 }

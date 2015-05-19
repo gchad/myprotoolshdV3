@@ -308,6 +308,103 @@ li.ui-state-highlight {
 								<?php endif; */?>
 							</table>
 							
+							<?php if ($this->params->get('showExtraFieldsTab')): ?>
+                                    
+                                    
+                                <!-- Tab extra fields -->
+                                <div class="simpleTabsContent" id="k2Tab5">
+                                    
+                                    <div id="extraFieldsContainer">
+                                        
+                                        <?php if (count($this->extraFields)): ?>
+                                            
+                                            <table class="admintable" id="extraFields">
+                                                <?php foreach($this->extraFields as $extraField): ?>
+                                                    
+                                                    <?php if($extraField->type == 'header'): ?>
+                                                        
+                                                    <tr>
+                                                        <td colspan="2" ><h4 class="key k2ExtraFieldHeader"><?php echo $extraField->name; ?></h4></td>
+                                                    </tr>
+                                                    
+                                                    <?php else: ?>
+                                                        
+                                                    <tr >
+                                                        <td align="right" class="key">
+                                                            <label for="K2ExtraField_<?php echo $extraField->id; ?>"><?php echo $extraField->name; ?></label>
+                                                        </td>
+                                                        <td class="<?php echo $extraField->name; ?>">
+                                                            <?php echo $extraField->element; ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php endif; ?>
+                                                
+                                                <?php endforeach; ?>
+                                            </table>
+                                        
+                                        <?php else: ?>
+                                            
+                                            <?php if (K2_JVERSION == '15'): ?>
+                                                
+                                                <dl id="system-message">
+                                                    <dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+                                                    <dd class="notice message fade">
+                                                        <ul>
+                                                            <li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
+                                                        </ul>
+                                                    </dd>
+                                                </dl>
+                                                
+                                            <?php elseif (K2_JVERSION == '25'): ?>
+                                                
+                                                <div id="system-message-container">
+                                                    <dl id="system-message">
+                                                        <dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+                                                        <dd class="notice message">
+                                                            <ul>
+                                                                <li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
+                                                            </ul>
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+                                                
+                                            <?php else: ?>
+                                                
+                                                <div class="alert">
+                                                    <h4 class="alert-heading"><?php echo JText::_('K2_NOTICE'); ?></h4>
+                                                    <div>
+                                                        <p><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></p>
+                                                    </div>
+                                                </div>
+                                                
+                                            <?php endif; ?>
+                                            
+                                        <?php endif; ?>
+                                        
+                                    </div>
+                                    
+                                    
+                                    <?php if (count($this->K2PluginsItemExtraFields)): ?>
+                                        
+                                        <div class="itemPlugins">
+                                            
+                                            <?php foreach($this->K2PluginsItemExtraFields as $K2Plugin): ?>
+                                                <?php if(!is_null($K2Plugin)): ?>
+                                                    <fieldset>
+                                                        <legend><?php echo $K2Plugin->name; ?></legend>
+                                                        <?php echo $K2Plugin->fields; ?>
+                                                    </fieldset>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                            
+                                        </div>
+                                        
+                                    <?php endif; ?>
+                                    
+                                </div>
+                                
+                            <?php endif; ?>
+							
 							<!-- Required extra field warning -->
 							<div id="k2ExtraFieldsValidationResults">
 								<h3><?php echo JText::_('K2_THE_FOLLOWING_FIELDS_ARE_REQUIRED'); ?></h3>
@@ -798,82 +895,8 @@ li.ui-state-highlight {
 									<?php endif; ?>
 								</div>
 								<?php endif; ?>
-								<?php if ($this->params->get('showExtraFieldsTab')): ?>
-								    
-								    
-								<!-- Tab extra fields -->
-								<div class="simpleTabsContent" id="k2Tab5">
-									<div id="extraFieldsContainer">
-										<?php if (count($this->extraFields)): ?>
-										    
-										<table class="admintable" id="extraFields">
-											<?php foreach($this->extraFields as $extraField): ?>
-											    
-    											<?php if($extraField->type == 'header'): ?>
-    											    
-    											<tr>
-    												<td colspan="2" ><h4 class="k2ExtraFieldHeader"><?php echo $extraField->name; ?></h4></td>
-    											</tr>
-    											
-    											<?php else: ?>
-    											    
-    											<tr >
-    												<td align="right" class="key">
-    													<label for="K2ExtraField_<?php echo $extraField->id; ?>"><?php echo $extraField->name; ?></label>
-    												</td>
-    												<td class="<?php echo $extraField->name; ?>">
-    													<?php echo $extraField->element; ?>
-    												</td>
-    											</tr>
-    											<?php endif; ?>
-											
-											<?php endforeach; ?>
-										</table>
-										<?php else: ?>
-											<?php if (K2_JVERSION == '15'): ?>
-												<dl id="system-message">
-													<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
-													<dd class="notice message fade">
-														<ul>
-															<li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
-														</ul>
-													</dd>
-												</dl>
-											<?php elseif (K2_JVERSION == '25'): ?>
-											<div id="system-message-container">
-												<dl id="system-message">
-													<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
-													<dd class="notice message">
-														<ul>
-															<li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
-														</ul>
-													</dd>
-												</dl>
-											</div>
-											<?php else: ?>
-											<div class="alert">
-												<h4 class="alert-heading"><?php echo JText::_('K2_NOTICE'); ?></h4>
-												<div>
-													<p><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></p>
-												</div>
-											</div>
-											<?php endif; ?>
-										<?php endif; ?>
-									</div>
-									<?php if (count($this->K2PluginsItemExtraFields)): ?>
-									<div class="itemPlugins">
-										<?php foreach($this->K2PluginsItemExtraFields as $K2Plugin): ?>
-										<?php if(!is_null($K2Plugin)): ?>
-										<fieldset>
-											<legend><?php echo $K2Plugin->name; ?></legend>
-											<?php echo $K2Plugin->fields; ?>
-										</fieldset>
-										<?php endif; ?>
-										<?php endforeach; ?>
-									</div>
-									<?php endif; ?>
-								</div>
-								<?php endif; ?>
+							
+								
 								<?php if ($this->params->get('showAttachmentsTab')): ?>
 								<!-- Tab attachements -->
 								<div class="simpleTabsContent" id="k2Tab6">
@@ -1226,3 +1249,10 @@ li.ui-state-highlight {
 	<?php endif; ?>
 	
 </form>
+
+<div style="text-align: center;">
+    
+<a class="button2" style="" href="#" onclick="javascript: submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
+    
+</div>
+

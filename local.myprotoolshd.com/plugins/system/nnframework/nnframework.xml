@@ -2,8 +2,8 @@
 <extension version="3.2" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_NNFRAMEWORK</name>
 	<description>PLG_SYSTEM_NNFRAMEWORK_DESC</description>
-	<version>15.1.6</version>
-	<creationDate>January 2015</creationDate>
+	<version>15.4.4</version>
+	<creationDate>April 2015</creationDate>
 	<author>NoNumber (Peter van Westen)</author>
 	<authorEmail>peter@nonumber.nl</authorEmail>
 	<authorUrl>http://www.nonumber.nl</authorUrl>

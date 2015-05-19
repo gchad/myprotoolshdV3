@@ -3,7 +3,7 @@
  * Element: List
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -29,7 +29,7 @@ class JFormFieldNN_List extends JFormFieldList
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->size ?  ' style="width:' . $this->size . 'px"' : '';
+		$attr .= $this->size ? ' style="width:' . $this->size . 'px"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';

@@ -4,7 +4,7 @@
  * Element to display the date and time
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,10 +14,11 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldNN_DateTime extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_DateTime extends nnFormField
 {
 	public $type = 'DateTime';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -56,10 +57,5 @@ class JFormFieldNN_DateTime extends JFormField
 		}
 
 		return '</div><div>' . $html;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

@@ -1,10 +1,9 @@
 <?php
 /**
  * Element: Geo
- * Displays a multiselectbox of geo locations
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,18 +13,15 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
 
-class JFormFieldNN_Geo extends JFormField
+class JFormFieldNN_Geo extends nnFormField
 {
 	public $type = 'Geo';
-	private $params = null;
-	private $db = null;
 
 	protected function getInput()
 	{
 		$this->params = $this->element->attributes();
-		$this->db = JFactory::getDbo();
 
 		if (!is_array($this->value))
 		{
@@ -33,6 +29,7 @@ class JFormFieldNN_Geo extends JFormField
 		}
 
 		$group = $this->get('group', 'countries');
+
 		$options = array();
 		foreach ($this->{$group} as $key => $val)
 		{
@@ -57,11 +54,6 @@ class JFormFieldNN_Geo extends JFormField
 		require_once JPATH_PLUGINS . '/system/nnframework/helpers/html.php';
 
 		return nnHtml::selectlistsimple($options, $this->name, $this->value, $this->id, $size, $multiple);
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 
 	public $continents = array(

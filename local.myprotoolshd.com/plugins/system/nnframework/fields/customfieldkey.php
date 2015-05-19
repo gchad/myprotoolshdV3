@@ -4,7 +4,7 @@
  * Displays a custom key field (use in combination with customfieldvalue)
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,10 +14,11 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldNN_CustomFieldKey extends JFormField
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
+
+class JFormFieldNN_CustomFieldKey extends nnFormField
 {
 	public $type = 'CustomFieldKey';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -38,10 +39,5 @@ class JFormFieldNN_CustomFieldKey extends JFormField
 	protected function getInput()
 	{
 		return '<div style="display:none;"><div><div>';
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

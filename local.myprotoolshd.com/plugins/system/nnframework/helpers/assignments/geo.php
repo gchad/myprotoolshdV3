@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: Geo
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -13,57 +13,51 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Assignments: Geo
- */
-class nnFrameworkAssignmentsGeo
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/assignment.php';
+
+class nnFrameworkAssignmentsGeo extends nnFrameworkAssignment
 {
 	var $geo = null;
 
 	/**
 	 * passContinents
 	 */
-	function passContinents(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passContinents()
 	{
-		if (!$geo = self::getGeo($params->service))
+		if (!$geo = self::getGeo($this->params->service))
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$selection = $parent->makeArray($selection);
-
-		return $parent->passSimple($geo->continent, $selection, $assignment);
+		return $this->passSimple($geo->continent);
 	}
 
 	/**
 	 * passCountries
 	 */
-	function passCountries(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passCountries()
 	{
-		if (!$geo = self::getGeo($params->service))
+		if (!$geo = self::getGeo($this->params->service))
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$selection = $parent->makeArray($selection);
-
-		return $parent->passSimple($geo->country, $selection, $assignment);
+		return $this->passSimple($geo->country);
 	}
 
 	/**
 	 * passRegions
 	 */
-	function passRegions(&$parent, &$params, $selection = array(), $assignment = 'all')
+	function passRegions()
 	{
-		if (!$geo = self::getGeo($params->service))
+		if (!$geo = self::getGeo($this->params->service))
 		{
-			return $parent->pass(0, $assignment);
+			return $this->pass(false);
 		}
 
-		$selection = $parent->makeArray($selection);
 		$region = $geo->country . '-' . $geo->region;
 
-		return $parent->passSimple($region, $selection, $assignment);
+		return $this->passSimple($region);
 	}
 
 	function getGeo($service)

@@ -3,7 +3,7 @@
  * Element: Radio
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -25,8 +25,8 @@ class JFormFieldNN_Radio extends JFormFieldRadio
 	{
 		$this->element = $element;
 
-		$element['label'] = $this->prepareText(trim($element['label']));
-		$element['description'] = $this->prepareText(trim($element['description']));
+		$element['label'] = $this->prepareText($element['label']);
+		$element['description'] = $this->prepareText($element['description']);
 		$element['translateDescription'] = false;
 
 		return parent::setup($element, $value, $group);
@@ -34,6 +34,8 @@ class JFormFieldNN_Radio extends JFormFieldRadio
 
 	private function prepareText($string = '')
 	{
+		$string = trim($string);
+
 		if ($string == '')
 		{
 			return '';

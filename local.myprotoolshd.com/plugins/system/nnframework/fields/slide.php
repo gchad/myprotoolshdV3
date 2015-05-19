@@ -4,7 +4,7 @@
  * Element to create a new slide pane
  *
  * @package         NoNumber Framework
- * @version         15.1.6
+ * @version         15.4.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -14,12 +14,11 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+require_once JPATH_PLUGINS . '/system/nnframework/helpers/field.php';
 
-class JFormFieldNN_Slide extends JFormField
+class JFormFieldNN_Slide extends nnFormField
 {
 	public $type = 'Slide';
-	private $params = null;
 
 	protected function getLabel()
 	{
@@ -33,7 +32,7 @@ class JFormFieldNN_Slide extends JFormField
 		JHtml::stylesheet('nnframework/style.min.css', false, true);
 
 		$label = nnText::html_entity_decoder(JText::_($this->get('label')));
-		$description = $this->get('description');
+		$description = $this->prepareText($this->get('description'));
 		$lang_file = $this->get('language_file');
 
 		$html = '</td></tr></table></div></div>';
@@ -41,18 +40,6 @@ class JFormFieldNN_Slide extends JFormField
 		$html .= $label;
 		$html .= '</span></h3>';
 		$html .= '<div class="jpane-slider content"><table width="100%" class="paramlist admintable" cellspacing="1"><tr><td colspan="2" class="paramlist_value">';
-
-		if ($description)
-		{
-			// variables
-			$v1 = $this->get('var1');
-			$v2 = $this->get('var2');
-			$v3 = $this->get('var3');
-			$v4 = $this->get('var4');
-			$v5 = $this->get('var5');
-
-			$description = nnText::html_entity_decoder(trim(JText::sprintf($description, $v1, $v2, $v3, $v4, $v5)));
-		}
 
 		if ($lang_file)
 		{
@@ -92,7 +79,6 @@ class JFormFieldNN_Slide extends JFormField
 
 		if ($description)
 		{
-			$description = str_replace('span style="font-family:monospace;"', 'span class="nn_code"', $description);
 			if ($description['0'] != '<')
 			{
 				$description = '<p>' . $description . '</p>';
@@ -104,10 +90,5 @@ class JFormFieldNN_Slide extends JFormField
 		}
 
 		return $html;
-	}
-
-	private function get($val, $default = '')
-	{
-		return (isset($this->params[$val]) && (string) $this->params[$val] != '') ? (string) $this->params[$val] : $default;
 	}
 }

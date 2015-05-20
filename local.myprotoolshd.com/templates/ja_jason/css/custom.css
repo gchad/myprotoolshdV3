@@ -738,8 +738,9 @@ margin-top: 10px;
 	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/request.png')
 }
 
-#Mod143 p, #Mod143 a, #Mod136 p, #Mod136 a {
-	color: black;
+#Mod143 p, #Mod143 a, #Mod136 p, #Mod136 a, .searchShowCase a, .learnMore a, 
+.searchShowCase a:hover, .learnMore a:hover {
+	color: black !important;
 }
 
 .t3-header.t3-header-3 .ja-intro-1{
@@ -1131,4 +1132,8 @@ transition: width 600ms;
 div#k2Frontend div.simpleTabsContent{
 	padding-left: 0px;
 	
+}
+ 
+#window-mainbody #editor-xtd-buttons, #window-mainbody .toggle-editor{
+	display: none;
 }

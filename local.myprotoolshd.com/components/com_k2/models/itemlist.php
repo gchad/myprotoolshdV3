@@ -74,6 +74,10 @@ class K2ModelItemlist extends K2Model
 
 			$query .= "i.access IN(".implode(',', $user->getAuthorisedViewLevels()).")"." AND i.trash = 0"." AND c.published = 1"." AND c.access IN(".implode(',', $user->getAuthorisedViewLevels()).")"." AND c.trash = 0";
 
+
+            /***** GCHAD FIX ****/
+            //remove the language selection
+            /*
 			$mainframe = JFactory::getApplication();
 			$languageFilter = $mainframe->getLanguageFilter();
 			if ($languageFilter)
@@ -81,7 +85,7 @@ class K2ModelItemlist extends K2Model
 				$languageTag = JFactory::getLanguage()->getTag();
 				$query .= " AND c.language IN (".$db->quote($languageTag).",".$db->quote('*').") 
 						AND i.language IN (".$db->quote($languageTag).",".$db->quote('*').")";
-			}
+			}*/
 		}
 		else
 		{

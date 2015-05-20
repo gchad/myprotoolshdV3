@@ -27,6 +27,27 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
+	    
+        /*** GCHAD FIX ****/
+        //empeche les modules de lang de fuck up other languages before redirection
+        require_once('libraries/joomla/language/helper.php');
+        $languages  = JLanguageHelper::getLanguages();
+        $activeLanguage = JFactory::getLanguage()->getTag();
+        $curLang = 'uk';
+ 
+        foreach($languages as $l)
+        {
+            if($l->lang_code == $activeLanguage){
+                $curLang = $l->sef;
+            }
+        }
+        
+        
+        $return = "index.php?option=com_users&view=profile&lang=$curLang";
+        
+       /*******************/
+            
+            
 		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
 		$app    = JFactory::getApplication();
@@ -71,8 +92,11 @@ class UsersControllerUser extends UsersController
 			}
 
 			$app->setUserState('users.login.form.data', array());
-           
-            $app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
+            
+            
+           // $return = $app->getUserState('users.login.form.return');
+            
+            $app->redirect(JRoute::_($return, false));
 		}
 		else
 		{

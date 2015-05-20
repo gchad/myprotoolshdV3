@@ -123,7 +123,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	  <!--<span class="catItemImage">-->
 	    <span class="pseudoImg"></span>  
 	    
-	    <a class="modal imgWrap" href="<?php echo $this->item->link; ?>" title="<?php if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); ?>">
+	    <a class="modal imgWrap" href="<?php echo $this->item->link; ?>" title="<?php /* if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title);*/ ?>">
 	    	
 	    
 	    	
@@ -137,14 +137,14 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
         <?php }
        
         if(isset($this->item->extraFields->Product)){?>
-            <span class="product details"><?=$this->item->extraFields->Product->value?></span>
+            <span class="product details"><?=JText::_('PRODCUTS')?>: <?=$this->item->extraFields->Product->value?></span>
         <?php }
         ?>
                 
 	    	    
 	    	</span>
 	    	
-	    	<img src="<?php echo $this->item->image; ?>" alt="<?php if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); ?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
+	    	<img src="<?php echo $this->item->image; ?>" alt="<?php /*if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); */?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
 	    </a>
 	  <!--</span>-->
 	  <!--<div class="clr"></div>-->

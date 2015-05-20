@@ -379,7 +379,7 @@ class K2ViewItem extends K2View
         {
             $extraFields[$i]->element = $extraFieldModel->renderExtraField($extraFields[$i], $item->id);
         }
-
+//debug($extraFieldModel);
         if ($item->id)
         {
             $item->attachments = $model->getAttachments($item->id);

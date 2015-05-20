@@ -362,7 +362,7 @@ class JDocumentHTML extends JDocument
 	 * @since   11.1
 	 */
 	public function getBuffer($type = null, $name = null, $attribs = array())
-	{
+	{ 
 		// If no type is specified, return the whole buffer
 		if ($type === null)
 		{
@@ -376,6 +376,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$renderer = $this->loadRenderer($type);
+        
+       
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
@@ -692,7 +694,10 @@ class JDocumentHTML extends JDocument
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
-			$replace[] = $jdoc;
+		    
+     
+            //if($args['name'] == 'intro-1') {debug('la');};
+			$replace[] = $jdoc; 
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 

@@ -190,6 +190,8 @@ class modJak2filterHelper
 					$html .= call_user_func_array(array($this, $func), array($fieldname, $row));
 					
 					$items[$group]['items'][$fieldType.'_'.$fieldId] = $html;
+                    
+                      
 				}
 			}
 		}
@@ -641,10 +643,16 @@ class modJak2filterHelper
                    $selected_values = $v->value;
                }
            }
-        }
-        /**********************/
+        //   $html[] = JHTML::_('select.option', 0, JText::_('ALL_REGIONS'));
         
-		$html[] = JHTML::_('select.option', 0, JText::sprintf('JAK2_SELECT_OPTION', $field->name));
+        } else {
+           $html[] = JHTML::_('select.option', 0, JText::sprintf('JAK2_SELECT_OPTION', $field->name));
+       
+        }
+        
+        /**********************/
+       
+		
         
 		foreach ($values as $f) {
 			if ($this->disable_option_empty != 2 || !$f->disabled) {

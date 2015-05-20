@@ -89,7 +89,8 @@ else {
 			}
 			
 			/** GCHAD FIX link opens in new window ****/
-			$$('#k2Container a[href]').each(function(el){
+			/*$$('#k2Container a[href]').each(function(el){
+			    
 			    
 			    el.addEventListener("click", function(e){
 			        e.preventDefault(); 
@@ -97,7 +98,7 @@ else {
 			        window.parent.location.href= url;
 			    });
 			   
-			});
+			});*/
 		});
 </script>
 						
@@ -377,7 +378,7 @@ else {
 			
 			?>
 			<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
-			    <span class="itemExtraFieldsValue"><a href="<?=$this->item->link?>"><?=$this->item->link?></a></span></li>
+			    <span class="itemExtraFieldsValue"><a target="_blank" href="<?=$this->item->link?>"><?=$this->item->link?></a></span></li>
 			</ul>
 	    <div class="clr"></div>
 	  </div>
@@ -439,6 +440,11 @@ else {
 			</script>
 			<div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
 		</div>
+		
+		<!-- Facebook sare -->
+        <div class="" style="float: left; margin-right: 24px;">
+            <div class="fb-share-button" data-href="<?php echo $this->item->link; ?>" data-layout="button_count"></div>
+        </div>
 		<?php endif; ?>
 
 		<?php if($this->item->params->get('itemGooglePlusOneButton',1)): ?>

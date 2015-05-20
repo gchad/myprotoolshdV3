@@ -9,8 +9,8 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$app = JFactory::getApplication();
-$app->redirect(JRoute::_('index.php?option=com_users&view=login'));
+//$app = JFactory::getApplication();
+//$app->redirect(JRoute::_('index.php?option=com_users&view=login'));
 ?>
 
 <div id="k2ModuleBox<?php echo $module->id; ?>" class="k2LoginBlock<?php if($params->get('moduleclass_sfx')) echo ' '.$params->get('moduleclass_sfx'); ?>">

@@ -323,7 +323,10 @@ class K2ModelExtraField extends K2Model
 			case 'textfield' :
                 
                 /* GCHAD FIX  for credits and URLs*****/
-                if($extraField->id == 5 || $extraField->id == 6){
+                $uri = JFactory::getURI();
+                $controller = $uri->getVar('option');
+                
+                if($extraField->id == 5 || $extraField->id == 6 && $controller == 'com_jek2story'){
                     $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" placeholder="'.$active.'" '.$attributes.' />';
                 
                 } else {

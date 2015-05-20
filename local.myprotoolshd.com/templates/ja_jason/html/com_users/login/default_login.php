@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+       
+ 
 JHtml::_('behavior.keepalive');
 ?>
 
@@ -83,9 +85,15 @@ JHtml::_('behavior.keepalive');
           <button type="submit" class="btn button2 btn-primary pull-right"><?php echo JText::_('JLOGIN'); ?></button>
         </div>
       </div>
-      <?php endif; ?>
+      <?php endif;
+      
+      /***** GCHAD FIX ****/
+      //$return = $this->params->get('login_redirect_url', $this->form->getValue('return'));
 
-  			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('login_redirect_url', $this->form->getValue('return'))); ?>" />
+      $return = 'index.php?option=com_users&view=profile';
+      ?>
+
+  			<input type="hidden" name="return" value="<?= base64_encode($return); ?>" />
   			<?php echo JHtml::_('form.token'); ?>
   		</fieldset>
 

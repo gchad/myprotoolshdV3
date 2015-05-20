@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/***** GCHAD FIX ****/
+$app = JFactory::getApplication();
+$redirect = JRoute::_('index.php?option=com_users&task=profile.edit&user_id='.(int) $this->data->id);
+$app->redirect($redirect);
 
 if(version_compare(JVERSION, '3.0', 'ge')){
 	JHtml::_('bootstrap.tooltip');

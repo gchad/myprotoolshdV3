@@ -186,12 +186,16 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
             $mainframe = JFactory::getApplication();
             $languageFilter = $mainframe->getLanguageFilter();
-            if ($languageFilter)
+            
+            /* GCHAD FIX */
+            /**** remove the language filter */
+            /*if ($languageFilter)
             {
                 $languageTag = JFactory::getLanguage()->getTag();
                 $query .= " AND c.language IN (".$db->quote($languageTag).",".$db->quote('*').") 
 						AND i.language IN (".$db->quote($languageTag).",".$db->quote('*').")";
             }
+            */
         }
         else
         {
@@ -263,7 +267,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
                 {
                     $query .= $sql;
                 }
-                
+                    
                 break;
 
             case 'date' :
@@ -454,7 +458,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
         $query .= $groupby . " ORDER BY ".$orderby;
         
-      
+
         /** THIS IS WHERE WE GET THE ITEMS TO DISPLAY */
         
         $dispatcher = JDispatcher::getInstance();
@@ -1408,11 +1412,11 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
             $where = array();
              
             foreach ($vars as $field => $value) {
-                    
+                  
                 if(empty($value)) continue;
 
                 if(preg_match($exPattern, $field, $matches) && $filter != $field && $field == 'xf_8') {
-                       
+                         
                     $fid = $matches[1];
                     $cType = isset($matches[2]) ? $matches[2] : ''; //custom type
                     
@@ -1430,14 +1434,17 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
                              $searchPattern = $prefix.'"'.$value.'"'; // ~ EQUAL 'string'
                              $where[] = "(i.extra_fields REGEXP '".$searchPattern."')";     
                          }  
-                    }                           
+                    }                  
                 }
             }  
+        
+         $sql .= empty($where) ? '' : ' AND (' . implode(' OR ', $where).')';
+          
          }
 
-         $sql .= empty($where) ? '' : ' AND (' . implode(' OR ', $where).')';
+        
 
-       
+    
         /***********************************************/
          
 

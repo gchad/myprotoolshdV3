@@ -234,7 +234,7 @@ class K2ViewItemlist extends K2View
                 $id = JRequest::getInt('id');
                 $userObject = JFactory::getUser($id);
                 $userObject->event = new stdClass;
-
+               
                 // Check user status
                 if ($userObject->block)
                 {

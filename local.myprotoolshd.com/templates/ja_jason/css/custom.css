@@ -59,7 +59,7 @@
 	}
 	
 	.panelWrap{
-		margin: 0px 20px 30px 20px;
+		margin: 20px 20px 30px 20px;
 	}
 	
 	.panelWrap h1{
@@ -74,8 +74,6 @@
 	#introPanel h1{
 		font-size: 55px;
 	}
-	
-	
 	
 	#introPanel #hashtag{
 		font-size: 20px;
@@ -157,6 +155,10 @@
 		float: left;
 	}
 	
+	.panelWrap .col-md-4{
+		text-align: center !important;
+	}
+	
 	.catItemImageBlock{
 		height: 160px;
 	}
@@ -171,7 +173,7 @@
 	}
 	
 	.panelWrap{
-		margin: 0px 20px 40px 20px;
+		margin: 20px 20px 40px 20px;
 	}
 	
 	.panelWrap h1{
@@ -1136,4 +1138,12 @@ div#k2Frontend div.simpleTabsContent{
  
 #window-mainbody #editor-xtd-buttons, #window-mainbody .toggle-editor{
 	display: none;
+}
+
+.customlearnMore{
+	font-size: 16px;
+}
+
+.customlearnMore h3{
+	font-size: 32px;
 }

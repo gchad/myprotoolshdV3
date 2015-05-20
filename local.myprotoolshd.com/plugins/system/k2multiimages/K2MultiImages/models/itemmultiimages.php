@@ -1474,7 +1474,7 @@ class K2ModelItemMultiImages extends K2Model
 						}
 
 					}
-					else
+					else //type = link
 					{
 
 						switch ($object->value[2])
@@ -1514,7 +1514,9 @@ class K2ModelItemMultiImages extends K2Model
 							{
 								$object->value[0] = $object->value[1];
 							}
-							$value = '<a href="'.$object->value[1].'" '.$attributes.'>'.$object->value[0].'</a>';
+                            
+                            /**** GCHAD FIX *****/
+							$value = $object->id == 5 ? $object->value[1] : '<a href="'.$object->value[1].'" '.$attributes.'>'.$object->value[0].'</a>';
 						}
 						else
 						{

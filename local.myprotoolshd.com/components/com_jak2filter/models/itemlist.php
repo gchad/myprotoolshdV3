@@ -458,7 +458,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
         $query .= $groupby . " ORDER BY ".$orderby;
         
-
+//debug($query);
         /** THIS IS WHERE WE GET THE ITEMS TO DISPLAY */
         
         $dispatcher = JDispatcher::getInstance();
@@ -542,12 +542,16 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
             $mainframe = JFactory::getApplication();
             $languageFilter = $mainframe->getLanguageFilter();
+            
+            /** GCHAD FIX ****/
+            //remove language filter
+            /*
             if ($languageFilter)
             {
                 $languageTag = JFactory::getLanguage()->getTag();
                 $query .= " AND c.language IN (".$db->quote($languageTag).",".$db->quote('*').") 
 						AND i.language IN (".$db->quote($languageTag).",".$db->quote('*').")";
-            }
+            }*/
         }
         else
         {

@@ -619,6 +619,7 @@ class modJak2filterHelper
 	}
 	
 	public function getSelect($fieldname, $field){
+	    
 		$input = JFactory::getApplication()->input;
 
 		$selected_values = $input->get($fieldname, null);
@@ -636,7 +637,7 @@ class modJak2filterHelper
         /***** GCHAD FIX *****/
         
         if($field->name == 'Region'){
-            
+        
            usort($values, 'sortRegionFields');
            foreach($values as $k => $v){
                if($v->selected == 1){
@@ -646,18 +647,25 @@ class modJak2filterHelper
         //   $html[] = JHTML::_('select.option', 0, JText::_('ALL_REGIONS'));
         
         } else {
+            
            $html[] = JHTML::_('select.option', 0, JText::sprintf('JAK2_SELECT_OPTION', $field->name));
        
         }
         
         /**********************/
        
-		
-        
 		foreach ($values as $f) {
+		    
+            /****GCHAD FIX ****/
+            //change name of worldwide
+   
 			if ($this->disable_option_empty != 2 || !$f->disabled) {
-				$html[] = JHTML::_('select.option', $f->value, $f->name . $f->num_items_txt, 'value', 'text', $f->disabled);
+			               
+                $name = $field->name == 'Region' && $f->value == 13 ? JText::_('ALL_REGIONS') : $f->name . $f->num_items_txt;
+                
+				$html[] = JHTML::_('select.option', $f->value, $name, 'value', 'text', $f->disabled);
 			}
+           
         }
         
 		

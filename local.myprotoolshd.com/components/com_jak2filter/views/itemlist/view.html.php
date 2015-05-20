@@ -373,6 +373,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
         /******* GCHAD FIX *******/
         
         $_SESSION['limitK2Search'] = 6;
+        //$_SESSION['limitK2Search'] = $params->num_primary_items;
 
         $limitK2Search = $_SESSION['limitK2Search'];
         $limit = $limitK2Search;
@@ -401,10 +402,11 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		   
 			//return JError::raiseNotice(500, JText::_('SEARCH_RESULT_NULL'));
 		}
-      
+   
 		// Pagination
 		jimport('joomla.html.pagination');
 		$total = count($items) ? $model->getTotal() : 0;
+        //debug(count($items));
 	    //$pagination = new JPagination($total, $limitstart, $limit);
         
         /**** GHAD FIX *****/

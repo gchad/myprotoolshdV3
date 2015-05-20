@@ -24,6 +24,25 @@ else {
 	$pluginPathSite = JURI::root().'plugins/system/k2multiimages/K2MultiImages';
 }
 
+
+                    
+                  
+                    
+require_once('libraries/joomla/language/helper.php');
+$languages  = JLanguageHelper::getLanguages();
+$activeLanguage = JFactory::getLanguage()->getTag();
+$sefLang = '';
+
+foreach($languages as $l){
+    
+    if($l->lang_code == $activeLanguage){
+        $sefLang = $l->sef;
+   
+    }
+}  
+
+$shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/','',$this->item->link); 
+
 ?>
 
 <link rel="stylesheet" href="<?php echo $pluginPathSite; ?>/assets/slider/nivo-slider.css" type="text/css" />
@@ -368,7 +387,13 @@ else {
 			<?php if($extraField->value): ?>
 			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
 				<span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span>
-				<span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
+				
+				<?php 
+				
+				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.' website</a>' : $extraField->value;
+				
+				?>
+				<span class="itemExtraFieldsValue"><?=$xtraValue;?></span>
 			</li>
 			<?php endif; ?>
 			<?php endforeach; 
@@ -378,7 +403,16 @@ else {
 			
 			?>
 			<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
-			    <span class="itemExtraFieldsValue"><a target="_blank" href="<?=$this->item->link?>"><?=$this->item->link?></a></span></li>
+			    <span class="itemExtraFieldsValue">
+			        <a target="_blank" href="<?=$this->item->link?>">
+			        <?php 
+			        
+			      
+                         
+			        echo $shareUrl;?>
+			        </a>
+		        </span>
+	        </li>
 			</ul>
 	    <div class="clr"></div>
 	  </div>
@@ -443,7 +477,7 @@ else {
 		
 		<!-- Facebook sare -->
         <div class="" style="float: left; margin-right: 24px;">
-            <div class="fb-share-button" data-href="<?php echo $this->item->link; ?>" data-layout="button_count"></div>
+            <div class="fb-share-button" data-href="<?php echo $shareUrl; ?>" data-layout="button_count"></div>
         </div>
 		<?php endif; ?>
 

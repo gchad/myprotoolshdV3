@@ -1,8 +1,16 @@
-@import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,700|Lato:200,700');
+@import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro|Lato:200,700');
 
 @font-face {
   font-family: 'AvidOmnesLight';
   src: url('../fonts/AvidOmnes/AvidOmnes-Light.otf');
+  font-weight: normal;
+  font-style: normal;
+ 
+}
+
+@font-face {
+  font-family: 'AvidOmnesMedium';
+  src: url('../fonts/AvidOmnes/AvidOmnes-Medium.otf');
   font-weight: normal;
   font-style: normal;
  
@@ -399,7 +407,7 @@ h1 {
 	}
 	
 	.ja-intro.ja-intro-1 {
-		padding: 70px 0px !important;
+		padding: 50px 0px !important;
 	}
 	
 	.blueOverlay .credits, .blueOverlay .product {
@@ -730,29 +738,44 @@ margin-top: 10px;
  }
 
 .joinShowCase {
-	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/gallery.png');	
+	background-image: url('/images/backgrounds/gallery.png');	
 }
 
-#galleryPanel h1, #galleryPanel, #requestPanel h1, #requestPanel, #introPanel, #introPanel h1{
+.joinShowCase h1, .joinShowCase, 
+#requestPanel h1, #requestPanel,
+ #introPanel, #introPanel h1, 
+ .learnMore, .learnMore h1{
 	color: white;
 	 -webkit-font-smoothing: antialiased;
 }
 
 .searchShowCase{
-	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/map.png')
+	background-image: url('/images/backgrounds/map.png')
+}
+
+.welcome{
+	background-image: url('/images/backgrounds/welcome.png')
 }
 
 .learnMore{
-	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/showcase.png')
+	background-image: url('/images/backgrounds/learn-more.png')
 }
 
-#Mod137{
-	background-image: url('http://www.studio-secrets.com/myprotoolshdv3/images/request.png')
+.feuilleter{
+	background-image: url('/images/backgrounds/feuilleter.png')
 }
 
-#Mod143 p, #Mod143 a, #Mod136 p, #Mod136 a, .searchShowCase a, .learnMore a, 
-.searchShowCase a:hover, .learnMore a:hover {
+
+.searchShowCase a, .searchShowCase p, .searchShowCase a:hover{
 	color: black !important;
+}
+
+.learnMore, .learnMore h1, .learnMore p, .learnMore a, 
+.joinShowCase, .joinShowCase h1, .joinShowCase p, .joinShowCase a,
+.feuilleter, .feuilleter h1, .feuilleter p, .feuilleter a,
+.welcome, .welcome h1, .welcome h3, .welcome p, .welcome a {
+	color: white !important;
+	border-color: white !important;
 }
 
 .t3-header.t3-header-3 .ja-intro-1{
@@ -779,13 +802,16 @@ margin-top: 10px;
 	
 	text-decoration: none;
 	color: white;
-	border: 1px solid white;
+	border: 1.5px solid white;
 	overflow: hidden;
 	display: inline-block;
 	margin: 20px 20px 0px 0px;
 	padding: 20px 40px !important;
 	text-align: center;
 	min-width: 210px;
+	font-size: 16px;
+	font-family: "AvidOmnesMedium" !important;
+	border-radius: 2px;
 	
 }
 
@@ -834,11 +860,11 @@ a.button3:hover{
 	transition: all 200ms linear;
 }
 
-#showcasePanel .button3 {
-	border: 1px solid black;
+.searchShowCase .button3 {
+	border-color: black !important;
 }
 
-#showcasePanel .button3 span.text, #showcasePanel .button3 span.text{
+.searchShowCase .button3 span.text, .searchShowCase .button3 span.text{
 	color: black;
 }
 

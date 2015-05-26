@@ -250,7 +250,10 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 if(adLong){
                      $('address_long').value = adLong;
                 }
-
+                
+                
+                jQuery('#jak2-loadingWrap').css({'display': 'block'});
+                
                 form.submit();
             }
             
@@ -275,6 +278,9 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 	$imgbin=$url.'components/'.$option.'/images/bin.png';*/
 ?>
 
+<div id="jak2-loadingWrap" style="display: none;">
+<div id="jak2-loading" >Uploading</div>
+</div>
 
 <div class="login-wrap2">
 

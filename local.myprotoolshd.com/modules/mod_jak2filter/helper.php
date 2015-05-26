@@ -139,7 +139,7 @@ class modJak2filterHelper
                     
                    
                     /***** GHAD FIX *****/
-                    
+                   
                     
                     if($row->name == 'Region'){
                         
@@ -187,6 +187,7 @@ class modJak2filterHelper
 					$row->ff_type = $fieldType;//form field type
 					$row->index = $index;
 					$html = $this->getLabel($row->ff_type, $fieldname, $row->name, $row->group);
+                    
 					$html .= call_user_func_array(array($this, $func), array($fieldname, $row));
 					
 					$items[$group]['items'][$fieldType.'_'.$fieldId] = $html;
@@ -636,6 +637,8 @@ class modJak2filterHelper
         
         /***** GCHAD FIX *****/
         
+        
+        
         if($field->name == 'Region'){
         
            usort($values, 'sortRegionFields');
@@ -727,7 +730,15 @@ class modJak2filterHelper
 		} else {
 			$values = $field->value;
 		}
-
+        
+        /**** GCHAD FIX ***/
+        //REMOVE S3 and S6
+        foreach($values as $k => $v){
+            if($v->name == 'S3' || $v->name == 'S6'){
+                unset($values[$k]);
+            }
+        }
+      
 		$auto_filter		= (int) @$this->params->get('auto_filter');
 		$listid = 'mg-'.$this->module->id.'-'.$fieldname;
 		$html = '<div class="ja-magic-select" id="'.$listid.'" data-autofilter="'.$auto_filter.'"><ul>';

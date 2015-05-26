@@ -12,6 +12,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
+/*** GCHAD FIX ***/
+set_time_limit(0);
+
 if (K2_JVERSION != '15')
 {
     $user = JFactory::getUser();

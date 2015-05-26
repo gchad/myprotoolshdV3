@@ -1,3 +1,41 @@
+@import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,700|Lato:200,700');
+
+@font-face {
+  font-family: 'AvidOmnesLight';
+  src: url('../fonts/AvidOmnes/AvidOmnes-Light.otf');
+  font-weight: normal;
+  font-style: normal;
+ 
+}
+
+/*@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('../fonts/source-sans-pro/SourceSansPro-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+ 
+}*/
+
+body, input, p, select, div {
+	
+	 -moz-osx-font-smoothing: grayscale; 
+	font-family: "Source Sans Pro" !important;
+}
+
+h2,h3,h4,h5,h6,h7 {
+	 -webkit-font-smoothing: antialiased;
+	font-family: "Lato" !important;
+	font-weight: normal !important;
+	 -webkit-font-smoothing: antialiased;
+	 -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+	font-family: "AvidOmnesLight" !important;
+	 -webkit-font-smoothing: antialiased;
+	 -moz-osx-font-smoothing: grayscale;
+}
+
 @media (max-width: 768px){
 	.catItemBody {
 	
@@ -394,34 +432,6 @@
 	margin: 0px !important;
 }
 
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Lato:400,700);
-
-@font-face {
-  font-family: 'AvidOmnesLight';
-  src: url('../fonts/AvidOmnes/AvidOmnes-Light.otf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-body, input, p, select, div {
-	
-	 -moz-osx-font-smoothing: grayscale; 
-	font-family: "Source Sans Pro" !important;
-}
-
-h2,h3,h4,h5,h6,h7 {
-	 -webkit-font-smoothing: antialiased;
-	font-family: "Lato" !important;
-	font-weight: normal !important;
-	 -webkit-font-smoothing: antialiased;
-	 -moz-osx-font-smoothing: grayscale;
-}
-
-h1 {
-	font-family: "AvidOmnesLight" !important;
-	 -webkit-font-smoothing: antialiased;
-	 -moz-osx-font-smoothing: grayscale;
-}
 
 .button2{
 border-radius: 5px;
@@ -1146,4 +1156,21 @@ div#k2Frontend div.simpleTabsContent{
 
 .customlearnMore h3{
 	font-size: 32px;
+}
+
+.theme-default .nivo-controlNav{
+	padding: 15px 0px 0px 0px !important;
+}
+
+.theme-default .nivo-controlNav.nivo-thumbs-enabled a{
+	margin-bottom: 0px !important;
+}
+
+
+div.itemBody img{
+	margin-bottom: 0px !important;
+}
+
+div.itemFullText h3{
+	padding-top: 0px !important;
 }

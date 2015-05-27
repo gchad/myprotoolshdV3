@@ -722,7 +722,7 @@ class modJak2filterHelper
 		$txt = JText::_('JAADD').' '.$fieldtitle;
         
         /**** GCHAD FIX ****/
-        $txt = 'K2FILTER_'.strtoupper( str_replace( ' ','_',$txt));
+        $txt = JTEXT::_('K2FILTER_'.strtoupper( str_replace( ' ','_',$txt)));
 		$label = "\n\t<label class=\"group-label\">".$fieldtitle;
 		$label .= '<button type="button" id="'.$buttonid.'" class="'.$css.'" href="#" onclick="jaMagicSelect(this, \''.$listid.'\'); return false;" title="'.addslashes($txt).'">'.$txt.'</button>';
 		$label .= '</label>';
@@ -1339,7 +1339,7 @@ window.addEvent("domready", function(){
             /*** GCHAD FIX ***/ 
 			//$html = "\n\t<label class=\"group-label\">{$fieldtitle}</label>";
 		
-            $txt = 'K2FILTER_'.strtoupper( str_replace( ' ','_',$fieldtitle));
+            $txt = JTEXT::_('K2FILTER_'.strtoupper( str_replace( ' ','_',$fieldtitle)));
             $html = "\n\t<label class=\"group-label\">".$txt."</label>";
 		}
 		return $html;

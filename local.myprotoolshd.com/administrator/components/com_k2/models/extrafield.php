@@ -327,7 +327,7 @@ class K2ModelExtraField extends K2Model
                 $controller = $uri->getVar('option');
                 
                 if($extraField->id == 5 || $extraField->id == 6 && $controller == 'com_jek2story'){
-                    $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" placeholder="'.$active.'" '.$attributes.' />';
+                    $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" placeholder="'.JText::_(strtoupper( str_replace(' ','_',$active ))).'" '.$attributes.' />';
                 
                 } else {
                     $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' />';
@@ -389,7 +389,7 @@ class K2ModelExtraField extends K2Model
                     
                     // $output = '<label>'.JText::_('K2_URL').'</label>';
                      $output = '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[0], ENT_QUOTES, 'UTF-8').'" />';
-                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  placeholder="'.htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8').'" '.$attributes.'/>';
+                     $output .= '<input type="text" name="K2ExtraField_'.$extraField->id.'[]" id="K2ExtraField_'.$extraField->id.'"  placeholder="'.JText::_( strtoupper( str_replace(' ','_', htmlspecialchars($active[1], ENT_QUOTES, 'UTF-8')))).'" '.$attributes.'/>';
                      $output .= '<input type="hidden" name="K2ExtraField_'.$extraField->id.'[]" value="'.htmlspecialchars($active[2], ENT_QUOTES, 'UTF-8').'" />';
                     
                 //regular

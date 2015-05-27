@@ -341,7 +341,7 @@ class jesubmitController extends JControllerLegacy  {
                 //emails
                 if ($mesg->notify) {
                     
-                    $preview =  ltrim(JRoute::_("index.php?option=com_k2&view=item&id=$item_id&lang=en&preview=1"),'/');
+                    $preview =  'http://'.$_SERVER['HTTP_HOST'].'/'.ltrim(JRoute::_("index.php?option=com_k2&view=item&id=$item_id&lang=en&preview=1"),'/');
                         
                   
                     //to admin
@@ -356,13 +356,14 @@ class jesubmitController extends JControllerLegacy  {
                          
                         
                     //to user
-                    $browse_tempt1 = $mesg->notify_message;
+                    //$browse_tempt1 = $mesg->notify_message;
+                    $browse_tempt1 = JText::_('NOTIFY_USER_EMAIL');
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
                     $browse_tempt1 =str_replace("{User}", $user->username, $browse_tempt1);
-                    $browse_tempt1 = str_replace("{preview}", $preview, $browse_tempt1);
-                    $browse_tempt1 =str_replace("{login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    $browse_tempt1 = str_replace("{Preview}", $preview, $browse_tempt1);
+                    $browse_tempt1 =str_replace("{Login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                     //$browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
-                          
+                      
                     $config     = &JFactory::getConfig();
                     $from       = $post['email']; 
                     $fromname   = $post['name'];        
@@ -385,6 +386,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $msg = JText::_( 'SUCCESS');
+                $msg = JText::_( 'STORY_SAVED');
                 $this->setRedirect ($redir_link, $msg);
                 
             } //endig Adding mode

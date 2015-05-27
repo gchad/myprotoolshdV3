@@ -279,7 +279,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 ?>
 
 <div id="jak2-loadingWrap" style="display: none;">
-<div id="jak2-loading" >Uploading</div>
+<div id="jak2-loading" ><?=JText::_('UPLOADING')?></div>
 </div>
 
 <div class="login-wrap2">
@@ -311,7 +311,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             	 	
             	 	<tr> 
             			<td>
-            			    <input placeholder="me@example.com" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
+            			    <input placeholder="<?php echo  JText::_( 'ME@EXAMPLE'); ?>" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
             		    </td>
             		</tr><?php 
                 }?>

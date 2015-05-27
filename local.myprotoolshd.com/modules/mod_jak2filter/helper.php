@@ -187,7 +187,7 @@ class modJak2filterHelper
 					$row->ff_type = $fieldType;//form field type
 					$row->index = $index;
 					$html = $this->getLabel($row->ff_type, $fieldname, $row->name, $row->group);
-                    
+                   
 					$html .= call_user_func_array(array($this, $func), array($fieldname, $row));
 					
 					$items[$group]['items'][$fieldType.'_'.$fieldId] = $html;
@@ -660,12 +660,14 @@ class modJak2filterHelper
 		foreach ($values as $f) {
 		    
             /****GCHAD FIX ****/
-            //change name of worldwide
+           
    
 			if ($this->disable_option_empty != 2 || !$f->disabled) {
-			               
+			         
+                //change name of worldwide      
                 $name = $field->name == 'Region' && $f->value == 13 ? JText::_('ALL_REGIONS') : $f->name . $f->num_items_txt;
                 
+                                
 				$html[] = JHTML::_('select.option', $f->value, $name, 'value', 'text', $f->disabled);
 			}
            
@@ -688,8 +690,11 @@ class modJak2filterHelper
 		}
 		$attrs['multiple'] = 'multiple';
      	$options = array();
+        
         foreach ($values as $f) {
 			if ($this->disable_option_empty != 2 || !$f->disabled) {
+			    
+              
 				$options[] = JHTML::_('select.option', $f->value, $f->name . $f->num_items_txt, 'value', 'text', $f->disabled);
 			}
         }
@@ -715,6 +720,9 @@ class modJak2filterHelper
 		$css = 'select closed exfield';
 		if($group) $css .= ' exgroup'.$group;
 		$txt = JText::_('JAADD').' '.$fieldtitle;
+        
+        /**** GCHAD FIX ****/
+        $txt = 'K2FILTER_'.strtoupper( str_replace( ' ','_',$txt));
 		$label = "\n\t<label class=\"group-label\">".$fieldtitle;
 		$label .= '<button type="button" id="'.$buttonid.'" class="'.$css.'" href="#" onclick="jaMagicSelect(this, \''.$listid.'\'); return false;" title="'.addslashes($txt).'">'.$txt.'</button>';
 		$label .= '</label>';
@@ -957,7 +965,12 @@ window.addEvent("domready", function(){
 			//$disabled = ($this->disable_option_empty && !$num_items) ? true : false;
 			$disabled = false;//DO NOT DISABLE CATEGORY ITEMS
         	$num_items = (!empty($num_items)) ? sprintf(self::COUNT_ITEMS_TXT, $num_items) : '';
-			$mitems[] = JHTML::_('select.option', $item->id, $item->treename.$num_items,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
+            
+            /**** GCHAD FIX ****/
+            $txt = 'K2CATEGORY_'.strtoupper( str_replace( ' ','_',$item->treename.$num_items));
+			//$mitems[] = JHTML::_('select.option', $item->id, $item->treename.$num_items,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
+            $mitems[] = JHTML::_('select.option', $item->id, $txt,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
+        
         }
         return $mitems;
     }
@@ -1322,7 +1335,12 @@ window.addEvent("domready", function(){
 		if(method_exists($this, $funcLabel)) {
 			$html = call_user_func_array(array($this, $funcLabel), array($fieldname, $fieldtitle, $group));
 		} else {
-			$html = "\n\t<label class=\"group-label\">{$fieldtitle}</label>";
+		    
+            /*** GCHAD FIX ***/ 
+			//$html = "\n\t<label class=\"group-label\">{$fieldtitle}</label>";
+		
+            $txt = 'K2FILTER_'.strtoupper( str_replace( ' ','_',$fieldtitle));
+            $html = "\n\t<label class=\"group-label\">".$txt."</label>";
 		}
 		return $html;
 	}

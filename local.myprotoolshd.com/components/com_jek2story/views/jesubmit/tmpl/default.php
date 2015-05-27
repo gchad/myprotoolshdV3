@@ -285,7 +285,8 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 <div class="login-wrap2">
 
   <div class="login ">
-    <h3><?php echo  $this->res->title; ?></h3>
+    <!--<h3><?php echo  $this->res->title; ?></h3>-->
+    <h3><?=JText::_('STORY_TITLE')?></h3>
     <p><?=JText::_('STORY_SUBHEADER')?></p>
     <form id="avidStory" action="<?php echo $link;?>" method="post" enctype="multipart/form-data" onSubmit="return submitbutton()" >
 

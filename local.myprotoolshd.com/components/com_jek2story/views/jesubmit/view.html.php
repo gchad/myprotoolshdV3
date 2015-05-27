@@ -79,6 +79,13 @@ class jesubmitViewjesubmit extends JViewLegacy
 		
 
 		$category=& $this->get('cat');
+        
+        /** GCHAD FIX **/
+        foreach ($category as $k => &$v){
+            $v->text = JText::_('CATEGORY_'.$v->value);
+        }
+        
+        
 		$sel_section = array();
 		$sel_section[]  = JHTML::_('select.option', '0 ', JText::_( 'SELECT_CATEGORY'));
 		

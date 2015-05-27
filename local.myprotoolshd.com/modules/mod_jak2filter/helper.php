@@ -967,7 +967,7 @@ window.addEvent("domready", function(){
         	$num_items = (!empty($num_items)) ? sprintf(self::COUNT_ITEMS_TXT, $num_items) : '';
             
             /**** GCHAD FIX ****/
-            $txt = 'K2CATEGORY_'.strtoupper( str_replace( ' ','_',$item->treename.$num_items));
+            $txt = JText::_('K2CATEGORY_'.strtoupper( str_replace( ' ','_',$item->treename.$num_items)));
 			//$mitems[] = JHTML::_('select.option', $item->id, $item->treename.$num_items,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
             $mitems[] = JHTML::_('select.option', $item->id, $txt,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
         

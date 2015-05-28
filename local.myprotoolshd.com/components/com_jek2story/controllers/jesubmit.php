@@ -1444,7 +1444,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $handle->image_x = $imageWidth;
-               // $handle->Process($savepath);
+                $handle->Process($savepath);
     
                 //Medium image
                 $handle->image_resize = true;
@@ -1476,7 +1476,7 @@ class jesubmitController extends JControllerLegacy  {
                     $imageWidth = $params->get('itemImageS', '200');
                 }
                 $handle->image_x = $imageWidth;
-              //  $handle->Process($savepath);
+                $handle->Process($savepath);
     
                 //XSmall image
                 $handle->image_resize = true;
@@ -1494,7 +1494,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $handle->image_x = $imageWidth;
-              //  $handle->Process($savepath);
+                $handle->Process($savepath);
     
                 //Generic image
                 $handle->image_resize = true;
@@ -1506,7 +1506,7 @@ class jesubmitController extends JControllerLegacy  {
                 $handle->file_new_name_body = $filename.'_Generic';
                 $imageWidth = $params->get('itemImageGeneric', '300');
                 $handle->image_x = $imageWidth;
-              //  $handle->Process($savepath);
+                $handle->Process($savepath);
     
                 if($files['image']['error'] === 0){
                     $handle->Clean();

@@ -359,9 +359,9 @@ class jesubmitController extends JControllerLegacy  {
                     //$browse_tempt1 = $mesg->notify_message;
                     $browse_tempt1 = JText::_('NOTIFY_USER_EMAIL');
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
-                    $browse_tempt1 =str_replace("{User}", $user->username, $browse_tempt1);
-                    $browse_tempt1 = str_replace("{Preview}", $preview, $browse_tempt1);
-                    $browse_tempt1 =str_replace("{Login}", 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    $browse_tempt1 =str_replace(array("{User}","{user}"), $user->username, $browse_tempt1);
+                    $browse_tempt1 = str_replace(array("{Preview}","{preview}"), $preview, $browse_tempt1);
+                    $browse_tempt1 =str_replace(array("{Login}","{login}"), 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                     //$browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
                       
                     $config     = &JFactory::getConfig();

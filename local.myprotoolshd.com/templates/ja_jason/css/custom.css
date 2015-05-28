@@ -1138,6 +1138,7 @@ transition: width 600ms;
 	line-height: initial;
 	overflow: hidden;
 	z-index: 10000;
+	text-align: left;
 }
 
 .blueOverlay .product{

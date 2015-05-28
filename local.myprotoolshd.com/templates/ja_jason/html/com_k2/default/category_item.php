@@ -133,7 +133,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	    	    
 	    	       <?php
         if(isset($this->item->extraFields->Credits)){?>
-            <span class="credits details"><?=JText::_('CREDITS')?>: <?=$this->item->extraFields->Credits->value?></span>
+            <span class="credits details"><?=JText::_('CREDITS')?>: <?=truncate($this->item->extraFields->Credits->value, 50, '...')?></span>
         <?php }
        
         if(isset($this->item->extraFields->Product)){?>

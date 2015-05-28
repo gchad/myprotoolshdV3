@@ -324,14 +324,14 @@ li.ui-state-highlight {
                                                     <?php if($extraField->type == 'header'): ?>
                                                         
                                                     <tr>
-                                                        <td colspan="2" ><h4 class="key k2ExtraFieldHeader"><?php echo 'EDIT_'.JText::_( strtoupper( str_replace (' ', '_',$extraField->name))); ?></h4></td>
+                                                        <td colspan="2" ><h4 class="key k2ExtraFieldHeader"><?= JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))); ?></h4></td>
                                                     </tr>
                                                     
                                                     <?php else: ?>
                                                         
                                                     <tr >
                                                         <td align="right" class="key">
-                                                            <label for="K2ExtraField_<?php echo $extraField->id; ?>"><?php echo 'EDIT_'.JText::_( strtoupper( str_replace (' ', '_',$extraField->name))); ?></label>
+                                                            <label for="K2ExtraField_<?php echo $extraField->id; ?>"><?= JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))); ?></label>
                                                         </td>
                                                         <td class="<?php echo $extraField->name; ?>">
                                                             <?php echo $extraField->element; ?>

@@ -741,7 +741,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
     }
 
     function getCategoryTree($categories)
-    {
+    {debug('la');
         $mainframe = JFactory::getApplication();
         $db = JFactory::getDBO();
         $user = JFactory::getUser();

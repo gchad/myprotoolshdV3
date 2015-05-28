@@ -477,7 +477,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		<tr>
             	        <td class="terms">
                 			<input required type="checkbox" id="acc" name="accept" value="accept" />
-                			<a href="javascript: void(0)" onclick="window.open('index.php?tmpl=component&option=com_jek2story&view=jesubmit&call=2', 'windowname', 'scrollbars=1,width=500px, height=500px')"><?php echo  JText::_( 'ACCEPT_TERMS_CONDITION'); ?></a>
+                			<a href="<?=JRoute::_('index.php?option=com_content&view=article&id=26&Itemid=293')?>" target="_blank"><?php echo  JText::_( 'ACCEPT_TERMS_CONDITION'); ?></a>
                             <input type="hidden" id="termaccept" name="termaccept" value="1" />
                         </td>
             		</tr><?php

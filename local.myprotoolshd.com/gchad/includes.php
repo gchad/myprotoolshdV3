@@ -39,3 +39,20 @@ $countryMatrix = array(
         
             )
     );
+    
+    
+function truncate($string, $length = 100, $append = "&hellip;") {
+      
+  $string = trim($string);
+
+  if(strlen($string) > $length) {
+      
+    $lastSpace = strrpos($string,' ');
+     
+    $truncate = $lastSpace === false ? $length : $lastSpace;
+    return substr($string, 0, $truncate).$append;
+   
+  }
+
+  return $string;
+}

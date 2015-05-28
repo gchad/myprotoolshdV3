@@ -71,7 +71,7 @@ class modJak2filterHelper
 				$uri = JURI::getInstance($active->link);
 				$option = $uri->getVar('option');
 				if($option == 'com_k2') {
-					$categories = $active->params->get('categories', array());
+					$categories = $active->params->get('categories', array()); 
 					if(count($categories)) {
 						$catCatalogMode = $active->params->get('catCatalogMode', 1);
 						if($catCatalogMode) {
@@ -972,7 +972,13 @@ window.addEvent("domready", function(){
             $mitems[] = JHTML::_('select.option', $item->id, $txt,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
         
         }
+
+        usort($mitems,array($this,'sortCategories'));
         return $mitems;
+    }
+
+    public function sortCategories($a,$b){
+        return strcmp($a->text, $b->text);
     }
 
 	/*

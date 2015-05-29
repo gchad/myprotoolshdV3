@@ -35,7 +35,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
 
 
 /********* GCHAD FIX *****/
-
+ //echo $editor->display('fulltext', $text, '100%','100%','80','50'); 
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -391,7 +391,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
         		</tr>
         		
           		<tr>
-        			<td><?php
+        			<td style="max-height: 300px;"><?php
         			
             			if($id){
             			    
@@ -415,8 +415,9 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                              } else {
             		              $text = '';
                              }  
-                             
-                			 echo $editor->display('fulltext', $text, '$widthPx','$heightPx','80','50','0'); //$editor->display("fulltext",$longtext,'$widthPx','$heightPx','80','20','0'); 
+                          //  $name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array()
+                			 echo $editor->display('fulltext', $text, '100%','auto','80','11'); 
+                			 //$editor->display("fulltext",$longtext,'$widthPx','$heightPx','80','50','0'); 
             			 }?>
             			 
         		   </td>
@@ -477,7 +478,11 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		<tr>
             	        <td class="terms">
                 			<input required type="checkbox" id="acc" name="accept" value="accept" />
-                			<a href="<?=JRoute::_('index.php?option=com_content&view=article&id=26&Itemid=293')?>" target="_blank"><?php echo  JText::_( 'ACCEPT_TERMS_CONDITION'); ?></a>
+                			<?php $linkTerms = JRoute::_('index.php?option=com_content&view=article&id=26&Itemid=293&tmpl=component');?>
+                			
+                			<a onclick="window.open('<?=$linkTerms?>', 'newwindow', 'width=400, height=400'); return false;" href="<?=$linkTerms?>" target="_blank">
+                			    <?=JText::_( 'ACCEPT_TERMS_CONDITION'); ?>
+            			    </a>
                             <input type="hidden" id="termaccept" name="termaccept" value="1" />
                         </td>
             		</tr><?php

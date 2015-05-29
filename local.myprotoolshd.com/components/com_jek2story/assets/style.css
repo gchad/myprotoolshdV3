@@ -238,7 +238,10 @@ ul.simpleTabsNavigation li#tabPlugins a {background-image:url(../images/editform
 div.k2Frontend div.simpleTabsContent {margin-top:3px;}
 
 /* End */
-table.contenettable tr td, table.contenettable tr, table.contenettable tr th{ border:0 none !important; padding-left: 0px;}
+table.contenettable > tbody > tr > td, 
+table.contenettable > tbody > tr, 
+table.contenettable > tbody > tr > th{ 
+	border:0 none !important; padding-left: 0px;}
 
 
 
@@ -247,7 +250,7 @@ width: 610px;
 margin: 40px auto 66px;
 }
 
-.login-wrap2 form {
+.login-wrap2 form#avidStory{
 background: #f7f7f7;
 margin-bottom: 0;
 margin-top: 20px;
@@ -273,36 +276,36 @@ text-decoration: none;
 border: 1px solid transparent;
 }
 
-.login-wrap2 form label {
+.login-wrap2 .contenettable > tbody > tr > td > label {
 	margin: 20px 0px 2px 0px;
 	font-size: 16px;
 }
 .login-wrap2 .contenettable{
 	display: block;
 }
-.login-wrap2 .contenettable td, .login-wrap2 .contenettable tr,  .login-wrap2 .contenettable tbody{
+.login-wrap2 .contenettable > tbody > tr > td, .login-wrap2 .contenettable > tbody > tr,  .login-wrap2 .contenettable > tbody{
 	display: block;
 	padding-left: 0px;
 	padding-right: 0px;
 	
 }
 
-.login-wrap2 form input, .login-wrap2 form select {
+.login-wrap2 form#avidStory input, .login-wrap2 form#avidStory select {
 	display: block;
 	width: 100%;
 	padding: 6px 12px !important;
 }
 
-.login-wrap2 form select[multiple=multiple] option{
+.login-wrap2 form#avidStory select[multiple=multiple] option{
 	padding: 5px 2px;
 	margin: 0px;
 }
 
-.login-wrap2 form input[type=file]{
+.login-wrap2 form#avidStory input[type=file]{
 	padding-left: 0px !important;
 }
 
-.login-wrap2 form input[type=checkbox]{
+.login-wrap2 form#avidStory input[type=checkbox]{
 	display: inline-block;
 	width: auto !important;
 	margin-right: 8px;
@@ -310,7 +313,7 @@ border: 1px solid transparent;
 
 }
 
-.login-wrap2 form input[type=submit]{
+.login-wrap2 form#avidStory input[type=submit]{
 	display: inline-block;
 	width: auto;
 	font-size: 16px;

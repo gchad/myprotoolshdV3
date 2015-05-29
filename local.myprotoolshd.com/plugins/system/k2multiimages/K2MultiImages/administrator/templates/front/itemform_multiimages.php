@@ -480,33 +480,36 @@ li.ui-state-highlight {
 								<!-- Tab image -->
 								<div class="simpleTabsContent" id="k2Tab2">
 									
-									<?php if(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_2.jpg")) : ?>
-									<div class="imagesOrdering">
-										<p style="margin-top: 20px;"><?php echo JText::_('PLG_K2_MULTIIMAGES_ORDERING_TEXT'); ?></p>
-										<ul id="sortableImages" style="padding-top: 0px; margin: 10px 0 10px 0;">
-										<?php 	
-										
-										$filecount = 1;
-										while(
-										JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_".$filecount.".jpg") || 
-										(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id).".jpg") && $filecount == 1)
-										) {
-											
-										   $name_t = "thumb".$filecount;
-										?>
-										
-										<li class="ui-state-default" rel="<?php echo $filecount; ?>">
-											<img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage" style="height: 75px; margin-top: 0px;" />	
-										</li>
-										
-										<?php 
-										$filecount++;
-										}
-										?>
-										</ul>
-										
-										<input type="hidden" name="imagesOrdering" value="" />
-									</div>
+									<?php 
+									
+									//gallery if multiple images
+									if(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_2.jpg")) : ?>
+        									<div class="imagesOrdering">
+        										<p style="margin-top: 20px;"><?php echo JText::_('PLG_K2_MULTIIMAGES_ORDERING_TEXT'); ?></p>
+        										<ul id="sortableImages" style="padding-top: 0px; margin: 10px 0 10px 0;">
+        										<?php 	
+        										
+        										$filecount = 1;
+        										while(
+        										JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_".$filecount.".jpg") || 
+        										(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id).".jpg") && $filecount == 1)
+        										) {
+        											
+        										   $name_t = "thumb".$filecount;
+        										?>
+        										
+        										<li class="ui-state-default" rel="<?php echo $filecount; ?>">
+        											<img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage" style="height: 75px; margin-top: 0px;" />	
+        										</li>
+        										
+        										<?php 
+        										$filecount++;
+        										}
+        										?>
+        										</ul>
+        										
+        										<input type="hidden" name="imagesOrdering" value="" />
+        									</div>
 									<?php endif; ?>
 									
 									<div class="itemImages">
@@ -518,13 +521,22 @@ li.ui-state-highlight {
 										JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_".$filecount.".jpg") || 
 										(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id).".jpg") && $filecount == 1)
 										) {
-
+                                        
+                                        $name_t = "thumb".$filecount;
 										?>
 										
 										<?php if($filecount > 1) : ?>
-										<p>&nbsp;</p>
+										  <p>&nbsp;</p>
 										<?php endif; ?>
-										<p><?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE')." ".$filecount; ?></p>
+										
+										<p><?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE')." ".$filecount; ?>
+										    
+										    <img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage" style="height: 75px; margin-top: 0px; display: inline-block; margin-left: 15px;" />   
+                                        
+										    
+										</p>
+										
+										
 										<hr />
 										
 										<table class="admintable image1">
@@ -535,12 +547,15 @@ li.ui-state-highlight {
 												<td>
 													<input type="file" name="image<?php echo $filecount; ?>" class="fileUpload" accept="image/gif, image/jpeg, image/png" />
 													<i>(<?php echo JText::_('K2_MAX_UPLOAD_SIZE'); ?>: <?php echo ini_get('upload_max_filesize'); ?>)</i>
-													<?php /* <br />
-													<br />
-													<input type="text" name="existingImage<?php echo $filecount; ?>" class="text_area" id="existingImageValue<?php echo $filecount; ?>" readonly />
-													<input rel="existingImageValue<?php echo $filecount; ?>" type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" class="k2ImageBrowseServer" />
-													<br />
-													<br />*/?>
+													
+													<!--<br />
+													<br />-->
+													<input style="display: none !important;" type="text" name="existingImage<?php echo $filecount; ?>" class="text_area" id="existingImageValue<?php echo $filecount; ?>" readonly />
+													<input style="display: none !important;" rel="existingImageValue<?php echo $filecount; ?>" type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" class="k2ImageBrowseServer" />
+													<!--<br />
+													<br />-->
+													
+													
 												</td>
 											</tr>
 											<tr>

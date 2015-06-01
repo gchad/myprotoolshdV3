@@ -57,12 +57,16 @@ if(is_file(T3_TEMPLATE_PATH . '/css/print.css')) {
 	$this->addStyleSheet(T3_TEMPLATE_URL.'/css/print.css', 'text/css', 'print'); 
 }
 
+/*GCHAD FIX**/
 ?>
+
+
 
 <!-- Le HTML5 shim and media query for IE8 support -->
 <!--[if lt IE 9]>
 <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <script type="text/javascript" src="<?php echo T3_URL ?>/js/respond.min.js"></script>
+
 <![endif]-->
 
 <!-- You can add Google Analytics here or use T3 Injection feature -->

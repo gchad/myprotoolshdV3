@@ -1219,3 +1219,11 @@ div.itemFullText h3{
 .TableauWelcome span.col1 {width:120px}
 .TableauWelcome span.col2 {width:80px}
 .TableauWelcome span.col3 {width:80px}
+
+.t3-off-canvas  li, .t3-off-canvas  a{
+	background-color: black !important;
+}
+.t3-off-canvas h3{
+	background: none;
+	display: none;
+}

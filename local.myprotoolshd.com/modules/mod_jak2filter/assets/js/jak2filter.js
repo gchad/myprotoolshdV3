@@ -112,7 +112,7 @@ function jaMagicInit(lid, fid) {
 	
 	if( window.isMagicInit == undefined	){ //makes sure it does not get reinitiated by the modal
 		
-		
+	
 		$$('#'+lid+' li').each(function(item){
 			
 			if(item.hasClass('selected')) {
@@ -200,7 +200,7 @@ function jaMagicSelect(controller, lid) {
 		});
 		
 		document.body.addEvent('click',function(e){
-			console.log('click');
+		
 			var d = e.target;
 
 		    // if this node is not the one we want, move up the dom tree
@@ -218,6 +218,7 @@ function jaMagicSelect(controller, lid) {
 		
 		controller.removeClass('closed');
 		controller.addClass('opened');
+		
 		$(lid).setStyle('display', 'block');
 	}
 }

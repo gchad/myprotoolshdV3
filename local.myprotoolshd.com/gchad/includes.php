@@ -44,12 +44,15 @@ $countryMatrix = array(
 function truncate($string, $length = 100, $append = "&hellip;") {
       
   $string = trim($string);
+  
 
   if(strlen($string) > $length) {
       
-    $lastSpace = strrpos($string,' ');
+    //$lastSpace = strrpos($string,' ');
      
-    $truncate = $lastSpace === false ? $length : $lastSpace;
+   // $truncate = $lastSpace === false ? $length : $lastSpace;
+    
+    $truncate = $length;
     return substr($string, 0, $truncate).$append;
    
   }

@@ -723,9 +723,14 @@ class modJak2filterHelper
         
         /**** GCHAD FIX ****/
         $txt = JTEXT::_('K2FILTER_'.strtoupper( str_replace( ' ','_',$txt)));
-		$label = "\n\t<label class=\"group-label\">".$fieldtitle;
-		$label .= '<button type="button" id="'.$buttonid.'" class="'.$css.'" href="#" onclick="jaMagicSelect(this, \''.$listid.'\'); return false;" title="'.addslashes($txt).'">'.$txt.'</button>';
-		$label .= '</label>';
+		$label = "<div listid = \"".$listid."\" class=\"magicController closed\"  style=\"overflow:hidden; z-index: 11; position: relative;\" class=\"group-label\">"/*.$fieldtitle*/;
+        $label .= "<div style=\"z-index: 10; position: absolute; top: 0px; left: 0px; width: 100%; height: 80%;\">";
+        $label .= "</div>";
+        
+		$label .= '<select type="magicSelect" id="'.$buttonid.'" class="'.$css.'" listid = "'.$listid.'" title="'.addslashes($txt).'">
+		              <option>'.$txt.'</option>
+	              </select>';
+		$label .= '</div>';
 		return $label;
 	}
 	
@@ -968,8 +973,8 @@ window.addEvent("domready", function(){
             
             /**** GCHAD FIX ****/
             $txt = JText::_('K2CATEGORY_'.strtoupper( str_replace( ' ','_',$item->treename.$num_items)));
-			//$mitems[] = JHTML::_('select.option', $item->id, $item->treename.$num_items,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
-            $mitems[] = JHTML::_('select.option', $item->id, $txt,array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
+			//$mitems[] = JHTML::_('select.option', $item->id, $item->treename.$num_items, array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
+            $mitems[] = JHTML::_('select.option', $item->id, $txt, array('option.attr' => 'rel', 'disable' => $disabled, 'attr'=>array('rel' => $item->extraFieldsGroup)));
         
         }
 

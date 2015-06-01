@@ -21,6 +21,7 @@ $ajax_filter = $params->get('ajax_filter', 0);
 $share_url = $params->get('share_url_of_results_page', 0);
 ?>
 
+
 <div id="jak2-loading"><?=JText::_('LOADING')?></div>
 
 
@@ -352,6 +353,34 @@ function searchFromScratch(){
 };
 
 window.addEvent('load', function(){
+    
+    
+    /****** REMOVE MAGIC SELECT REGULAR BUTTON POP***/
+   if($$('.magicController')){
+       $$('.magicController').each(function(el){
+           
+           el.addEvent('focus', function(f){
+               f.preventDefault();
+           });
+
+           var listid = el.get('listid');
+
+           
+           el.addEvent('click',function(e){
+          
+                jaMagicSelect(el, listid);
+            });
+      
+           
+       });
+   }
+   
+   var isWebkit = 'WebkitAppearance' in document.documentElement.style;
+   var isMoz = 'MozAppearance' in document.documentElement.style;
+   if(isWebkit || isMoz){
+       $('jak2filter101').addClass('kit');
+   }
+   
     
 	if($('jak2filter<?php echo $module->id;?>').getElement('#category_id')){
 		jak2DisplayExtraFields(<?php echo $module->id;?>, $('jak2filter<?php echo $module->id;?>').getElement('#category_id'), <?php echo $selected_group; ?>);

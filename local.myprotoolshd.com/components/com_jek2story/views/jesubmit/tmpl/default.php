@@ -34,10 +34,14 @@ $setting = $this->setting;
 JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places');
 
 
+
+
 /********* GCHAD FIX *****/
  //echo $editor->display('fulltext', $text, '100%','100%','80','50'); 
 
 ?>
+
+
 <script language="javascript" type="text/javascript">
 
     window.addEvent('domready',function(){
@@ -290,7 +294,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
     <p><?=JText::_('STORY_SUBHEADER')?></p>
     <form id="avidStory" action="<?php echo $link;?>" method="post" enctype="multipart/form-data" onSubmit="return submitbutton()" >
 
-        <table class="contenettable" ><?php 
+        <table class="contenettable" style="width:100%;" ><?php 
             
         		if($setting->name == 1){?>
         		    

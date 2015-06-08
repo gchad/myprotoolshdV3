@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments
  *
  * @package         NoNumber Framework
- * @version         15.4.4
+ * @version         15.5.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -149,9 +149,8 @@ class nnFrameworkAssignmentsHelper
 			return;
 		}
 
-		$this->date = JFactory::getDate();
 		$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
-		$this->date->setTimeZone($tz);
+		$this->date = JFactory::getDate()->setTimeZone($tz);
 
 		$this->request = new stdClass;
 

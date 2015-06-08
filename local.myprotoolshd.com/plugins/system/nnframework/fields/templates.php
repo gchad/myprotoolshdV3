@@ -4,7 +4,7 @@
  * Displays a select box of templates
  *
  * @package         NoNumber Framework
- * @version         15.4.4
+ * @version         15.5.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl

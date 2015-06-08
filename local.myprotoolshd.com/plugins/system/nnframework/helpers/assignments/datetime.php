@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: DateTime
  *
  * @package         NoNumber Framework
- * @version         15.4.4
+ * @version         15.5.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -25,7 +25,12 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 			return ($this->assignment == 'include');
 		}
 
-		$now = strtotime($this->date->format('Y-m-d H:i:s'));
+		$now = strtotime($this->date->format('Y-m-d H:i:s', true));
+
+		$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+
+		$up = JFactory::getDate($this->params->publish_up)->setTimeZone($tz);
+		$down = JFactory::getDate($this->params->publish_down)->setTimeZone($tz);
 
 		if (isset($this->params->recurring) && $this->params->recurring)
 		{
@@ -35,8 +40,8 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 				return ($this->assignment == 'include');
 			}
 
-			$up = strtotime(date('Y') . JFactory::getDate($this->params->publish_up)->format('-m-d H:i:s'));
-			$down = strtotime(date('Y') . JFactory::getDate($this->params->publish_down)->format('-m-d H:i:s'));
+			$up = strtotime(date('Y') . $up->format('-m-d H:i:s'));
+			$down = strtotime(date('Y') . $down->format('-m-d H:i:s'));
 
 			// pass:
 			// 1) now is between up and down
@@ -63,11 +68,11 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 		if (
 			(
 				(int) $this->params->publish_up
-				&& strtotime($this->params->publish_up) > $now
+				&& strtotime($up->format('Y-m-d H:i:s')) > $now
 			)
 			|| (
 				(int) $this->params->publish_down
-				&& strtotime($this->params->publish_down) < $now
+				&& strtotime($down->format('Y-m-d H:i:s')) < $now
 			)
 		)
 		{
@@ -100,32 +105,32 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 
 	function passTime()
 	{
-		$date = strtotime($this->date->format('Y-m-d H:i:s', 1));
+		$now = strtotime($this->date->format('Y-m-d H:i:s', true));
 
-		$publish_up = strtotime($this->params->publish_up);
-		$publish_down = strtotime($this->params->publish_down);
+		$up = strtotime(JFactory::getDate($this->date->format('Y-m-d ') . $this->params->publish_up));
+		$down = strtotime(JFactory::getDate($this->date->format('Y-m-d ') . $this->params->publish_down));
 
-		if ($publish_up > $publish_down)
+		if ($up > $down)
 		{
 			// publish up is after publish down (spans midnight)
 			// current time should be:
 			// - after publish up
 			// - OR before publish down
-			if ($date >= $publish_up || $date < $publish_down)
+			if ($now >= $up || $now < $down)
 			{
 				return $this->pass(true);
 			}
+
+			return $this->pass(false);
 		}
-		else
+
+		// publish down is after publish up (simple time span)
+		// current time should be:
+		// - after publish up
+		// - AND before publish down
+		if ($now >= $up && $now < $down)
 		{
-			// publish down is after publish up (simple time span)
-			// current time should be:
-			// - after publish up
-			// - AND before publish down
-			if ($date >= $publish_up && $date < $publish_down)
-			{
-				return $this->pass(true);
-			}
+			return $this->pass(true);
 		}
 
 		return $this->pass(false);
@@ -153,15 +158,18 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 				{
 					return $season_names['2']; // Must be in Summer
 				}
-				else if ($date >= strtotime($date_year . '-09-23'))
+
+				if ($date >= strtotime($date_year . '-09-23'))
 				{
 					return $season_names['1']; // Must be in Spring
 				}
-				else if ($date >= strtotime($date_year . '-06-21'))
+
+				if ($date >= strtotime($date_year . '-06-21'))
 				{
 					return $season_names['0']; // Must be in Winter
 				}
-				else if ($date >= strtotime($date_year . '-03-21'))
+
+				if ($date >= strtotime($date_year . '-03-21'))
 				{
 					return $season_names['3']; // Must be in Fall
 				}
@@ -174,15 +182,18 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 				{
 					return $season_names['2']; // Must be in Summer
 				}
-				else if ($date >= strtotime($date_year . '-09-01'))
+
+				if ($date >= strtotime($date_year . '-09-01'))
 				{
 					return $season_names['1']; // Must be in Spring
 				}
-				else if ($date >= strtotime($date_year . '-06-01'))
+
+				if ($date >= strtotime($date_year . '-06-01'))
 				{
 					return $season_names['0']; // Must be in Winter
 				}
-				else if ($date >= strtotime($date_year . '-03-01'))
+
+				if ($date >= strtotime($date_year . '-03-01'))
 				{
 					return $season_names['3']; // Must be in Fall
 				}
@@ -195,15 +206,18 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 				{
 					return $season_names['0']; // Must be in Winter
 				}
-				else if ($date >= strtotime($date_year . '-09-23'))
+
+				if ($date >= strtotime($date_year . '-09-23'))
 				{
 					return $season_names['3']; // Must be in Fall
 				}
-				else if ($date >= strtotime($date_year . '-06-21'))
+
+				if ($date >= strtotime($date_year . '-06-21'))
 				{
 					return $season_names['2']; // Must be in Summer
 				}
-				else if ($date >= strtotime($date_year . '-03-21'))
+
+				if ($date >= strtotime($date_year . '-03-21'))
 				{
 					return $season_names['1']; // Must be in Spring
 				}

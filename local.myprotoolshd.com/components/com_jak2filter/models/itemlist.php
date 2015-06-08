@@ -18,7 +18,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
     function getData($ordering = NULL)
     {
         
-        
+        //debug($ordering);
         $user 		= JFactory::getUser();
         $aid 		= $user->get('aid');
         $db 		= JFactory::getDBO();
@@ -127,8 +127,13 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 			}
 			$groupby = ' GROUP BY i.id ';
 		}
-
+        
+        /*** GCHAD FIX ***/
+        
         $query = "SELECT DISTINCT {$xf} i.*, CASE WHEN i.modified = 0 THEN i.created ELSE i.modified END as lastChanged, c.name as categoryname,c.id as categoryid, c.alias as categoryalias, c.params as categoryparams";
+        //$query = "SELECT DISTINCT {$xf} i.*, i.created ELSE i.modified END as lastChanged, c.name as categoryname,c.id as categoryid, c.alias as categoryalias, c.params as categoryparams";
+        
+        
         if ($ordering == 'best')
             $query .= ", (r.rating_sum/r.rating_count) AS rating";
 

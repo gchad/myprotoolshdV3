@@ -348,6 +348,8 @@ function jak2AjaxHandle(text, K2SitePath) {
         console.log(nextAjaxFormParams.find('#K2TotalParams')[0].get('value'));
         
     	container.append(content.html());
+    	
+    	
     	initModals();
     	setScrollButton();
         /*

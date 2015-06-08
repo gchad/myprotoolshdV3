@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Text
  *
  * @package         NoNumber Framework
- * @version         15.4.4
+ * @version         15.5.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -34,36 +34,36 @@ class nnText
 	{
 		$caracs = array(
 			// Day
-			'%d'  => 'd',
-			'%a'  => 'D',
+			'%d' => 'd',
+			'%a' => 'D',
 			'%#d' => 'j',
-			'%A'  => 'l',
-			'%u'  => 'N',
-			'%w'  => 'w',
-			'%j'  => 'z',
+			'%A' => 'l',
+			'%u' => 'N',
+			'%w' => 'w',
+			'%j' => 'z',
 			// Week
-			'%V'  => 'W',
+			'%V' => 'W',
 			// Month
-			'%B'  => 'F',
-			'%m'  => 'm',
-			'%b'  => 'M',
+			'%B' => 'F',
+			'%m' => 'm',
+			'%b' => 'M',
 			// Year
-			'%G'  => 'o',
-			'%Y'  => 'Y',
-			'%y'  => 'y',
+			'%G' => 'o',
+			'%Y' => 'Y',
+			'%y' => 'y',
 			// Time
-			'%P'  => 'a',
-			'%p'  => 'A',
-			'%l'  => 'g',
-			'%I'  => 'h',
-			'%H'  => 'H',
-			'%M'  => 'i',
-			'%S'  => 's',
+			'%P' => 'a',
+			'%p' => 'A',
+			'%l' => 'g',
+			'%I' => 'h',
+			'%H' => 'H',
+			'%M' => 'i',
+			'%S' => 's',
 			// Timezone
-			'%z'  => 'O',
-			'%Z'  => 'T',
+			'%z' => 'O',
+			'%Z' => 'T',
 			// Full Date / Time
-			'%s'  => 'U'
+			'%s' => 'U'
 		);
 
 		return strtr((string) $dateFormat, $caracs);
@@ -73,37 +73,37 @@ class nnText
 	{
 		$caracs = array(
 			// Day - no strf eq : S
-			'd'  => '%d',
-			'D'  => '%a',
+			'd' => '%d',
+			'D' => '%a',
 			'jS' => '%#d[TH]',
-			'j'  => '%#d',
-			'l'  => '%A',
-			'N'  => '%u',
-			'w'  => '%w',
-			'z'  => '%j',
+			'j' => '%#d',
+			'l' => '%A',
+			'N' => '%u',
+			'w' => '%w',
+			'z' => '%j',
 			// Week - no date eq : %U, %W
-			'W'  => '%V',
+			'W' => '%V',
 			// Month - no strf eq : n, t
-			'F'  => '%B',
-			'm'  => '%m',
-			'M'  => '%b',
+			'F' => '%B',
+			'm' => '%m',
+			'M' => '%b',
 			// Year - no strf eq : L; no date eq : %C, %g
-			'o'  => '%G',
-			'Y'  => '%Y',
-			'y'  => '%y',
+			'o' => '%G',
+			'Y' => '%Y',
+			'y' => '%y',
 			// Time - no strf eq : B, G, u; no date eq : %r, %R, %T, %X
-			'a'  => '%P',
-			'A'  => '%p',
-			'g'  => '%l',
-			'h'  => '%I',
-			'H'  => '%H',
-			'i'  => '%M',
-			's'  => '%S',
+			'a' => '%P',
+			'A' => '%p',
+			'g' => '%l',
+			'h' => '%I',
+			'H' => '%H',
+			'i' => '%M',
+			's' => '%S',
 			// Timezone - no strf eq : e, I, P, Z
-			'O'  => '%z',
-			'T'  => '%Z',
+			'O' => '%z',
+			'T' => '%Z',
 			// Full Date / Time - no strf eq : c, r; no date eq : %c, %D, %F, %x
-			'U'  => '%s'
+			'U' => '%s'
 		);
 
 		return strtr((string) $dateFormat, $caracs);
@@ -191,6 +191,12 @@ class nnText
 			$string = preg_replace('#<\!--.*?-->#us', '', $string);
 		}
 
+		// Replace html spaces
+		$string = str_replace(array('&nbsp;', '&#160;'), ' ',$string);
+
+		// Remove duplicate whitespace
+		$string = preg_replace('#[ \n\r\t]+#', ' ', $string);
+
 		return trim($string);
 	}
 
@@ -240,9 +246,14 @@ class nnText
 
 	public static function strReplaceOnce($search, $replace, $string)
 	{
-		$replace = str_replace(array('\\', '$'), array('\\\\', '\\$'), $replace);
+		$pos = strpos($string, $search);
 
-		return preg_replace('#' . preg_quote($search, '#') . '#', $replace, $string, 1);
+		if ($pos === false)
+		{
+			return $string;
+		}
+
+		return substr_replace($string, $replace, $pos, strlen($search));
 	}
 
 	/**
@@ -538,10 +549,16 @@ class nnText
 		// Convert html entities
 		$string = html_entity_decode($string, ENT_COMPAT, 'UTF-8');
 
+		// Convert to lowercase
+		$string = JString::strtolower($string);
+
 		// remove html tags
 		$string = preg_replace('#</?[a-z][^>]*>#usi', '', $string);
 		// remove comments tags
 		$string = preg_replace('#<\!--.*?-->#us', '', $string);
+
+		// Replace weird whitespace characters like( Â )with spaces
+		$string = str_replace(array(chr(160), chr(194)), ' ', $string);
 
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$string = preg_replace('/\xE3\x80\x80/', ' ', $string);
@@ -565,7 +582,7 @@ class nnText
 		// Remove leading and trailing hyphens
 		$string = trim($string, '-');
 
-		return JString::strtolower($string);
+		return $string;
 	}
 
 	/**

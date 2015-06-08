@@ -45,6 +45,19 @@ h1 {
 }
 
 @media (max-width: 768px){
+	
+	#k2Container .itemExtraFields .itemExtraFieldsLabel,
+	#k2Container .itemExtraFields .itemExtraFieldsValue {
+		display: block !important;
+		float: none !important;
+		width: 100% !important;
+	}
+	
+	
+	#k2Container .itemExtraFields .itemExtraFieldsValue{
+		margin-bottom: 16px !important;
+		font-weight: normal !important;
+	}
 	.catItemBody {
 	
 		font-size: 12px; 
@@ -165,6 +178,10 @@ h1 {
 	
 	.blueOverlay .product{
 		bottom: 10px;
+	}
+	
+	.theme-default .nivo-controlNav.nivo-thumbs-enabled img{
+		height: 50px !important;
 	}
 	
 }
@@ -657,7 +674,7 @@ a.imgWrap:hover > .blueOverlay  {
 #k2Container.itemView{
 	background: #FFFFFF;
 	padding: 10px;
-	margin: 20px 0px;
+	margin: 0px 0px;
 	border-radius: 5px;
 }
 
@@ -1220,10 +1237,15 @@ div.itemFullText h3{
 .TableauWelcome span.col2 {width:80px}
 .TableauWelcome span.col3 {width:80px}
 
-.t3-off-canvas  li, .t3-off-canvas  a{
-	background-color: black !important;
+
+.t3-off-canvas .t3-off-canvas-body .dropdown-menu, .t3-off-canvas .t3-off-canvas-header, .t3-off-canvas  li, .t3-off-canvas  a{
+	background-color: #171717;
 }
 .t3-off-canvas h3{
 	background: none;
 	display: none;
+}
+
+#k2Container .itemBody{
+	overflow: hidden;
 }

@@ -3,7 +3,7 @@
  * Main Plugin File
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -20,7 +20,7 @@ class plgSystemModals extends JPlugin
 {
 	private $_alias = 'modals';
 	private $_title = 'MODALS';
-	private $_lang_prefix = 'MOD';
+	private $_lang_prefix = 'MDL';
 
 	private $_init = false;
 	private $_helper = null;

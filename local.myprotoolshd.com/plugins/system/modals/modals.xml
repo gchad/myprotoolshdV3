@@ -2,8 +2,8 @@
 <extension version="3.2" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_MODALS</name>
 	<description>PLG_SYSTEM_MODALS_DESC</description>
-	<version>5.2.1PRO</version>
-	<creationDate>January 2015</creationDate>
+	<version>5.4.0PRO</version>
+	<creationDate>May 2015</creationDate>
 	<author>NoNumber (Peter van Westen)</author>
 	<authorEmail>peter@nonumber.nl</authorEmail>
 	<authorUrl>http://www.nonumber.nl</authorUrl>
@@ -262,6 +262,7 @@
 				<field name="@toggler_iframe_b" type="nn_toggler" />
 				<field name="mediafiles" type="text" size="20" default="jpg,png,gif,eps,pdf" label="MDL_MEDIA_FILES" description="MDL_MEDIA_FILES_DESC" />
 				<field name="iframefiles" type="text" size="20" default="pdf" label="MDL_IFRAME_FILES" description="MDL_IFRAME_FILES_DESC" />
+				<field name="exclude_urls" type="textarea" cols="40" rows="5" default="" label="MDL_EXCLUDE_URLS" description="MDL_EXCLUDE_URLS_DESC" />
 				<field name="auto_titles" type="radio" class="btn-group" default="1" label="MDL_AUTO_TITLES" description="MDL_AUTO_TITLES_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -295,7 +296,7 @@
 				</field>
 				<field name="@toggler_use_responsive_view_b" type="nn_toggler" />
 				
-				<field name="disabled_components" type="nn_components" default="" admin="0" label="NN_DISABLE_ON_COMPONENTS" description="NN_DISABLE_ON_COMPONENTS_DESC" />
+				<field name="disabled_components" type="nn_components" default="" multiple="1" admin="0" label="NN_DISABLE_ON_COMPONENTS" description="NN_DISABLE_ON_COMPONENTS_DESC" />
 				<field name="disable_components_remove" type="radio" class="btn-group" default="1" label="NN_REMOVE_IN_DISABLED_COMPONENTS" description="NN_REMOVE_IN_DISABLED_COMPONENTS_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

@@ -65,6 +65,7 @@ class jesubmitController extends JControllerLegacy  {
   
     function save(){
         
+        set_time_limit(0);
         JRequest::checkToken() or jexit( 'Invalid Token' );
         
         $mainframe = &JFactory::getApplication();
@@ -81,12 +82,11 @@ class jesubmitController extends JControllerLegacy  {
         
         if(isset($_POST['facilityName']) && !empty($_POST['artistName'])){
              $_POST['title'] =  $_POST['facilityName'].' — '. $_POST['artistName'];
-        }else {
+        } else {
              $_POST['title'] =  $_POST['facilityName'];
         }
        
         $post = $_POST;
-        
         
         require_once ($k2admin_path.'/'.'lib'.'/'.'class.upload.php');
         $params = &JComponentHelper::getParams('com_k2');
@@ -98,37 +98,24 @@ class jesubmitController extends JControllerLegacy  {
         $setting_name = JRequest::getVar('setting_name','','','int');   
         $setting_email= JRequest::getVar('setting_email','','','int'); 
         
-        /*if($setting_name == 0){
-          $post['name'] = $user->name;
-        }
-        
-        if($setting_email == 0){
-          $post['email'] = $user->email;
-        }*/
-        
-      
         $cap        =   $_SESSION['comments-captcha-code'];
         $textval    = $post['cap'];
         
-        //editing mode NOT USED NOW
-        
+        //editing mode NOT USED NOW 
         if($post['k2itemid']){
           
         //adding mode    
         } else {
            
-             
              //check all fields?
              if(empty($post['email']) || empty($post['name']) || empty($post['title'])){
                   $msg = JText::_( 'FILL_ALL_FIELDS');
-                  $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
-                  
+                  $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');  
              }
              
              //hack to split emails
              $emailsArray = preg_split('/\s*[,|;]\s*/', trim($post['email']));
              
-      
              if (filter_var($emailsArray[0], FILTER_VALIDATE_EMAIL) == false){
                      
                  $msg = JText::_( 'VALID_EMAIL');
@@ -150,7 +137,7 @@ class jesubmitController extends JControllerLegacy  {
             if($cap == $textval) { 
                 
                 $mosConfig_live_site=  substr_replace(JURI::root(), '', -1, 1); 
-                //$my =& JFactory::getUser(); 
+               
                 $title = strip_tags($post['title']);
                 
                 $objects = array();
@@ -272,6 +259,45 @@ class jesubmitController extends JControllerLegacy  {
                     }
                 }
                 
+                //test if duplicate emails
+                $q = "SELECT * FROM jos_users WHERE email = '".$post['email']."'";
+                $db->setQuery($q);
+                $db->query();
+                $potUser = $db->loadObject();
+                if(!empty($potUser)){
+                    $msg = JText::_ ( 'EMAIL_ALREADY_EXISTS' );
+                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                }
+                
+ 
+                //K2 items
+                $sql = "INSERT INTO #__k2_items ".
+                       "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
+                       "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."',".
+                       "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."', 0,'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; 
+                       
+                $db->setQuery($sql);
+                $db->query();
+                $item_id = $db->insertid();
+                
+                //test if there is a file and processes it
+                if($file['name'] != '') {
+                        
+                    $row->p_name = JPath::clean(time().'_'.$file['name']); 
+                    $filetype = strtolower(JFile::getExt($file['name']));
+                   
+                    if(!$this->processImage($item_id, $post['catid'], $file)){
+                       
+                        $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
+                        $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                    }    
+                    
+                } else {
+                    
+                     $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
+                     $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                }
+                
                 //Joomla user
                 $user->name = $post['title'];
                 $user->username = $post['name'];
@@ -288,16 +314,11 @@ class jesubmitController extends JControllerLegacy  {
                 $newUserId = $db->insertid();
                 $user->id = $newUserId;
                 
-                //K2 items
-                $sql = "INSERT INTO #__k2_items ".
-                       "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
-                       "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."',".
-                       "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; 
-                       
-                $db->setQuery($sql);
+                //if image processing was ok, we update the k2items with the userId
+                $q = "UPDATE #__k2_items SET created_by = $user->id WHERE id = $item_id";
+                $db->setQuery($q);
                 $db->query();
-                $item_id = $db->insertid();
-                
+ 
                 //K2 User
                 $newK2User = new stdClass;
                 $newK2User->userID = $user->id;
@@ -311,7 +332,6 @@ class jesubmitController extends JControllerLegacy  {
                 $sql = "INSERT INTO #__user_usergroup_map (`user_id`,`group_id`) values ($user->id, 2)";
                 $db->setQuery($sql);
                 $db->query();
-              
                 
                 //insert in k2story db
                 $published = $post['publish'] == 0 ? 0 : 1; 
@@ -322,28 +342,11 @@ class jesubmitController extends JControllerLegacy  {
                 $db->setQuery($sql);
                 $db->query();
                 
-                
-                
-                //test if there is a file
-                if($file['name'] != '') {
-                        
-                    $row->p_name = JPath::clean(time().'_'.$file['name']); 
-                    $filetype = strtolower(JFile::getExt($file['name']));
-                    $mylink = JRoute::_('index.php?option='.$option.'&view=product_detail&edit&cid[]='.$post['id']);
-                   
-                    if(!$this->processImage($item_id, $post['catid'], $file)){
-                       
-                        $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-                        $mainframe->redirect( $mylink,$msg );   
-                    }    
-                }
-                
                 //emails
                 if ($mesg->notify) {
                     
-                    $preview =  'http://'.$_SERVER['HTTP_HOST'].'/'.ltrim(JRoute::_("index.php?option=com_k2&view=item&id=$item_id&lang=en&preview=1"),'/');
-                        
-                  
+                    $previewLink =  'http://'.$_SERVER['HTTP_HOST'].'/'.ltrim(JRoute::_("index.php?option=com_k2&view=item&id=$item_id&lang=en&preview=1"),'/');
+                    $userLink = 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login');
                     //to admin
                     $browse_tempt = $mesg->message;
                     $browse_tempt = str_replace("{created_by}", $post['name'], $browse_tempt);
@@ -351,25 +354,22 @@ class jesubmitController extends JControllerLegacy  {
                     $browse_tempt = str_replace("{introtext}", $post['title'], $browse_tempt);
                     $browse_tempt = str_replace("{fulltext}", $post['fulltext'], $browse_tempt);
                     $browse_tempt = str_replace("{REMOTE_ADDR}", $post['address'], $browse_tempt);
-                    $browse_tempt = str_replace("{preview}", $preview, $browse_tempt);
-                         
-                         
-                        
+                    $browse_tempt = str_replace("{preview}", $previewLink, $browse_tempt);
+                   
                     //to user
-                    //$browse_tempt1 = $mesg->notify_message;
                     $browse_tempt1 = JText::_('NOTIFY_USER_EMAIL');
+                   
                     $created_by_alias1 = isset($user->name) ? $user->name : $post['name'];
                     $browse_tempt1 =str_replace(array("{User}","{user}"), $user->username, $browse_tempt1);
-                    $browse_tempt1 = str_replace(array("{Preview}","{preview}"), $preview, $browse_tempt1);
-                    $browse_tempt1 =str_replace(array("{Login}","{login}"), 'http://'.$_SERVER['HTTP_HOST'].JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
-                    //$browse_tempt1 =str_replace("{login}", JRoute::_('index.php?option=com_users&view=login'), $browse_tempt1);
+                    $browse_tempt1 = str_replace(array("{Preview}","{preview}"), $previewLink, $browse_tempt1);
+                    $browse_tempt1 =str_replace(array("{Login}","{login}"), $userLink, $browse_tempt1);
                       
                     $config     = &JFactory::getConfig();
                     $from       = $post['email']; 
                     $fromname   = $post['name'];        
                     $subject    = "New story - $title";
                     $created_by_alias = 'Admin'; 
-                  
+                   
                     JFactory::getMailer()->sendMail($from               , $fromname         , $mesg->notify_email , $subject, $browse_tempt , $mode=1); //mail go to admin
                     JFactory::getMailer()->sendMail($mesg->notify_email , $created_by_alias , $destEmail          , $subject, $browse_tempt1, $mode=1); // User msg
                 }
@@ -398,912 +398,7 @@ class jesubmitController extends JControllerLegacy  {
         $this->setRedirect ($redir_link, $msg);
     }
 
-	function save2()
-	{
-		$mainframe = &JFactory::getApplication();
-		$uri =& JURI::getInstance();
-		$url= $uri->root();
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-		$k2admin_path = str_replace('com_jek2story','com_k2',JPATH_COMPONENT_ADMINISTRATOR);
-		$db = JFactory::getDbo();
-		$post = JRequest::get ( 'post' );
-		
-		$fulltext = JRequest::getVar( 'fulltext', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		//echo $auto_publish = JRequest::getVar('auto_publish','0','','int');	
-		
-		//===================== k2 component ========================//
-
-	    /*$path = $url.'administrator/components/com_k2\lib\class.upload.php';
-		require_once($path);*/
-		//require_once (JPATH_COMPONENT.DS.'lib'.DS.'class.upload.php');
-		require_once ($k2admin_path.'/'.'lib'.'/'.'class.upload.php');
-		$params = &JComponentHelper::getParams('com_k2');
-		
 	
-		
-		//===================== k2 component ========================//
-		$Itemid = JRequest::getVar('Itemid','','','int');	
-					
-		$file =& JRequest::getVar('itemimage', '', 'files', 'array' );
-		
-		$uri =& JURI::getInstance();
-		$url= $uri->root();
-		$option = JRequest::getVar('option','','','string');
-		$user =& JFactory::getUser();
-		$setting_name = JRequest::getVar('setting_name','','','int');	
-		$setting_email = JRequest::getVar('setting_email','','','int');	
-		
-		if($setting_name == 0){
-		  $post['name'] = $user->name;
-		}
-		
-		if($setting_email == 0){
-		  $post['email'] = $user->email;
-		}
-				
-		$model = $this->getModel ('jesubmit');
-		$mesg	= $model->getcheck1();
-	
-        //EDITING MODE
-        
-		if($post['k2itemid']){
-		    
-			$editlink = JRoute::_('index.php?option='.$option.'&view=itemlist&Itemid='.$Itemid) ;
-			// ===================for extra fields ===============================================================
-				$objects = array();
-				$variables = JRequest::get('post', 4);
-				foreach ($variables as $key=>$value) {
-					if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-						$object = new JObject;
-						$object->set('id', JString::substr($key, 13));
-						$object->set('value', $value);
-						unset($object->_errors);
-						$objects[] = $object;
-					}
-				}
-				$csvFiles = JRequest::get('files');
-				
-				foreach ($csvFiles as $key=>$file) {
-					if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-						$object = new JObject;
-						$object->set('id', JString::substr($key, 13));
-						$csvFile = $file['tmp_name'][0];
-                        
-						if(!empty($csvFile) && JFile::getExt($file['name'][0])=='csv'){
-							$handle = @fopen($csvFile, 'r');
-							$csvData=array();
-							while (($data = fgetcsv($handle, 1000)) !== FALSE) {
-								$csvData[]=$data;
-							}
-							fclose($handle);
-							$object->set('value', $csvData);
-						} else {
-							require_once ($k2admin_path.'/'.'lib'.'/'.'JSON.php');
-							$json = new Services_JSON;
-							$object->set('value', $json->decode(JRequest::getVar('K2CSV_'.$object->id)));
-							if(JRequest::getBool('K2ResetCSV_'.$object->id))
-								$object->set('value', null);
-						}
-						unset($object->_errors);
-						$objects[] = $object;
-					}
-				}
-                
-				require_once ($k2admin_path.'/'.'lib'.'/'.'JSON.php');
-				$json = new Services_JSON;
-				$field_data = $json->encode($objects);
-		
-				require_once ($k2admin_path.'/'.'models'.'/'.'extrafield.php');
-				$extraFieldModel = new K2ModelExtraField;
-				$row->extra_fields_search = '';
-			
-				foreach ($objects as $object) {
-					$row->extra_fields_search .= $extraFieldModel->getSearchValue($object->id, $object->value);
-					$row->extra_fields_search .= ' ';
-				}
-				
-		
-				$field_search =$row->extra_fields_search; 
-				
-				$post['fulltext'] = htmlentities($_POST['fulltext']);
-				//--------------code by sanju---------------------------//
-				 $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-				
-				 $text = $_POST['fulltext'];
-				 $tagPos = preg_match($pattern, $fulltext); 
-
-				if ($tagPos == 0) {
-				$post['fulltext'] = $text;
-				$myfulltext = '';
-					} else{
-						list($post['fulltext'], $myfulltext) = preg_split($pattern, $text, 2);
-					}			
-					
-				
-    	       //============================================================End of extra field code ====================================================================	
-    	        $date_time = date('Y-m-d h:i:s'); 
-    			
-    			$sql="UPDATE #__k2_items SET `title`='".$post['title']."',`catid`=".$post['catid'].",`introtext`='".addslashes($fulltext)."',`fulltext`='".addslashes($myfulltext)."',`extra_fields`='".addslashes($field_data)."', `extra_fields_search` ='".addslashes($field_search)."', modified = '".$date_time."',modified_by='".$user->id."' WHERE id=".$post['k2itemid'];    
-    			
-    			$db->setQuery($sql);
-    			$temp = $db->query();
-    			
-    			$sql="UPDATE #__je_k2itemlist SET name='".$post['name']."',email='".$post['email']."' WHERE itemid=".$post['k2itemid']; 
-    			$db->setQuery($sql);
-    			$temp = $db->query();
-    			
-			
-    			if($file['name']!='') {
-    			    	
-					$row->p_name= JPath::clean(time().'_'.$file['name']);
-					$filetype = strtolower(JFile::getExt($file['name']));//Get extension of the file
-					
-					$item_id = $post['k2itemid'];
-					
-					if($filetype =='jpg' || $filetype=='jpeg' || $filetype =='png' || $filetype =='gif'){
-    						
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_XS.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_XS.jpg');
-            			
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_S.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_S.jpg');
-            
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_M.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_M.jpg');
-            	
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_L.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_L.jpg');
-            	
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_XL.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_XL.jpg');
-            	
-            			if (JFile::exists(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_Generic.jpg'))
-            			unlink(JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache'.'/'.md5("Image".$post['id']).'_Generic.jpg');
-						
-						$handle = new Upload($file);
-						$handle->allowed = array('image/*');
-    						
-    			        if ($handle->uploaded) {
-    
-            				//Image params
-            				$category = &JTable::getInstance('K2Category', 'Table');
-            				$category->load($post['catid']);
-            				//$category->load($row->catid);
-            				$cparams = new JParameter($category->params);
-            
-            				if ($cparams->get('inheritFrom')) {
-            					$masterCategoryID = $cparams->get('inheritFrom');
-            					$query = "SELECT * FROM #__k2_categories WHERE id=".(int)$masterCategoryID;
-            					$db->setQuery($query, 0, 1);
-            					$masterCategory = $db->loadObject();
-            					$cparams = new JParameter($masterCategory->params);
-            				}
-            
-            				$params->merge($cparams);
-    
-        				//Original image
-        				$savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'src';
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = 100;
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = md5("Image".$post['id']);
-        				$handle->Process($savepath);
-        
-        				$filename = $handle->file_dst_name_body;
-                        
-        				
-                        $savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache';
-        				//XLarge image
-                        
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_XL';
-        				if (JRequest::getInt('itemImageXL')) {
-        					$imageWidth = JRequest::getInt('itemImageXL');
-        				} else {
-        					$imageWidth = $params->get('itemImageXL', '800');
-        				}
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				//Large image
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_L';
-        				if (JRequest::getInt('itemImageL')) {
-        					$imageWidth = JRequest::getInt('itemImageL');
-        				} else {
-        					$imageWidth = $params->get('itemImageL', '600');
-        				}
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				//Medium image
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_M';
-        				if (JRequest::getInt('itemImageM')) {
-        					$imageWidth = JRequest::getInt('itemImageM');
-        				} else {
-        					$imageWidth = $params->get('itemImageM', '400');
-        				}
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				//Small image
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_S';
-        				if (JRequest::getInt('itemImageS')) {
-        					$imageWidth = JRequest::getInt('itemImageS');
-        				} else {
-        					$imageWidth = $params->get('itemImageS', '200');
-        				}
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				//XSmall image
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_XS';
-        				if (JRequest::getInt('itemImageXS')) {
-        					$imageWidth = JRequest::getInt('itemImageXS');
-        				} else {
-        					$imageWidth = $params->get('itemImageXS', '100');
-        				}
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				//Generic image
-        				$handle->image_resize = true;
-        				$handle->image_ratio_y = true;
-        				$handle->image_convert = 'jpg';
-        				$handle->jpeg_quality = $params->get('imagesQuality');
-        				$handle->file_auto_rename = false;
-        				$handle->file_overwrite = true;
-        				$handle->file_new_name_body = $filename.'_Generic';
-        				$imageWidth = $params->get('itemImageGeneric', '300');
-        				$handle->image_x = $imageWidth;
-        				$handle->Process($savepath);
-        
-        				if($files['image']['error'] === 0)
-        				    $handle->Clean();
-        				
-        				} 
-        				
-        			} else {
-        				$msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-        				$mainframe->redirect( $mylink,$msg );	
-        			}
-    		   }
-
-        	$msg = JText::_ ( 'ITEM_EDIT_SUCCESSFULLY' );
-        	$mainframe->redirect( $editlink,$msg );	
-        
-        
-        //ADDING MODE	
-        
-		} else {
-		
-    		$cap		=	$_SESSION['comments-captcha-code'];
-    		$textval	= $post['cap'];
-    		//$textval = base64_decode($v11);
-    		//$created = date('Y-m-d H:m:s');
-    		$now =& JFactory::getDate();
-    		$created=$now->toSql();//$jdate->toSql()  
-		
-				
-		    if($cap == $textval) { 
-			    
-				$mosConfig_live_site=  substr_replace(JURI::root(), '', -1, 1);
-				$my =& JFactory::getUser();
-				$title = strip_tags($_POST['title']);
-				
-				
-				// ===================for extra fields ===============================================================
-				$objects = array();
-				$variables = JRequest::get('post', 4);
-                
-				foreach ($variables as $key=>$value) {
-					if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-						$object = new JObject;
-						$object->set('id', JString::substr($key, 13));
-						$object->set('value', $value);
-						unset($object->_errors);
-						$objects[] = $object;
-					}
-				}
-                
-				$csvFiles = JRequest::get('files');
-                
-				foreach ($csvFiles as $key => $file) {
-				    
-					if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-					    
-						$object = new JObject;
-						$object->set('id', JString::substr($key, 13));
-						$csvFile = $file['tmp_name'][0];
-						if(!empty($csvFile) && JFile::getExt($file['name'][0])=='csv'){
-							$handle = @fopen($csvFile, 'r');
-							$csvData=array();
-							while (($data = fgetcsv($handle, 1000)) !== FALSE) {
-								$csvData[]=$data;
-							}
-							fclose($handle);
-							$object->set('value', $csvData);
-						} else {
-							require_once ($k2admin_path.'/'.'lib'.'/'.'JSON.php');
-							$json = new Services_JSON;
-							$object->set('value', $json->decode(JRequest::getVar('K2CSV_'.$object->id)));
-							if(JRequest::getBool('K2ResetCSV_'.$object->id))
-								$object->set('value', null);
-						}
-                        
-						unset($object->_errors);
-						$objects[] = $object;
-					}
-				}
-                
-				require_once ($k2admin_path.'/'.'lib'.'/'.'JSON.php');
-				$json = new Services_JSON;
-				$field_data = $json->encode($objects);
-		
-				require_once ($k2admin_path.'/'.'models'.'/'.'extrafield.php');
-				$extraFieldModel = new K2ModelExtraField;
-				$row->extra_fields_search = '';
-			
-				foreach ($objects as $object) {
-					$row->extra_fields_search .= $extraFieldModel->getSearchValue($object->id, $object->value);
-					$row->extra_fields_search .= ' ';
-				}
-                
-				$field_search =$row->extra_fields_search; 
-				
-				$post['fulltext'] = htmlentities($_POST['fulltext']);
-                
-				
-				$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-				
-				$text = $_POST['fulltext'];
-				$tagPos = preg_match($pattern, $fulltext); 
-
-				if ($tagPos == 0) {
-				    
-				    $post['fulltext'] = $text;
-				    $myfulltext = '';
-                    
-				} else{
-				     
-    			     list($post['fulltext'], $myfulltext) = preg_split($pattern, $text, 2);
-				}			
-					
-								
-				 $sql = "INSERT INTO #__k2_items (`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`) values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."','".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','*')"; 
-				
-    			 $db->setQuery($sql);
-    			 $db->query();
-    			 $item_id = $db->insertid();
-	
-	             //===========================================Enter data in our component table =========================================================
-	
-				 if($post['publish'] == 0){
-				    $published = 0;
-				 }else{
-				    $published = 1;
-				 }	
-				
-			     $sql = "INSERT INTO #__je_k2itemlist (`itemid`,`userid`,`name`,`email`,`published`) values (".$item_id.",".$user->id.",'".$post['name']."','".$post['email']."','".$published."')";  
-				
-				 $db->setQuery($sql);
-				 $db->query();
-	
-	             //======================================================================================================================================	
-				
-				 $browse_tempt=$mesg->message;
-				 $browse_tempt=str_replace("{created_by}",$post['name'],$browse_tempt);
-				 $browse_tempt=str_replace("{email}",$post['email'],$browse_tempt);
-				 $browse_tempt=str_replace("{introtext}",$post['title'],$browse_tempt);
-				 $browse_tempt=str_replace("{fulltext}",$post['fulltext'],$browse_tempt);
-				 $browse_tempt=str_replace("{REMOTE_ADDR}",$_SERVER["REMOTE_ADDR"],$browse_tempt);
-					 
-				 $browse_tempt1=$mesg->notify_message;
-				 $created_by_alias1 = $my->name;
-				 $browse_tempt1=str_replace("{User}",$post['name'],$browse_tempt1);
-				
-				 if($file['name']!='') {
-				     	
-				 	$row->p_name= JPath::clean(time().'_'.$file['name']); 
-					$filetype = strtolower(JFile::getExt($file['name']));//Get extension of the file
-					$mylink = JRoute::_('index.php?option='.$option.'&view=product_detail&edit&cid[]='.$post['id']);
-                    
-					if($filetype =='jpg' || $filetype=='jpeg' || $filetype =='png' || $filetype =='gif') {
-						    
-						$handle = new Upload($file);
-						$handle->allowed = array('image/*');
-						
-		                if ($handle->uploaded) {
-
-            				//Image params
-            				$category = &JTable::getInstance('K2Category', 'Table');
-            				$category->load($post['catid']);
-            				//$category->load($row->catid);
-            				$cparams = json_decode($category->params);
-
-            				if ($cparams->inheritFrom) {
-            					$masterCategoryID = $cparams->inheritFrom;
-            					$query = "SELECT * FROM #__k2_categories WHERE id=".(int)$masterCategoryID;
-            					$db->setQuery($query, 0, 1);
-            					$masterCategory = $db->loadObject();
-            					$cparams = json_decode($masterCategory->params);
-            				}
-
-				            $params->merge($cparams);
-
-            				//Original image
-            				$savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'src';
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = 100;
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = md5("Image".$item_id);
-            				$handle->Process($savepath);
-            
-            				$filename = $handle->file_dst_name_body;
-            				$savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache';
-            
-            				//XLarge image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_XL';
-            				if (JRequest::getInt('itemImageXL')) {
-            					$imageWidth = JRequest::getInt('itemImageXL');
-            				} else {
-            					$imageWidth = $params->get('itemImageXL', '800');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Large image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_L';
-                            
-            				if (JRequest::getInt('itemImageL')) {
-            					$imageWidth = JRequest::getInt('itemImageL');
-            				} else {
-            					$imageWidth = $params->get('itemImageL', '600');
-            				}
-                            
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Medium image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_M';
-            				if (JRequest::getInt('itemImageM')) {
-            					$imageWidth = JRequest::getInt('itemImageM');
-            				} else {
-            					$imageWidth = $params->get('itemImageM', '400');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Small image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_S';
-            				if (JRequest::getInt('itemImageS')) {
-            					$imageWidth = JRequest::getInt('itemImageS');
-            				} else {
-            					$imageWidth = $params->get('itemImageS', '200');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//XSmall image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_XS';
-            				if (JRequest::getInt('itemImageXS')) {
-            					$imageWidth = JRequest::getInt('itemImageXS');
-            				} else {
-            					$imageWidth = $params->get('itemImageXS', '100');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Generic image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_Generic';
-            				$imageWidth = $params->get('itemImageGeneric', '300');
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				if($files['image']['error'] === 0)
-            				$handle->Clean();
-            				
-            				} 
-					
-						
-					
-    					} else {
-    					    
-    						$msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-    						$mainframe->redirect( $mylink,$msg );	
-    					}
-				    }
-
-				    if ($mesg->notify) {
-				        	
-        				$config		= &JFactory::getConfig();
-        				$from		= $post['email']; 
-        				$fromname	= $post['name'];		
-        				$subject 	= "New story - $title";
-        				$created_by_alias = 'Admin'; 
-        				//$return = JFactory::getMailer()->sendMail;
-        				//echo $browse_tempt;exit;
-        				JFactory::getMailer()->sendMail($from, $fromname,$mesg->notify_email, $subject, $browse_tempt, $mode=1);//mail go to admin
-        				JFactory::getMailer()->sendMail($mesg->notify_email, $created_by_alias,$from, $subject, $browse_tempt1, $mode=1);// User msg
-        			}
-				
-		
-    				if($mesg->pageurl=='0') {
-    				    
-    					$redir_link	= JRoute::_('index.php');
-                        
-    				} else {
-    				    
-    					$k2myitem	= $model->getk2item($mesg->pageurl);
-    					$redir_link	= JRoute::_('index.php?option=com_k2&view=item&id='.$k2myitem->id.':'.$k2myitem->alias);
-    				}
-                    
-    				$msg    = JText::_( 'SUCCESS');
-    				$this->setRedirect ($redir_link,$msg);
-				
-		        } else {
-				    
-				    if($post['cpt'] == "0") {
-					
-    					$db = JFactory::getDbo();
-    					$mosConfig_live_site=  substr_replace(JURI::root(), '', -1, 1);
-    					$my =& JFactory::getUser();
-    					$model = $this->getModel ('jesubmit');
-    					$mesg=$model->getcheck1();
-    					$title = strip_tags($_POST['title']);
-    					# input validation
-    					$fulltext = JRequest::getVar( 'fulltext', '', 'post', 'string', JREQUEST_ALLOWRAW );
-    					// ===================for extra fields ===============================================================
-    					$objects = array();
-    					$variables = JRequest::get('post', 4);
-    					
-    					foreach ($variables as $key=>$value) {
-    						if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-    							$object = new JObject;
-    							$object->set('id', JString::substr($key, 13));
-    							$object->set('value', $value);
-    							unset($object->_errors);
-    							$objects[] = $object;
-    						}
-    					}
-                        
-					    $csvFiles = JRequest::get('files');
-                        
-					    foreach ($csvFiles as $key=>$file) {
-						    
-    						if (( bool )JString::stristr($key, 'K2ExtraField_')) {
-    							$object = new JObject;
-    							$object->set('id', JString::substr($key, 13));
-    							$csvFile = $file['tmp_name'][0];
-    							if(!empty($csvFile) && JFile::getExt($file['name'][0])=='csv'){
-    								$handle = @fopen($csvFile, 'r');
-    								$csvData=array();
-    								while (($data = fgetcsv($handle, 1000)) !== FALSE) {
-    									$csvData[]=$data;
-    								}
-    								fclose($handle);
-    								$object->set('value', $csvData);
-    							} else {
-    								require_once (JPATH_COMPONENT_ADMINISTRATOR.'/'.'lib'.'/'.'JSON.php');
-    								$json = new Services_JSON;
-    								$object->set('value', $json->decode(JRequest::getVar('K2CSV_'.$object->id)));
-    								if(JRequest::getBool('K2ResetCSV_'.$object->id))
-    									$object->set('value', null);
-    							}
-    							unset($object->_errors);
-    							$objects[] = $object;
-    						}
-    					}
-
-    					require_once (JPATH_COMPONENT_ADMINISTRATOR.'/'.'lib'.'/'.'JSON.php');
-    					$json = new Services_JSON;
-    					$field_data = $json->encode($objects);
-    					require_once ($k2admin_path.'/'.'models'.'/'.'extrafield.php');
-    					$extraFieldModel = new K2ModelExtraField;
-    					$row->extra_fields_search = '';
-					
-    					foreach ($objects as $object) {
-    						$row->extra_fields_search .= $extraFieldModel->getSearchValue($object->id, $object->value);
-    						$row->extra_fields_search .= ' ';
-    					}
-    					$field_search =$row->extra_fields_search; 
-    					
-                        
-    					$post['fulltext'] = htmlentities($_POST['fulltext']);
-    					//--------------code by sanju---------------------------//
-    					$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-    					
-    					$text = $_POST['fulltext'];
-    					$tagPos = preg_match($pattern, $fulltext);
-    					if ($tagPos == 0) {
-    					$post['fulltext'] = $text;
-    					$myfulltext = '';
-    						} else{
-    							list($post['fulltext'], $myfulltext) = preg_split($pattern, $text, 2);
-    						}			
-    			
-    					//--------------code by sanju---------------------------//
-			
-					
-    					//$post['fulltext'] = addslashes($_POST['fulltext']);
-    					//$myfulltext			= "";
-			            //================================end of code =========================================================
-    					$sql = "INSERT INTO #__k2_items (`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`) values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."','".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."',".$user->id.",'".$created."','1','*')";  
-    					$db->setQuery($sql);
-    					$db->query();
-    					$item_id = $db->insertid();
-					
-        				if($post['publish'] == 0){
-        				    $published = 0;
-        				}else{
-        				    $published = 1;
-        				}	
-			            //===========================================Enter data in our component table =========================================================
-	
-				        $sql = "INSERT INTO #__je_k2itemlist (`itemid`,`userid`,`name`,`email`,`published`) values (".$item_id.",".$user->id.",'".$post['name']."','".$post['email']."','".$published."')"; 
-				 
-        				$db->setQuery($sql);
-        				$db->query();
-	
-		                //======================================================================================================================================			
-					
-    					$browse_tempt=$mesg->message;
-    					$browse_tempt=str_replace("{created_by}",$post['name'],$browse_tempt);
-    					$browse_tempt=str_replace("{email}",$post['email'],$browse_tempt);
-    					$browse_tempt=str_replace("{introtext}",$post['title'],$browse_tempt);
-    					$browse_tempt=str_replace("{fulltext}",$post['fulltext'],$browse_tempt);
-    					$browse_tempt=str_replace("{REMOTE_ADDR}",$_SERVER["REMOTE_ADDR"],$browse_tempt);
-    		 
-    					$browse_tempt1=$mesg->notify_message;
-    					$created_by_alias1 = $my->name;
-    					$browse_tempt1=str_replace("{User}",$post['name'],$browse_tempt1);
-			
-					   if($file['name']!='') {
-					       
-						$row->p_name= JPath::clean(time().'_'.$file['name']);
-						$filetype = strtolower(JFile::getExt($file['name']));//Get extension of the file
-						$mylink = JRoute::_('index.php?option='.$option.'&view=product_detail&edit&cid[]='.$post['id']);
-						
-						if($filetype =='jpg' || $filetype=='jpeg' || $filetype =='png' || $filetype =='gif'){
-						        
-					    $handle = new Upload($file);
-						$handle->allowed = array('image/*');
-						
-			            if ($handle->uploaded) {
-
-            				//Image params
-            				$category = &JTable::getInstance('K2Category', 'Table');
-            				$category->load($post['catid']);
-            				//$category->load($row->catid);
-            				$cparams = new JParameter($category->params);
-
-            				if ($cparams->get('inheritFrom')) {
-            					$masterCategoryID = $cparams->get('inheritFrom');
-            					$query = "SELECT * FROM #__k2_categories WHERE id=".(int)$masterCategoryID;
-            					$db->setQuery($query, 0, 1);
-            					$masterCategory = $db->loadObject();
-            					$cparams = new JParameter($masterCategory->params);
-            				}
-
-				            $params->merge($cparams);
-
-            				//Original image
-            				$savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'src';
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = 100;
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = md5("Image".$item_id);
-            				$handle->Process($savepath);
-            
-            				$filename = $handle->file_dst_name_body;
-            				$savepath = JPATH_SITE.'/'.'media'.'/'.'k2'.'/'.'items'.'/'.'cache';
-            
-            				//XLarge image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_XL';
-            				if (JRequest::getInt('itemImageXL')) {
-            					$imageWidth = JRequest::getInt('itemImageXL');
-            				} else {
-            					$imageWidth = $params->get('itemImageXL', '800');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Large image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_L';
-            				if (JRequest::getInt('itemImageL')) {
-            					$imageWidth = JRequest::getInt('itemImageL');
-            				} else {
-            					$imageWidth = $params->get('itemImageL', '600');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Medium image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_M';
-            				if (JRequest::getInt('itemImageM')) {
-            					$imageWidth = JRequest::getInt('itemImageM');
-            				} else {
-            					$imageWidth = $params->get('itemImageM', '400');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Small image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_S';
-            				if (JRequest::getInt('itemImageS')) {
-            					$imageWidth = JRequest::getInt('itemImageS');
-            				} else {
-            					$imageWidth = $params->get('itemImageS', '200');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//XSmall image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_XS';
-            				if (JRequest::getInt('itemImageXS')) {
-            					$imageWidth = JRequest::getInt('itemImageXS');
-            				} else {
-            					$imageWidth = $params->get('itemImageXS', '100');
-            				}
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				//Generic image
-            				$handle->image_resize = true;
-            				$handle->image_ratio_y = true;
-            				$handle->image_convert = 'jpg';
-            				$handle->jpeg_quality = $params->get('imagesQuality');
-            				$handle->file_auto_rename = false;
-            				$handle->file_overwrite = true;
-            				$handle->file_new_name_body = $filename.'_Generic';
-            				$imageWidth = $params->get('itemImageGeneric', '300');
-            				$handle->image_x = $imageWidth;
-            				$handle->Process($savepath);
-            
-            				if($files['image']['error'] === 0)
-            				    $handle->Clean();
-            				} 
-							
-							
-						} else {
-							$msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-							$mainframe->redirect( $mylink,$msg );	
-						}
-					}
-					
-					if ($mesg->notify) {
-					    	
-						$config		= &JFactory::getConfig();
-						$from		= $post['email']; 
-						$fromname	= $post['name'];		
-						$subject 	= "New story - $title";
-						$created_by_alias = 'Admin'; 
-						JUtility::sendMail($from, $fromname,$mesg->notify_email, $subject, $browse_tempt, $mode=1);//mail go to admin
-						JUtility::sendMail($mesg->notify_email, $created_by_alias,$from, $subject, $browse_tempt1, $mode=1);//msg user
-					}
-				
-					if($mesg->pageurl=='0') {
-					    
-						$redir_link	= JRoute::_('index.php');
-                        
-					} else {
-						$k2myitem	= $model->getk2item($mesg->pageurl);
-						$redir_link	= JRoute::_('index.php?option=com_k2&view=item&id='.$k2myitem->id.':'.$k2myitem->alias);
-					}
-                    
-					$msg    = JText::_( 'SUCCESS');
-					$this->setRedirect ($redir_link, $msg);
-					
-				} else {
-				    
-					$msg=JText::_( 'PLEASE_ENTER_CORRECT_CODE_GIVEN_IN_IMAGE' );
-					$_SESSION['name']	=	$post['name'];
-					$_SESSION['email']	=	$post['email'];
-					$_SESSION['title']	=	$post['title'];
-					$_SESSION['fulltext']	=	$post['fulltext'];
-					$link	= JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1');
-					$this->setRedirect ($link,$msg);
-				}
-			}
-		}
-	}
 	
 	function getExtrafield()
 	{
@@ -1322,7 +417,7 @@ class jesubmitController extends JControllerLegacy  {
 		//if($item->id)
 			$extraFields = $extraFieldModel->getExtraFieldsByGroup($res->extraFieldsGroup);
 		//else $extraFields = NULL;
-//debug($extraFieldModel);
+
 
 		for($i=0; $i< sizeof($extraFields); $i++){
 		    
@@ -1377,7 +472,7 @@ class jesubmitController extends JControllerLegacy  {
         
         if( $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'png' || $filetype == 'gif') {
                             
-            $handle = new Upload($file);
+            $handle = new Upload($file); 
             $handle->allowed = array('image/*');
        
             if ($handle->uploaded) {

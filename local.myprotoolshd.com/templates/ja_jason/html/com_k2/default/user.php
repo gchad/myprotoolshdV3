@@ -130,15 +130,25 @@ if($user->id == 0){
 	  			</span>
 	  			<?php endif; */?>
 	  			
+	  			<form style="display: inline-block; vertical-align: middle; margin-left: 20px;" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal">
+        
+                    <button type="submit" class="button2 btn btn-primary"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JLOGOUT'); ?></button>
+                        
+                    <input type="hidden" name="return" value="/" />
+                    <?php echo JHtml::_('form.token'); ?>
+                </form>
+	  			
 	  			<?php if(isset($item->editLink)): ?>
                     <!-- Item edit link -->
                     
                     <span class="userItemEditLink">
-                        <a class="modal button2" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo $item->editLink; ?>">
+                        <a class="modal button2" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo $item->editLink; ?>" style="line-height: 1.625; ">
                             <?php echo JText::_('K2_EDIT_ITEM'); ?>
                         </a>
                     </span>
                 <?php endif; ?>
+                
+                
                 
 			  </h3>
 			  <?php endif; ?>
@@ -277,13 +287,7 @@ if($user->id == 0){
 	
 	<?php endif; ?>
 	
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal">
-        
-                <button type="submit" class="button2 btn btn-primary"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JLOGOUT'); ?></button>
-            
-        <input type="hidden" name="return" value="/" />
-        <?php echo JHtml::_('form.token'); ?>
-    </form>
+	
 	
 </div>
 

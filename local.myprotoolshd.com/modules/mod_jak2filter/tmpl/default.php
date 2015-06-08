@@ -13,16 +13,20 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-        
+   /*** GCHAD FIX ***/
+   /*** remove motools more ***/     
 JHtml::_('behavior.tooltip', '.ja-k2filter-tip', array('hideDelay'=>1500, 'fixed'=>true, 'className' => 'jak2-tooltip'));
+
 $formid = 'jak2filter-form-'.$module->id; 
 $itemid = $params->get('set_itemid',0)?$params->get('set_itemid',0):JRequest::getInt('Itemid');
 $ajax_filter = $params->get('ajax_filter', 0);
 $share_url = $params->get('share_url_of_results_page', 0);
+
 ?>
 
 
 <div id="jak2-loading"><?=JText::_('LOADING')?></div>
+<a class="modal" href="#" style="display: none"></a>
 
 
 <form id="<?php echo $formid; ?>" name="<?php echo $formid; ?>" method="POST"
@@ -241,24 +245,7 @@ if($filter_by_category){
 	<?php endif; ?>
 
 
-	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1): ?>
-	<script type="text/javascript">
-		/*<![CDATA[*/
-		jQuery(document).ready(function(){
-			jQuery( "#jak2filter<?php echo $module->id;?> .accordion" )
-				.accordion({
-					header: " > h4",
-					autoHeight: false,
-					collapsible: true,
-					icons: {
-						header: "collapsed",
-						headerSelected: "expanded"
-					}
-				});
-		});
-		/*]]>*/
-	</script>
-	<?php endif; ?>
+	
 <?php endif; ?>
 
 <?php if ($params->get('display_ordering_box', 1)): ?>

@@ -74,6 +74,9 @@
   font-size: .7em;
   font-weight: normal;
 }
+.modal_link_hidden {
+  display: none !important;
+}
 /*
     User Style:
     Change the following styles to modify the appearance of Colorbox.  They are

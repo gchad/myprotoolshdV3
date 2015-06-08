@@ -3,7 +3,7 @@
  * Plugin Helper File: Scripts
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -28,7 +28,7 @@ class plgSystemModalsHelperScripts
 	public function loadScriptsStyles(&$buffer)
 	{
 		if (JFactory::getApplication()->input->getInt('ml', 0))
-		{ 
+		{
 			$this->loadRedirectScript($buffer);
 
 			return;
@@ -37,11 +37,8 @@ class plgSystemModalsHelperScripts
 		// Add scripts and styles
 		$this->loadJQuery();
 
-		//JHtml::script('modals/jquery.colorbox-min.js', false, true);
-		//JHtml::script('modals/script.min.js', false, true);
-        
-        JHtml::script('modals/jquery.colorbox.js', false, true);
-        JHtml::script('modals/script.js', false, true);
+		JHtml::script('modals/jquery.colorbox-min.js', false, true);
+		JHtml::script('modals/script.js', false, true);
 
 		$defaults = $this->setDefaults();
 		$defaults[] = "current: '" . JText::sprintf('MDL_MODALTXT_CURRENT', '{current}', '{total}') . "'";
@@ -51,20 +48,17 @@ class plgSystemModalsHelperScripts
 		$defaults[] = "xhrError: '" . JText::_('MDL_MODALTXT_XHRERROR') . "'";
 		$defaults[] = "imgError: '" . JText::_('MDL_MODALTXT_IMGERROR') . "'";
 		$script = "
-			var modal_class = '" . $this->params->class . "';
-			var modal_disable_on_mobile = " . (int) $this->params->disable_on_mobile . ";
-			var modal_defaults = { " . implode(',', $defaults) . " };
+			var modals_class = '" . $this->params->class . "';
+			var modals_disable_on_mobile = " . (int) $this->params->disable_on_mobile . ";
+			var modals_open_by_url = '" . JFactory::getApplication()->input->get('modal') . "';
+			var modals_defaults = { " . implode(',', $defaults) . " };
 		";
 		JFactory::getDocument()->addScriptDeclaration(';/* START: Modals scripts */ ' . preg_replace('#\n\s*#s', ' ', trim($script)) . ' /* END: Modals scripts */');
 
 		if ($this->params->load_stylesheet)
 		{
-			//JHtml::stylesheet('modals/' . $this->params->style . '.min.css', false, true);
-            JHtml::stylesheet('modals/' . $this->params->style . '.css', false, true);
-            
-            
-		} 
-       
+			JHtml::stylesheet('modals/' . $this->params->style . '.min.css', false, true);
+		}
 	}
 
 	private function loadJQuery()

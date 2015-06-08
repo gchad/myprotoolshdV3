@@ -2,7 +2,7 @@
 * NoNumber Page stylesheet
 *
 * @package         Modals
-* @version         5.2.1
+* @version         5.4.0
 *
 * @author          Peter van Westen <peter@nonumber.nl>
 * @link            http://www.nonumber.nl
@@ -88,6 +88,9 @@
 #cboxTitle .modals_description {
   font-size: .7em;
   font-weight: normal;
+}
+.modal_link_hidden {
+  display: none !important;
 }
 /*
 * User Style:
@@ -271,15 +274,13 @@
 .no_title #cboxTitle {
   height: 24px !important;
   padding: 0;
-  display: none !important;
 }
 .no_title #cboxLoadedContent {
-  margin-top: 0px !important;
+  margin-top: 26px !important;
 }
 .no_title #cboxClose {
   right: 5px;
   top: 5px;
-  
 }
 #cboxTitle .countdown {
   width: 100%;

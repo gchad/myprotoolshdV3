@@ -2,7 +2,7 @@
  * Main JavaScript file
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -11,16 +11,18 @@
  */
 
 (function($) {
+	
 	$(document).ready(function() {
-		if (typeof( window['modal_defaults'] ) != "undefined") {
-			initModals(); 
+		if (typeof( window['modals_defaults'] ) != "undefined") {
+			initModals();
 		}
 	});
 
 	initModals = function() {
-		$.each($('.' + modal_class), function(i, el) {
+		//console.log('init');
+		$.each($$('.' + modals_class), function(i, el) { //console.log('elements loaded ' + el);
 			var $el = $(el);
-			var defaults = $.extend({}, modal_defaults);
+			var defaults = $.extend({}, modals_defaults);
 
 			// Get data from tag
 			$.each(el.attributes, function(index, attr) {
@@ -44,6 +46,10 @@
 				} else {
 					delete defaults['delay'];
 				}
+			}
+
+			if (modals_open_by_url) {
+				delete defaults['open'];
 			}
 
 			// set true/false values to booleans
@@ -83,7 +89,7 @@
 					var time = parseInt(defaults['autoclose']);
 					time = time == 1 ? 5000 : time;
 					$('#cboxTitle .countdown').animate({
-						width: 0,
+						width: 0
 					}, time, 'linear');
 					autocloseTimeout = setTimeout(function() {
 						$el.colorbox.close()
@@ -110,7 +116,7 @@
 			}
 
 			/* Disable Colorbox on mobile devices */
-			if (modal_disable_on_mobile) {
+			if (modals_disable_on_mobile) {
 				if ($(window).width() <= 767) {
 					$el.colorbox.remove();
 					if (el.href.match(/([\?&](ml|iframe))=1/g)) {
@@ -132,6 +138,18 @@
 				});
 			}
 		});
+
+		if (modals_open_by_url) {
+			$.each($('.' + modals_class), function(i, el) {
+				var $el = $(el);
+
+				if (modals_open_by_url == $el.attr('id')
+					|| modals_open_by_url == $el.attr('data-modal-rel')
+					|| modals_open_by_url == $el.attr('href').replace(/.*?\#/g, '')) {
+					$el.click();
+				}
+			});
+		}
 	};
 
 	modalsResize = function() {

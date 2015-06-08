@@ -3,7 +3,7 @@
  * Plugin Helper File: Replace
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -82,8 +82,8 @@ class plgSystemModalsHelperReplace
 	}
 
 	public function replace(&$string, $area = 'article')
-	{
-		if ($area == 'article' )
+	{ 
+		if ($area == 'article')
 		{
 			return;
 		}
@@ -101,7 +101,10 @@ class plgSystemModalsHelperReplace
 		);
 
 		// allow in component?
-		if ($area == 'component' && in_array(JFactory::getApplication()->input->get('option'), $this->params->disabled_components))
+		if (
+			$area == 'component'
+			&& in_array(JFactory::getApplication()->input->get('option'), $this->params->disabled_components)
+		)
 		{
 			if (!$this->params->disable_components_remove)
 			{
@@ -123,14 +126,14 @@ class plgSystemModalsHelperReplace
 
 		// Handle content inside the iframed modal
 		if (JFactory::getApplication()->input->getInt('ml', 0) && JFactory::getApplication()->input->getInt('iframe', 0))
-		{ 
+		{
 			$this->replaceInsideModal($string);
 
 			nnProtect::unprotect($string);
-            
+           
              /*** GCHAD FIX ***/
             JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
-
+            
 			return;
 		}
 
@@ -139,11 +142,23 @@ class plgSystemModalsHelperReplace
 		// tag syntax inside links
 		$this->replaceTagSyntaxInsideLinks($string);
 
+		list($pre_string, $string, $post_string) = nnText::getContentContainingSearches(
+			$string,
+			array(
+				'{' . $this->params->tag
+			),
+			array(
+				'{/' . $this->params->tag . '}'
+			)
+		);
+
 		// tag syntax
 		$this->replaceTagSyntax($string);
 
 		// closing tag
 		$this->replaceClosingTag($string);
+
+		$string = $pre_string . $string . $post_string;
 
 		// content tag
 		$this->replaceContentTag($string);

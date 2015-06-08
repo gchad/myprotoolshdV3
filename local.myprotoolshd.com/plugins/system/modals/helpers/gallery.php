@@ -3,7 +3,7 @@
  * Plugin Helper File: Gallery
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -84,8 +84,14 @@ class plgSystemModalsHelperGallery
 
 		foreach ($images as $count => $image)
 		{
-
 			$html[] = $this->getGalleryImageLink($folder, $image, $attributes, $data, $content, $params, $count);
+
+			// Add hidden class to other images if not show all
+			if (!$count && !$params->showall)
+			{
+				$attributes->class .= ' modal_link_hidden';
+				$attributes->id = '';
+			}
 		}
 
 		return implode('</a>' . $params->separator, $html);
@@ -94,6 +100,11 @@ class plgSystemModalsHelperGallery
 	private function getGalleryImageList($folder, &$params)
 	{
 		$folder = $this->helpers->get('file')->trimFolder($folder);
+
+		if (preg_match('#(.*?\()([^\)]*)(\).*?)#', $params->filter, $match))
+		{
+			$filter = $match['1'] . $match['2'] . '|' . strtoupper($match['2']) . $match['3'];
+		}
 
 		$files = JFolder::files(JPATH_SITE . '/' . $folder, $params->filter);
 

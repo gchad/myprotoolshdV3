@@ -68,7 +68,8 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 var name = el.name.replace('[]','');
                  
-                if( el.type != 'hidden' && el.name != 'artistName'){
+                 //hidden fields, artistname and credits are not compulsory
+                if( el.type != 'hidden' && el.name != 'artistName' && el.name != 'K2ExtraField_6'){
                     
                     if( el.value == ""){
                         
@@ -160,86 +161,27 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 errorMsg =  ( "<?php echo  JText::_( 'ERR_TERMS_COND'); ?>" );
                 form.accept.focus();
-            }   
+            }  
+            
+            //file size 
+            if (window.File && window.FileReader && window.FileList && window.Blob){
+               
+                var file = $$('input[type="file"]')[0].files[0];
+                if(file){
+                    var size = file.size;
+                    if(size > 2100000){
+                        errorMsg =  ( "<?php echo  JText::_( 'FILE_TOO_BIG'); ?>" );
+                    }
+                }
+             }
+
 
             
            if(errorMsg){
                alert(errorMsg);
                return false;
            }
-            
- 
-        <?php /*
-            if(form.name.value == "") {
-                alert ("<?php echo JText::_( 'ERR_FNAME'); ?>");
-                form.name.focus();
-                return false;
-            }
-            
-            var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-            if(form.email.value == "" || !reg.test(form.email.value)) {
-                alert ("<?php echo JText::_( 'VALID_EMAIL'); ?>");
-                form.email.focus();
-                return false;
-            }
-           
-            if(form.facilityName.value == "") {
-                alert ("<?php echo JText::_( 'ERR_TITLE'); ?>");
-                form.facilityName.focus();
-                return false;
-            }
-            
-            if(form.artistName.value == "") {
-                alert ("<?php echo JText::_( 'ERR_TITLE'); ?>");
-                form.artistName.focus();
-                return false;
-            }
-                    
-    <?php   if ($this->res->category == "1") { ?>       
-                if (form.catid.value == "0") {
-                    alert ( "<?php echo  JText::_( 'ERR_CATEGORY'); ?>" );
-                    form.catid.focus();
-                    return false;
-                }
-    <?php   }    ?>
-    
-    <?php   if($this->res->captcha == "1") { ?>
-                if (form.cap.value =="") {
-                    alert ( "<?php echo  JText::_( 'ERR_CAPTCHA'); ?>" );
-                    form.cap.focus();
-                    return false;
-                }   
-    <?php   }    ?>
-    
-    <?php   if($this->res->term == "1") { ?>
-                if (form.accept.checked == false) {
-                    alert ( "<?php echo  JText::_( 'ERR_TERMS_COND'); ?>" );
-                    form.accept.focus();
-                    return false;
-                }   
-    <?php   }    ?>
-    
-            if(form.address.value == "") {
-                
-                alert ("<?php echo JText::_( 'ERR_ADDRESS'); ?>");
-                form.address.focus();
-                return false;
-                
-            } else {
-                
-                var place = googleMap.getPlace();
-                var adLat = place.geometry.location.k;
-                var adLong = place.geometry.location.D;
-                
-                if(adLong){
-                     $('address_long').value = adLong;
-                }
-                
-                if(adLat){
-                     $('address_lat').value =  adLat;
-                }
-               
-            };*/?>
+
     
             if(validate == true){
                 
@@ -360,7 +302,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 /******* GHAD FIX ******/
                 
-                if($this->res->category == "1") {
+                if($this->res->category == "1") { 
                 
                  /******* GHAD FIX ******  makes category required */
                    
@@ -374,7 +316,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
              			<td><label id="label_catid" align="left"> <?php echo JText::_( 'CATEGORY'); ?></label></td>
             		</tr>
             		<tr>
-            			<td><?php echo $this->lists['catid']; ?></td>
+            			<td><?= $this->lists['catid']; ?></td>
             		</tr><?php 
             		
                 } else { ?>

@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+/*GCHAD FIX**/
+/* DO NOT RELOAD MODAL !!!! */
 $doc = JFactory::getDocument();
 unset($doc->_scripts['/media/system/js/modal.js']);
 
@@ -38,7 +40,7 @@ unset($doc->_scripts['/media/system/js/modal.js']);
 			<?php if(isset($this->addLink)): ?>
 			<!-- Item add link -->
 			<span class="catItemAddLink">
-				<a class="modal" rel="{handler:'iframe',size:{x:990,y:650}}" href="<?php echo $this->addLink; ?>">
+				<a class="" href="<?php echo $this->addLink; ?>">
 					<?php echo JText::_('K2_ADD_A_NEW_ITEM_IN_THIS_CATEGORY'); ?>
 				</a>
 			</span>

@@ -3,7 +3,7 @@
  * Plugin Helper File: Data
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -49,7 +49,7 @@ class plgSystemModalsHelperData
 		$data[$axis] = $this->params->{$axis} ?: $this->params->{'external' . $axis} ?: '95%';
 	}
 
-	public function setDataOpen(&$data)
+	public function setDataOpen(&$data, $attributes = null)
 	{
 		$data['open'] = !empty($data['open']) ? $data['open'] : '';
 		$opentype = !empty($data['opentype']) ? $data['opentype'] : '';

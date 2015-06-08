@@ -3,7 +3,7 @@
  * Plugin Helper File: Link
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -62,7 +62,7 @@ class plgSystemModalsHelperLink
 		}
 
 		// Set open value based on sessions with openMin / openMax
-		$this->helpers->get('data')->setDataOpen($data);
+		$this->helpers->get('data')->setDataOpen($data, $attributes);
 
 		if (empty($data['group']) && $this->params->auto_group && preg_match('#' . $this->params->auto_group_filter . '#', $attributes->href))
 		{
@@ -107,7 +107,6 @@ class plgSystemModalsHelperLink
 			($attributes->href ? array() : array('url'))
 		);
 
-		$data = array();
 		if (!empty($tag->url))
 		{
 			$attributes->href = $tag->url;
@@ -174,7 +173,7 @@ class plgSystemModalsHelperLink
 				break;
 		}
 
-		$attributes->id = !empty($tag->id) ? ' id="' . $tag->id . '"' : '';
+		$attributes->id = !empty($tag->id) ? $tag->id : '';
 		unset($tag->id);
 
 		$attributes->class .= !empty($tag->class) ? ' ' . $tag->class : '';
@@ -195,6 +194,8 @@ class plgSystemModalsHelperLink
 			}
 		}
 
+		$data = array();
+
 		// set data by keys set in tag without values (and see them as true)
 		foreach ($tag->params as $key)
 		{
@@ -208,6 +209,7 @@ class plgSystemModalsHelperLink
 			if ($attributes->href['0'] == '#')
 			{
 				$data['inline'] = 'true';
+				$data['rel'] = isset($data['rel']) ? $data['rel'] : substr($attributes->href, 1);
 			}
 			elseif ($attributes->href == '-html-')
 			{

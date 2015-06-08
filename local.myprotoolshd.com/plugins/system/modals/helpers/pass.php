@@ -3,7 +3,7 @@
  * Plugin Helper File: Pass
  *
  * @package         Modals
- * @version         5.2.1
+ * @version         5.4.0
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -26,7 +26,6 @@ class plgSystemModalsHelperPass
 
 	public function passLinkChecks($attributes)
 	{
-
 		// return if the link has no href
 		if (empty($attributes->href))
 		{
@@ -35,6 +34,12 @@ class plgSystemModalsHelperPass
 
 		// return if the link already has the Modals main class
 		if (!empty($attributes->class) && in_array($this->params->class, explode(' ', $attributes->class)))
+		{
+			return false;
+		}
+
+		// return if url is in ignore list
+		if ($this->urlIgnored($attributes->href))
 		{
 			return false;
 		}
@@ -66,6 +71,26 @@ class plgSystemModalsHelperPass
 		if (in_array($filetype, $this->params->filetypes))
 		{
 			return true;
+		}
+
+		return false;
+	}
+
+	public function urlIgnored($url)
+	{
+		if (empty($this->params->exclude_urls))
+		{
+			return false;
+		}
+
+		$exclude_urls = explode(',', str_replace(array('\n', ' '), array(',', ''), $this->params->exclude_urls));
+
+		foreach ($exclude_urls as $exclude)
+		{
+			if ($exclude && (strpos($url, $exclude) !== false || strpos(htmlentities($url), $exclude) !== false))
+			{
+				return true;
+			}
 		}
 
 		return false;

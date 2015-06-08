@@ -482,7 +482,7 @@ li.ui-state-highlight {
 									
 									<?php 
 									
-									//gallery if multiple images
+									//sortable gallery if multiple images
 									if(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_2.jpg")) : ?>
         									<div class="imagesOrdering">
         										<p style="margin-top: 20px;"><?php echo JText::_('PLG_K2_MULTIIMAGES_ORDERING_TEXT'); ?></p>
@@ -517,90 +517,84 @@ li.ui-state-highlight {
 										<?php 	
 										
 										$filecount = 1;
-										while(
-										JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_".$filecount.".jpg") || 
-										(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id).".jpg") && $filecount == 1)
+										while( JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_".$filecount.".jpg") || 
+										      (JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id).".jpg") && $filecount == 1)
 										) {
                                         
-                                        $name_t = "thumb".$filecount;
-										?>
-										
-										<?php if($filecount > 1) : ?>
-										  <p>&nbsp;</p>
-										<?php endif; ?>
-										
-										<p><?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE')." ".$filecount; ?>
-										    
-										    <img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage" style="height: 75px; margin-top: 0px; display: inline-block; margin-left: 15px;" />   
-                                        
-										    
-										</p>
-										
-										
-										<hr />
-										
-										<table class="admintable image1">
-											<tr>
-												<td align="right" class="key">
-													<?php echo JText::_('K2_ITEM_IMAGE'); ?>
-												</td>
-												<td>
-													<input type="file" name="image<?php echo $filecount; ?>" class="fileUpload" accept="image/gif, image/jpeg, image/png" />
-													<i>(<?php echo JText::_('K2_MAX_UPLOAD_SIZE'); ?>: <?php echo ini_get('upload_max_filesize'); ?>)</i>
-													
-													<!--<br />
-													<br />-->
-													<input style="display: none !important;" type="text" name="existingImage<?php echo $filecount; ?>" class="text_area" id="existingImageValue<?php echo $filecount; ?>" readonly />
-													<input style="display: none !important;" rel="existingImageValue<?php echo $filecount; ?>" type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" class="k2ImageBrowseServer" />
-													<!--<br />
-													<br />-->
-													
-													
-												</td>
-											</tr>
-											<tr>
-												<?php
-												$capt_n = "image".$filecount."_caption";
-												$cred_n = "image".$filecount."_credits";
-												?>
-												<td align="right" class="key">
-													<?php echo JText::_('K2_ITEM_IMAGE_CAPTION'); ?>
-												</td>
-												<td>
-													<input type="text" name="image<?php echo $filecount; ?>_caption" size="30" class="text_area" value="<?php echo $this->row->$capt_n; ?>" />
-												</td>
-											</tr>
-											<tr>
-												<td align="right" class="key">
-													<?php echo JText::_('K2_ITEM_IMAGE_CREDITS'); ?>
-												</td>
-												<td>
-													<input type="text" name="image<?php echo $filecount; ?>_credits" size="30" class="text_area" value="<?php echo $this->row->$cred_n; ?>" />
-												</td>
-											</tr>
-											
-											<?php 
-											$name = "image".$filecount;
-											$name_t = "thumb".$filecount;
-											if (!empty($this->row->$name)): 
-											?>
-											<tr class="imagePreview">
-												<td align="right" class="key">
-													<?php echo JText::_('K2_ITEM_IMAGE_PREVIEW'); ?>
-												</td>
-												<td>
-													<a class="modal" rel="{handler: 'image'}" href="<?php echo $this->row->$name; ?>" title="<?php echo JText::_('K2_CLICK_ON_IMAGE_TO_PREVIEW_IN_ORIGINAL_SIZE'); ?>"> <img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage"/> </a>
-													
-													<input type="checkbox" name="del_image<?php echo $filecount; ?>" id="del_image<?php echo $filecount; ?>" />
-													<label for="del_image<?php echo $filecount; ?>"><?php echo JText::_('K2_CHECK_THIS_BOX_TO_DELETE_CURRENT_IMAGE_OR_JUST_UPLOAD_A_NEW_IMAGE_TO_REPLACE_THE_EXISTING_ONE'); ?></label>
-												</td>
-											</tr>
-											<?php endif; ?>
-										
-										</table>
-										
-										<?php 
-										$filecount++;
+                                            $name_t = "thumb".$filecount;
+    										?>
+    										
+    										<?php if($filecount > 1) : ?>
+    										  <p>&nbsp;</p>
+    										<?php endif; ?>
+    										
+    										<p><?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE')." ".$filecount; ?>  
+    										    <img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage" style="height: 75px; margin-top: 0px; display: inline-block; margin-left: 15px;" />   
+                                            </p>
+    										
+    										
+    										<hr />
+    										
+    										<table class="admintable image1">
+    											<tr>
+    												<td align="right" class="key">
+    													<?php echo JText::_('K2_ITEM_IMAGE'); ?>
+    												</td>
+    												<td>
+    													<input type="file" name="image<?php echo $filecount; ?>" class="fileUpload" accept="image/gif, image/jpeg, image/png" />
+    													<i>(<?php echo JText::_('K2_MAX_UPLOAD_SIZE'); ?>: <?php echo ini_get('upload_max_filesize'); ?>)</i>
+    													
+    													
+    													<input style="display: none !important;" type="text" name="existingImage<?php echo $filecount; ?>" class="text_area" id="existingImageValue<?php echo $filecount; ?>" readonly />
+    													<input style="display: none !important;" rel="existingImageValue<?php echo $filecount; ?>" type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" class="k2ImageBrowseServer" />
+    													
+    													
+    													
+    												</td>
+    											</tr>
+    											<tr>
+    												<?php
+    												$capt_n = "image".$filecount."_caption";
+    												$cred_n = "image".$filecount."_credits";
+    												?>
+    												<td align="right" class="key">
+    													<?php echo JText::_('K2_ITEM_IMAGE_CAPTION'); ?>
+    												</td>
+    												<td>
+    													<input type="text" name="image<?php echo $filecount; ?>_caption" size="30" class="text_area" value="<?php echo $this->row->$capt_n; ?>" />
+    												</td>
+    											</tr>
+    											<tr>
+    												<td align="right" class="key">
+    													<?php echo JText::_('K2_ITEM_IMAGE_CREDITS'); ?>
+    												</td>
+    												<td>
+    													<input type="text" name="image<?php echo $filecount; ?>_credits" size="30" class="text_area" value="<?php echo $this->row->$cred_n; ?>" />
+    												</td>
+    											</tr>
+    											
+    											<?php 
+    											$name = "image".$filecount;
+    											$name_t = "thumb".$filecount;
+    											if (!empty($this->row->$name)): 
+    											?>
+    											<tr class="imagePreview">
+    												<td align="right" class="key">
+    													<?php echo JText::_('K2_ITEM_IMAGE_PREVIEW'); ?>
+    												</td>
+    												<td>
+    													<a class="modal" rel="{handler: 'image'}" href="<?php echo $this->row->$name; ?>" title="<?php echo JText::_('K2_CLICK_ON_IMAGE_TO_PREVIEW_IN_ORIGINAL_SIZE'); ?>"> <img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->$name_t; ?>" class="k2AdminImage"/> </a>
+    													
+    													<input type="checkbox" name="del_image<?php echo $filecount; ?>" id="del_image<?php echo $filecount; ?>" />
+    													<label for="del_image<?php echo $filecount; ?>"><?php echo JText::_('K2_CHECK_THIS_BOX_TO_DELETE_CURRENT_IMAGE_OR_JUST_UPLOAD_A_NEW_IMAGE_TO_REPLACE_THE_EXISTING_ONE'); ?></label>
+    												</td>
+    											</tr>
+    											<?php endif; ?>
+    										
+    										</table>
+    										
+    										<?php 
+    										$filecount++;
 										}
 										?>
 										

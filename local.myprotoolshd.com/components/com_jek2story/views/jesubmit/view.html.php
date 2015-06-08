@@ -81,10 +81,12 @@ class jesubmitViewjesubmit extends JViewLegacy
 		$category=& $this->get('cat');
         
         /** GCHAD FIX **/
+       
+       
         foreach ($category as $k => &$v){
             $v->text = JText::_('CATEGORY_'.$v->value);
         }
-        
+         usort($category, array($this,'sortCat'));
         
 		$sel_section = array();
 		$sel_section[]  = JHTML::_('select.option', '0 ', JText::_( 'SELECT_CATEGORY'));
@@ -109,5 +111,9 @@ class jesubmitViewjesubmit extends JViewLegacy
 		$this->assignRef('res',	$res);
    		parent::display($tpl);
 	}
+
+    function sortCat($a, $b){ 
+        return strcmp($a->text, $b->text);
+    }
 }
 ?>

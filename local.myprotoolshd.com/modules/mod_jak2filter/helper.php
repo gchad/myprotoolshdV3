@@ -642,11 +642,25 @@ class modJak2filterHelper
         if($field->name == 'Region'){
         
            usort($values, 'sortRegionFields');
+            
+            $allR = array();
+           foreach($values as $k => $v){
+                   
+               if($v->value == 13){
+                   $allR = $values[$k];
+                   unset($values[$k]);
+               }
+           }
+           array_unshift($values,$allR);
+           
            foreach($values as $k => $v){
                if($v->selected == 1){
                    $selected_values = $v->value;
                }
            }
+           
+           //put Others on top
+           
         //   $html[] = JHTML::_('select.option', 0, JText::_('ALL_REGIONS'));
         
         } else {
@@ -983,7 +997,9 @@ window.addEvent("domready", function(){
     }
 
     public function sortCategories($a,$b){
-        return strcmp($a->text, $b->text);
+        
+        $result = strcmp($a->text, $b->text);
+        return $result;
     }
 
 	/*
@@ -1423,5 +1439,5 @@ function jaK2GetOrderFields($activeGroups = null) {
 }
 
 function sortRegionFields($a,$b){
-               return $a->ordering > $b->ordering;
-           }
+           return $a->ordering > $b->ordering;
+       }

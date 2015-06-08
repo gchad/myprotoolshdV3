@@ -45,4 +45,3 @@
 		$option = JRequest::getVar('option','','request','string');
 		$mainframe->redirect ( 'index.php?option=' . $option . '&view=jesubmit&Itemid='.$Itemid);
 	}
-?>

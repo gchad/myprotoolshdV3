@@ -130,6 +130,8 @@ class plgSystemModalsHelperReplace
             
              /*** GCHAD FIX ***/
             JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
+             /*** GCHAD FIX ***/
+            JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
 
 			return;
 		}

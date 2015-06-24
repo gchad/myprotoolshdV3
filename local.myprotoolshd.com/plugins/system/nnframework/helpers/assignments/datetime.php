@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments: DateTime
  *
  * @package         NoNumber Framework
- * @version         15.5.4
+ * @version         15.6.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -24,6 +24,11 @@ class nnFrameworkAssignmentsDateTime extends nnFrameworkAssignment
 			// no date range set
 			return ($this->assignment == 'include');
 		}
+
+		require_once JPATH_PLUGINS . '/system/nnframework/helpers/text.php';
+
+		nnText::fixDate($this->params->publish_up);
+		nnText::fixDate($this->params->publish_down);
 
 		$now = strtotime($this->date->format('Y-m-d H:i:s', true));
 

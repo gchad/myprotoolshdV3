@@ -3,7 +3,7 @@
  * Plugin Helper File
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -122,12 +122,10 @@ class plgSystemModalsHelper
 		// only do stuff in body
 		list($pre, $body, $post) = nnText::getBody($html);
 		$this->replace($body, 'body');
+       
+ 
         
-         /**** GCHAD FIX ******/
-        /***** NEVER REMOVE MODAL ****/ 
-        $gchad = false;
-
-		if (strpos($body, $this->params->class) === false && $gchad === true)
+		if (strpos($body, $this->params->class) === false ) 
 		{
 			// remove style and script if no items are found
 			$pre = preg_replace('#\s*<' . 'link [^>]*href="[^"]*/(modals/css|css/modals)/[^"]*\.css[^"]*"[^>]* />#s', '', $pre);

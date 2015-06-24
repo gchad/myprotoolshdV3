@@ -82,7 +82,7 @@ class jesubmitViewjesubmit extends JViewLegacy
         
         /** GCHAD FIX **/
        
-       
+        $cat_id=0;
         foreach ($category as $k => &$v){
             $v->text = JText::_('CATEGORY_'.$v->value);
         }

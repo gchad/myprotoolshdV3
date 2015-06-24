@@ -2,7 +2,7 @@
  * Main JavaScript file
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -11,7 +11,6 @@
  */
 
 (function($) {
-	
 	$(document).ready(function() {
 		if (typeof( window['modals_defaults'] ) != "undefined") {
 			initModals();
@@ -19,8 +18,7 @@
 	});
 
 	initModals = function() {
-		//console.log('init');
-		$.each($$('.' + modals_class), function(i, el) { //console.log('elements loaded ' + el);
+		$.each($('.' + modals_class), function(i, el) {
 			var $el = $(el);
 			var defaults = $.extend({}, modals_defaults);
 

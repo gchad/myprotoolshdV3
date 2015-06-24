@@ -3,7 +3,7 @@
  * Plugin Helper File: Link
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -97,6 +97,13 @@ class plgSystemModalsHelperLink
 
 	public function getLink($string, $link = '', $content = '')
 	{
+		list($attributes, $data, $extra) = $this->getLinkData($string, $link);
+
+		return array($this->buildLink($attributes, $data, $content), $extra);
+	}
+
+	public function getLinkData($string, $link = '')
+	{
 		$attributes = $this->prepareLinkAttributeList($link);
 
 		// map href to url
@@ -112,6 +119,12 @@ class plgSystemModalsHelperLink
 			$attributes->href = $tag->url;
 		}
 		unset($tag->url);
+
+		if (!empty($tag->target))
+		{
+			$attributes->target = $tag->target;
+		}
+		unset($tag->target);
 
 		$extra = '';
 
@@ -223,7 +236,7 @@ class plgSystemModalsHelperLink
 			$data[strtolower($key)] = $val;
 		}
 
-		return array($this->buildLink($attributes, $data, $content), $extra);
+		return array($attributes, $data, $extra);
 	}
 
 	private function fixUrl(&$url)

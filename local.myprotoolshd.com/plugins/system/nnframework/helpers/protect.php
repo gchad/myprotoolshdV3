@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Protect
  *
  * @package         NoNumber Framework
- * @version         15.5.4
+ * @version         15.6.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -556,12 +556,12 @@ class nnProtect
 
 		foreach ($matches as $match)
 		{
-			$content = $match['2'];
+			$content = $match['3'];
 			foreach ($tags as $tag)
 			{
 				$content = preg_replace('#' . preg_quote($tag, '#') . '.*?\}#si', '', $content);
 			}
-			$string = str_replace($match['0'], $match['1'] . $content . $match['3'], $string);
+			$string = str_replace($match['0'], $match['1'] . $content . $match['4'], $string);
 		}
 	}
 

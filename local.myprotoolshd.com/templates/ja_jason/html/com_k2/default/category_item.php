@@ -122,18 +122,12 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
   <!-- Item Image -->
   
   <div class="catItemImageBlock">
-      
-      
                 
 	  <!--<span class="catItemImage">-->
 	    <span class="pseudoImg"></span>  
-	    
-	    
-	    <a class="modal imgWrap" href="<?php echo $this->item->link; ?>" title="">
-	    	
-	    <?php /*  {modal <?= $this->item->link; ?> classname=imgWrap}*/?>
-	    	
-                
+
+	     {modal <?= $this->item->link; ?>|target=_blank}
+	    	                
 	    	<span class="blueOverlay">
 	    	    <span class="arrow"></span>
 	    	    
@@ -151,8 +145,8 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	    	</span>
 	    	
 	    	<img src="<?php echo $this->item->image; ?>" alt="<?php /*if(!empty($this->item->image_caption)) echo K2HelperUtilities::cleanHtml($this->item->image_caption); else echo K2HelperUtilities::cleanHtml($this->item->title); */?>" style="width:<?php echo $this->item->imageWidth; ?>px; height:auto;" />
-	    </a>
-	    <?php /* {/modal} */ ?>
+	   
+	   {/modal}
 	  <!--</span>-->
 	  <!--<div class="clr"></div>-->
   </div>

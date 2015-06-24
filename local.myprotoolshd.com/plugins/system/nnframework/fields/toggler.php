@@ -4,7 +4,7 @@
  * Adds slide in and out functionality to framework based on an framework value
  *
  * @package         NoNumber Framework
- * @version         15.5.4
+ * @version         15.6.4
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
  * @copyright       Copyright © 2015 NoNumber All Rights Reserved

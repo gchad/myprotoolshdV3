@@ -63,7 +63,7 @@ class jesubmitController extends JControllerLegacy
 	}
 	
 	function getCat()
-	{ 
+	{  
 		$option = JRequest::getVar('option','','','string');
 		$did = JRequest::getVar('did',0);		
 		$model = $this->getModel ('jesubmit');

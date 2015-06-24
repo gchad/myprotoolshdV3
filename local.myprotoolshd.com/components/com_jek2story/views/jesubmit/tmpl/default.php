@@ -246,7 +246,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             	 	
             	 	<tr> 
             			<td>
-            			    <input placeholder="<?php echo  JText::_( 'NAME_PLACEHOLDER');?>" class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['name']; } if($id){ echo $this->detail->name;} ?>" />
+            			    <input placeholder="<?php echo  JText::_( 'NAME_PLACEHOLDER');?>" class="inputbox"  type="text" name="name" size="50" maxlength="100" value="<?php echo isset($_SESSION['story']['name']) ? $_SESSION['story']['name'] : ''; ?>" />
             		    </td>
             		</tr><?php 
                 }	
@@ -258,7 +258,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             	 	
             	 	<tr> 
             			<td>
-            			    <input placeholder="<?php echo  JText::_( 'ME@EXAMPLE'); ?>" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['email']; } if($id){ echo $this->detail->email;} ?>" />
+            			    <input placeholder="<?php echo  JText::_( 'ME@EXAMPLE'); ?>" class="inputbox" type="email" name="email" size="50" maxlength="100" value="<?php echo isset($_SESSION['story']['email']) ? $_SESSION['story']['email'] : ''; ?>" />
             		    </td>
             		</tr><?php 
                 }?>
@@ -271,7 +271,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 <tr> 
                     <td>
-                        <input placeholder="<?=JText::_( 'FACILITY_PLACEHOLDER')?>" class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['facilityName']; } if($id){echo $this->detail->title;} ?>" />
+                        <input placeholder="<?=JText::_( 'FACILITY_PLACEHOLDER')?>" class="inputbox" type="text" name="facilityName" size="50" maxlength="100" value="<?php echo isset($_SESSION['story']['facilityName']) ? $_SESSION['story']['facilityName'] : ''; ?>" />
                     </td>
                 </tr>
                 
@@ -281,7 +281,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 <tr> 
                     <td>
-                        <input placeholder="<?=JText::_( 'ARTIST_PLACEHOLDER')?>" class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php if($ses==1) { echo $_SESSION['artistName']; } if($id){echo $this->detail->title;} ?>" />
+                        <input placeholder="<?=JText::_( 'ARTIST_PLACEHOLDER')?>" class="inputbox" type="text" name="artistName" size="50" maxlength="100" value="<?php echo isset($_SESSION['story']['artistName']) ? $_SESSION['story']['artistName'] : ''; ?>" />
                     </td>
                 </tr>
                 <?php
@@ -293,7 +293,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 </tr>
                 <tr> 
                     <td>
-                        <input  id="address" class="inputbox" type="text" name="address" size="50"  value="" />
+                        <input  onpaste="event.preventDefault(); alert('<?= JText::_( 'TYPE_ADDRESS_MANUALLY')?>')" id="address" class="inputbox" type="text" name="address" size="50"  value="" />
                         <input  id="address_long" class="inputbox" type="hidden" name="address_long" value="" />
                         <input  id="address_lat" class="inputbox" type="hidden" name="address_lat" value="" />
                     </td>
@@ -302,15 +302,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 
                 /******* GHAD FIX ******/
                 
-                if($this->res->category == "1") { 
-                
-                 /******* GHAD FIX ******  makes category required */
-                   
-                 // $this->lists['catid'] = str_replace('<select','<select required ',$this->lists['catid']);
-                  
-                  /******* GHAD FIX ******/
-
-?>
+                if($this->res->category == "1") { ?>
             		
             		<tr>
              			<td><label id="label_catid" align="left"> <?php echo JText::_( 'CATEGORY'); ?></label></td>
@@ -355,12 +347,9 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             				echo $editor->display('fulltext',$text,'$widthPx','$heightPx','80','50','0');
                             
             			} else {
-            		
-                			 if($ses == 1) {
-                			      $text = $_SESSION['fulltext']; 
-                             } else {
-            		              $text = '';
-                             }  
+            		               
+        		           $text = isset($_SESSION['story']['fulltext']) ? $_SESSION['story']['fulltext'] : '';
+                			 
                           //  $name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array()
                 			 echo $editor->display('fulltext', $text, '100%','auto','80','11'); 
                 			 //$editor->display("fulltext",$longtext,'$widthPx','$heightPx','80','50','0'); 
@@ -375,7 +364,7 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
         		
         		<tr>
                     <td>
-                        <input required   type="file" name="itemimage" id="itemimage"  /><?php 
+                        <input required  type="file" name="itemimage" id="itemimage"  /><?php 
         		          
         		          if($id) { ?>
         		              <img src="<?php echo $this->detail->imageXSmall;?>" border="0"/><?php 
@@ -424,9 +413,10 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
             		<tr>
             	        <td class="terms">
                 			<input required type="checkbox" id="acc" name="accept" value="accept" />
+                			
                 			<?php $linkTerms = JRoute::_('index.php?option=com_content&view=article&id=26&Itemid=293&tmpl=component');?>
                 			
-                			<a onclick="window.open('<?=$linkTerms?>', 'newwindow', 'width=400, height=400'); return false;" href="<?=$linkTerms?>" target="_blank">
+                			<a href="<?=$linkTerms?>" target="_blank">
                 			    <?=JText::_( 'ACCEPT_TERMS_CONDITION'); ?>
             			    </a>
                             <input type="hidden" id="termaccept" name="termaccept" value="1" />

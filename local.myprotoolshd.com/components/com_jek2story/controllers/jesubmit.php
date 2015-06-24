@@ -106,11 +106,18 @@ class jesubmitController extends JControllerLegacy  {
           
         //adding mode    
         } else {
-           
+            
+            //adds data in the session
+            $_SESSION['story'] = array();
+            foreach($_POST as $k => $v){
+                $_SESSION['story'][$k] = $v;
+            }
+            
+          
              //check all fields?
              if(empty($post['email']) || empty($post['name']) || empty($post['title'])){
                   $msg = JText::_( 'FILL_ALL_FIELDS');
-                  $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');  
+                  $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg,'error');  
              }
              
              //hack to split emails
@@ -119,12 +126,12 @@ class jesubmitController extends JControllerLegacy  {
              if (filter_var($emailsArray[0], FILTER_VALIDATE_EMAIL) == false){
                      
                  $msg = JText::_( 'VALID_EMAIL');
-                 $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
+                 $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg, 'error');
                  
                  if(isset($emailsArray[1]) && filter_var($emailsArray[1], FILTER_VALIDATE_EMAIL) == false){
                         
                     $msg = JText::_( 'VALID_EMAIL');
-                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg, 'error');
+                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg, 'error');
                  }
              }
              
@@ -238,27 +245,30 @@ class jesubmitController extends JControllerLegacy  {
                 //language
                 $language = "*";
                 $country = isset($post['K2ExtraField_8']) ? $post['K2ExtraField_8'] : null;
-                
+               
                 global $countryMatrix;
                 
                 require_once('libraries/joomla/language/helper.php');
                 $languages  = JLanguageHelper::getLanguages();
                 $activeLanguage = JFactory::getLanguage()->getTag();
+                $languageId = array();
                 
                 foreach ($countryMatrix as $countryId => $cArray){ 
                     foreach ($cArray as $v){
                         if($v == $country){
-                            $languageId = $countryId;
+                            $languageId[] = $countryId;
+                           
                         }
                     }
                 }
-             
+           
                 foreach ($languages as $k => $v){
-                    if($languageId == $v->lang_id){
+                    if($languageId[0] == $v->lang_id){
                         $language = $v->lang_code;
+                        continue;
                     }
                 }
-                
+               
                 //test if duplicate emails
                 $q = "SELECT * FROM jos_users WHERE email = '".$post['email']."'";
                 $db->setQuery($q);
@@ -266,14 +276,14 @@ class jesubmitController extends JControllerLegacy  {
                 $potUser = $db->loadObject();
                 if(!empty($potUser)){
                     $msg = JText::_ ( 'EMAIL_ALREADY_EXISTS' );
-                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                    $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg,'error');
                 }
                 
  
                 //K2 items
                 $sql = "INSERT INTO #__k2_items ".
                        "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
-                       "values ('".$post['title']."','".$post['title']."',".$post['catid'].",".$post['publish'].",'".addslashes($post['fulltext'])."',".
+                       "values ('".addslashes($post['title'])."','".addslashes($post['title'])."',".addslashes($post['catid']).",".addslashes($post['publish']).",'".addslashes($post['fulltext'])."',".
                        "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."', 0,'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; 
                        
                 $db->setQuery($sql);
@@ -289,13 +299,13 @@ class jesubmitController extends JControllerLegacy  {
                     if(!$this->processImage($item_id, $post['catid'], $file)){
                        
                         $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-                        $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                        $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg,'error');
                     }    
                     
                 } else {
                     
                      $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
-                     $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit&ses=1'), $msg,'error');
+                     $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg,'error');
                 }
                 
                 //Joomla user
@@ -337,7 +347,7 @@ class jesubmitController extends JControllerLegacy  {
                 $published = $post['publish'] == 0 ? 0 : 1; 
                 
                 $sql = "INSERT INTO #__je_k2itemlist (`itemid`,`userid`,`name`,`email`,`published`)".
-                       " values (".$item_id.",".$user->id.",'".$post['name']."','".$post['email']."','".$published."')";  
+                       " values (".$item_id.",".$user->id.",'".addslashes($post['name'])."','".$post['email']."','".$published."')";  
                 
                 $db->setQuery($sql);
                 $db->query();
@@ -387,6 +397,8 @@ class jesubmitController extends JControllerLegacy  {
                 
                 $msg = JText::_( 'SUCCESS');
                 $msg = JText::_( 'STORY_SAVED');
+                $_SESSION['story'] = array();
+                
                 $this->setRedirect ($redir_link, $msg);
                 
             } //endig Adding mode
@@ -465,7 +477,7 @@ class jesubmitController extends JControllerLegacy  {
 	//++++++++++++++++++++++++++++++ EOF Ajax Captcha Code +++++++++++++++++++++++++++++++++++++++++++ //
 	
 	function processImage($itemId, $catId, $file) { 
-	    
+	   
         $filetype = strtolower(JFile::getExt($file['name']));
         $db = JFactory::getDBO();
         $params = &JComponentHelper::getParams('com_k2');

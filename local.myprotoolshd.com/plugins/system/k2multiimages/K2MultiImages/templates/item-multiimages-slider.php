@@ -8,6 +8,9 @@
  */
 //debug(JRequest::get(true));
 
+
+/****** THIS ONE *******/
+
 //?option=com_k2&view=item&id=107h&lang=en
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -390,7 +393,7 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 				
 				<?php 
 				
-				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.' website</a>' : $extraField->value;
+				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.'</a>' : $extraField->value;
 				
 				?>
 				<span class="itemExtraFieldsValue"><?=$xtraValue;?></span>

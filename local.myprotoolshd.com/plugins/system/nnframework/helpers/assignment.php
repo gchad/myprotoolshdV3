@@ -3,7 +3,7 @@
  * NoNumber Framework Helper File: Assignments
  *
  * @package         NoNumber Framework
- * @version         15.5.4
+ * @version         15.6.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -167,9 +167,10 @@ class nnFrameworkAssignment
 			$this->db->setQuery($query);
 			$id = $this->db->loadResult();
 
-			if (!$id)
+			// Break if no parent is found or parent already found before for some reason
+			if (!$id || in_array($id, $parent_ids))
 			{
-				continue;
+				break;
 			}
 
 			$parent_ids[] = $id;

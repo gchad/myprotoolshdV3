@@ -3,7 +3,7 @@
  * Plugin Helper File: Scripts
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -38,7 +38,7 @@ class plgSystemModalsHelperScripts
 		$this->loadJQuery();
 
 		JHtml::script('modals/jquery.colorbox-min.js', false, true);
-		JHtml::script('modals/script.js', false, true);
+		JHtml::script('modals/script.min.js', false, true);
 
 		$defaults = $this->setDefaults();
 		$defaults[] = "current: '" . JText::sprintf('MDL_MODALTXT_CURRENT', '{current}', '{total}') . "'";

@@ -4,7 +4,7 @@
  * Displays an article id field with a button
  *
  * @package         NoNumber Framework
- * @version         15.5.4
+ * @version         15.6.4
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl

@@ -3,7 +3,7 @@
  * Plugin Helper File: Replace
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -82,7 +82,7 @@ class plgSystemModalsHelperReplace
 	}
 
 	public function replace(&$string, $area = 'article')
-	{ 
+	{
 		if ($area == 'article')
 		{
 			return;
@@ -130,10 +130,11 @@ class plgSystemModalsHelperReplace
 			$this->replaceInsideModal($string);
 
 			nnProtect::unprotect($string);
-           
-             /*** GCHAD FIX ***/
-            JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
             
+             /*** GCHAD FIX ***/
+             //force this style sheet even in iframe
+            JHtml::stylesheet('templates/ja_jason/css/custom.css', false, false);
+
 			return;
 		}
 
@@ -174,6 +175,8 @@ class plgSystemModalsHelperReplace
 	// add ml to internal links
 	private function replaceInsideModal(&$string)
 	{
+		$this->replaceTagSyntax($string);
+
 		if (preg_match_all($this->params->regex_link, $string, $matches, PREG_SET_ORDER) < 1)
 		{
 			return;

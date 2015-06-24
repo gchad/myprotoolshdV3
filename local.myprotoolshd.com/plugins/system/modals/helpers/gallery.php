@@ -3,7 +3,7 @@
  * Plugin Helper File: Gallery
  *
  * @package         Modals
- * @version         5.4.0
+ * @version         6.0.0d
  *
  * @author          Peter van Westen <peter@nonumber.nl>
  * @link            http://www.nonumber.nl
@@ -100,13 +100,14 @@ class plgSystemModalsHelperGallery
 	private function getGalleryImageList($folder, &$params)
 	{
 		$folder = $this->helpers->get('file')->trimFolder($folder);
+		$filter = $params->filter;
 
 		if (preg_match('#(.*?\()([^\)]*)(\).*?)#', $params->filter, $match))
 		{
 			$filter = $match['1'] . $match['2'] . '|' . strtoupper($match['2']) . $match['3'];
 		}
 
-		$files = JFolder::files(JPATH_SITE . '/' . $folder, $params->filter);
+		$files = JFolder::files(JPATH_SITE . '/' . $folder, $filter);
 
 		$count = 0;
 		$images = array();

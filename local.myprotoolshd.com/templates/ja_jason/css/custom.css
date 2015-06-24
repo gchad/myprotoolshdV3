@@ -516,12 +516,12 @@ div.catItemHeader{
 	vertical-align:middle;
 }
 
-.imgWrap {
+.catItemImageBlock a.modal_link {
 	display: inline-block !important;
 	vertical-align:middle;
 }
 
-.imgWrap > img {
+.catItemImageBlock a.modal_link > img {
 	width: 100% !important;
 	height: auto;
 	transition: width 0.6s;
@@ -539,7 +539,7 @@ div.catItemHeader{
 	border-radius: 0px 0px 3px 3px;
 }
 
-a.imgWrap:hover > img{
+.catItemImageBlock a.modal_link:hover > img{
 	width: 104% !important;
 	transition: width 0.5s;
 }
@@ -553,7 +553,7 @@ a.imgWrap:hover > img{
 	vertical-align: middle;
 }
 
-a.imgWrap:hover > .blueOverlay  {
+.catItemImageBlock a.modal_link:hover > .blueOverlay  {
 	opacity: 1;
 	-moz-opacity: 1;
 	filter: alpha(opacity=100);
@@ -1248,4 +1248,17 @@ div.itemFullText h3{
 
 #k2Container .itemBody{
 	overflow: hidden;
+}
+
+body.contentpane.modal {
+	margin: 0px;
+}
+
+#cboxContent #cboxLoadedContent{
+	margin: 0px;
+	padding: 0px;
+}
+
+body.modal .itemFullText{
+	padding: 0px;
 }

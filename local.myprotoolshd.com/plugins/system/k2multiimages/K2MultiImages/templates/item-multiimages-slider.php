@@ -123,7 +123,32 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 			});*/
 		});
 </script>
-						
+
+<?php 
+//GCHAD FIX add social custom
+?>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5593a0061b5850c5" async="async"></script>
+
+<script type="text/javascript">
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#appId=177111755694317&xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<script type="text/javascript">
+  (function() {
+    window.___gcfg = {lang: 'en'}; // Define button default language here
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+			
 
 <?php if(JRequest::getInt('print')==1): ?>
 <!-- Print button at the top of the print page only -->
@@ -405,7 +430,8 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 			
 			
 			?>
-			<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
+			
+			<!--<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
 			    <span class="itemExtraFieldsValue">
 			        <a target="_blank" href="<?=$this->item->link?>">
 			        <?php 
@@ -415,7 +441,7 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 			        echo $shareUrl;?>
 			        </a>
 		        </span>
-	        </li>
+	    </li>-->
 			</ul>
 	    <div class="clr"></div>
 	  </div>
@@ -454,8 +480,11 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 	<?php if($this->item->params->get('itemTwitterButton',1) || $this->item->params->get('itemFacebookButton',1) || $this->item->params->get('itemGooglePlusOneButton',1)): ?>
 	<!-- Social sharing -->
 	<div class="itemSocialSharing">
+	    
+	    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <div class="addthis_sharing_toolbox"></div>
 
-		<?php if($this->item->params->get('itemTwitterButton',1)): ?>
+		<?php /*if($this->item->params->get('itemTwitterButton',1)): ?>
 		<!-- Twitter Button -->
 		<div class="itemTwitterButton">
 			<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal"<?php if($this->item->params->get('twitterUsername')): ?> data-via="<?php echo $this->item->params->get('twitterUsername'); ?>"<?php endif; ?>><?php echo JText::_('K2_TWEET'); ?></a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
@@ -466,15 +495,7 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 		<!-- Facebook Button -->
 		<div class="itemFacebookButton">
 			<div id="fb-root"></div>
-			<script type="text/javascript">
-				(function(d, s, id) {
-				  var js, fjs = d.getElementsByTagName(s)[0];
-				  if (d.getElementById(id)) {return;}
-				  js = d.createElement(s); js.id = id;
-				  js.src = "//connect.facebook.net/en_US/all.js#appId=177111755694317&xfbml=1";
-				  fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
+			
 			<div class="fb-like" data-send="false" data-width="200" data-show-faces="true"></div>
 		</div>
 		
@@ -488,16 +509,9 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 		<!-- Google +1 Button -->
 		<div class="itemGooglePlusOneButton">	
 			<g:plusone annotation="inline" width="120"></g:plusone>
-			<script type="text/javascript">
-			  (function() {
-			  	window.___gcfg = {lang: 'en'}; // Define button default language here
-			    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-			    po.src = 'https://apis.google.com/js/plusone.js';
-			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-			  })();
-			</script>
+			
 		</div>
-		<?php endif; ?>
+		<?php endif; */?>
 		
 		<div class="clr"></div>
 	</div>

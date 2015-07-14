@@ -92,7 +92,7 @@ select:focus {
 
  
 	
-#jak2filter101.kit > li:before{
+#jak2filter101.kit > li.kitEl:before{
 	position: absolute;
 	cursor: pointer;
 	right: 20px;

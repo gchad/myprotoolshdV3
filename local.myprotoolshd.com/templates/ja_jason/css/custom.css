@@ -44,6 +44,31 @@ h1 {
 	 -moz-osx-font-smoothing: grayscale;
 }
 
+#jak2-loadingWrap{
+	display: block;
+	text-align: center;
+	position: fixed;
+	top: 50%;
+	left: opx;
+	width: 100%;
+	z-index: 100000;
+}
+	
+#jak2-loading {
+	background: url("/components/com_jek2story/assets/ajax-loading.gif") center bottom no-repeat #91D0F2;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	height: 50px;
+	font-weight: bold;
+	margin: auto;
+	padding: 10px 0;
+	text-align: center;
+	width: 400px;
+	z-index: 999;
+
+}
+
 @media (max-width: 768px){
 	
 	#k2Container .itemExtraFields .itemExtraFieldsLabel,
@@ -55,7 +80,7 @@ h1 {
 	
 	
 	#k2Container .itemExtraFields .itemExtraFieldsValue{
-		margin-bottom: 16px !important;
+		margin-bottom: 4px !important;
 		font-weight: normal !important;
 	}
 	.catItemBody {
@@ -184,6 +209,17 @@ h1 {
 		height: 50px !important;
 	}
 	
+	.itemExtraFields td{
+		border: none;
+	}
+	.itemExtraFields .itemExtraFieldsLabel{
+		margin-top: 12px;
+	}
+	
+	.itemExtraFields .col1, .itemExtraFields .col2{
+		display: block;
+	}
+	
 }
 
 @media (min-width: 768px){
@@ -284,7 +320,11 @@ h1 {
 	}
 	
 	.blueOverlay .product{
-		bottom: 12px;
+		bottom: 8px;
+	}
+	
+	.itemExtraFields .col1{
+		min-width: 200px;
 	}
 
 }
@@ -361,7 +401,7 @@ h1 {
 	}	
 	
 	.blueOverlay .product{
-		bottom: 18px;
+		bottom: 8px;
 	}
 }
 
@@ -403,9 +443,7 @@ h1 {
 	#introPanel h1{
 		font-size: 85px;
 	}
-	
-	
-	
+		
 	#introPanel #hashtag{
 		font-size: 26px;
 	}
@@ -432,7 +470,7 @@ h1 {
 	}
 	
 	.blueOverlay .product{
-		bottom: 22px;
+		bottom: 6px;
 	}
 }
 
@@ -1262,3 +1300,30 @@ body.contentpane.modal {
 body.modal .itemFullText{
 	padding: 0px;
 }
+
+.contact, .login-wrap form, {
+  background: #f7f7f7;
+  margin-bottom: 0;
+  padding: 22px;
+  float: none;
+  display: block;
+}
+
+.contact-information{
+	display: none;
+}
+
+ .contact-left{
+ 	width: 555px;
+ 	margin: auto;
+ 	 background: #f7f7f7;
+ 	 float: none;
+ 	 padding: 22px;
+ 	 margin-top: 20px;
+ 	 margin-bottom: 20px;
+ }
+ 
+ .contact-form .form-group .control-label{
+ 	font-size: 14px;	
+ }
+

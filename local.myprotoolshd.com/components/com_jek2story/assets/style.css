@@ -276,7 +276,7 @@ text-decoration: none;
 border: 1px solid transparent;
 }
 
-.login-wrap2 .contenettable > tbody > tr > td > label {
+.login-wrap2 .contenettable > tbody > tr > td > label, #extrafield_data label {
 	margin: 20px 0px 2px 0px;
 	font-size: 16px;
 }
@@ -339,26 +339,5 @@ background-color: #FFFFFF !important;
 .error {
 	color: rgb(180,0,0);
 }
-#jak2-loadingWrap{
-	display: block;
-	text-align: center;
-	position: fixed;
-	top: 50%;
-	width: 100%;
-	z-index: 100000;
-}
-	
-#jak2-loading {
-	background: url("ajax-loading.gif") center bottom no-repeat #91D0F2;
-	border-radius: 3px;
-	color: #fff;
-	display: inline-block;
-	height: 50px;
-	font-weight: bold;
-	margin-left: -200px;
-	padding: 10px 0;
-	text-align: center;
-	width: 400px;
-	z-index: 999;
 
-}
+

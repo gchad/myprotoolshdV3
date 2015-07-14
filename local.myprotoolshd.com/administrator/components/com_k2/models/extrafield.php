@@ -212,8 +212,22 @@ class K2ModelExtraField extends K2Model
 		}
 
 		$defaultValues = $json->decode($extraField->value);
-        usort($defaultValues, 'alphaOrder');
-
+        
+        /** GCHAD FIX order as per matrix **/
+        
+        
+        if($extraField->id == 2){
+            
+             $defaultValues = orderProducts($defaultValues);
+            
+        } else {
+            
+            usort($defaultValues, 'alphaOrder');
+        }
+    
+       
+        
+       
 		foreach ($defaultValues as $value)
 		{
 

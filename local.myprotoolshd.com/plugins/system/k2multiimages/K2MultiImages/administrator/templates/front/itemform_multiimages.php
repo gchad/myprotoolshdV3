@@ -163,6 +163,8 @@ li.ui-state-highlight {
 			jQuery("input[name=image_multiple_start]").val(newImage);
 		});
 		<?php endif; ?>
+		
+			
 	});
 </script>
 <!-- added -->
@@ -189,7 +191,7 @@ li.ui-state-highlight {
 				    <div style="position: absolute; top: 0px; right: 0px;">
                      
                 
-                    <a class="button2" style="" href="#" onclick="javascript: submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
+                    <a class="button2 savingButton" style="" href="#" onclick="javascript: jQuery('#jak2-loadingWrap').css({'display': 'block'}); submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
                     <!--<a class="button2" style="margin-left: 10px;" href="#"> <span title="<?php echo JText::_('K2_CANCEL'); ?>" class="icon-32-cancel"></span> <?php echo JText::_('K2_CLOSE'); ?> </a>-->
                  </div>
 				</h2>
@@ -1261,7 +1263,11 @@ li.ui-state-highlight {
 
 <div style="text-align: center;">
     
-<a class="button2" style="" href="#" onclick="javascript: submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
+<a class="button2 savingButton" style="" href="#" onclick="javascript: jQuery('#jak2-loadingWrap').css({'display': 'block'}); submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
     
+</div>
+
+<div id="jak2-loadingWrap" style="display: none;">
+<div id="jak2-loading" ><?=JText::_('SAVING')?></div>
 </div>
 

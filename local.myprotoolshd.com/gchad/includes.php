@@ -59,3 +59,51 @@ function truncate($string, $length = 100, $append = "&hellip;") {
 
   return $string;
 }
+
+function orderProducts($values){
+    
+    $newValues = array();
+    
+    /** first number is the product extra fiel ID. 
+     * second number is it's order. 
+     * If order equals null, then it doesn't show.
+     * 
+     */
+    $productsMatrix = array(
+    
+        1 => 0, //Hd native
+        2 => 1, //hdx
+        3 => 2, //s3
+        4 => 3  //s6
+        
+    );
+    
+    foreach($values as $p){
+        
+        if(key_exists($p->value, $productsMatrix)){
+           
+           if ($productsMatrix[$p->value] !== null){
+               
+               $newValues[$productsMatrix[$p->value]] = $p;
+           }
+            
+        }
+    }
+    
+    ksort($newValues);
+  
+    return $newValues;
+}
+
+/**
+ * l'admin par dŽfault sera toujours cced dans l'email
+ * l'admin par dŽfault sera tours le destinataire de l'email sauf si un numbŽro pays est renseignŽ avec un autre email d'admin
+ */
+global $warningEmails;
+$warningEmails = array(
+
+    'default' => 'apichod@avid.com',
+    '79' => 'g.chad@puremix.net' //France
+
+);
+

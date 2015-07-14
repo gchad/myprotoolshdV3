@@ -295,7 +295,7 @@ class jesubmitController extends JControllerLegacy  {
                         
                     $row->p_name = JPath::clean(time().'_'.$file['name']); 
                     $filetype = strtolower(JFile::getExt($file['name']));
-                   
+
                     if(!$this->processImage($item_id, $post['catid'], $file)){
                        
                         $msg = JText::_ ( 'PLEASE_UPLOAD_VALID_DOCUMENT_FILE' );
@@ -488,6 +488,12 @@ class jesubmitController extends JControllerLegacy  {
             $handle->allowed = array('image/*');
        
             if ($handle->uploaded) {
+                
+                
+                //test image size
+                if($handle->image_src_x < 800 || $handle->image_src_y < 800){
+                    return false;
+                }
                     
                 //Image params
                 $category = &JTable::getInstance('K2Category', 'Table');
@@ -587,8 +593,9 @@ class jesubmitController extends JControllerLegacy  {
     
                 //XSmall image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = true;
+                //$handle->image_ratio_y = false;
                 $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1;
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
@@ -601,6 +608,7 @@ class jesubmitController extends JControllerLegacy  {
                 }
                 
                 $handle->image_x = $imageWidth;
+                $handle->image_y = $imageWidth;
                 $handle->Process($savepath);
     
                 //Generic image

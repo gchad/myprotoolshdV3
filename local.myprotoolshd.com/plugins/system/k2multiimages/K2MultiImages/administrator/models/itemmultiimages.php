@@ -210,11 +210,17 @@ class K2ModelItemMultiImages extends K2Model {
 		
 		/* <--- added K2MultiImages ---> */
 		$files = JRequest::get('files');
-		
+	
 		//multiple files add////////////
 		$files_multi_start = JRequest::getInt("image_multiple_start");
+        
+        /**
+         * GCHAD FIX
+         * force it to 0 otherwhise it will bug in the admin*/
+        $files_multi_start = 0;
 		
 		foreach($files["image_multiple"]["name"] as $k=>$file) {
+		   
 			$files["image".$files_multi_start]["name"] = $file;
 			$files["image".$files_multi_start]["type"] = $files["image_multiple"]["type"][$k];
 			$files["image".$files_multi_start]["tmp_name"] = $files["image_multiple"]["tmp_name"][$k];
@@ -287,6 +293,7 @@ class K2ModelItemMultiImages extends K2Model {
 		for($i=1; $i<count($files); $i++) {
 		
 			$existingImage = JRequest::getVar('existingImage'.$i);
+			
 			if ( ($files['image'.$i]['error'] === 0 || $existingImage) && !JRequest::getBool('del_image'.$i)) {
 
 				if($files['image'.$i]['error'] === 0){
@@ -332,7 +339,7 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->file_overwrite = true;
 					$handle->file_new_name_body = $filename;
 					$handle->Process($savepath);
-					
+				
 					//Resized images
 					$savepath = JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'cache';
 
@@ -1016,6 +1023,33 @@ class K2ModelItemMultiImages extends K2Model {
 				$row->published = 0;
 				$mainframe->enqueueMessage(JText::_('K2_YOU_DONT_HAVE_THE_PERMISSION_TO_PUBLISH_ITEMS'), 'notice');
 			}
+            
+            
+            /*** GCHAD FIX ****/
+            $xtraF = json_decode($row->extra_fields);
+            
+            foreach ($xtraF as $f){
+                
+                if($f->id == 8){
+                     
+                     $subject = 'User modification';
+                     $fromEmail = 'noreply@proaudiogallery.com';
+                     $fromname = 'Proaudiogallery Admin';
+                     $text = '<p>Dear Proaudiogalery admin, the user <b>'.$row->title.' (id: '.$row->id.')</b> modified his profile.</p>'.
+                             '<p>Please <a href="http://www.proaudiogallery.com/administrator"">login to the backend</a> in order to review his profile.</p><br/><p>Proaudiogallery admin.</p>';
+                   
+                     global $warningEmails;
+                     $recipientEmail = key_exists($f->value, $warningEmails) ? $warningEmails[$f->value] : $warningEmails['default'];
+                     
+                     $cc = $warningEmails['default'];
+                   
+                     
+                   
+                     JFactory::getMailer()->sendMail($fromEmail, $fromname, $recipientEmail, $subject, $text , true, $cc);  debug($cc);
+                }
+            }
+            
+            
 		}
 		
 		$query = "UPDATE #__k2_items SET 

@@ -110,7 +110,7 @@ class modJak2filterHelper
 	 * @since	1.5
 	 */
 	public function getList($fields, $fields_type)
-	{				
+	{			
 		$items = array();
 		$ja_stylesheet = $this->params->get('ja_stylesheet');
 
@@ -187,7 +187,7 @@ class modJak2filterHelper
 					$row->ff_type = $fieldType;//form field type
 					$row->index = $index;
 					$html = $this->getLabel($row->ff_type, $fieldname, $row->name, $row->group);
-                   
+                  
 					$html .= call_user_func_array(array($this, $func), array($fieldname, $row));
 					
 					$items[$group]['items'][$fieldType.'_'.$fieldId] = $html;
@@ -749,6 +749,7 @@ class modJak2filterHelper
 	}
 	
 	public function getMagicSelect($fieldname, $field){
+	    
 		$input = JFactory::getApplication()->input;
 		$selected_values = $input->get($fieldname, array(), 'array');
 
@@ -757,14 +758,13 @@ class modJak2filterHelper
 		} else {
 			$values = $field->value;
 		}
-        
-        /**** GCHAD FIX ***/
-        //REMOVE S3 and S6
-        foreach($values as $k => $v){
-            if($v->name == 'S3' || $v->name == 'S6'){
-                unset($values[$k]);
-            }
+       
+        /**** GCHAD FIX ***/        
+        /**** reorder as per matrix ****/
+        if($fieldname == 'xf_2'){
+              $values = orderProducts($values);
         }
+      
       
 		$auto_filter		= (int) @$this->params->get('auto_filter');
 		$listid = 'mg-'.$this->module->id.'-'.$fieldname;

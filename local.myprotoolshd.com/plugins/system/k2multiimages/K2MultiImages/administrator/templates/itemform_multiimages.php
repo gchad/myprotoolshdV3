@@ -526,13 +526,17 @@ li.ui-state-highlight {
                                         <?php echo JText::_("PLG_K2_MULTIIMAGES_LIMIT_TEXT"); ?>
                                     <?php else: ?>
                                         <a href="#" class="AddNewImage" style="font-size: 14px;"><?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE_NEW'); ?></a>
-                                        <?php if(!$this->mainframe->isSite()) : ?>
+                                        <?php if(!$this->mainframe->isSite()) : /*
+                                         * 
+                                         * GCHAD FIX remove multiple uploads in admin
+                                         * 
+                                         * ?>
                                         <div class="multipleUpload" style="font-size: 12px;">
                                             <?php echo JText::_('PLG_K2_MULTIIMAGES_IMAGE_NEW_MULTIPLE'); ?> &nbsp;
                                             <input multiple="multiple" type="file" name="image_multiple[]" class="fileUploadMultiple" accept="image/gif, image/jpeg, image/png" />
                                             <input type="hidden" name="image_multiple_start" value="1" />
                                         </div>
-                                        <?php endif; ?>
+                                        <?php */ endif; ?>
                                     <?php endif; ?>
                                     
                                     <!-- plugins .... -->

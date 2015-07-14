@@ -3507,7 +3507,9 @@ class upload {
             if ($this->mime_check && empty($this->file_src_mime)) {
                 $this->processed = false;
                 $this->error = $this->translate('no_mime');
+                
             } else if ($this->mime_check && !empty($this->file_src_mime) && strpos($this->file_src_mime, '/') !== false) {
+                    
                 list($m1, $m2) = explode('/', $this->file_src_mime);
                 $allowed = false;
                 // check wether the mime type is allowed
@@ -4993,7 +4995,10 @@ class upload {
                                 unset($mask);
                             }
                             break;
-                        case 'jpg':
+                        case 'jpg': 
+                        
+                        /* GCHAD FIX*/
+                        break;
                         case 'bmp':
                             // if the image doesn't support any transparency, then we merge it with the default color
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;fills in transparency with default color<br />';

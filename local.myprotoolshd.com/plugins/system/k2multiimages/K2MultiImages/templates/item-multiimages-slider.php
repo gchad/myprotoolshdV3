@@ -122,13 +122,29 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 			   
 			});*/
 		});
+		
+		
 </script>
 
 <?php 
+JHtml::_('bootstrap.loadCss');
+JHtml::_('bootstrap.button');
 //GCHAD FIX add social custom
 ?>
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5593a0061b5850c5" async="async"></script>
+​<script type="text/javascript">
+var addthis_config = addthis_config||{};
+addthis_config.data_track_addressbar = false;
+addthis_config.data_track_clickback = false;
+var addthis_share = 
+{ 
+    url : '<?=$shareUrl?>',
+    templates: {
+               twitter: 'Check out my studio from the Pro Audio Gallery form Avid: {{lurl}} #ProToolsHD',
+           }
+}
+</script>
 
 <script type="text/javascript">
     (function(d, s, id) {
@@ -409,40 +425,66 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 	  <?php if($this->item->params->get('itemExtraFields') && count($this->item->extra_fields)): ?>
 	  <!-- Item extra fields -->
 	  <div class="itemExtraFields">
+	      
+	      
 	  	<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>
-	  	<ul>
-			<?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
-			<?php if($extraField->value): ?>
-			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
-				<span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span>
-				
-				<?php 
-				
-				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.'</a>' : $extraField->value;
-				
-				?>
-				<span class="itemExtraFieldsValue"><?=$xtraValue;?></span>
-			</li>
-			<?php endif; ?>
+	  	
+	  	
+	  	    <table>
+
+			<?php foreach ($this->item->extra_fields as $key => $extraField): ?>
+    			
+    			
+    			<?php if( $extraField->value && $extraField->id <> 5): 
+                
+    			    
+    			    /*?>
+        			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
+        				<span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span>
+        				
+        				<?php 
+        				
+        				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.'</a>' : $extraField->value;
+        				
+        				?>
+        				<span class="itemExtraFieldsValue"><?=$xtraValue;?></span>
+        			</li>
+    			<?php */
+    			
+    			     ?>
+                    <tr>
+                        <td class="col1"><span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span></td>
+                        <td class="col2"><span class="itemExtraFieldsValue"><?=$extraField->value?></span></td>
+                    </tr> <?php
+                	
+    			endif; ?>
+    			
 			<?php endforeach; 
 			
-			/**** GCHAD FIX ****/
+			/**** GCHAD FIX ****/ ?>
 			
+    			<!--<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
+    			    <span class="itemExtraFieldsValue">
+    			        <a target="_blank" href="<?=$this->item->link?>">
+    			        <?php 
+    			        
+    			      
+                             
+    			        echo $shareUrl;?>
+    			        </a>
+    		        </span>
+	           </li>-->
+            </table>
+            
+            
+            <?php foreach ($this->item->extra_fields as $key => $extraField){
+            
+                if($extraField->id == 5) {
+                    echo '<a target="_blank" href="'.$extraField->value.'" class="btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_STUDIO_WEBSITE').'</a>';
+                }
+                
+            }?>
 			
-			?>
-			
-			<!--<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
-			    <span class="itemExtraFieldsValue">
-			        <a target="_blank" href="<?=$this->item->link?>">
-			        <?php 
-			        
-			      
-                         
-			        echo $shareUrl;?>
-			        </a>
-		        </span>
-	    </li>-->
-			</ul>
 	    <div class="clr"></div>
 	  </div>
 	  <?php endif; ?>
@@ -481,8 +523,16 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 	<!-- Social sharing -->
 	<div class="itemSocialSharing">
 	    
-	    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <div class="addthis_sharing_toolbox"></div>
+	    
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+            <a class="addthis_button_facebook"></a>
+            <a class="addthis_button_twitter" tw:text="#ProToolsHD"></a>
+            <a class="addthis_button_linkedin"></a>
+            <a class="addthis_button_email"></a>
+            <a class="addthis_button_compact"></a>
+           
+        </div>
 
 		<?php /*if($this->item->params->get('itemTwitterButton',1)): ?>
 		<!-- Twitter Button -->
@@ -616,7 +666,7 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 	/*
 	Note regarding 'Related Items'!
 	If you add:
-	- the CSS rule 'overflow-x:scroll;' in the element div.itemRelated {…} in the k2.css
+	- the CSS rule 'overflow-x:scroll;' in the element div.itemRelated {‚Ä¶} in the k2.css
 	- the class 'k2Scroller' to the ul element below
 	- the classes 'k2ScrollerElement' and 'k2EqualHeights' to the li element inside the foreach loop below
 	- the style attribute 'style="width:<?php echo $item->imageWidth; ?>px;"' to the li element inside the foreach loop below
@@ -851,4 +901,6 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 	<div class="clr"></div>
 </div>
 <!-- End K2 Item Layout -->
+
+
 

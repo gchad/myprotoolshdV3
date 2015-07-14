@@ -29,20 +29,23 @@ $share_url = $params->get('share_url_of_results_page', 0);
 <a class="modal" href="#" style="display: none"></a>
 
 
-<form id="<?php echo $formid; ?>" name="<?php echo $formid; ?>" method="POST"
-	action="<?php echo JRoute::_('index.php?option=com_jak2filter&view=itemlist&Itemid='.$itemid); ?>">
-<input type="hidden" name="task" value="search" />
-<input type="hidden" name="swr" value="<?php echo $slider_whole_range; ?>" />
-<?php if(!empty($theme)): ?>
-<input type="hidden" name="theme" value="<?php echo $theme ?>" />
-<?php endif; ?>
-<?php if($catMode): ?>
-<!-- include sub category -->
-<input type="hidden" name="isc" value="1" />
-<?php endif; ?>
-<?php if(!$params->get('display_ordering_box', 1) && $params->get('catOrdering') != "inherit"): ?>
-<input type="hidden" id="ordering" name="ordering" value="<?php echo $params->get('catOrdering'); ?>" />
-<?php endif; 
+<form id="<?php echo $formid; ?>" name="<?php echo $formid; ?>" method="POST" action="<?php echo JRoute::_('index.php?option=com_jak2filter&view=itemlist&Itemid='.$itemid); ?>">
+    
+    <input type="hidden" name="task" value="search" />
+    <input type="hidden" name="swr" value="<?php echo $slider_whole_range; ?>" />
+    
+    <?php if(!empty($theme)): ?>
+        <input type="hidden" name="theme" value="<?php echo $theme ?>" />
+    <?php endif; ?>
+    
+    <?php if($catMode): ?>
+        <!-- include sub category -->
+        <input type="hidden" name="isc" value="1" />
+    <?php endif; ?>
+    
+    <?php if(!$params->get('display_ordering_box', 1) && $params->get('catOrdering') != "inherit"): ?>
+        <input type="hidden" id="ordering" name="ordering" value="<?php echo $params->get('catOrdering'); ?>" />
+    <?php endif; 
 
 /******* GCHAD FIX ******/
 
@@ -61,47 +64,52 @@ $nextLimitStart = ($limitK2Search + $limitStart) > $totalK2Search ? $totalK2Sear
 /******* GCHAD FIX ******/
 
 if(!$filter_by_category): ?>
-<?php echo $categories; ?>
+    <?php echo $categories; ?>
 <?php endif; ?>
+
 <ul id="jak2filter<?php echo $module->id; ?>" class="ja-k2filter <?php echo $ja_stylesheet;?>">
+
 <?php 
 $j = 0;
 $clear = '';
 $style = '';
 
-/*BEGIN: filter by Keyword*/
-if($filter_by_keyword):
-if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
-	$clear = " clear:both;";
-}
-if($ja_column || $clear){
-	$style ='style="'.$ja_column.$clear.'"';
-}
-$j++;
 
-?>
+/*BEGIN: filter by Keyword*/
+/*if($filter_by_keyword):
+    
+    if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
+    	$clear = " clear:both;";
+    }
+    if($ja_column || $clear){
+    	$style ='style="'.$ja_column.$clear.'"';
+    }
+    
+    $j++;?>
+    
 	<li <?php echo $style?>>
+	    
 		<label class="group-label">
+		    
 			<?php echo JText::_('JAK2_KEYWORD'); ?>
 			<?php if($display_keyword_tip): ?>
-			<sup><?php echo Jhtml::tooltip(JText::_('JAK2_KEYWORD_HINT'), JText::_('JAK2_HINT'), '', ' [?]', '', 'Tooltip', 'ja-k2filter-tip'); ?></sup>
+			     <sup><?php echo Jhtml::tooltip(JText::_('JAK2_KEYWORD_HINT'), JText::_('JAK2_HINT'), '', ' [?]', '', 'Tooltip', 'ja-k2filter-tip'); ?></sup>
 			<?php endif; ?>
 		</label>
-		<input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox"
-			   value="<?php echo htmlspecialchars(JRequest::getVar('searchword',''));?>"
-			   placeholder="<?php echo JText::_('SEARCH_BY_KEYWORD', ''); ?>"
-			/>
+		
+		<input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="<?php echo htmlspecialchars(JRequest::getVar('searchword',''));?>" placeholder="<?php echo JText::_('SEARCH_BY_KEYWORD', ''); ?>"/>
+		
 		<?php if($filter_keyword_option): ?>
 			<p class="keyword-options">
 				<?php echo $keyword_option;?>
 			</p>
 		<?php else: ?>
-			<!--<input type="hidden" name="st" value="<?php /*echo $keyword_default_mode; */?>" />-->
+			<!--<input type="hidden" name="st" value="<?php echo $keyword_default_mode; ?>" />-->
 		<?php endif; ?>
 	</li>
-<?php 
-$clear = '';
-endif; 
+    <?php 
+    $clear = '';
+endif;  */
 /*END: filter by Keyword*/
 ?>
 <?php 
@@ -226,16 +234,18 @@ if($filter_by_category){
 ?>
 
 <?php if($list): ?>
-	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1):?>
+    
+	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1): debug('la');?>
+		
 		<li id="ja-extra-field-accordion-<?php echo $module->id; ?>" class="accordion">
 			<?php foreach($list as $glist): ?>
-			<?php $groupid = $glist['groupid']; ?>
-			<h4 class="heading-group heading-group-<?php echo $groupid ?>"><?php echo $glist['group'] ?></h4>
-			<div>
-				<ul>
-					<?php require JModuleHelper::getLayoutPath('mod_jak2filter', 'default_extrafields'); ?>
-				</ul>
-			</div>
+    			<?php $groupid = $glist['groupid']; ?>
+    			<h4 class="heading-group heading-group-<?php echo $groupid ?>"><?php echo $glist['group'] ?></h4>
+    			<div>
+    				<ul>
+    					<?php require JModuleHelper::getLayoutPath('mod_jak2filter', 'default_extrafields'); ?>
+    				</ul>
+    			</div>
 			<?php endforeach; ?>
 		</li>
 	<?php else: ?>
@@ -274,22 +284,42 @@ if($ja_column || $clear){
 	$style ='style="'.$ja_column.$clear.'"';
 }
 $j++;
+
+
+ /*** GCHAD FIX add the search box */
+    
+
+if($filter_by_keyword): ?>
+    
+    
+    <li <?php echo $style?>>
+        
+        <input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="" placeholder="<?=JText::_('SEARCH_BY_KEYWORD'); ?>"/>
+        <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button>
+    </li>
+    <?php 
+   
+    
+endif; 
+   
 ?>
 	<li <?php echo $style;?> class="last-item">
-	<?php if($params->get('auto_filter',1) == 0): ?>
-		<input class="btn button2" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
-	<?php endif; ?>
-	<?php if($params->get('enable_reset_button',1) == 1): ?>
-		<input class="btn" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
-	<?php endif; ?>
-	<?php if($ajax_filter && $share_url): ?>
-		<div class="jak2shareurl"><a href="<?php echo JURI::current() ?>" target="_blank" title="<?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE_DESC', true)?>"><?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE')?></a></div>
-	<?php endif; ?>
-		
+    	<?php if($params->get('auto_filter',1) == 0): ?>
+    		<input class="btn button2" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
+    	<?php endif; ?>
+    	<?php if($params->get('enable_reset_button',1) == 1): ?>
+    		<input class="btn" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
+    	<?php endif; ?>
+    	<?php if($ajax_filter && $share_url): ?>
+    		<div class="jak2shareurl"><a href="<?php echo JURI::current() ?>" target="_blank" title="<?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE_DESC', true)?>"><?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE')?></a></div>
+    	<?php endif; ?>
+    		
 	</li>
 <?php 
 $clear = '';
-?>	
+
+ ?>
+    
 </ul>
 <?php if($params->get('ajax_filter', 0) == 1): ?>
 	<input type="hidden" name="tmpl" value="component"/>
@@ -364,50 +394,63 @@ window.addEvent('load', function(){
    
    var isWebkit = 'WebkitAppearance' in document.documentElement.style;
    var isMoz = 'MozAppearance' in document.documentElement.style;
-   if(isWebkit || isMoz){
-       $('jak2filter101').addClass('kit');
-   }
+   
+    if(isWebkit || isMoz){
+        
+        $$('#jak2filter101 li').each(function(el){
+           
+            if(el.getChildren('select').length > 0 || el.hasClass('magic-select')){
+                el.addClass('kitEl');
+            }
+        });
+        $('jak2filter101').addClass('kit');
+    }
    
     
-	if($('jak2filter<?php echo $module->id;?>').getElement('#category_id')){
-		jak2DisplayExtraFields(<?php echo $module->id;?>, $('jak2filter<?php echo $module->id;?>').getElement('#category_id'), <?php echo $selected_group; ?>);
+	if($('jak2filter<?= $module->id;?>').getElement('#category_id')){
+		jak2DisplayExtraFields(<?= $module->id;?>, $('jak2filter<?= $module->id;?>').getElement('#category_id'), <?= $selected_group; ?>);
 	}
 
 	<?php 
 	
+	/** add
+	
 	/**** AUTO SEARCH ******/
 	
 	if($auto_filter): ?>
+	
     	var f = $('<?php echo $formid; ?>');
     	
     	f.getElements('input').each(function(el) {
     	    
-    		el.addEvent('change', function(){
-    		    
-                if(this.id == 'sdate_<?php echo $module->id; ?>' || this.id == 'edate_<?php echo $module->id; ?>'){
-                    var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>').get('value');
-                    var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>').get('value');
-                    if(sDate != '' && eDate != ''){
-                        if(isDate(sDate) && isDate(eDate)){
-                            this.removeClass('date-error');
-                            searchFromScratch();
-                            <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+    	    if(el.get('name') != 'searchword'){
+    	    
+        		el.addEvent('change', function(){
+        		    
+                    if(this.id == 'sdate_<?php echo $module->id; ?>' || this.id == 'edate_<?php echo $module->id; ?>'){
+                        
+                        var sDate = $('jak2filter<?php echo $module->id;?>').getElement('#sdate_<?php echo $module->id; ?>').get('value');
+                        var eDate = $('jak2filter<?php echo $module->id;?>').getElement('#edate_<?php echo $module->id; ?>').get('value');
+                        
+                        if(sDate != '' && eDate != ''){
+                            if(isDate(sDate) && isDate(eDate)){
+                                this.removeClass('date-error');
+                                searchFromScratch();
+                            }
+                            else{
+                                this.addClass('date-error');
+                            }
                         }
-                        else{
-                            this.addClass('date-error');
-                        }
+                        
+                    } else{
+                        searchFromScratch();
                     }
-                    
-                } else{
-                    searchFromScratch();
-                    <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
-                }
-    
-    		});
+        		});
+    		}
     	});
     	
     	f.getElements('select').each(function(el) {
-    	    
+    	       	    
     		el.addEvent('change', function(){
     		    
                 if(this.id == 'dtrange' && this.value == 'range'){
@@ -419,8 +462,7 @@ window.addEvent('load', function(){
                         var isStartDate = isDate(sDate.get('value'));
                         var isEndDate = isDate(eDate.get('value'));
                         if(isStartDate && isEndDate){
-                             searchFromScratch();
-                            <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+                             searchFromScratch();                           
                         }
                         else{
                             if(!isStartDate)
@@ -429,17 +471,17 @@ window.addEvent('load', function(){
                                 eDate.addClass('date-error');
                         }
                     }
+                    
                 } else {
-                     searchFromScratch();
-                    <?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+                     searchFromScratch();                    
                 }
     		});
     	});
     	
     	f.getElements('textarea').each(function(el) {
+    	    
     		el.addEvent('change', function(){
-    		    searchFromScratch();
-    			<?php /* $('<?php echo $formid; ?>').fireEvent('submit'); */ ?>
+    		    searchFromScratch();    			
     		});
     	});
     	

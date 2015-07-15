@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 //<!-- added for loading bar -->
+
 $document = JFactory::getDocument();
 $pluginPathSite = JURI::root().'plugins/system/k2multiimages/K2MultiImages';
 $document->addScript($pluginPathSite.'/assets/jquery-migrate-1.2.1.min.js');
@@ -318,12 +319,29 @@ li.ui-state-highlight {
                                     
                                     <div id="extraFieldsContainer">
                                         
-                                        <?php if (count($this->extraFields)): ?>
+                                        <?php if (count($this->extraFields)):   ?>
                                             
                                             <table class="admintable" id="extraFields">
+                                              
                                                 <?php foreach($this->extraFields as $extraField): ?>
+                                                     
+                                                    <?php 
+                                                  
+                                                        //discog
+                                                        if(strpos($extraField->name,'discog') !== false && $this->row->catid != 8 && $this->row->catid != 2){
+                                                            continue;
+                                                        }
+                                                        
+                                                        //imdb
+                                                        if(strpos($extraField->name,'imdb') !== false && $this->row->catid != 3 && $this->row->catid != 9){
+                                                          
+                                                             continue;
+                                                        }
+                 
                                                     
-                                                    <?php if($extraField->type == 'header'): ?>
+                                                    
+                                                    
+                                                    if($extraField->type == 'header'): ?>
                                                         
                                                     <tr>
                                                         <td colspan="2" ><h4 class="key k2ExtraFieldHeader"><?= JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))); ?></h4></td>

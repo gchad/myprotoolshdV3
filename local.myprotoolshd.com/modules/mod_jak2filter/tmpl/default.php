@@ -75,42 +75,7 @@ $clear = '';
 $style = '';
 
 
-/*BEGIN: filter by Keyword*/
-/*if($filter_by_keyword):
-    
-    if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
-    	$clear = " clear:both;";
-    }
-    if($ja_column || $clear){
-    	$style ='style="'.$ja_column.$clear.'"';
-    }
-    
-    $j++;?>
-    
-	<li <?php echo $style?>>
-	    
-		<label class="group-label">
-		    
-			<?php echo JText::_('JAK2_KEYWORD'); ?>
-			<?php if($display_keyword_tip): ?>
-			     <sup><?php echo Jhtml::tooltip(JText::_('JAK2_KEYWORD_HINT'), JText::_('JAK2_HINT'), '', ' [?]', '', 'Tooltip', 'ja-k2filter-tip'); ?></sup>
-			<?php endif; ?>
-		</label>
-		
-		<input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="<?php echo htmlspecialchars(JRequest::getVar('searchword',''));?>" placeholder="<?php echo JText::_('SEARCH_BY_KEYWORD', ''); ?>"/>
-		
-		<?php if($filter_keyword_option): ?>
-			<p class="keyword-options">
-				<?php echo $keyword_option;?>
-			</p>
-		<?php else: ?>
-			<!--<input type="hidden" name="st" value="<?php echo $keyword_default_mode; ?>" />-->
-		<?php endif; ?>
-	</li>
-    <?php 
-    $clear = '';
-endif;  */
-/*END: filter by Keyword*/
+
 ?>
 <?php 
 /*BEGIN: filter by date*/
@@ -129,6 +94,7 @@ $j++;
 		<?php echo $filter_by_daterange; ?>
 	</li>
 <?php endif; ?>
+
 
 <?php 
 /*BEGIN: filter by Author*/
@@ -150,8 +116,7 @@ $j++;
 <?php 
 $clear = '';
 endif; 
-/*END: filter by Author*/
-?>
+/*END: filter by Author*/?>
 
 <?php 
 /*BEGIN: filter by Tags*/
@@ -292,11 +257,11 @@ $j++;
 if($filter_by_keyword): ?>
     
     
-    <li <?php echo $style?>>
-        
+    <li >
         <input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="" placeholder="<?=JText::_('SEARCH_BY_KEYWORD'); ?>"/>
-        <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button>
     </li>
+    
+    <li> <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button></li>
     <?php 
    
     
@@ -413,7 +378,36 @@ window.addEvent('load', function(){
 
 	<?php 
 	
-	/** add
+	/** add searchbutton **/
+	?>
+	
+	
+	if($('searchKeyWord')){
+	    
+	    $('searchKeyWord').addEvent('click',function(e){
+	        e.preventDefault();
+	        
+	       /* $('category_id').value='';
+	        $('ordering').value = '';
+	        $$('.ja-magic-select-container').each(function(el){
+	            el.empty();
+	        })
+	        
+	        if($('searchword101').value.length == 0){
+	            
+	            alert('asasdg');
+	            
+	        } else {
+	             searchFromScratch();
+	        }*/
+	        
+	        searchFromScratch();
+	    });
+	    
+	    
+	}
+	
+	<?php
 	
 	/**** AUTO SEARCH ******/
 	

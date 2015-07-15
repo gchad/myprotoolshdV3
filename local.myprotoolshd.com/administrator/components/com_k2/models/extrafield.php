@@ -213,9 +213,10 @@ class K2ModelExtraField extends K2Model
 
 		$defaultValues = $json->decode($extraField->value);
         
-        /** GCHAD FIX order as per matrix **/
         
         
+        /** GCHAD FIX order products as per matrix **/
+                
         if($extraField->id == 2){
             
              $defaultValues = orderProducts($defaultValues);
@@ -225,11 +226,8 @@ class K2ModelExtraField extends K2Model
             usort($defaultValues, 'alphaOrder');
         }
     
-       
-        
-       
-		foreach ($defaultValues as $value)
-		{
+ 
+		foreach ($defaultValues as $value) {
 
 			$required = isset($value->required) ? $value->required : 0;
 			$showNull = isset($value->showNull) ? $value->showNull : 0;

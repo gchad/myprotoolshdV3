@@ -431,8 +431,9 @@ class jesubmitController extends JControllerLegacy  {
 		//else $extraFields = NULL;
 
 
-		for($i=0; $i< sizeof($extraFields); $i++){
+		for( $i=0; $i< sizeof($extraFields); $i++){
 		    
+   
 			if($itemid){
 			     $extraFields[$i]->element= $extraFieldModel->renderExtraField($extraFields[$i],$itemid);
 			} else {
@@ -444,7 +445,13 @@ class jesubmitController extends JControllerLegacy  {
 		//$extra_data ='<table>';
 		
  		foreach ($extraFields as $extraField){
- 		   
+ 		  
+          
+             /** GCHAD FIX do not render IMDB and discog **/
+            if( strpos($extraField->name,'discog') !== false || strpos($extraField->name,'imdb') !== false ){
+                continue;
+            }
+            
 			$extra_data .='<tr>';
 			$extra_data .='<td><label id="label_K2ExtraField_'.JText::_($extraField->id).'" align="left">'.JText::_($extraField->name).'</label></td></tr><tr>';
 			$extra_data .='<td>'.$extraField->element.'</td>';

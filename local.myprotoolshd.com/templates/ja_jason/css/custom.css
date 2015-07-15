@@ -44,6 +44,11 @@ h1 {
 	 -moz-osx-font-smoothing: grayscale;
 }
 
+.btnProfile  {
+	margin-right: 20px;
+	margin-top: 20px;
+}
+
 #jak2-loadingWrap{
 	display: block;
 	text-align: center;

@@ -47,7 +47,7 @@ function initializeGmap() {
   }  
   
   var mapOptions = {
-    zoom: autocenter_markers?0:4,
+    zoom: autocenter_markers ? 0 : (gmap_default_zoom ? gmap_default_zoom : 4),
     center: new google.maps.LatLng(default_latitude, default_longitude),
     zoomControl:false,
     scrollwheel: gmap_scrollwheel,
@@ -58,9 +58,10 @@ function initializeGmap() {
       mapTypeIds: mapTypeIdsEnabled
     } // here´s the array of controls
     
-    
+  
 
-  };
+  }; console.log(mapOptions);
+ 
   var mapTypeOptions = [];
   
   //if(sidebar_position == 'right')

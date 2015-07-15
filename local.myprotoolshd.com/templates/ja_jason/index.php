@@ -31,4 +31,5 @@ $t3app = T3::getApp($this);
 // get configured layout
 $layout = $t3app->getLayout();
 
+
 $t3app->loadLayout($layout);

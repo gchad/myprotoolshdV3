@@ -106,7 +106,9 @@ select:focus {
 	-moz-appearance: none;
 }
 
-
+#searchKeyWord{
+	font-size: 15px !important;
+}
 
 
 .ja-k2filter input[type=text],

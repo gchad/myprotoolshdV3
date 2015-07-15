@@ -1045,7 +1045,7 @@ class K2ModelItemMultiImages extends K2Model {
                    
                      
                    
-                     JFactory::getMailer()->sendMail($fromEmail, $fromname, $recipientEmail, $subject, $text , true, $cc);  debug($cc);
+                     JFactory::getMailer()->sendMail($fromEmail, $fromname, $recipientEmail, $subject, $text , true, $cc); 
                 }
             }
             

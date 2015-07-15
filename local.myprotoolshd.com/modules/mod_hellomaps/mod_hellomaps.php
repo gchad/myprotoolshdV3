@@ -34,6 +34,8 @@ $hellomapParams = JComponentHelper::getParams('com_hellomaps');
 $gmap_style_properties =  $hellomapParams->get('jfstyler',"");
 $gmap_api_key =  $hellomapParams->get('gmap_api_key','AIzaSyDXEbeQlKtqvBIHdtMXhBnaPa9KfteQ7IY');
 $gmap_style_properties_js = "var gmap_styles='';";
+$gmap_detault_zoom = 14;
+
 if($gmap_style_properties!="")
 {
     $gmap_style_properties_js = 'var gmap_styles='.$gmap_style_properties.';';
@@ -91,24 +93,48 @@ if ($modulesettings==1){
 	
 	//Initialize Map
 	$inizialize_autocenter_markers= $params->get('hmod_initialize_autocenter_markers',1);
-	$default_latitude = (float)$params->get('hmod_initialize_default_lat',-34.397);
-	$default_longitude = (float)$params->get('hmod_initialize_default_lng',150.644);
+    
+    
+    /** GCHAD fix ***/
+    $lat = (float)JRequest::getVar('lat',false);
+    $long = (float)JRequest::getVar('long',false);
+    
+    if($lat && $long){
+        
+        $default_latitude = (float)JRequest::getVar('lat',false);
+        $default_longitude =  (float)JRequest::getVar('long',false);
+        $inizialize_autocenter_markers = 0;
+        
+        //Ask User Position
+        $center_onuser_position = 0;
+        
+    } else {
+        
+        $default_latitude = (float)$params->get('hmod_initialize_default_lat',-34.397);
+        $default_longitude = (float)$params->get('hmod_initialize_default_lng',150.644);
+        //Ask User Position
+        $center_onuser_position = $params->get('hmod_initialize_center_onuser_position',0);
+    }
 	
-	//Ask User Position
-	$center_onuser_position = $params->get('hmod_initialize_center_onuser_position',0);
+	
+    
+    
 	//sidebar settings start
 	$sidebar_enable       = $params->get('hmod_sidebar_enable',0);
 	$sidebar_load_open    = $params->get('hmod_sidebar_load_open',0);
 	$sidebar_position     = $params->get('hmod_sidebar_position','left');
 	$sidebar_width        = $params->get('hmod_sidebar_width','320');
 	//sidebar settings end
+	
 	//results section from backend(the result counter)
 	$results_enable       = $params->get('hmod_results_enable',0);
 	//results tab from backend
+	
 	//contents section from layout tab
 	$contents_enable      = $params->get('hmod_contents_enable',0);
 	//to put the result html in the sidebar...
 	//contents section from layout tab
+	
 	//Buttons
 	$buttonsenabled_zoom_inout   = $params->get('hmod_buttonsenabled_zoom_inout',0);
 	$buttonsenabled_street_view  = $params->get('hmod_buttonsenabled_street_view',0);
@@ -313,6 +339,9 @@ $infowindow_width = HelloMapsHelper::GetConfiguration('infowindow_width','300');
 $inlineJS .= 'var infowindow_width = '.$infowindow_width.';'."\n";
 $inlineJS .= 'var counter_result_type = "'.$results_type.'";'."\n";
 
+/** GCHAD FIX***/
+$inlineJS .= 'var gmap_default_zoom = '.$gmap_detault_zoom.';'."\n";
+//debug($inlineJS);
 $document->addScriptDeclaration($inlineJS);
 //        $document->addScriptDeclaration('var COM_HELLOMAP_SEARCH_IN_PROGRESS="'.addslashes(JText::_('COM_HELLOMAP_SEARCH_IN_PROGRESS')).'"');
 $document->addScript(HELLOMAPS_FRONT_URL.'assets/mCustomScrollbar/hquery.mCustomScrollbar.concat.min.js');

@@ -107,3 +107,23 @@ $warningEmails = array(
 
 );
 
+
+/**
+ * Matrix map id to redirect with the spot on map
+ */
+ global $urlMapLang;
+$urlMapLang = array(
+
+    10 => 208, //europe
+    3 => 307, //german
+    4 => 297, //espana
+    6 => 201, //france
+    7 => 222, //nordic
+    1 => 159, //uk
+    11 => 234, //middle east
+    8 => 244, //africa
+    13 => 159, //US
+    5    => 343, //italia
+    
+
+);

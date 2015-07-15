@@ -28,18 +28,21 @@ else {
 }
 
 
-                    
+                  
                   
                     
 require_once('libraries/joomla/language/helper.php');
-$languages  = JLanguageHelper::getLanguages();
+$languages  = JLanguageHelper::getLanguages(); 
 $activeLanguage = JFactory::getLanguage()->getTag();
 $sefLang = '';
+$sefLangId = '';
+
 
 foreach($languages as $l){
     
     if($l->lang_code == $activeLanguage){
         $sefLang = $l->sef;
+        $sefLangId = $l->lang_id;
    
     }
 }  
@@ -141,7 +144,7 @@ var addthis_share =
 { 
     url : '<?=$shareUrl?>',
     templates: {
-               twitter: 'Check out my studio from the Pro Audio Gallery form Avid: {{lurl}} #ProToolsHD',
+               twitter: 'Check out my studio from the Pro Audio Gallery from Avid: {{lurl}} #ProToolsHD',
            }
 }
 </script>
@@ -435,7 +438,7 @@ var addthis_share =
 			<?php foreach ($this->item->extra_fields as $key => $extraField): ?>
     			
     			
-    			<?php if( $extraField->value && $extraField->id <> 5): 
+    			<?php if( $extraField->value && $extraField->id <> 5 && strpos($extraField->name,'discog') === false && strpos($extraField->name,'imdb') === false ): 
                 
     			    
     			    /*?>
@@ -478,12 +481,44 @@ var addthis_share =
             
             
             <?php foreach ($this->item->extra_fields as $key => $extraField){
-            
+                
+                
+                //map
                 if($extraField->id == 5) {
-                    echo '<a target="_blank" href="'.$extraField->value.'" class="btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_STUDIO_WEBSITE').'</a>';
+                    echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_STUDIO_WEBSITE').'</a>';
                 }
                 
-            }?>
+                
+                //discog
+                if(strpos($extraField->name,'discog') !== false && ($this->item->catid == 8 || $this->item->catid == 2) && $extraField->value){
+                     echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_DISCOG').'</a>';
+                }
+                
+                //imdb
+                if(strpos($extraField->name,'imdb') !== false && ($this->item->catid == 3 || $this->item->catid == 9) && $extraField->value){
+                     echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_IMDB').'</a>';
+                }
+                 
+            }
+            
+         
+            $map = json_decode($this->item->plugins);
+          
+         
+            if(is_object($map) && $map->latitude && $map->longitude){
+                
+                $lat = $map->latitude;
+                $long = $map->longitude;
+                 global $urlMapLang;
+                $itemIdMap = isset($urlMapLang[$sefLangId]) ? $urlMapLang[$sefLangId] : 1;
+                    
+                $mapUrl = JRoute::_('index.php?option=com_content&view=article&id=5&Itemid='.$itemIdMap).'?lat='.$lat.'&long='.$long;
+                echo '<a target="_blank" href="'.$mapUrl.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('SPOT_ON_MAP').'</a>';
+     
+            } ?>
+            
+           
+                
 			
 	    <div class="clr"></div>
 	  </div>

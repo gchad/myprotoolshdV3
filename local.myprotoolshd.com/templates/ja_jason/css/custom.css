@@ -16,6 +16,16 @@
  
 }
 
+.delimiter {
+	display: block;
+	height: 1px;
+	border-bottom : 1px dashed #CCCCCC;
+	margin-bottom: 16px;
+}
+
+
+
+
 /*@font-face {
   font-family: 'Source Sans Pro';
   src: url('../fonts/source-sans-pro/SourceSansPro-Regular.otf');
@@ -74,8 +84,19 @@ h1 {
 
 }
 
+.socialIcon img{
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
+}
+
+
+
 @media (max-width: 768px){
 	
+	#k2Container.itemView{
+		padding: 10px 0px !important;
+	}
 	#k2Container .itemExtraFields .itemExtraFieldsLabel,
 	#k2Container .itemExtraFields .itemExtraFieldsValue {
 		display: block !important;
@@ -477,6 +498,24 @@ h1 {
 	.blueOverlay .product{
 		bottom: 6px;
 	}
+	
+	div.itemContainer{
+		width: 400px;
+	}
+}
+
+#spotMap {
+	margin: 0px 0px 0px 10px;
+}
+
+#goutte {
+	margin: 0px 10px 0px 0px;
+	width: 16px;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	top: 0px;
 }
 
 .nowrap{
@@ -500,17 +539,21 @@ h1 {
 	margin: 0px !important;
 }
 
+.button2.buttonGrey{
+	color: #ffffff !important;
+	 background: #AAAAAA !important;
+}
 
 .button2{
-border-radius: 5px;
-font-family: Arial !important;
-color: #ffffff !important;
-
-background: #3498db !important;
-padding: 5px 20px 5px 20px !important;
-text-decoration: none !important;
-border: 1px solid transparent !important;
-font-size: 16px !important;
+	border-radius: 5px;
+	font-family: Arial !important;
+	color: #ffffff !important;
+	
+	background: #3498db !important;
+	padding: 5px 20px 5px 20px !important;
+	text-decoration: none !important;
+	border: 1px solid transparent !important;
+	font-size: 16px !important;
 }
 
 .magic-select button {
@@ -997,11 +1040,37 @@ a.button3:hover{
  
  .itemFullText{
  	font-size: 16px;
- 	padding: 20px;
  }
  
- div.itemExtraFields h3{
- 	font-family: "AvidOmnesLight" !important;
+ div.itemExtraFields h3, div.itemExtraFields h2{
+ 	font-family: "AvidOmnesMedium" !important;
+ 	margin: 40px 0px 0px 0px;
+ 	font-size: 18px;
+ 	padding: 0px;
+ 	display: block !important;
+ }
+ 
+  div.itemExtraFields h2{
+  	font-size: 22px;
+ 	font-family: "AvidOmnesMedium" !important;
+ 	margin: 10px 0px 0px 0px;
+ }
+ 
+ .creditsIcon{
+ 	display: inline-block; 
+ 	vertical-align: top;
+	margin-right: 15px;
+	height: 32px;
+	width: auto;
+ }
+ 
+ div.itemExtraFields p{
+ 	margin: 10px 0px;
+ 	color: #707070;
+ }
+ 
+ a {
+ 	color: #3498DE;
  }
  
  #form-login-remember{
@@ -1246,7 +1315,7 @@ div#k2Frontend div.simpleTabsContent{
 }
 
 .theme-default .nivo-controlNav{
-	padding: 15px 0px 0px 0px !important;
+	padding: 15px 0px 20px 0px !important;
 }
 
 .theme-default .nivo-controlNav.nivo-thumbs-enabled a{
@@ -1260,6 +1329,75 @@ div.itemBody img{
 
 div.itemFullText h3{
 	padding-top: 0px !important;
+}
+
+div.itemExtraFields {
+  border-top: 1px dotted #000000;
+  margin: 25px 0 0 0;
+  padding: 25px 0 0 0;
+}
+
+.btn-avid { 
+  color: #ffffff !important; 
+  background-color: #3498DE; 
+  border-color: #3498DE; 
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  text-shadow: none;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+   background-image: none !important;
+} 
+
+td, tr td {
+  border-top: none !important;
+}
+ 
+.btn-avid:hover, 
+.btn-avid:focus, 
+.btn-avid:active, 
+.btn-avid.active, 
+.open .dropdown-toggle.btn-avid { 
+  color: #ffffff !important; 
+  background-color: #3498DE; 
+  border-color: #3498DE; 
+   
+} 
+ 
+.btn-avid:active, 
+.btn-avid.active, 
+.open .dropdown-toggle.btn-avid { 
+  background-image: none; 
+} 
+ 
+.btn-avid.disabled, 
+.btn-avid[disabled], 
+fieldset[disabled] .btn-avid, 
+.btn-avid.disabled:hover, 
+.btn-avid[disabled]:hover, 
+fieldset[disabled] .btn-avid:hover, 
+.btn-avid.disabled:focus, 
+.btn-avid[disabled]:focus, 
+fieldset[disabled] .btn-avid:focus, 
+.btn-avid.disabled:active, 
+.btn-avid[disabled]:active, 
+fieldset[disabled] .btn-avid:active, 
+.btn-avid.disabled.active, 
+.btn-avid[disabled].active, 
+fieldset[disabled] .btn-avid.active { 
+  background-color: #3498DE; 
+  border-color: #3498DE; 
+} 
+ 
+.btn-avid .badge { 
+  color: #3498DE; 
+  background-color: #ffffff; 
 }
 
 .TableauWelcome span {
@@ -1303,7 +1441,8 @@ body.contentpane.modal {
 }
 
 body.modal .itemFullText{
-	padding: 0px;
+	margin-top: 20px;
+	padding: 10px 0px;
 }
 
 .contact, .login-wrap form, {

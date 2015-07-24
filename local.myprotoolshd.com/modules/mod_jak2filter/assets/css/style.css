@@ -107,7 +107,12 @@ select:focus {
 }
 
 #searchKeyWord{
-	font-size: 15px !important;
+
+	margin-right: 20px;
+}
+
+.ja-intro-1 input, .ja-intro-1 select{
+	height: 38px;
 }
 
 
@@ -182,13 +187,12 @@ ul.ja-k2filter li p input.date {
 	display: none;
 	margin-bottom: 5px;
 	padding: 10px;
-	position: relative;
 	width: 90%;
 	box-shadow: 0 0 3px rgba(0,0,0,.1);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	z-index: 10;
+	z-index: 12;
 }
 
 .ja-k2filter .ja-magic-select ul {
@@ -280,14 +284,27 @@ ul.horizontal-layout li input.btn {
 
 ul#jak2filter101 > li:last-child,
 ul#jak2filter101 > li.last-item {
-	width: 100%;
-	display: none;
+	/*width: 100%;
+	display: none;*/
 }
 
 ul.ja-k2filter {
 	display: block;
 	padding: 0 3px !important;
 	list-style: none;
+}
+
+ul.ja-k2filter .ja-magic-select-container span {
+  background: #FFFFFF;
+  border: 1px solid #E1E1E8;
+  border-radius: 3px;
+  color: #666;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 4px 4px 0px;
+  padding: 0px 20px 0px 5px;
+  position: relative;
+  white-space: nowrap;
 }
 
 ul.ja-k2filter div.ja-magic-select ul li {
@@ -300,6 +317,20 @@ ul.ja-k2filter div.ja-magic-select ul li {
 	min-height: initial;
 	
 }
+.ja-magic-select-container span {
+  background: #FFFFFF;
+  border: 1px solid #E1E1E8;
+  border-radius: 3px;
+  color: #666;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 4px 4px 0px;
+  padding: 0px 20px 0px 5px;
+  position: relative;
+  white-space: nowrap;
+}
+
+
 
 ul.ja-k2filter div.ja-magic-select ul li.disabled {
   color: #ccc;

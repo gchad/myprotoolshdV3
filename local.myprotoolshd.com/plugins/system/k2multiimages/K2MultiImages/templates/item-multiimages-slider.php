@@ -130,7 +130,7 @@ $shareUrl =  'http://'.$_SERVER['HTTP_HOST'].'/'.str_replace('/'.$sefLang.'/',''
 </script>
 
 <?php 
-JHtml::_('bootstrap.loadCss');
+//JHtml::_('bootstrap.loadCss');
 JHtml::_('bootstrap.button');
 //GCHAD FIX add social custom
 ?>
@@ -430,94 +430,161 @@ var addthis_share =
 	  <div class="itemExtraFields">
 	      
 	      
-	  	<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>
-	  	
-	  	
-	  	    <table>
+        <h2><?php echo $this->item->title; ?></h2>
+  	     
+  	    <p><?= $this->item->category->name?></p> 
+  	     <?php
+  	     
+  	    $map = json_decode($this->item->plugins);
+        
+        echo '<p><img id="goutte" src="templates/ja_jason/images/social_icons/goutte.png"/>';
+        
+        foreach ($this->item->extra_fields as $key => $extraField){
+            
+            if($extraField->id == 8 && $extraField->value) {
+                echo '<span>'.$extraField->value.', </span>';
+            }
+        }
+         
+        if(is_object($map) && $map->latitude && $map->longitude){
+            
+            $lat = $map->latitude;
+            $long = $map->longitude;
+            global $urlMapLang;
+            $itemIdMap = isset($urlMapLang[$sefLangId]) ? $urlMapLang[$sefLangId] : 1;
+                
+            $mapUrl = JRoute::_('index.php?option=com_content&view=article&id=5&Itemid='.$itemIdMap).'?lat='.$lat.'&long='.$long;
+            echo '<a id="spotMap" target="_blank" href="'.$mapUrl.'" class="">'.JText::_('SPOT_ON_MAP').'</a>';
+ 
+        } 
+        
+        echo '</p>';
+        
+        ?>
+        
+        <h3><?= JText::_('ON_THE_WEB'); ?></h3>
+ 
+        
+         <?php foreach ($this->item->extra_fields as $key => $extraField){
+             
+    
+                if($extraField->id == 5 && $extraField->value) {
+                    
+                    $urlSite = preg_replace('/^https?:\/\//','',$extraField->value);
+                    $urlSite = preg_replace('/\/$/','',$urlSite);
+                    
+                    echo '<p><a target="_blank" href="'.$extraField->value.'" class=""> '.$urlSite.'</a></p>';
+                }
+                
+                if($extraField->name == 'social-twitter' && $extraField->value) {
+                    echo '<a class="socialIcon twitter" target="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/twitter.png"/></a>';
+                }
+                
+                if($extraField->name == 'social-facebook' && $extraField->value) {
+                    echo '<a class="socialIcon facebook" target="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/facebook.png"/></a>';
+                }
+                
+                if($extraField->name == 'social-youtube' && $extraField->value) {
+                    echo '<a class="socialIcon youtube" arget="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/youtube.png"/></a>';
+                }
+                
+                if($extraField->name == 'social-vimeo' && $extraField->value) {
+                    echo '<a class="socialIcon instagram" target="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/vimeo.png"/></a>';
+                }
+                
+                if($extraField->name == 'social-instagram' && $extraField->value) {
+                    echo '<a class="socialIcon instagram" target="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/instagram.png"/></a>';
+                }
 
-			<?php foreach ($this->item->extra_fields as $key => $extraField): ?>
-    			
-    			
-    			<?php if( $extraField->value && $extraField->id <> 5 && strpos($extraField->name,'discog') === false && strpos($extraField->name,'imdb') === false ): 
+                if($extraField->name == 'social-linkedin' && $extraField->value) {
+                    echo '<a class="socialIcon linkedin" target="_blank" href="'.$extraField->value.'" class=""><img src="templates/ja_jason/images/social_icons/linkedin.png"/></a>';
+                }
                 
-    			    
-    			    /*?>
-        			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
-        				<span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span>
-        				
-        				<?php 
-        				
-        				   $xtraValue = $extraField->id == 5 ? '<a target="_blank" href="'.$extraField->value.'">'.$this->item->title.'</a>' : $extraField->value;
-        				
-        				?>
-        				<span class="itemExtraFieldsValue"><?=$xtraValue;?></span>
-        			</li>
-    			<?php */
-    			
-    			     ?>
-                    <tr>
-                        <td class="col1"><span class="itemExtraFieldsLabel"><?php echo JText::_($extraField->name.'_POP'); ?>:</span></td>
-                        <td class="col2"><span class="itemExtraFieldsValue"><?=$extraField->value?></span></td>
-                    </tr> <?php
-                	
-    			endif; ?>
-    			
-			<?php endforeach; 
-			
-			/**** GCHAD FIX ****/ ?>
-			
-    			<!--<li><span class="itemExtraFieldsLabel"><?=JText::_('LINK_POP')?>: </span>
-    			    <span class="itemExtraFieldsValue">
-    			        <a target="_blank" href="<?=$this->item->link?>">
-    			        <?php 
-    			        
-    			      
-                             
-    			        echo $shareUrl;?>
-    			        </a>
-    		        </span>
-	           </li>-->
-            </table>
+                
+         }
+         ?>
+	  	
+	  	<h3><?= JText::_('PROFILE_CREDITS'); ?></h3> <?php
+	  	   
+    
+        foreach ($this->item->extra_fields as $key => $extraField){
             
-            
-            <?php foreach ($this->item->extra_fields as $key => $extraField){
-                
-                
-                //map
-                if($extraField->id == 5) {
-                    echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_STUDIO_WEBSITE').'</a>';
-                }
-                
-                
-                //discog
-                if(strpos($extraField->name,'discog') !== false && ($this->item->catid == 8 || $this->item->catid == 2) && $extraField->value){
-                     echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_DISCOG').'</a>';
-                }
-                
-                //imdb
-                if(strpos($extraField->name,'imdb') !== false && ($this->item->catid == 3 || $this->item->catid == 9) && $extraField->value){
-                     echo '<a target="_blank" href="'.$extraField->value.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('GO_TO_IMDB').'</a>';
-                }
-                 
+            //credits
+            if( $extraField->id == 6 && $extraField->value){
+                 echo '<p>'.$extraField->value.'</p>';
             }
             
+        }   
+        
+        foreach ($this->item->extra_fields as $key => $extraField){
+             //more credits
+            if(strpos($extraField->name,'more-credits') !== false && $extraField->value){
+                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="discogLogo" src="templates/ja_jason/images/social_icons/more.png"/></a>';
+            }     
+             
+        }
+        
+         foreach ($this->item->extra_fields as $key => $extraField){
          
-            $map = json_decode($this->item->plugins);
+            //discog
+            if(strpos($extraField->name,'discog') !== false && ($this->item->catid == 8 || $this->item->catid == 2) && $extraField->value){
+                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="discogLogo" src="templates/ja_jason/images/social_icons/discog.jpeg"/></a>';
+            }
+            
+            //imdb
+            if(strpos($extraField->name,'imdb') !== false && ($this->item->catid == 3 || $this->item->catid == 9) && $extraField->value){
+                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="imdbLogo" src="templates/ja_jason/images/social_icons/imdb.jpeg"/></a>';
+            }
+        
+        } 
+     
+       if($this->item->params->get('itemTags') && count($this->item->tags)): ?>
+         
+                     
+            <h3><?= JText::_('FOCUS'); ?></h3> 
+              
+            <p class="itemTags">
+                
+                <?php 
+                $countTag = count($this->item->tags);
+                $i = 1;
+                
+                foreach ($this->item->tags as $tag):
+                     
+                     /*<li><a href="<?php echo $tag->link; ?>"><?php echo $tag->name; ?></a></li>*/
+                     echo $tag->name;
+                     echo $i < $countTag ? ', ' : '';
+                     $i++;
+                endforeach; ?>
+            </p>
+              
           
          
-            if(is_object($map) && $map->latitude && $map->longitude){
-                
-                $lat = $map->latitude;
-                $long = $map->longitude;
-                 global $urlMapLang;
-                $itemIdMap = isset($urlMapLang[$sefLangId]) ? $urlMapLang[$sefLangId] : 1;
-                    
-                $mapUrl = JRoute::_('index.php?option=com_content&view=article&id=5&Itemid='.$itemIdMap).'?lat='.$lat.'&long='.$long;
-                echo '<a target="_blank" href="'.$mapUrl.'" class="btnProfile btn btn-primary"><i class="icon-white icon-share"></i>  '.JText::_('SPOT_ON_MAP').'</a>';
-     
-            } ?>
+        <?php endif; ?>
+       
+       
+       <h3><?= JText::_('TOOLS_USED'); ?></h3> 
+       
+       <?php foreach ($this->item->extra_fields as $key => $extraField){
+    
+                if($extraField->id == 2) {
+                    echo '<p>'.$extraField->value.'</p>';
+                }
+         }
+         ?>
             
+         
+        <h3><?= JText::_('SHARE_THIS_PAGE'); ?></h3>   
+        
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <p class="addthis_toolbox addthis_default_style addthis_32x32_style">
+            <a class="addthis_button_facebook"></a>
+            <a class="addthis_button_twitter" tw:text="#ProToolsHD"></a>
+            <a class="addthis_button_linkedin"></a>
+            <a class="addthis_button_email"></a>
+            <a class="addthis_button_compact"></a>
            
+        </p>
                 
 			
 	    <div class="clr"></div>
@@ -559,15 +626,7 @@ var addthis_share =
 	<div class="itemSocialSharing">
 	    
 	    
-        <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-            <a class="addthis_button_facebook"></a>
-            <a class="addthis_button_twitter" tw:text="#ProToolsHD"></a>
-            <a class="addthis_button_linkedin"></a>
-            <a class="addthis_button_email"></a>
-            <a class="addthis_button_compact"></a>
-           
-        </div>
+    
 
 		<?php /*if($this->item->params->get('itemTwitterButton',1)): ?>
 		<!-- Twitter Button -->
@@ -613,18 +672,7 @@ var addthis_share =
 		</div>
 		<?php endif; ?>
 
-	  <?php if($this->item->params->get('itemTags') && count($this->item->tags)): ?>
-	  <!-- Item tags -->
-	  <div class="itemTagsBlock">
-		  <span><?php echo JText::_('K2_TAGGED_UNDER'); ?></span>
-		  <ul class="itemTags">
-		    <?php foreach ($this->item->tags as $tag): ?>
-		    <li><a href="<?php echo $tag->link; ?>"><?php echo $tag->name; ?></a></li>
-		    <?php endforeach; ?>
-		  </ul>
-		  <div class="clr"></div>
-	  </div>
-	  <?php endif; ?>
+	  
 
 	  <?php if($this->item->params->get('itemAttachments') && count($this->item->attachments)): ?>
 	  <!-- Item attachments -->

@@ -8,6 +8,8 @@ foreach ($glist['items'] as $key => $exfield):
     
 	if($fieldTypes[0] == 'magicSelect'){
 		$magicSelect = ' class="magic-select"';
+        
+        
 	}
     
 	$last = ($i == count($list)-1)?'class="li-last"':'';
@@ -25,11 +27,12 @@ foreach ($glist['items'] as $key => $exfield):
 	?>
 	<li <?php echo $style;?> <?php echo $magicSelect;?>>
 	    
-	    
-	    
+
 		<?php echo $exfield; ?>
 	</li>
 	<?php
 	$clear = '';
+    
 endforeach;
+
 ?>

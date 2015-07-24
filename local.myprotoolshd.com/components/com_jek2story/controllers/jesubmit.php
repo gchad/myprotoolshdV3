@@ -245,14 +245,14 @@ class jesubmitController extends JControllerLegacy  {
                 //language
                 $language = "*";
                 $country = isset($post['K2ExtraField_8']) ? $post['K2ExtraField_8'] : null;
-               
+              
                 global $countryMatrix;
                 
                 require_once('libraries/joomla/language/helper.php');
                 $languages  = JLanguageHelper::getLanguages();
                 $activeLanguage = JFactory::getLanguage()->getTag();
                 $languageId = array();
-                
+               
                 foreach ($countryMatrix as $countryId => $cArray){ 
                     foreach ($cArray as $v){
                         if($v == $country){
@@ -268,7 +268,7 @@ class jesubmitController extends JControllerLegacy  {
                         continue;
                     }
                 }
-               
+              
                 //test if duplicate emails
                 $q = "SELECT * FROM jos_users WHERE email = '".$post['email']."'";
                 $db->setQuery($q);
@@ -448,7 +448,7 @@ class jesubmitController extends JControllerLegacy  {
  		  
           
              /** GCHAD FIX do not render IMDB and discog **/
-            if( strpos($extraField->name,'discog') !== false || strpos($extraField->name,'imdb') !== false ){
+            if( strpos($extraField->name,'discog') !== false || strpos($extraField->name,'imdb') !== false || strpos($extraField->name,'social-') !== false || strpos($extraField->name,'more-credits') !== false){
                 continue;
             }
             
@@ -534,18 +534,20 @@ class jesubmitController extends JControllerLegacy  {
     
                 //XLarge image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = true;
+                $handle->image_ratio_y = false;
                 $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1.5;
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
                 $handle->file_new_name_body = $filename.'_XL';
-                if (JRequest::getInt('itemImageXL')) {
+                /*if (JRequest::getInt('itemImageXL')) {
                     $imageWidth = JRequest::getInt('itemImageXL');
                 } else {
                     $imageWidth = $params->get('itemImageXL', '800');
-                }
-                $handle->image_x = $imageWidth;
+                }*/
+                $handle->image_x = 900;
+                $handle->image_y = 600;
                 $handle->Process($savepath);
     
                 //Large image
@@ -568,18 +570,22 @@ class jesubmitController extends JControllerLegacy  {
     
                 //Medium image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = true;
+                $handle->image_ratio_y = false;
                 $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1.5;
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
                 $handle->file_new_name_body = $filename.'_M';
-                if (JRequest::getInt('itemImageM')) {
+                
+                /*if (JRequest::getInt('itemImageM')) {
                     $imageWidth = JRequest::getInt('itemImageM');
                 } else {
                     $imageWidth = $params->get('itemImageM', '400');
-                }
-                $handle->image_x = $imageWidth;
+                }*/
+                
+                $handle->image_x = 400;
+                $handle->image_y = 267;
                 $handle->Process($savepath);
     
                 //Small image
@@ -600,7 +606,7 @@ class jesubmitController extends JControllerLegacy  {
     
                 //XSmall image
                 $handle->image_resize = true;
-                //$handle->image_ratio_y = false;
+                $handle->image_ratio_y = false;
                 $handle->image_convert = 'jpg';
                 $handle->image_ratio_crop = 1;
                 $handle->jpeg_quality = $params->get('imagesQuality');
@@ -608,18 +614,18 @@ class jesubmitController extends JControllerLegacy  {
                 $handle->file_overwrite = true;
                 $handle->file_new_name_body = $filename.'_XS';
                 
-                if (JRequest::getInt('itemImageXS')) {
+                /*if (JRequest::getInt('itemImageXS')) {
                     $imageWidth = JRequest::getInt('itemImageXS');
                 } else {
                     $imageWidth = $params->get('itemImageXS', '100');
-                }
+                }*/
                 
-                $handle->image_x = $imageWidth;
-                $handle->image_y = $imageWidth;
+                $handle->image_x = 100;
+                $handle->image_y = 100;
                 $handle->Process($savepath);
     
                 //Generic image
-                $handle->image_resize = true;
+               /* $handle->image_resize = true;
                 $handle->image_ratio_y = true;
                 $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
@@ -628,7 +634,7 @@ class jesubmitController extends JControllerLegacy  {
                 $handle->file_new_name_body = $filename.'_Generic';
                 $imageWidth = $params->get('itemImageGeneric', '300');
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);
+                $handle->Process($savepath);*/
     
                 if($files['image']['error'] === 0){
                     $handle->Clean();

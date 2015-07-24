@@ -227,7 +227,7 @@ li.ui-state-highlight {
                                         <label><?php echo JText::_('K2_TAGS'); ?></label>
                                     </td>
                                     <td class="adminK2RightCol">
-                                        <?php if($this->params->get('taggingSystem')): ?>
+                                        <?php if($this->params->get('taggingSystem')):?>
                                         <!-- Free tagging -->
                                         <ul class="tags">
                                             <?php if(isset($this->row->tags) && count($this->row->tags)): ?>
@@ -255,7 +255,7 @@ li.ui-state-highlight {
                                         <div id="tagsLog"></div>
                                         <div class="clr"></div>
                                         <span class="k2Note"> <?php echo JText::_('K2_WRITE_A_TAG_AND_PRESS_ADD_TO_INSERT_IT_TO_THE_AVAILABLE_TAGS_LISTNEW_TAGS_ARE_APPENDED_AT_THE_BOTTOM_OF_THE_AVAILABLE_TAGS_LIST_LEFT'); ?> </span>
-                                        <?php endif; ?>
+                                        <?php endif;  ?>
                                         <table cellspacing="0" cellpadding="0" border="0" id="tagLists">
                                             <tr>
                                                 <td id="tagListsLeft">

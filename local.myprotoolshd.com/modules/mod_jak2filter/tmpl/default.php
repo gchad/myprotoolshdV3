@@ -119,29 +119,6 @@ endif;
 /*END: filter by Author*/?>
 
 <?php 
-/*BEGIN: filter by Tags*/
-if($filter_by_tags_display): 
-$style = '';
-if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
-	$clear = " clear:both;";
-}
-if($ja_column || $clear){
-	$style ='style="'.$ja_column.$clear.'"';
-}
-$j++;
-
-?>
-	<li <?php echo $style;?>>
-		<label class="group-label"><?php echo $filter_by_tags_label; ?></label>
-		<?php echo $filter_by_tags_display; ?>
-	</li>
-<?php 
-$clear = '';
-endif; 
-/*END: filter by Tags*/
-?>
-
-<?php 
 /*BEGIN: filter by Rating*/
 if($filter_by_rating_display): 
 $style = '';
@@ -203,27 +180,152 @@ if($filter_by_category){
 	<?php if($ja_stylesheet == 'vertical-layout' && count($list) > 1): debug('la');?>
 		
 		<li id="ja-extra-field-accordion-<?php echo $module->id; ?>" class="accordion">
+			
 			<?php foreach($list as $glist): ?>
+    			
     			<?php $groupid = $glist['groupid']; ?>
+    			
     			<h4 class="heading-group heading-group-<?php echo $groupid ?>"><?php echo $glist['group'] ?></h4>
+    			
     			<div>
     				<ul>
     					<?php require JModuleHelper::getLayoutPath('mod_jak2filter', 'default_extrafields'); ?>
     				</ul>
     			</div>
+    			
 			<?php endforeach; ?>
+			
 		</li>
 	<?php else: ?>
+	    
 		<?php foreach($list as $glist): ?>
-		<?php require JModuleHelper::getLayoutPath('mod_jak2filter', 'default_extrafields'); ?>
+		    
+		      <?php require JModuleHelper::getLayoutPath('mod_jak2filter', 'default_extrafields'); ?>
+		      
 		<?php endforeach; ?>
+		
 	<?php endif; ?>
 
 
 	
-<?php endif; ?>
+<?php endif;
 
-<?php if ($params->get('display_ordering_box', 1)): ?>
+/*BEGIN: filter by Tags*/
+if($filter_by_tags_display): 
+    
+    $style = '';
+    
+    if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
+        $clear = " clear:both;";
+    }
+    
+    if($ja_column || $clear){
+        $style ='style="'.$ja_column.$clear.'"';
+    }
+    
+    $j++;?>
+    
+        <li <?php echo $style;?> class="magic-select">
+            
+            <?php echo $filter_by_tags_label; ?>
+            <?php echo $filter_by_tags_display; ?>
+            
+        </li>
+        
+    <?php 
+    $clear = '';
+    
+    $helper = new modJak2filterHelper($module);
+    $paramsM = new JRegistry($module->params);
+    
+    $db = JFactory::getDbo();
+       
+    $cat_ids = $paramsM->get('k2catsid',null);
+    if(count($helper->activeCats)) {
+        $cat_ids = $this->activeCats;
+    }
+      
+    if($paramsM->get('catMode', 0)) {
+        $model = new JAK2FilterModelItemlist();
+        $cat_ids = $model->getCategoryTree($cat_ids);
+    }
+    $cat_ids = is_array($cat_ids) ? implode(',',$cat_ids) : $cat_ids;
+    
+    $query ="SELECT t.id , t.name as name ".
+            " FROM #__k2_tags AS t".
+            " LEFT JOIN #__k2_tags_xref AS tx ON t.id = tx.tagID";
+            
+    if ($cat_ids) {
+        
+        $query .= " LEFT JOIN #__k2_items as ki ON tx.itemID = ki.id";
+        $query .= " WHERE ki.catid IN ($cat_ids) AND t.published=1";
+        
+    } else {
+        
+        $query .= " WHERE t.published=1";
+        
+    }
+    $query .=" GROUP BY t.id";
+    $db->setQuery( $query );
+    
+    $availTags = $db->loadObjectList('id');
+    
+    global $tagsMatrix;
+    
+    foreach( $tagsMatrix as $catId => &$groups){
+        
+        foreach ( $groups as &$group){
+            
+            foreach($group as $k => &$v){
+                
+                if(key_exists($v, $availTags)){
+
+                    $group[$k] = array('id' => $v, 'name' => JText::_('TAG_'.$availTags[$v]->name),);
+            
+                } else {
+                    
+                    unset( $group[$k]);
+                }               
+            }                    
+        }
+    }
+    
+    foreach( $tagsMatrix as $catId => &$groups){
+        
+       foreach ($groups as $k => &$group){
+           
+           if(empty($group)){
+                unset($groups[$k]);
+           }
+       }    
+    }
+    
+   
+    ?>
+    
+    
+    <script type="text/javascript">
+     
+        var tagsMatrix = <?=json_encode($tagsMatrix)?>;
+        
+        window.addEvent('load', function(){
+            
+            populateTags(null);
+        });
+       
+             
+    </script>
+    
+    
+  <?php  
+endif; 
+
+
+
+
+/*END: filter by Tags*/
+
+if ($params->get('display_ordering_box', 1)): ?>
 	<?php
 	$style = '';
 	if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
@@ -240,6 +342,7 @@ if($filter_by_category){
 	</li>
 <?php endif; ?>
 
+
 <?php
 $style='';
 if($params->get('ja_column') >0 && (($j) % $params->get('ja_column')) == 0){
@@ -249,6 +352,10 @@ if($ja_column || $clear){
 	$style ='style="'.$ja_column.$clear.'"';
 }
 $j++;
+
+
+
+
 
 
  /*** GCHAD FIX add the search box */
@@ -261,25 +368,34 @@ if($filter_by_keyword): ?>
         <input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="" placeholder="<?=JText::_('SEARCH_BY_KEYWORD'); ?>"/>
     </li>
     
-    <li> <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button></li>
+    <li>
+        <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button>
+        
+        <?php if($params->get('enable_reset_button',1) == 1): ?>
+        <input class="button2 buttonGrey" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
+        <?php endif; ?>
+        
+    </li>
+    
+    
+    
+    
     <?php 
    
     
 endif; 
    
-?>
-	<li <?php echo $style;?> class="last-item">
-    	<?php if($params->get('auto_filter',1) == 0): ?>
-    		<input class="btn button2" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
-    	<?php endif; ?>
-    	<?php if($params->get('enable_reset_button',1) == 1): ?>
-    		<input class="btn" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
-    	<?php endif; ?>
-    	<?php if($ajax_filter && $share_url): ?>
-    		<div class="jak2shareurl"><a href="<?php echo JURI::current() ?>" target="_blank" title="<?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE_DESC', true)?>"><?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE')?></a></div>
-    	<?php endif; ?>
-    		
-	</li>
+
+
+if($params->get('auto_filter',1) == 0): ?>
+	<input class="btn button2" type="submit" name="btnSubmit" value="<?php echo JText::_('JAK2SEARCH'); ?>" />
+<?php endif; ?>
+
+<?php if($ajax_filter && $share_url): ?>
+	<div class="jak2shareurl"><a href="<?php echo JURI::current() ?>" target="_blank" title="<?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE_DESC', true)?>"><?php echo JText::_('JAK2_SHARE_URL_OF_RESULTS_PAGE')?></a></div>
+<?php endif; ?>
+	
+
 <?php 
 $clear = '';
 
@@ -288,10 +404,16 @@ $clear = '';
 </ul>
 <?php if($params->get('ajax_filter', 0) == 1): ?>
 	<input type="hidden" name="tmpl" value="component"/>
-<?php endif; ?>
+<?php endif;
+
+
+
+ ?>
+ 
 </form>
 
 <script type="text/javascript">
+
 /*<![CDATA[*/
 
 //validate date function
@@ -335,6 +457,7 @@ function searchFromScratch(){
 };
 
 window.addEvent('load', function(){
+    
     
     
     /****** REMOVE MAGIC SELECT REGULAR BUTTON POP***/
@@ -466,7 +589,13 @@ window.addEvent('load', function(){
                         }
                     }
                     
+                } else if (this.id == 'category_id' ){
+                    
+                    populateTags(this.value);
+                    searchFromScratch();  
+                    
                 } else {
+                    
                      searchFromScratch();                    
                 }
     		});

@@ -318,25 +318,24 @@ class K2ModelItem extends K2Model
 
 				$filename = $handle->file_dst_name_body;
 				$savepath = JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'cache';
-
-				//XLarge image
-				$handle->image_resize = true;
-				$handle->image_ratio_y = true;
-				$handle->image_convert = 'jpg';
-				$handle->jpeg_quality = $params->get('imagesQuality');
-				$handle->file_auto_rename = false;
-				$handle->file_overwrite = true;
-				$handle->file_new_name_body = $filename.'_XL';
-				if (JRequest::getInt('itemImageXL'))
-				{
-					$imageWidth = JRequest::getInt('itemImageXL');
-				}
-				else
-				{
-					$imageWidth = $params->get('itemImageXL', '800');
-				}
-				$handle->image_x = $imageWidth;
-				$handle->Process($savepath);
+                
+                //XLarge image
+                $handle->image_resize = true;
+                $handle->image_ratio_y = false;
+                $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1.5;
+                $handle->jpeg_quality = $params->get('imagesQuality');
+                $handle->file_auto_rename = false;
+                $handle->file_overwrite = true;
+                $handle->file_new_name_body = $filename.'_XL';
+                /*if (JRequest::getInt('itemImageXL')) {
+                    $imageWidth = JRequest::getInt('itemImageXL');
+                } else {
+                    $imageWidth = $params->get('itemImageXL', '800');
+                }*/
+                $handle->image_x = 1920;
+                $handle->image_y = 1280;
+                $handle->Process($savepath);
 
 				//Large image
 				$handle->image_resize = true;
@@ -355,26 +354,27 @@ class K2ModelItem extends K2Model
 					$imageWidth = $params->get('itemImageL', '600');
 				}
 				$handle->image_x = $imageWidth;
-				$handle->Process($savepath);
-
-				//Medium image
-				$handle->image_resize = true;
-				$handle->image_ratio_y = true;
-				$handle->image_convert = 'jpg';
-				$handle->jpeg_quality = $params->get('imagesQuality');
-				$handle->file_auto_rename = false;
-				$handle->file_overwrite = true;
-				$handle->file_new_name_body = $filename.'_M';
-				if (JRequest::getInt('itemImageM'))
-				{
-					$imageWidth = JRequest::getInt('itemImageM');
-				}
-				else
-				{
-					$imageWidth = $params->get('itemImageM', '400');
-				}
-				$handle->image_x = $imageWidth;
-				$handle->Process($savepath);
+				$handle->Process($savepath);                
+                
+                //Medium image
+                $handle->image_resize = true;
+                $handle->image_ratio_y = false;
+                $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1.5;
+                $handle->jpeg_quality = $params->get('imagesQuality');
+                $handle->file_auto_rename = false;
+                $handle->file_overwrite = true;
+                $handle->file_new_name_body = $filename.'_M';
+                
+                /*if (JRequest::getInt('itemImageM')) {
+                    $imageWidth = JRequest::getInt('itemImageM');
+                } else {
+                    $imageWidth = $params->get('itemImageM', '400');
+                }*/
+                
+                $handle->image_x = 400;
+                $handle->image_y = 267;
+                $handle->Process($savepath);
 
 				//Small image
 				$handle->image_resize = true;
@@ -394,25 +394,26 @@ class K2ModelItem extends K2Model
 				}
 				$handle->image_x = $imageWidth;
 				$handle->Process($savepath);
-
-				//XSmall image
-				$handle->image_resize = true;
-				$handle->image_ratio_y = true;
-				$handle->image_convert = 'jpg';
-				$handle->jpeg_quality = $params->get('imagesQuality');
-				$handle->file_auto_rename = false;
-				$handle->file_overwrite = true;
-				$handle->file_new_name_body = $filename.'_XS';
-				if (JRequest::getInt('itemImageXS'))
-				{
-					$imageWidth = JRequest::getInt('itemImageXS');
-				}
-				else
-				{
-					$imageWidth = $params->get('itemImageXS', '100');
-				}
-				$handle->image_x = $imageWidth;
-				$handle->Process($savepath);
+                
+                //XSmall image
+                $handle->image_resize = true;
+                $handle->image_ratio_y = false;
+                $handle->image_convert = 'jpg';
+                $handle->image_ratio_crop = 1;
+                $handle->jpeg_quality = $params->get('imagesQuality');
+                $handle->file_auto_rename = false;
+                $handle->file_overwrite = true;
+                $handle->file_new_name_body = $filename.'_XS';
+                
+                /*if (JRequest::getInt('itemImageXS')) {
+                    $imageWidth = JRequest::getInt('itemImageXS');
+                } else {
+                    $imageWidth = $params->get('itemImageXS', '100');
+                */
+                
+                $handle->image_x = 100;
+                $handle->image_y = 100;
+                $handle->Process($savepath);
 
 				//Generic image
 				$handle->image_resize = true;

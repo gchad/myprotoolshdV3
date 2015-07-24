@@ -238,6 +238,8 @@ li.ui-state-highlight {
 										<?php echo $this->lists['categories']; ?>
 									</td>
 								</tr>
+								
+								
 								<?php /* <tr>
 									<td class="adminK2LeftCol">
 										<label><?php echo JText::_('K2_TAGS'); ?></label>
@@ -309,6 +311,9 @@ li.ui-state-highlight {
 									</td>
 								</tr>
 								<?php endif; */?>
+								
+								
+								
 							</table>
 							
 							<?php if ($this->params->get('showExtraFieldsTab')): ?>
@@ -360,6 +365,11 @@ li.ui-state-highlight {
                                                     <?php endif; ?>
                                                 
                                                 <?php endforeach; ?>
+                                                
+                                                
+                                                
+                                               
+                                                
                                             </table>
                                         
                                         <?php else: ?>
@@ -402,6 +412,166 @@ li.ui-state-highlight {
                                         <?php endif; ?>
                                         
                                     </div>
+                                    
+                                    <table><?php
+                                        
+                                         /*** GCHAD FIX ****/
+                                        /* tags */
+                                         
+                                         $doc =& JFactory::getDocument();
+                                         $doc->addScript('plugins/system/k2multiimages/K2MultiImages/administrator/templates/front/assets/editFront.js');
+                                          $doc->addStyleSheet('plugins/system/k2multiimages/K2MultiImages/administrator/templates/front/assets/editFront.css');
+                                       
+                                        // $doc->addScript('modules/mod_jak2filter/assets/js/jak2filter.js');
+                                         require_once('modules/mod_jak2filter/helper.php');  
+                                         
+                                         $helper = new modJak2filterHelper($module);
+                                         $paramsM = new JRegistry($module->params);
+                                         
+                                       
+                                            $db = JFactory::getDbo();
+                                               
+                                            $cat_ids = $paramsM->get('k2catsid',null);
+                                            if(count($helper->activeCats)) {
+                                                $cat_ids = $this->activeCats;
+                                            }
+                                              
+                                            if($paramsM->get('catMode', 0)) {
+                                                $model = new JAK2FilterModelItemlist();
+                                                $cat_ids = $model->getCategoryTree($cat_ids);
+                                            }
+                                            
+                                            $cat_ids = is_array($cat_ids) ? implode(',',$cat_ids) : $cat_ids;
+                                            
+                                            $query ="SELECT t.id , t.name as name ".
+                                                    " FROM #__k2_tags AS t".
+                                                    " LEFT JOIN #__k2_tags_xref AS tx ON t.id = tx.tagID";
+                                                    
+                                            if ($cat_ids) {
+                                                
+                                                $query .= " LEFT JOIN #__k2_items as ki ON tx.itemID = ki.id";
+                                                $query .= " WHERE ki.catid IN ($cat_ids) AND t.published=1";
+                                                
+                                            } else {
+                                               
+                                                $query .= " WHERE t.published=1";
+                                                
+                                            }
+                                            $query .=" GROUP BY t.id";
+                                            $db->setQuery( $query );
+                                           
+                                            $availTags = $db->loadObjectList('id');
+                                           
+                                            global $tagsMatrix;
+                                            
+                                            $currentTags = array();
+                                            foreach($this->row->tags as $t){
+                                                $currenTags[$t->id] = $t->name;
+                                            }
+                                            
+                                            foreach( $tagsMatrix as $catId => &$groups){
+                                                
+                                                foreach ( $groups as &$group){
+                                                    
+                                                    foreach($group as $k => &$v){
+                                                        
+                                                        if(key_exists($v, $availTags)){
+                                        
+                                                            $group[$k] = array(
+                                                                'id' => $v, 
+                                                                'name' => JText::_('TAG_'.$availTags[$v]->name),
+                                                                'classe' => key_exists($v, $currenTags) ? 'selected' : ''
+                                                                );
+                                                    
+                                                        } else {
+                                                            
+                                                            unset( $group[$k]);
+                                                        }               
+                                                    }                    
+                                                }
+                                            }
+                                            
+                                            foreach( $tagsMatrix as $catId => &$groups){
+                                                
+                                               foreach ($groups as $k => &$group){
+                                                   
+                                                   if(empty($group)){
+                                                        unset($groups[$k]);
+                                                   }
+                                               }    
+                                            }
+                                         ?>
+                                         
+                                        <script>
+                                        
+                                            var tagsMatrix = <?=json_encode($tagsMatrix)?>;
+  
+                                                window.addEvent('load', function(){
+                                                  
+                                                    populateTags($('catid').value);                                                    
+                                                   
+                                                    $('catid').addEvent('change',function(){
+                                                       
+                                                       populateTags($('catid').value);
+                                                    });
+                                                                                                      
+                                                    if($$('.magicController')){
+                                                        
+                                                       $$('.magicController').each(function(el){
+                                                           
+                                                           el.addEvent('focus', function(f){
+                                                               f.preventDefault();
+                                                           });
+                                                
+                                                           var listid = el.get('listid');
+                                                
+                                                           
+                                                           el.addEvent('click',function(e){
+                                                        
+                                                                jaMagicSelect(el, listid);
+                                                            });
+                                                           
+                                                       });
+                                                   }
+                                                });
+                                             
+                                        </script>
+                                        
+                                       
+                                        
+                                       
+                                        <tr>
+                                            <td class="key">
+                                                <label><?php echo JText::_('EDIT_K2_TAG'); ?></label>
+                                            </td>
+                                            
+                                            <td class="adminK2RightCol">
+                                                
+                                                <li style="list-style: none; position: relative;" class="magic-select kitEl">
+    
+                                                    <div listid="mg-101-selectedTags" class="magicController closed" style="overflow:hidden; z-index: 11; position: relative;">
+                                                        
+                                                        <div style="z-index: 10; position: absolute; top: 0px; left: 0px; width: 100%; height: 80%;"></div>
+                                                        
+                                                        <select type="magicSelect" id="g-101-selectedTags" class="select closed exfield" listid="mg-101-selectedTags" title="K2FILTER_FILTER_BY_TAGS">
+                                                              <option>K2FILTER_FILTER_BY_TAGS</option>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="ja-magic-select" id="mg-101-selectedTags" style="display: none;">
+                                                        <ul></ul>
+                                                        <span class="btn-close" onclick="jaMagicSelectClose(this, 'mg-101-selectedTags'); return false;">Close</span><span class="arrow">&nbsp;</span>
+                                                    </div>
+                                                    
+                                                    <div id="mg-101-selectedTags-container" class="ja-magic-select-container"></div>
+                                                             
+                                                </li>
+                                            </td>
+                                        </tr>
+                                        
+                                        
+                                    </table>
                                     
                                     
                                     <?php if (count($this->K2PluginsItemExtraFields)): ?>

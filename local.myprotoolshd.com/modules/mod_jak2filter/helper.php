@@ -755,7 +755,7 @@ class modJak2filterHelper
 
 		if($field->jatype == 'xfield') {
 			$values = $this->getXFieldValues($field);
-		} else {
+		} else { 
 			$values = $field->value;
 		}
        
@@ -769,33 +769,48 @@ class modJak2filterHelper
 		$auto_filter		= (int) @$this->params->get('auto_filter');
 		$listid = 'mg-'.$this->module->id.'-'.$fieldname;
 		$html = '<div class="ja-magic-select" id="'.$listid.'" data-autofilter="'.$auto_filter.'"><ul>';
-
-		foreach ($values as $f)
-		{
-			$cls = '';
-			if(is_array($selected_values) && in_array($f->value, $selected_values)) {
-				$cls = 'selected';
-			}
-			$cls .= $f->disabled ? ' disabled' : ' active';
-
-			if ($this->disable_option_empty != 2 || !$f->disabled) {
-				$html .= '<li rel="'.$f->value.'" class="'.$cls.'"><span class="icon"></span><span class="value">'.$f->name . $f->num_items_txt.'</span></li>';
-			}
-		}
+        
+        /**** GCHAD FIX ***/ 
+        /* do not generate tags automatically ***/
+        
+        
+        if($field->name != 'Tags'){
+           
+            foreach ($values as $f)
+            {
+                $cls = '';
+                if(is_array($selected_values) && in_array($f->value, $selected_values)) {
+                    $cls = 'selected';
+                }
+                
+                $cls .= $f->disabled ? ' disabled' : ' active';
+    
+                if ($this->disable_option_empty != 2 || !$f->disabled) {
+                    $html .= '<li rel="'.$f->value.'" class="'.$cls.'"><span class="icon"></span><span class="value">'.$f->name . $f->num_items_txt.'</span></li>';
+                }
+            }
+            
+        } 
+		
 		$html .= '</ul>';
 		$html .= '<span class="btn-close" onclick="jaMagicSelectClose(this, \''.$listid.'\'); return false;">Close</span>';
 		$html .= '<span class="arrow">&nbsp;</span>';
+        
+        if($field->name == 'Tags'){
+             $html .= '<span id="tagMessage">'.JText::_('SELECT_CAT_FRIST').'</span>';
+        }
+        
 		$html .= '</div>';
 		$html .= '<div id="'.$listid.'-container" class="ja-magic-select-container"></div>';
 
 		$html .= '
-<script type="text/javascript">
-/*<![CDATA[*/
-window.addEvent("domready", function(){
-	jaMagicInit(\''.$listid.'\', \''.$fieldname.'\');
-});
-/*]]>*/
-</script>';
+            <script type="text/javascript">
+            /*<![CDATA[*/
+            window.addEvent("domready", function(){
+            	jaMagicInit(\''.$listid.'\', \''.$fieldname.'\');
+            });
+            /*]]>*/
+            </script>';
 
         return $html;
 	}
@@ -1082,10 +1097,11 @@ window.addEvent("domready", function(){
 	public function getTags(){
 		$db = JFactory::getDbo();
 		
-		$cat_ids = $this->params->get('k2catsid',null);
+		$cat_ids = $this->params->get('k2catsid',null); 
 		if(count($this->activeCats)) {
 			//Dynamically get tags
 			$cat_ids = $this->activeCats;
+            
 		}
 		
 		if($this->params->get('catMode', 0)) {
@@ -1103,7 +1119,7 @@ window.addEvent("domready", function(){
 		} else {
 			$query .= " WHERE t.published=1";
 		}
-		$query .=" GROUP BY t.id";
+		$query .=" GROUP BY t.id"; 
 		$db->setQuery( $query );
 		
 		$rows = $db->loadObjectList();
@@ -1359,7 +1375,9 @@ window.addEvent("domready", function(){
 	public function getLabel($fieldtype, $fieldname, $fieldtitle, $group=0) {
 		$fn = ucfirst(strtolower($fieldtype));
 		$funcLabel = 'getLabel'.$fn;
+        
 		if(method_exists($this, $funcLabel)) {
+		    
 			$html = call_user_func_array(array($this, $funcLabel), array($fieldname, $fieldtitle, $group));
 		} else {
 		    

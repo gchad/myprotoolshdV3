@@ -10,6 +10,7 @@
  */ 
 
 function jak2DisplayExtraFields (moduleid, obj, selected_group) {
+	
 	var sOption = obj.getSelected();
 	var group = sOption.getProperty('rel');
 	var value = sOption.get("value");
@@ -105,14 +106,16 @@ function jaK2Reset(moduleId, container, submitform)
             }
         }
     }
+    
+    searchFromScratch();
 }
 
 function jaMagicInit(lid, fid) {
 	
 	
 	if( window.isMagicInit == undefined	){ //makes sure it does not get reinitiated by the modal
+		//apparently no need to block the modal anymore... dunno why...
 		
-	
 		$$('#'+lid+' li').each(function(item){
 			
 			if(item.hasClass('selected')) {
@@ -142,7 +145,7 @@ function jaMagicInit(lid, fid) {
 		    
 		});
 		
-		window.isMagicInit = true;
+		//window.isMagicInit = true;
 	}
 	
 }
@@ -423,4 +426,52 @@ function setScrollButton() {
 		}
 	}
     
+}
+
+function populateTags(catId){
+	
+	if($('mg-101-tags_id')){
+		
+		var c = $('mg-101-tags_id').getElement('ul');
+		c.empty();
+		$('mg-101-tags_id-container').empty();
+		
+		if($('tagMessage')){
+			$('tagMessage').setStyle('display','none');
+		}		
+		
+		if(!catId){
+			
+			if($('tagMessage')){
+				$('tagMessage').setStyle('display','block');
+			}
+			
+			return;
+		}
+		
+		console.log(tagsMatrix[catId]);
+		
+		if(tagsMatrix[catId]){
+			
+			
+			tagsMatrix[catId].each(function(el){
+				
+				var html = '';
+				
+				for (var key in el) {
+				  if (el.hasOwnProperty(key)) {
+					  
+					  html += '<li class="active" rel="' +  el[key].id + '"><span class="icon"></span><span class="value">' + el[key].name + '</span></li>';
+				  }
+				}				
+				
+				html += '<span class="delimiter"></span>';
+				html = Elements.from(html);
+				html.inject(c);						
+				
+			});
+		}
+		
+		jaMagicInit('mg-101-tags_id','tags_id');		
+	}
 }

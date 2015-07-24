@@ -169,6 +169,7 @@ if( JFile::exists(JPATH_BASE.DS.'components'.DS.'com_k2'.DS.'k2.php')){
 	
 	//tags
 	$filter_by_tags_display = '';
+    
 	if($use_standard_fields && $filter_by_tags){
 		$filter_by_tags_display = $helper->getTags();
 		$filter_by_tags_label = $helper->getLabel($params->get('filter_by_tags_fieldtype', 'select'), 'tags_id', JText::_('JAK2_TAGS'));

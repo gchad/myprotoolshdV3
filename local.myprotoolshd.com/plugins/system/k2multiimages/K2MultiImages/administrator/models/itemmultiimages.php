@@ -7,6 +7,15 @@
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
+ 
+/****
+ * GCHAD
+ * USED WHEN SAVING ITEMS
+ * 
+ * 
+ */ 
+ 
+ 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
@@ -306,7 +315,11 @@ class K2ModelItemMultiImages extends K2Model {
 
 				$handle = new Upload($image);
 				$handle->allowed = array('image/*');
-
+                
+                /* GCHAD FIX
+                 * this is where the images are treated 
+                 */
+                  
 				if ($handle->uploaded) {
 
 					//Image params
@@ -345,7 +358,8 @@ class K2ModelItemMultiImages extends K2Model {
 
 					//XLarge image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = true;
+					$handle->image_ratio_y = false;
+                    $handle->image_ratio_crop = 1.5;
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 
 						$handle->image_watermark_position = "BR";
@@ -360,12 +374,17 @@ class K2ModelItemMultiImages extends K2Model {
 					} else {
 						$imageWidth = $params->get('itemImageXL', '800');
 					}
-					$handle->image_x = $imageWidth;
+                    
+					//$handle->image_x = $imageWidth;
 					
 					if ($imageWidth > 0) {
+					    
+                        $handle->image_x = 900;
+                        $handle->image_y = 600;
 						$handle->Process($savepath);
 					}
-						
+                    
+              						
 					//Large image
 					$handle->image_resize = true;
 					$handle->image_ratio_y = true;
@@ -391,7 +410,8 @@ class K2ModelItemMultiImages extends K2Model {
 
 					//Medium image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = true;
+					$handle->image_ratio_y = false;
+                    $handle->image_ratio_crop = 1.5;
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 
 						$handle->image_watermark_position = "BR";
@@ -409,6 +429,8 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->image_x = $imageWidth;
 					
 					if ($imageWidth > 0) {
+					    $handle->image_x = 400;
+                        $handle->image_y = 267;
 						$handle->Process($savepath);
 					}
 
@@ -416,6 +438,7 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->image_resize = true;
 					$handle->image_ratio_y = true;
 					$handle->image_convert = 'jpg';
+                    $handle->image_ratio_crop = 1;
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
 					$handle->file_overwrite = true;
@@ -433,7 +456,7 @@ class K2ModelItemMultiImages extends K2Model {
 
 					//XSmall image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = true;
+					$handle->image_ratio_y = false;
 					$handle->image_convert = 'jpg';
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
@@ -453,6 +476,8 @@ class K2ModelItemMultiImages extends K2Model {
 					}
 					
 					if ($imageWidth > 0) {
+					    $handle->image_x = 100;
+                        $handle->image_y = 100;
 						$handle->Process($savepath);
 					}
 

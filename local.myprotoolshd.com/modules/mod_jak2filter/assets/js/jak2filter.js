@@ -53,6 +53,25 @@ function jak2DisplayExtraFields (moduleid, obj, selected_group) {
     }
 }
 
+function changeOrderingIcon(next){
+    
+    $$('.orderingIcon').each(function(el){
+           
+       if(el == next){
+           
+           el.setStyle('display','block');
+           el.addClass('open');
+          
+           $('ordering').set('html','<option value="'+ next.get('data') +'"></option>');
+           
+       } else {
+           
+           el.setStyle('display','none');
+           el.removeClass('open');
+       }
+    });
+}
+
 function jaK2Reset(moduleId, container, submitform)
 {
     //var form = jQuery('#'+formId);
@@ -74,11 +93,13 @@ function jaK2Reset(moduleId, container, submitform)
 	
 	//reset magic select
     container.find('.ja-magic-select ul li').each(function(item)
-	{
+	{	
         jQuery(this).removeClass('selected');
 	});
     container.find('.ja-magic-select-container').each(function(item)
-	{
+	{	
+    	lid = this.getPrevious('.ja-magic-select').get('id');
+    	jaMagicSelectMakeCount(lid);
         jQuery(this).html('');
 	});
 
@@ -107,7 +128,13 @@ function jaK2Reset(moduleId, container, submitform)
         }
     }
     
+    //orderingIcons
+    if($$('.orderingIcon')){
+    	changeOrderingIcon($$('.orderingIcon')[0]);
+    }
+    
     searchFromScratch();
+    return;
 }
 
 function jaMagicInit(lid, fid) {
@@ -126,16 +153,20 @@ function jaMagicInit(lid, fid) {
 		$$('#'+lid+' li.active').each(function(item){
 			
 			item.addEvent('click', function() {
+				
 				var id = this.getProperty('rel');
 				if(!id) return;
 				
 			    if(this.hasClass('selected')) {
 			    	this.removeClass('selected');
 			    	$(lid+'-'+id).dispose();
+			    	jaMagicSelectMakeCount(lid);
+			    	
 			    } else {
 			    	this.addClass('selected');
 			    	jaMagicAddElement(lid, fid, this.getChildren('.value')[0].innerHTML, id);
 			    }
+			    
 			    var autofilter = $(lid).getProperty('data-autofilter');
 			    if(autofilter == 1) {
 			    	searchFromScratch();
@@ -170,7 +201,9 @@ function jaMagicAddElement(lid, fid, label, id) {
 		        	var lid = (this.getParent().id).replace(/^((?:[a-z0-9_]+\-){2}[a-z0-9_]*).*/, '$1');//id format: mg-moduleid-fieldid-value
 		        	$$('#'+lid+' li[rel="'+this.getProperty('rel')+'"]').removeClass('selected');
 		        	this.getParent().dispose();
+		        	
 		        	//auto search
+		        	jaMagicSelectMakeCount(lid);
 				    var autofilter = $(lid).getProperty('data-autofilter');
 				    if(autofilter == 1) {
 				    	$(lid).getParent('form').fireEvent('submit');
@@ -182,20 +215,38 @@ function jaMagicAddElement(lid, fid, label, id) {
 	
 	el.grab(elRemove);
 	container.grab(el);
+	jaMagicSelectMakeCount(lid);
 	searchFromScratch();
+}
+
+function jaMagicSelectMakeCount(lid){
+	
+	var count = $(lid).getElements('li.active.selected').length;
+	var prev = $(lid).getPrevious('.magicController').getElement('select').getElement('option');
+	
+	var replacer = count == 0 ? '' : ' (' + count + ')';
+	
+	var currentHtml = prev.get('html');
+	 currentHtml = currentHtml.replace(/\s\(([^)]+)\)/,'');
+	
+	newHtml = currentHtml + replacer;
+	prev.set('html',newHtml);
+	return;
 }
 
 function jaMagicSelect(controller, lid) {
 		
 	controller = $(controller); 
 	
-	if(controller.hasClass('opened')) {
+	if(controller.hasClass('opened')) { //close it
 		
 		controller.removeClass('opened');
 		controller.addClass('closed');
 		$(lid).setStyle('display', 'none');
 		
-	} else {
+		
+		
+	} else { //open it
 		
 		document.addEvent('keydown', function(e){
 			if(e.key == 'esc'){
@@ -221,21 +272,42 @@ function jaMagicSelect(controller, lid) {
 		
 		controller.removeClass('closed');
 		controller.addClass('opened');
-		
 		$(lid).setStyle('display', 'block');
+		
+		//close all other magic fields
+		$$('div.magicController').each(function(el){
+			if(el != controller){	
+				el.removeClass('opened');
+				el.addClass('closed');
+				
+			}
+		});
+		
+		$$('ja-magic-select').each(function(el){
+			if(el != $(lid)){	
+				el.setStyle('display', 'none');	
+			}
+		});
+		
+		
 	}
 }
 function jaMagicSelectClose(controller, lid) {
 	
 	controller = $(controller);
 	controllerparent = $(lid).getParent().getElement('.select');
+	
 	if(controllerparent.hasClass('opened')) {
+		
 		controllerparent.removeClass('opened');
 		controllerparent.addClass('closed');
+		
 	} else {
+		
 		controllerparent.removeClass('closed');
 		controllerparent.addClass('opened');
 	}
+	
 	$(lid).setStyle('display', 'none');	
 }
 
@@ -448,8 +520,6 @@ function populateTags(catId){
 			
 			return;
 		}
-		
-		console.log(tagsMatrix[catId]);
 		
 		if(tagsMatrix[catId]){
 			

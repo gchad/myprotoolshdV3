@@ -479,7 +479,8 @@ li.ui-state-highlight {
                                         
                                                             $group[$k] = array(
                                                                 'id' => $v, 
-                                                                'name' => JText::_('TAG_'.$availTags[$v]->name),
+                                                                
+                                                                'name' => JText::_( 'TAG_'.strtoupper( str_replace ( ' ','_', $availTags[$v]->name))),
                                                                 'classe' => key_exists($v, $currenTags) ? 'selected' : ''
                                                                 );
                                                     

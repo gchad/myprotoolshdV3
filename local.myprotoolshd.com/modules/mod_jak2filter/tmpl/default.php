@@ -280,7 +280,10 @@ if($filter_by_tags_display):
                 
                 if(key_exists($v, $availTags)){
 
-                    $group[$k] = array('id' => $v, 'name' => JText::_('TAG_'.$availTags[$v]->name),);
+                    $group[$k] = array(
+                        'id' => $v, 
+                        'name' => JText::_( 'TAG_'.strtoupper( str_replace ( ' ','_', $availTags[$v]->name)))
+                    );
             
                 } else {
                     
@@ -335,12 +338,13 @@ if ($params->get('display_ordering_box', 1)): ?>
 		$style ='style="'.$ja_column.$clear.'"';
 	}
 	$j++;
-	?>
+	/*?>
 	<li <?php echo $style; ?>>
+	    
 		<label for="catOrderingSelectBox" class="group-label"><?php echo JText::_('JAK2_ITEM_ORDERING_SELECT_BOX'); ?></label>
 		<?php echo $display_ordering; ?>
-	</li>
-<?php endif; ?>
+	</li>*/
+endif; ?>
 
 
 <?php
@@ -368,15 +372,33 @@ if($filter_by_keyword): ?>
         <input type="text" name="searchword" id="searchword<?php echo $module->id; ?>" class="inputbox" value="" placeholder="<?=JText::_('SEARCH_BY_KEYWORD'); ?>"/>
     </li>
     
-    <li>
+    <li id="buttonscontainer">
         <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button>
+        
+        
+        <span id="orderingIconsContainer">
+            
+            <img class="orderingIcon open" src="templates/ja_jason/images/social_icons/order_rdate.png" data="rdate" style="display: block;"/>
+            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_date.png" data="date" style="display: none;"/>
+            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_alpha.png" data="alpha" style="display: none;"/>
+            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_ralpha.png" data="ralpha" style="display: none;"/>
+            
+        </span>
         
         <?php if($params->get('enable_reset_button',1) == 1): ?>
         <input class="button2 buttonGrey" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
-        <?php endif; ?>
+        <?php endif; 
+        
+        
+        
+        ?>
+        
+       
+        
+        
+        
         
     </li>
-    
     
     
     
@@ -409,7 +431,7 @@ $clear = '';
 
 
  ?>
- 
+ <select id="ordering" name="ordering" class="inputbox" style="display: none;"></select>
 </form>
 
 <script type="text/javascript">
@@ -458,7 +480,24 @@ function searchFromScratch(){
 
 window.addEvent('load', function(){
     
-    
+    /**** ordering icons ***/
+    $('orderingIconsContainer').addEvent('click',function(ev){
+            
+            if($$('.orderingIcon.open')[0].getNext('img.orderingIcon')){
+                
+                var next = $$('.orderingIcon.open')[0].getNext('img.orderingIcon');
+                
+            } else {
+                
+                var next = $$('.orderingIcon')[0];
+            }
+            
+            changeOrderingIcon(next)
+            
+            searchFromScratch();           
+        });
+   
+  
     
     /****** REMOVE MAGIC SELECT REGULAR BUTTON POP***/
    if($$('.magicController')){

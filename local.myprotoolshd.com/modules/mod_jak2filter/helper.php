@@ -643,7 +643,7 @@ class modJak2filterHelper
         
            usort($values, 'sortRegionFields');
             
-            $allR = array();
+           $allR = array();
            foreach($values as $k => $v){
                    
                if($v->value == 13){
@@ -651,6 +651,7 @@ class modJak2filterHelper
                    unset($values[$k]);
                }
            }
+           
            array_unshift($values,$allR);
            
            foreach($values as $k => $v){
@@ -1007,7 +1008,7 @@ class modJak2filterHelper
         
         }
 
-        usort($mitems,array($this,'sortCategories'));
+       // usort($mitems,array($this,'sortCategories'));
         return $mitems;
     }
 

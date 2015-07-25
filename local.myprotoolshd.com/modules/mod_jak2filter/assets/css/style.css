@@ -108,7 +108,7 @@ select:focus {
 
 #searchKeyWord{
 
-	margin-right: 20px;
+	margin-right: 12px;
 }
 
 .ja-intro-1 input, .ja-intro-1 select{
@@ -263,8 +263,24 @@ ul.ja-k2filter li.magic-select {
 
 .ja-k2filter .ja-magic-select-container {
 	
-	
+	display: none;
 	}
+	
+#orderingIconsContainer img{
+	height: 38px;
+	width: auto;
+	
+}
+
+#orderingIconsContainer{
+	cursor: pointer;
+	margin-right: 12px;
+}
+
+#buttonscontainer, #buttonscontainer > span, #buttonscontainer > input, #buttonscontainer > button{
+	display: inline-block;	
+	vertical-align: top;
+}
 
 /* Horizontal layout ---*/
 div ul.horizontal-layout li {

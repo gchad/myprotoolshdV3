@@ -144,7 +144,8 @@ var addthis_share =
 { 
     url : '<?=$shareUrl?>',
     templates: {
-               twitter: 'Check out my studio from the Pro Audio Gallery from Avid: {{lurl}} #ProToolsHD',
+               twitter: 'Check out this studio from the Pro Audio Gallery: {{lurl}} #ProToolsHD',
+               
            }
 }
 </script>
@@ -502,19 +503,20 @@ var addthis_share =
                 
                 
          }
-         ?>
-	  	
-	  	<h3><?= JText::_('PROFILE_CREDITS'); ?></h3> <?php
-	  	   
+         
     
         foreach ($this->item->extra_fields as $key => $extraField){
             
             //credits
-            if( $extraField->id == 6 && $extraField->value){
+            if( $extraField->id == 6 && $extraField->value){ ?>
+                 <h3><?= JText::_('PROFILE_CREDITS'); ?></h3> 
+                    <?php
                  echo '<p>'.$extraField->value.'</p>';
             }
             
         }   
+
+
         
         foreach ($this->item->extra_fields as $key => $extraField){
              //more credits
@@ -528,12 +530,12 @@ var addthis_share =
          
             //discog
             if(strpos($extraField->name,'discog') !== false && ($this->item->catid == 8 || $this->item->catid == 2) && $extraField->value){
-                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="discogLogo" src="templates/ja_jason/images/social_icons/discog.jpeg"/></a>';
+                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="discogLogo" src="templates/ja_jason/images/social_icons/discog.png"/></a>';
             }
             
             //imdb
             if(strpos($extraField->name,'imdb') !== false && ($this->item->catid == 3 || $this->item->catid == 9) && $extraField->value){
-                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="imdbLogo" src="templates/ja_jason/images/social_icons/imdb.jpeg"/></a>';
+                 echo '<a target="_blank" href="'.$extraField->value.'" ><img class="creditsIcon" id="imdbLogo" src="templates/ja_jason/images/social_icons/imdb.png"/></a>';
             }
         
         } 
@@ -552,7 +554,7 @@ var addthis_share =
                 foreach ($this->item->tags as $tag):
                      
                      /*<li><a href="<?php echo $tag->link; ?>"><?php echo $tag->name; ?></a></li>*/
-                     echo $tag->name;
+                     echo JText::_( 'TAG_'.strtoupper( str_replace ( ' ','_', $tag->name)));
                      echo $i < $countTag ? ', ' : '';
                      $i++;
                 endforeach; ?>

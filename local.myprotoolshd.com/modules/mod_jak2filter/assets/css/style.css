@@ -274,6 +274,10 @@ ul.ja-k2filter li.magic-select {
 
 #orderingIconsContainer{
 	cursor: pointer;
+	margin-right:0px;
+}
+
+#resetButton{
 	margin-right: 12px;
 }
 

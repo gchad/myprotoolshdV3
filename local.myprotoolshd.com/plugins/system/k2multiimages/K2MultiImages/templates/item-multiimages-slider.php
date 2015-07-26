@@ -135,17 +135,17 @@ JHtml::_('bootstrap.button');
 //GCHAD FIX add social custom
 ?>
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5593a0061b5850c5" async="async"></script>
+<!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5593a0061b5850c5" async="async"></script>-->
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
+
 ​<script type="text/javascript">
 var addthis_config = addthis_config||{};
 addthis_config.data_track_addressbar = false;
 addthis_config.data_track_clickback = false;
-var addthis_share = 
-{ 
+var addthis_share = { 
     url : '<?=$shareUrl?>',
     templates: {
-               twitter: 'Check out this studio from the Pro Audio Gallery: {{lurl}} #ProToolsHD',
-               
+               twitter: 'Check out this studio from the Pro Audio Gallery: {{lurl}} #ProToolsHD',              
            }
 }
 </script>

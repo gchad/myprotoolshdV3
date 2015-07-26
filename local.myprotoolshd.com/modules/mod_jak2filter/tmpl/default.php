@@ -301,12 +301,8 @@ if($filter_by_tags_display):
                 unset($groups[$k]);
            }
        }    
-    }
-    
-   
-    ?>
-    
-    
+    }?>
+        
     <script type="text/javascript">
      
         var tagsMatrix = <?=json_encode($tagsMatrix)?>;
@@ -314,12 +310,8 @@ if($filter_by_tags_display):
         window.addEvent('load', function(){
             
             populateTags(null);
-        });
-       
-             
+        });       
     </script>
-    
-    
   <?php  
 endif; 
 
@@ -358,12 +350,7 @@ if($ja_column || $clear){
 $j++;
 
 
-
-
-
-
- /*** GCHAD FIX add the search box */
-    
+/*** GCHAD FIX add the search box */   
 
 if($filter_by_keyword): ?>
     
@@ -373,8 +360,12 @@ if($filter_by_keyword): ?>
     </li>
     
     <li id="buttonscontainer">
+        
         <button id="searchKeyWord" class="button2"><?=JText::_('SEARCH')?></button>
         
+        <?php if($params->get('enable_reset_button',1) == 1): ?>
+            <input id="resetButton" class="button2 buttonGrey" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
+        <?php endif; ?>
         
         <span id="orderingIconsContainer">
             
@@ -384,20 +375,7 @@ if($filter_by_keyword): ?>
             <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_ralpha.png" data="ralpha" style="display: none;"/>
             
         </span>
-        
-        <?php if($params->get('enable_reset_button',1) == 1): ?>
-        <input class="button2 buttonGrey" type="button" name="btnReset" value="<?php echo JText::_('RESET'); ?>" onclick="jaK2Reset('<?php echo $module->id;?>', '<?php echo $formid; ?>', true);" />
-        <?php endif; 
-        
-        
-        
-        ?>
-        
-       
-        
-        
-        
-        
+   
     </li>
     
     

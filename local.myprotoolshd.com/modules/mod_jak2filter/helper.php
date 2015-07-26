@@ -799,6 +799,7 @@ class modJak2filterHelper
         
         if($field->name == 'Tags'){
              $html .= '<span id="tagMessage">'.JText::_('SELECT_CAT_FRIST').'</span>';
+             $html .= '<span id="tagMessageNoTag">'.JText::_('NO_TAG_AVAILABLE').'</span>';
         }
         
 		$html .= '</div>';

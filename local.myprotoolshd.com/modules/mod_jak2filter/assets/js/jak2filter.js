@@ -265,8 +265,25 @@ function jaMagicSelect(controller, lid) {
 		    // at this point we have found our containing div or we are out of parent nodes
 		    var insideMyDiv = ( d == $(lid) || d == controller) ? true : false;
 		    
-		    if(!insideMyDiv){
+		    if(!insideMyDiv){ console.log('not div');
+		    
 		    	jaMagicSelectClose(controller, lid);
+		    	
+		    	//close all other magic fields
+				$$('div.magicController').each(function(el){
+				
+					if(el != controller){	
+						el.removeClass('opened');
+						el.addClass('closed');				
+					}
+				});
+				
+				/*$$('ja-magic-select').each(function(el){
+					
+					if(el != $(lid)){	
+						el.setStyle('display', 'none');	
+					}
+				});*/
 		    }
 		});
 		
@@ -276,18 +293,19 @@ function jaMagicSelect(controller, lid) {
 		
 		//close all other magic fields
 		$$('div.magicController').each(function(el){
+			
 			if(el != controller){	
 				el.removeClass('opened');
-				el.addClass('closed');
-				
+				el.addClass('closed');				
 			}
 		});
 		
-		$$('ja-magic-select').each(function(el){
+		/*$$('ja-magic-select').each(function(el){
+			
 			if(el != $(lid)){	
 				el.setStyle('display', 'none');	
 			}
-		});
+		});*/
 		
 		
 	}
@@ -508,21 +526,19 @@ function populateTags(catId){
 		c.empty();
 		$('mg-101-tags_id-container').empty();
 		
-		if($('tagMessage')){
-			$('tagMessage').setStyle('display','none');
-		}		
 		
-		if(!catId){
-			
-			if($('tagMessage')){
-				$('tagMessage').setStyle('display','block');
-			}
-			
+		$('tagMessage').setStyle('display','none');
+		$('tagMessageNoTag').setStyle('display','none');
+		
+		
+		if(!catId){			
+			$('tagMessage').setStyle('display','block');
 			return;
 		}
 		
 		if(tagsMatrix[catId]){
 			
+			var t = false
 			
 			tagsMatrix[catId].each(function(el){
 				
@@ -530,7 +546,7 @@ function populateTags(catId){
 				
 				for (var key in el) {
 				  if (el.hasOwnProperty(key)) {
-					  
+					  t = true;
 					  html += '<li class="active" rel="' +  el[key].id + '"><span class="icon"></span><span class="value">' + el[key].name + '</span></li>';
 				  }
 				}				
@@ -540,6 +556,10 @@ function populateTags(catId){
 				html.inject(c);						
 				
 			});
+			
+			if (!t){
+				$('tagMessageNoTag').setStyle('display','block');
+			}
 		}
 		
 		jaMagicInit('mg-101-tags_id','tags_id');		

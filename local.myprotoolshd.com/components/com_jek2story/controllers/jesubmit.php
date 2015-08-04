@@ -566,11 +566,10 @@ class jesubmitController extends JControllerLegacy  {
     
                 //XLarge image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = false;
-                $handle->image_ratio_crop = 1.5;
+                $handle->image_ratio_y = true;
+                $handle->image_ratio_crop = false;
                 $handle->image_x = 900;
-                $handle->image_y = 600;
-                
+                                
                 $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;

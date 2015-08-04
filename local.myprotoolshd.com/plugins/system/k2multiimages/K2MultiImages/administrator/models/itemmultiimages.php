@@ -361,10 +361,9 @@ class K2ModelItemMultiImages extends K2Model {
 
 					//XLarge image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = false;
-                    $handle->image_ratio_crop = 1.5;
+					$handle->image_ratio_y = true;
+                    $handle->image_ratio_crop = false;
                     $handle->image_x = 900;
-                    $handle->image_y = 600;
                     
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 

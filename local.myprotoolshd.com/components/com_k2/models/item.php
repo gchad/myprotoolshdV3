@@ -1398,7 +1398,8 @@ class K2ModelItem extends K2Model
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		$size = count($rows);
-
+//unset($jsonObjects[0]);
+ //debug($jsonObjects);
 		for ($i = 0; $i < $size; $i++)
 		{
 

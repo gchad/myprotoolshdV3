@@ -472,10 +472,12 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
         $rows = $db->loadObjectList(); 
 
 		/*@TODO: remove extra fields that is not allowed to display*/
-        $selectedExtraFieldsType = $jaK2FilterParams->get('selectedExtraFieldsType');                
-		if(count($rows) && $selectedExtraFieldsType) 
+        $selectedExtraFieldsType = $jaK2FilterParams->get('selectedExtraFieldsType'); 
+                       
+		/*if(count($rows) && $selectedExtraFieldsType) 
 		{
 			$selectedExtraFields = $jaK2FilterParams->get('selectedExtraFields');	
+            
 			foreach($rows as &$row) 
 			{
 				if(isset($row->extra_fields))
@@ -495,7 +497,37 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 					$row->extra_fields = json_encode($extraFieldsArray);
 				}
 			}
-		}
+		}*/
+        
+        /* GCHAD FIX */
+        /* FORCE REMOVE THE REGION otherwise, query is too big.
+         */ 
+        if(count($rows)) 
+        {
+                      
+            foreach($rows as &$row) 
+            {
+                if(isset($row->extra_fields))
+                {             
+                    $fields = json_decode($row->extra_fields);
+                    $extraFieldsArray = array();
+                    
+                    if(count($fields))
+                    {
+                        foreach($fields as $index => $field) 
+                        {
+                            if( $field->id <> 8) // we remove the region
+                            {
+                                $extraFieldsArray[] = $field;
+                            } else {
+                                $row->regionXtraField = $field;
+                            }
+                        }
+                    }
+                    $row->extra_fields = json_encode($extraFieldsArray);
+                }
+            }
+        }
 		
         return $rows;
     }

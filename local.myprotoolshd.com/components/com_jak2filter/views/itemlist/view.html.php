@@ -432,6 +432,17 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 		$user = JFactory::getUser();
 		$cache = JFactory::getCache('com_k2_extended');
 		$model = JModelLegacy::getInstance('item', 'K2Model');
+        
+        $q = "SELECT value FROM jos_k2_extra_fields WHERE id = 8";
+        $db->setQuery($q);
+        $db->query();
+        $r = json_decode($db->loadResult('id'));
+       
+        $regionMatrix = array();
+        foreach($r as $k => $v){
+            $regionMatrix[$v->value] = $v->name;
+        }
+        
 
 		for ($i = 0; $i < sizeof($items); $i++)
 		{
@@ -496,7 +507,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 
 			//JA K2 FILTER - CUSTOM VIEW OPTIONS
 			$items[$i]->params->merge($params);
-			if(!is_array($items[$i]->extra_fields)) {
+			if(!is_array($items[$i]->extra_fields)) { 
 				$items[$i]->extra_fields = $model->getItemExtraFields($items[$i]->extra_fields, $items[$i]);
 			}
             
@@ -532,7 +543,24 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 			//JA K2 FILTER - CUSTOM VIEW OPTIONS - RATING
 			$items[$i]->votingPercentage = $model->getVotesPercentage($items[$i]->id);
 			$items[$i]->numOfvotes = $model->getVotesNum($items[$i]->id);
-
+            
+            /* GCHAD FIX */
+            /* we add back the region because we remove it before */
+          
+            $region = new stdClass;
+            $region->id = 8;
+            $region->name = 'Region';
+            $region->value = $regionMatrix[$items[$i]->regionXtraField->value];
+            $region->type = 'select';
+            $region->published = 1;
+            $region->ordering = 1;
+            $region->alias = 'region';
+            $items[$i]->extra_fields[] = $region;
+            
+            $items[$i]->extraFields->region = $region;
+         
+            
+          
 		}
 
 		// Set title

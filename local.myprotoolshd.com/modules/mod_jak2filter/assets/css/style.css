@@ -193,6 +193,8 @@ ul.ja-k2filter li p input.date {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	z-index: 12;
+	max-height: 80vh;
+    overflow-y: scroll;
 }
 
 .ja-k2filter .ja-magic-select ul {

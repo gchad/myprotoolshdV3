@@ -21,23 +21,26 @@
       -webkit-border-radius: 3px;
     }
     
-    .ja-magic-select {
-          position: absolute !important;
-          top: 44px;
-          left: 10px;
-          background: #FFFFFF;
-          border-radius: 2px;
-          border: 1px solid #AAAAAA;
-          display: none;
-          margin-bottom: 5px;
-          padding: 10px;
-          width:200px;
-          box-shadow: 0 0 3px rgba(0,0,0,.1);
-          box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          -webkit-box-sizing: border-box;
-          z-index: 12;
-        }
+    
+.ja-magic-select {
+      position: absolute !important;
+      top: 44px;
+      left: 10px;
+      background: #FFFFFF;
+      border-radius: 2px;
+      border: 1px solid #AAAAAA;
+      display: none;
+      margin-bottom: 5px;
+      padding: 10px;
+      width:200px;
+      box-shadow: 0 0 3px rgba(0,0,0,.1);
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      z-index: 12;
+      max-height: 80vh;
+   	  overflow-y: scroll;
+    }
         
      .btn-close {
           background: url('/modules/mod_jak2filter/assets/css/btn-close.png') no-repeat center center #ccc;

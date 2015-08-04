@@ -188,8 +188,10 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                 var place = googleMap.getPlace();
                 var adLat = place.geometry.location.A;
                 var adLong = place.geometry.location.F;
+                $('city').value = null;
+                var city = place.vicinity;
                 
-                 if(adLat){
+                if(adLat){
                      $('address_lat').value =  adLat;
                 }
                 
@@ -197,12 +199,14 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                      $('address_long').value = adLong;
                 }
                 
+                if(city){
+                    $('city').value = city;
+                }
                 
                 jQuery('#jak2-loadingWrap').css({'display': 'block'});
                 
                 form.submit();
-            }
-            
+            }           
           
         });
     });
@@ -296,6 +300,9 @@ JHtml::script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&li
                         <input  onpaste="event.preventDefault(); alert('<?= JText::_( 'TYPE_ADDRESS_MANUALLY')?>')" id="address" class="inputbox" type="text" name="address" size="50"  value="" />
                         <input  id="address_long" class="inputbox" type="hidden" name="address_long" value="" />
                         <input  id="address_lat" class="inputbox" type="hidden" name="address_lat" value="" />
+                        
+                        <!-- city -->
+                        <input type="hidden" name="K2ExtraField_21" id="city" value="">
                     </td>
                 </tr><?php
                 

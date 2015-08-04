@@ -129,17 +129,36 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	     {modal <?= $this->item->link; ?>|target=_blank}
 	    	                
 	    	<span class="blueOverlay">
-	    	    <span class="arrow"></span>
 	    	    
-	    	       <?php
-        if(isset($this->item->extraFields->Credits)){?>
-            <span class="credits details"><?=JText::_('CREDITS')?>: <?=truncate($this->item->extraFields->Credits->value, 50, '...')?></span>
-        <?php }
-       
-        if(isset($this->item->extraFields->Product)){?>
-            <span class="product details"><?=JText::_('PRODUCTS')?>: <?=$this->item->extraFields->Product->value?></span>
-        <?php }
-        ?>
+	    	    <span class="arrow"></span>
+                    
+                    <span class="topBlock">
+                        
+                        <span class="category details"><?=JText::_('STUDIO_TYPE');?>: <?=JText::_('K2CATEGORY_'.strtoupper( str_replace( ' ','_',$this->item->category->name)));?></span>      
+                        
+                        <span class="country details"><?php 
+                    
+                                if( isset($this->item->extraFields->region) && !empty($this->item->extraFields->region->value) ){?>
+                                    <?=JText::_('COUNTRY')?>: <?=truncate($this->item->extraFields->region->value, 50, '...')?>
+                                <?php }
+                	    	       
+                                if(isset($this->item->extraFields->City) && !empty($this->item->extraFields->City->value)){
+                                   echo ', '.JText::_('CITY')?>: <?=truncate($this->item->extraFields->City->value, 50, '...');
+                                }
+                        ?></span>
+                    </span>
+                    
+                    <span class="bottomBlock">
+                        <?php
+                        if(isset($this->item->extraFields->Credits)){?>
+                            <span class="credits details"><?=JText::_('CREDITS')?>: <?=truncate($this->item->extraFields->Credits->value, 50, '...')?></span>
+                        <?php }
+                       
+                        if(isset($this->item->extraFields->Product)){?>
+                            <span class="product details"><?=JText::_('PRODUCTS')?>: <?=$this->item->extraFields->Product->value?></span>
+                        <?php }
+                        ?>
+                    </span>
                 
 	    	    
 	    	</span>

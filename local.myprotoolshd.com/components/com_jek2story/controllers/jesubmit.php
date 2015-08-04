@@ -66,7 +66,7 @@ class jesubmitController extends JControllerLegacy  {
     function save(){
         
         set_time_limit(0);
-        JRequest::checkToken() or jexit( 'Invalid Token' );
+        //JRequest::checkToken() or jexit( 'Invalid Token' );
         
         $mainframe = &JFactory::getApplication();
         $uri =& JURI::getInstance();
@@ -279,15 +279,30 @@ class jesubmitController extends JControllerLegacy  {
                     $mainframe->redirect(JRoute::_('index.php?option='.$option.'&view=jesubmit'), $msg,'error');
                 }
                 
- 
+
                 //K2 items
-                $sql = "INSERT INTO #__k2_items ".
+               /* $sql = "INSERT INTO #__k2_items ".
                        "(`title`,`alias`,`catid`,`published`,`introtext`,`fulltext`,`extra_fields`,`extra_fields_search`,`created`,`created_by`,`publish_up`,`access`,`language`, `plugins`) ".
                        "values ('".addslashes($post['title'])."','".addslashes($post['title'])."',".addslashes($post['catid']).",".addslashes($post['publish']).",'".addslashes($post['fulltext'])."',".
-                       "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."', 0,'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; 
+                       "'".addslashes($myfulltext)."','".addslashes($field_data)."','".addslashes($field_search)."','".$created."', 0,'".$created."','1','".addslashes($language)."','".addslashes($plugin)."')"; */
                        
-                $db->setQuery($sql);
-                $db->query();
+                $newK2Item = new stdClass;
+                $newK2Item->title = $post['title'];
+                $newK2Item->alias = $post['title'];
+                $newK2Item->catid = $post['catid'];
+                $newK2Item->published = $post['publish'];
+                $newK2Item->introtext = $post['fulltext'];
+                $newK2Item->fulltext = $myfulltext;
+                $newK2Item->extra_fields = $field_data;
+                $newK2Item->extra_fields_search = $field_search;
+                $newK2Item->created = $created;
+                $newK2Item->created_by = 0;
+                $newK2Item->publish_up = $created;
+                $newK2Item->access = '1';
+                $newK2Item->language= $language;
+                $newK2Item->plugins = $plugin;
+               
+                $db->insertObject('#__k2_items',$newK2Item);
                 $item_id = $db->insertid();
                 
                 //test if there is a file and processes it
@@ -338,20 +353,31 @@ class jesubmitController extends JControllerLegacy  {
                 $db->insertObject('jos_k2_users',$newK2User,'id');
                 $newK2UserId = $db->insertid();
               
-                //joomla usergroup map
-                $sql = "INSERT INTO #__user_usergroup_map (`user_id`,`group_id`) values ($user->id, 2)";
-                $db->setQuery($sql);
-                $db->query();
-                
                 //insert in k2story db
                 $published = $post['publish'] == 0 ? 0 : 1; 
+                  
+                //K2 item List
+                $k2ItemList = new stdClass;
+                $k2ItemList->itemid = $item_id;
+                $k2ItemList->userid = $user->id;    
+                $k2ItemList->name = $post['name'];
+                $k2ItemList->email = $post['email'];     
+                $k2ItemList->published = $published;
+                $db->insertObject('#__je_k2itemlist',$k2ItemList);
                 
-                $sql = "INSERT INTO #__je_k2itemlist (`itemid`,`userid`,`name`,`email`,`published`)".
-                       " values (".$item_id.",".$user->id.",'".addslashes($post['name'])."','".$post['email']."','".$published."')";  
-                
+                //joomla usergroup map
+                $sql = "SELECT * FROM #__user_usergroup_map WHERE user_id = $user->id";
                 $db->setQuery($sql);
                 $db->query();
                 
+                if(!$db->loadObject()){
+                  
+                    $sql = "INSERT INTO #__user_usergroup_map (`user_id`,`group_id`) values ($user->id, 2)";
+                    $db->setQuery($sql);
+                    $db->query();
+                };
+                   
+
                 //emails
                 if ($mesg->notify) {
                     
@@ -448,7 +474,12 @@ class jesubmitController extends JControllerLegacy  {
  		  
           
              /** GCHAD FIX do not render IMDB and discog **/
-            if( strpos($extraField->name,'discog') !== false || strpos($extraField->name,'imdb') !== false || strpos($extraField->name,'social-') !== false || strpos($extraField->name,'more-credits') !== false){
+            if( strpos($extraField->name,'discog') !== false || 
+                strpos($extraField->name,'imdb') !== false || 
+                strpos($extraField->name,'social-') !== false || 
+                strpos($extraField->name,'more-credits') !== false ||
+                strpos($extraField->name,'City') !== false
+                ){
                 continue;
             }
             
@@ -496,6 +527,7 @@ class jesubmitController extends JControllerLegacy  {
        
             if ($handle->uploaded) {
                 
+                /* GCHAD IMAGE GENERATOR */
                 
                 //test image size
                 if($handle->image_src_x < 800 || $handle->image_src_y < 800){
@@ -535,24 +567,29 @@ class jesubmitController extends JControllerLegacy  {
                 //XLarge image
                 $handle->image_resize = true;
                 $handle->image_ratio_y = false;
-                $handle->image_convert = 'jpg';
                 $handle->image_ratio_crop = 1.5;
+                $handle->image_x = 900;
+                $handle->image_y = 600;
+                
+                $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
                 $handle->file_new_name_body = $filename.'_XL';
+                
                 /*if (JRequest::getInt('itemImageXL')) {
                     $imageWidth = JRequest::getInt('itemImageXL');
                 } else {
                     $imageWidth = $params->get('itemImageXL', '800');
                 }*/
-                $handle->image_x = 900;
-                $handle->image_y = 600;
+                  
                 $handle->Process($savepath);
     
                 //Large image
                 $handle->image_resize = true;
                 $handle->image_ratio_y = true;
+                $handle->image_ratio_crop = false;
+                
                 $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
@@ -570,9 +607,12 @@ class jesubmitController extends JControllerLegacy  {
     
                 //Medium image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = false;
-                $handle->image_convert = 'jpg';
+                $handle->image_ratio_y = false;                
                 $handle->image_ratio_crop = 1.5;
+                $handle->image_x = 400;
+                $handle->image_y = 267;
+                
+                $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
@@ -584,13 +624,13 @@ class jesubmitController extends JControllerLegacy  {
                     $imageWidth = $params->get('itemImageM', '400');
                 }*/
                 
-                $handle->image_x = 400;
-                $handle->image_y = 267;
                 $handle->Process($savepath);
     
                 //Small image
                 $handle->image_resize = true;
                 $handle->image_ratio_y = true;
+                $handle->image_ratio_crop = false;
+                
                 $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
@@ -602,13 +642,17 @@ class jesubmitController extends JControllerLegacy  {
                     $imageWidth = $params->get('itemImageS', '200');
                 }
                 $handle->image_x = $imageWidth;
+                
                 $handle->Process($savepath);
     
                 //XSmall image
                 $handle->image_resize = true;
-                $handle->image_ratio_y = false;
-                $handle->image_convert = 'jpg';
+                $handle->image_ratio_y = false;                
                 $handle->image_ratio_crop = 1;
+                $handle->image_x = 100;
+                $handle->image_y = 100;
+                
+                $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
                 $handle->file_overwrite = true;
@@ -620,13 +664,13 @@ class jesubmitController extends JControllerLegacy  {
                     $imageWidth = $params->get('itemImageXS', '100');
                 }*/
                 
-                $handle->image_x = 100;
-                $handle->image_y = 100;
                 $handle->Process($savepath);
     
                 //Generic image
-               /* $handle->image_resize = true;
+                $handle->image_resize = true;
                 $handle->image_ratio_y = true;
+                $handle->image_ratio_crop = false;
+                
                 $handle->image_convert = 'jpg';
                 $handle->jpeg_quality = $params->get('imagesQuality');
                 $handle->file_auto_rename = false;
@@ -634,7 +678,8 @@ class jesubmitController extends JControllerLegacy  {
                 $handle->file_new_name_body = $filename.'_Generic';
                 $imageWidth = $params->get('itemImageGeneric', '300');
                 $handle->image_x = $imageWidth;
-                $handle->Process($savepath);*/
+                
+                $handle->Process($savepath);
     
                 if($files['image']['error'] === 0){
                     $handle->Clean();

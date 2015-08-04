@@ -217,6 +217,7 @@ class K2ControllerItem extends K2Controller
 
 		$output = '<table class="admintable" id="extraFields">';
 		$counter = 0;
+        
 		if (count($extraFields))
 		{
 			foreach ($extraFields as $extraField)
@@ -224,11 +225,11 @@ class K2ControllerItem extends K2Controller
 
 				if ($extraField->type == 'header')
 				{
-					$output .= '<tr><td colspan="2" ><h4 class="k2ExtraFieldHeader">'.$extraField->name.'</h4></td></tr>';
+					$output .= '<tr><td colspan="2" ><h4 class="k2ExtraFieldHeader">'.JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))).'</h4></td></tr>';
 				}
 				else
 				{
-					$output .= '<tr><td align="right" class="key"><label for="K2ExtraField_'.$extraField->id.'">'.$extraField->name.'</label></td>';
+					$output .= '<tr><td align="right" class="key"><label for="K2ExtraField_'.$extraField->id.'">'.JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))).'</label></td>';
 					$output .= '<td>'.$extraFieldModel->renderExtraField($extraField, $itemID).'</td></tr>';
 
 				}

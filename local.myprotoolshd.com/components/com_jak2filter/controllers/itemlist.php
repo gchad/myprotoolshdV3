@@ -33,7 +33,7 @@ class JAK2FilterControllerItemlist extends K2FilterController{
         $model=$this->getModel('Itemlist','JAK2FilterModel');
        
         $modelitems = new K2ModelItem();
-      
+     
         $modelitems->getData(); //dunno what this really does... it get's the K2item model
        
         $document = JFactory::getDocument();

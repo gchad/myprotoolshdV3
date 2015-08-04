@@ -369,10 +369,10 @@ if($filter_by_keyword): ?>
         
         <span id="orderingIconsContainer">
             
-            <img class="orderingIcon open" src="templates/ja_jason/images/social_icons/order_rdate.png" data="rdate" style="display: block;"/>
-            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_date.png" data="date" style="display: none;"/>
-            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_alpha.png" data="alpha" style="display: none;"/>
-            <img class="orderingIcon" src="templates/ja_jason/images/social_icons/order_ralpha.png" data="ralpha" style="display: none;"/>
+            <img title="<?= JText::_('ORDER_RDATE')?>" class="orderingIcon open" src="templates/ja_jason/images/social_icons/order_rdate.png" data="rdate" style="display: block;"/>
+            <img title="<?= JText::_('ORDER_DATE')?>" class="orderingIcon" src="templates/ja_jason/images/social_icons/order_date.png" data="date" style="display: none;"/>
+            <img title="<?= JText::_('ORDER_ALPHA')?>" class="orderingIcon" src="templates/ja_jason/images/social_icons/order_alpha.png" data="alpha" style="display: none;"/>
+            <img title="<?= JText::_('ORDER_RALPHA')?>" class="orderingIcon" src="templates/ja_jason/images/social_icons/order_ralpha.png" data="ralpha" style="display: none;"/>
             
         </span>
    

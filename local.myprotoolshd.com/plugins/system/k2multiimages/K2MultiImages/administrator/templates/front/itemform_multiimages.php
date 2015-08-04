@@ -349,7 +349,11 @@ li.ui-state-highlight {
                                                     if($extraField->type == 'header'): ?>
                                                         
                                                     <tr>
-                                                        <td colspan="2" ><h4 class="key k2ExtraFieldHeader"><?= JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))); ?></h4></td>
+                                                        <td colspan="2" >
+                                                            <h4 class="key k2ExtraFieldHeader">
+                                                                <?= JText::_('EDIT_'.( strtoupper ( str_replace (array('(',')','"','\''), '_',$extraField->name)))); ?>
+                                                            </h4>
+                                                        </td>
                                                     </tr>
                                                     
                                                     <?php else: ?>
@@ -554,8 +558,8 @@ li.ui-state-highlight {
                                                         
                                                         <div style="z-index: 10; position: absolute; top: 0px; left: 0px; width: 100%; height: 80%;"></div>
                                                         
-                                                        <select type="magicSelect" id="g-101-selectedTags" class="select closed exfield" listid="mg-101-selectedTags" title="K2FILTER_FILTER_BY_TAGS">
-                                                              <option>K2FILTER_FILTER_BY_TAGS</option>
+                                                        <select type="magicSelect" id="g-101-selectedTags" class="select closed exfield" listid="mg-101-selectedTags" title="<?php echo JText::_('K2FILTER_FILTER_BY_TAGS'); ?>">
+                                                              <option><?php echo JText::_('K2FILTER_FILTER_BY_TAGS'); ?></option>
                                                         </select>
                                                         
                                                     </div>
@@ -672,6 +676,8 @@ li.ui-state-highlight {
 								<div class="simpleTabsContent" id="k2Tab2">
 									
 									<?php 
+									
+									
 									
 									//sortable gallery if multiple images
 									if(JFile::exists(JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'src'.DS.md5("Image".$this->row->id)."_2.jpg")) : ?>

@@ -319,6 +319,8 @@ class K2ModelItemMultiImages extends K2Model {
                 /* GCHAD FIX
                  * this is where the images are treated 
                  */
+                 
+                 /* GCHAD IMAGE GENERATOR */
                   
 				if ($handle->uploaded) {
 
@@ -355,20 +357,26 @@ class K2ModelItemMultiImages extends K2Model {
 				
 					//Resized images
 					$savepath = JPATH_SITE.DS.'media'.DS.'k2'.DS.'items'.DS.'cache';
+                    
 
 					//XLarge image
 					$handle->image_resize = true;
 					$handle->image_ratio_y = false;
                     $handle->image_ratio_crop = 1.5;
+                    $handle->image_x = 900;
+                    $handle->image_y = 600;
+                    
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 
 						$handle->image_watermark_position = "BR";
 					}
+                    
 					$handle->image_convert = 'jpg';
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
 					$handle->file_overwrite = true;
 					$handle->file_new_name_body = $filename.'_XL';
+                    
 					if (JRequest::getInt('itemImageXL')) {
 						$imageWidth = JRequest::getInt('itemImageXL');
 					} else {
@@ -379,8 +387,7 @@ class K2ModelItemMultiImages extends K2Model {
 					
 					if ($imageWidth > 0) {
 					    
-                        $handle->image_x = 900;
-                        $handle->image_y = 600;
+                        
 						$handle->Process($savepath);
 					}
                     
@@ -388,6 +395,8 @@ class K2ModelItemMultiImages extends K2Model {
 					//Large image
 					$handle->image_resize = true;
 					$handle->image_ratio_y = true;
+                    $handle->image_ratio_crop = false;
+                    
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 
 						$handle->image_watermark_position = "BR";
@@ -397,6 +406,7 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->file_auto_rename = false;
 					$handle->file_overwrite = true;
 					$handle->file_new_name_body = $filename.'_L';
+                    
 					if (JRequest::getInt('itemImageL')) {
 						$imageWidth = JRequest::getInt('itemImageL');
 					} else {
@@ -412,6 +422,9 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->image_resize = true;
 					$handle->image_ratio_y = false;
                     $handle->image_ratio_crop = 1.5;
+                    $handle->image_x = 400;
+                    $handle->image_y = 267;
+                    
 					if(@$watermark_on) {
 						$handle->image_watermark = $watermark_image; 
 						$handle->image_watermark_position = "BR";
@@ -429,20 +442,22 @@ class K2ModelItemMultiImages extends K2Model {
 					$handle->image_x = $imageWidth;
 					
 					if ($imageWidth > 0) {
-					    $handle->image_x = 400;
-                        $handle->image_y = 267;
 						$handle->Process($savepath);
 					}
 
+
 					//Small image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = true;
-					$handle->image_convert = 'jpg';
-                    $handle->image_ratio_crop = 1;
+                    $handle->image_ratio_y = true;
+                    $handle->image_ratio_crop = false;
+                    
+                    $handle->image_convert = 'jpg';
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
 					$handle->file_overwrite = true;
 					$handle->file_new_name_body = $filename.'_S';
+                    
+                    
 					if (JRequest::getInt('itemImageS')) {
 						$imageWidth = JRequest::getInt('itemImageS');
 					} else {
@@ -456,12 +471,18 @@ class K2ModelItemMultiImages extends K2Model {
 
 					//XSmall image
 					$handle->image_resize = true;
-					$handle->image_ratio_y = false;
+                    $handle->image_ratio_y = false;                
+                    $handle->image_ratio_crop = 1;
+                    $handle->image_x = 100;
+                    $handle->image_y = 100;
+                    
 					$handle->image_convert = 'jpg';
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
 					$handle->file_overwrite = true;
 					$handle->file_new_name_body = $filename.'_XS';
+                    
+                    
 					if (JRequest::getInt('itemImageXS')) {
 						$imageWidth = JRequest::getInt('itemImageXS');
 					} else {
@@ -476,14 +497,15 @@ class K2ModelItemMultiImages extends K2Model {
 					}
 					
 					if ($imageWidth > 0) {
-					    $handle->image_x = 100;
-                        $handle->image_y = 100;
+					    
 						$handle->Process($savepath);
 					}
 
 					//Generic image
 					$handle->image_resize = true;
 					$handle->image_ratio_y = true;
+                    $handle->image_ratio_crop = false;
+                    
 					$handle->image_convert = 'jpg';
 					$handle->jpeg_quality = $params->get('imagesQuality');
 					$handle->file_auto_rename = false;
@@ -938,6 +960,12 @@ class K2ModelItemMultiImages extends K2Model {
 			if (( bool )JString::stristr($key, 'K2ExtraField_')) {
 				$object = new JObject;
 				$object->set('id', JString::substr($key, 13));
+                
+                /* GCHAD FIX if credits too long */
+                if(JString::substr($key, 13) == 6){
+                    $value = truncate($value);    
+                }
+                
 				$object->set('value', $value);
 				unset($object->_errors);
 				$objects[] = $object;

@@ -34,7 +34,7 @@ $hellomapParams = JComponentHelper::getParams('com_hellomaps');
 $gmap_style_properties =  $hellomapParams->get('jfstyler',"");
 $gmap_api_key =  $hellomapParams->get('gmap_api_key','AIzaSyDXEbeQlKtqvBIHdtMXhBnaPa9KfteQ7IY');
 $gmap_style_properties_js = "var gmap_styles='';";
-$gmap_detault_zoom = 14;
+
 
 if($gmap_style_properties!="")
 {
@@ -108,12 +108,17 @@ if ($modulesettings==1){
         //Ask User Position
         $center_onuser_position = 0;
         
+        $gmap_detault_zoom = 14;
+        
     } else {
         
-        $default_latitude = (float)$params->get('hmod_initialize_default_lat',-34.397);
-        $default_longitude = (float)$params->get('hmod_initialize_default_lng',150.644);
+        $default_latitude = (float)$params->get('hmod_initialize_default_lat', -34.397);
+        $default_longitude = (float)$params->get('hmod_initialize_default_lng', 150.644);
+        
         //Ask User Position
-        $center_onuser_position = $params->get('hmod_initialize_center_onuser_position',0);
+        $center_onuser_position = $params->get('hmod_initialize_center_onuser_position', 0);
+        
+        $gmap_detault_zoom = 4;
     }
 	
 	
@@ -340,7 +345,11 @@ $inlineJS .= 'var infowindow_width = '.$infowindow_width.';'."\n";
 $inlineJS .= 'var counter_result_type = "'.$results_type.'";'."\n";
 
 /** GCHAD FIX***/
-$inlineJS .= 'var gmap_default_zoom = '.$gmap_detault_zoom.';'."\n";
+
+    $inlineJS .= 'var gmap_default_zoom = '.$gmap_detault_zoom.';'."\n";
+
+
+
 //debug($inlineJS);
 $document->addScriptDeclaration($inlineJS);
 //        $document->addScriptDeclaration('var COM_HELLOMAP_SEARCH_IN_PROGRESS="'.addslashes(JText::_('COM_HELLOMAP_SEARCH_IN_PROGRESS')).'"');

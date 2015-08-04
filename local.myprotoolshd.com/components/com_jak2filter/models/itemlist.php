@@ -16,9 +16,8 @@ include_once(JPATH_ADMINISTRATOR.'/components/com_k2/tables/k2category.php');
 class JAK2FilterModelItemlist extends JAK2FilterModel
 {
     function getData($ordering = NULL)
-    {
+    { 
         
-        //debug($ordering);
         $user 		= JFactory::getUser();
         $aid 		= $user->get('aid');
         $db 		= JFactory::getDBO();
@@ -463,7 +462,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
 
         $query .= $groupby . " ORDER BY ".$orderby;
         
-//debug($query);
+
         /** THIS IS WHERE WE GET THE ITEMS TO DISPLAY */
         
         $dispatcher = JDispatcher::getInstance();
@@ -476,7 +475,7 @@ class JAK2FilterModelItemlist extends JAK2FilterModel
         $selectedExtraFieldsType = $jaK2FilterParams->get('selectedExtraFieldsType');                
 		if(count($rows) && $selectedExtraFieldsType) 
 		{
-			$selectedExtraFields = $jaK2FilterParams->get('selectedExtraFields');			
+			$selectedExtraFields = $jaK2FilterParams->get('selectedExtraFields');	
 			foreach($rows as &$row) 
 			{
 				if(isset($row->extra_fields))

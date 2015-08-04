@@ -284,7 +284,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 
 				break;
 
-			case 'search' :
+			case 'search' : 
 				// Set layout
 				$this->setLayout('category');
 
@@ -499,6 +499,7 @@ class JAK2FilterViewItemlist extends JAK2FilterView
 			if(!is_array($items[$i]->extra_fields)) {
 				$items[$i]->extra_fields = $model->getItemExtraFields($items[$i]->extra_fields, $items[$i]);
 			}
+            
 			if ($params->get('catItemIntroTextWordLimit'))
 			{
 				$items[$i]->introtext = K2HelperUtilities::wordLimit($items[$i]->introtext, $params->get('catItemIntroTextWordLimit'));
